@@ -6,6 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 import {
   auth,
   InvalidTokenError,
@@ -15,6 +16,7 @@ import { promisify } from 'util';
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
+  constructor(private readonly configService: ConfigService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const response = context.switchToHttp().getResponse<Response>();

@@ -7,7 +7,9 @@ import { ModelformattingService } from 'src/modelformatting/modelformatting.serv
 import { PromptHistorySchema } from 'src/db/schemas/PromptHistory';
 import { PrompthistoryService } from 'src/prompthistory/prompthistory.service';
 import { QueryResponsePairSchema } from 'src/db/schemas/QueryResponsePair';
-
+import { PromptSchema } from 'src/db/schemas/Prompt';
+import { QuerySchema } from 'src/db/schemas/Query';
+import { QueryResponseSchema } from 'src/db/schemas/QueryResponse';
 
 @Module({
   imports: [
@@ -20,6 +22,12 @@ import { QueryResponsePairSchema } from 'src/db/schemas/QueryResponsePair';
     ]),
     MongooseModule.forFeature([
       { name: 'QueryResponsePair', schema: QueryResponsePairSchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'Model', schema: ModelSchema }]),
+    MongooseModule.forFeature([{ name: 'Prompt', schema: PromptSchema }]),
+    MongooseModule.forFeature([{ name: 'Query', schema: QuerySchema }]),
+    MongooseModule.forFeature([
+      { name: 'QueryResponse', schema: QueryResponseSchema },
     ]),
   ],
 

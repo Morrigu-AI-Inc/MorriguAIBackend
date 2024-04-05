@@ -35,6 +35,32 @@ import { IntegrationsettingsModule } from './inferencesettings/integrationsettin
 import { PromptModule } from './prompt/prompt.module';
 import { ModelformattingService } from './modelformatting/modelformatting.service';
 import { PrompthistoryModule } from './prompthistory/prompthistory.module';
+import { ActionsModule } from './actions/actions.module';
+import { ActionsService } from './actions/actions.service';
+import { Xml2JsonServiceService } from './xml2-json-service/xml2-json-service.service';
+import { FunctionCallsController } from './function-calls/function-calls.controller';
+import { FunctionCallsModule } from './function-calls/function-calls.module';
+import { StockInfoService } from './stock-info/stock-info.service';
+import { StockInfoModule } from './stock-info/stock-info.module';
+import { FunctionCallsService } from './function-calls/function-calls.service';
+import { ToolsModule } from './tools/tools.module';
+import { PersonasModule } from './personas/personas.module';
+import { ToolsService } from './tools/tools.service';
+import { SearchService } from './tools/search/search.service';
+import { BuildPromptService } from './tools/build_prompt/build_prompt.service';
+import { PrompthistoryService } from './prompthistory/prompthistory.service';
+import { PromptHistorySchema } from './db/schemas/PromptHistory';
+import { QuerySchema } from './db/schemas/Query';
+import { QueryResponseSchema } from './db/schemas/QueryResponse';
+import { QueryResponsePairSchema } from './db/schemas/QueryResponsePair';
+import { ListingModule } from './listing/listing.module';
+import { ListingService } from './listing/listing.service';
+import { ListingController } from './listing/listing.controller';
+import { MediaModule } from './media/media.module';
+import { MediaService } from './media/media.service';
+import { MediaSchema } from './db/schemas/Media';
+import { AgentsModule } from './agents/agents.module';
+import { ToolsController } from './tools/tools.controller';
 
 @Module({
   imports: [
@@ -43,6 +69,17 @@ import { PrompthistoryModule } from './prompthistory/prompthistory.module';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forFeature([
+      { name: 'PromptHistory', schema: PromptHistorySchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'Query', schema: QuerySchema }]),
+    MongooseModule.forFeature([
+      { name: 'QueryResponse', schema: QueryResponseSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'QueryResponsePair', schema: QueryResponsePairSchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'Media', schema: MediaSchema }]),
     MessagesModule,
     HttpModule,
 
@@ -87,14 +124,46 @@ import { PrompthistoryModule } from './prompthistory/prompthistory.module';
     PromptModule,
 
     PrompthistoryModule,
+
+    ActionsModule,
+
+    FunctionCallsModule,
+
+    StockInfoModule,
+
+    ToolsModule,
+
+    PersonasModule,
+
+    ListingModule,
+
+    MediaModule,
+
+    AgentsModule,
   ],
-  controllers: [AppController, AuthController, BedrockController],
+  controllers: [
+    AppController,
+    AuthController,
+    BedrockController,
+    FunctionCallsController,
+    ListingController,
+    ToolsController,
+  ],
   providers: [
     AppService,
     AuthService,
     BedrockService,
     PromptService,
-
+    ActionsService,
+    Xml2JsonServiceService,
+    StockInfoService,
+    FunctionCallsService,
+    ToolsService,
+    SearchService,
+    BuildPromptService,
+    PrompthistoryService,
+    ListingService,
+    MediaService,
   ],
 })
 export class AppModule {}
