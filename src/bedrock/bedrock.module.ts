@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ActionsService } from 'src/actions/actions.service';
+import { AnthropicService } from 'src/anthropic/anthropic.service';
 import { MediaSchema } from 'src/db/schemas/Media';
 import { ModelSchema } from 'src/db/schemas/Model';
 import { ModelFormattingSchema } from 'src/db/schemas/ModelFormatting';
@@ -26,6 +27,7 @@ import { Xml2JsonServiceService } from 'src/xml2-json-service/xml2-json-service.
     BuildPromptService,
     PrompthistoryService,
     MediaService,
+    AnthropicService,
   ],
   controllers: [],
   imports: [

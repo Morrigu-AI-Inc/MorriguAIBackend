@@ -1,21 +1,43 @@
-import { Controller, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Get,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ToolDocument } from 'src/db/schemas/Tools';
 import * as yup from 'yup';
 import { Model } from 'mongoose';
 
 const validation = yup.object().shape({
-  tool_name: yup.string().required(),
+  name: yup.string().required(),
   description: yup.string().required(),
-  parameters: yup
-    .array()
-    .of(
-      yup.object().shape({
-        name: yup.string().required(),
-        type: yup.string().required(),
-        description: yup.string().required(),
-      }),
-    )
+  input_schema: yup
+    .object()
+    .shape({
+      type: yup.string().required(),
+      properties: yup.lazy((obj) =>
+        yup.object().shape(
+          Object.keys(obj).reduce((shape, key) => {
+            // Default validation for any property under 'properties'
+            shape[key] = yup
+              .object()
+              .shape({
+                type: yup.string().required(),
+                description: yup.string(),
+                enum: yup.array().of(yup.string()), // Optional, only used if 'enum' is present
+              })
+              .noUnknown(true); // Ensures only the specified fields are included
+
+            return shape;
+          }, {}),
+        ),
+      ),
+      required: yup.array().of(yup.string()).required(), // Validates the 'required' array of property names
+    })
     .required(),
 });
 
@@ -25,6 +47,12 @@ export class ToolsController {
     @InjectModel('ToolDescription')
     private readonly toolModel: Model<ToolDocument>,
   ) {}
+
+  @Get()
+  async findAll(): Promise<Partial<ToolDocument>[]> {
+    // Logic to fetch all tools
+    return this.toolModel.find();
+  }
 
   @Post()
   async create(
@@ -51,16 +79,27 @@ export class ToolsController {
       abortEarly: true,
     });
 
-    const updatedTool = this.toolModel.findOneAndUpdate({ _id: id }, tool, {
-      new: true,
-    });
+    const updatedTool = this.toolModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          ...tool,
+        },
 
-    return updatedTool;
+        new: true,
+      },
+    );
+
+    return updatedTool as any;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): string {
+  async remove(@Param('id') id: string): Promise<any> {
     // Logic to delete a specific tool by ID
-    return `Delete tool with ID ${id}`;
+    return this.toolModel.deleteOne({
+      _id: id,
+    });
   }
 }

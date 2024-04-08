@@ -6,30 +6,36 @@ export class GetNotionPageController {
   @Get()
   async getNotionPage(
     @Query('parameters') parameters: string,
-    @Req() req,
+    @Query('page_id') page_id: string,
+    @Req()
+    req,
   ): Promise<any> {
     try {
-      const validPayload = JSON.parse(parameters);
+      if (!page_id) {
+        return {
+          result: {
+            tool_name: 'get_notion_page',
+            stdout: {
+              message: 'Please provide a page_id',
+            },
+          },
+        };
+      }
 
-      const validation = yup.object().shape({
-        page_id: yup.string().required(),
-      });
-
-      const validatedVals = validation.validateSync(validPayload, {
-        abortEarly: false,
-        stripUnknown: true,
-      });
+      console.log('page_id', page_id);
 
       const results = await fetch(
-        `${process.env.PARAGON_URL}/sdk/proxy/notion/v1/pages/${validatedVals.page_id}`,
+        `${process.env.PARAGON_URL}/sdk/proxy/notion/v1/pages/${page_id}`,
         {
           method: 'GET',
           headers: {
             Authorization: req.headers.authorization,
             'Content-Type': 'application/json',
+            'Notion-Version': '2022-06-28',
           },
         },
       ).then((response) => {
+        console.log('response', response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

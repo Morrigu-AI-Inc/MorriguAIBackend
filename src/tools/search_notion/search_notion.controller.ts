@@ -60,7 +60,7 @@ export class SearchNotionController {
           tool_name: 'search_notion',
           stdout:
             jsonResults.output.results.length > 0
-              ? JSON.stringify(jsonResults.output.results)
+              ? jsonResults.output.results
               : `No results found for query: ${validatedVals.query}`,
         },
       };

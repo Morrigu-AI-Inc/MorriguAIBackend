@@ -15,6 +15,7 @@ import { ActionsService } from 'src/actions/actions.service';
 import { Xml2JsonServiceService } from 'src/xml2-json-service/xml2-json-service.service';
 import { BuildPromptService } from 'src/tools/build_prompt/build_prompt.service';
 import { PrompthistoryService } from 'src/prompthistory/prompthistory.service';
+import { MessageParam } from '@anthropic-ai/sdk/resources';
 
 type BodyProps = {
   prompt: string;
@@ -207,7 +208,7 @@ export class BedrockService {
 
   async InvokeModelWithStream(
     system: string,
-    messages: MessageProp[],
+    messages: MessageParam[],
     options: {
       stream?: boolean;
       modelId?: string;
@@ -237,6 +238,7 @@ export class BedrockService {
             '</thinking>',
             '<frontend_calls>',
             '</frontend_calls>',
+            '<tool_use>',
             // '<invoke>',
             // '</invoke>',
           ],
@@ -444,7 +446,7 @@ export class BedrockService {
 
                 const results = await this.InvokeModelWithStream(
                   systemPrompt,
-                  [...messages],
+                  [...messages] as MessageParam[],
                   {
                     stream: true,
                     modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
@@ -531,7 +533,7 @@ export class BedrockService {
 
                 const results = await this.InvokeModelWithStream(
                   system,
-                  [...messages],
+                  [...messages] as MessageParam[],
                   {
                     stream: true,
                   },
@@ -609,7 +611,7 @@ export class BedrockService {
 
                 const results = await this.InvokeModelWithStream(
                   system,
-                  [...messages],
+                  [...messages] as MessageParam[],
                   {
                     stream: true,
                     modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
@@ -642,7 +644,7 @@ export class BedrockService {
                   completion + '<invoke>';
                 const response = await this.InvokeModelWithStream(
                   system,
-                  [...messages],
+                  [...messages] as MessageParam[],
                   {
                     stream: false,
                   },
@@ -652,7 +654,7 @@ export class BedrockService {
 
                 const results = await this.InvokeModelWithStream(
                   system,
-                  [...messages],
+                  [...messages] as MessageParam[],
                   {
                     stream: true,
                   },

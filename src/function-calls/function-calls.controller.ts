@@ -33,32 +33,38 @@ export class FunctionCallsController {
   @Post()
   async invokeFunction(
     @Req() req,
-    @Body() body: { function_calls: { invoke: InvokeTool | InvokeTool[] } },
+    @Body()
+    body: {
+      type: string;
+      id: string;
+      name: string;
+      input: Record<string, any>;
+    },
   ): Promise<any> {
-    console.log("Body", body);
+    console.log('Body', body);
+    //     {
+    //   type: 'tool_use',
+    //   id: 'toolu_01LmbkSKYA6eMmhGPG12T8QG',
+    //   name: 'search_notion',
+    //   input: { query: 'hi' }
+    // }
     // Simplified with async/await and error handling
+    console.log(new URLSearchParams(body.input).toString());
     try {
-      const invokes = Array.isArray(body.function_calls.invoke)
-        ? body.function_calls.invoke
-        : [body.function_calls.invoke];
-
-      const results = await Promise.all(
-        invokes.map(async (tool) => {
-          const response = await fetch(
-            `${process.env.TOOLCHEST_URL}/${tool.tool_name.trim()}?parameters=${JSON.stringify(tool.parameters)}&token=${req.headers.authorization}`,
-            {
-              method: 'GET',
-              headers: {
-                Authorization: req.headers.authorization,
-                'Content-Type': 'application/json',
-              },
-            },
-          );
-          return response.json();
-        }),
+      const response = await fetch(
+        `${process.env.TOOLCHEST_URL}/${body.name.trim()}?parameters=${JSON.stringify(body.input)}&token=${req.headers.authorization}&${new URLSearchParams(body.input).toString()}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: req.headers.authorization,
+            'Content-Type': 'application/json',
+          },
+        },
       );
 
-      return { function_results: results };
+      return response.json();
+
+      return;
     } catch (error) {
       this.logger.error('Error getting function call', error);
       return {

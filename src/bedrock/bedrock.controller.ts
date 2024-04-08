@@ -1,31 +1,29 @@
-import {
-  Controller,
-  Get,
-  Header,
-  Logger,
-  Param,
-  Query,
-  Req,
-  Sse,
-} from '@nestjs/common';
+import { Controller, Get, Header, Logger, Query, Sse } from '@nestjs/common';
 
-import { BedrockService, MessageProp } from './bedrock.service';
-import { Observable } from 'rxjs';
+import { BedrockService } from './bedrock.service';
+import { Observable, Subscriber } from 'rxjs';
 import * as yup from 'yup';
 
 import { ActionsService } from 'src/actions/actions.service';
 import { Xml2JsonServiceService } from 'src/xml2-json-service/xml2-json-service.service';
-import {
-  BuildPromptService,
-  FunctionCallingInstructions,
-} from 'src/tools/build_prompt/build_prompt.service';
+import { BuildPromptService } from 'src/tools/build_prompt/build_prompt.service';
 import { PrompthistoryService } from 'src/prompthistory/prompthistory.service';
-import { Types } from 'mongoose';
 import { QueryResponseDocument } from 'src/db/schemas/QueryResponse';
 import { QueryResponsePairDocument } from 'src/db/schemas/QueryResponsePair';
 import { MediaService } from 'src/media/media.service';
 import { ToolsService } from 'src/tools/tools.service';
-
+import { AnthropicService } from 'src/anthropic/anthropic.service';
+import {
+  MessageDeltaEvent,
+  MessageParam,
+  MessageStopEvent,
+  TextBlockParam,
+} from '@anthropic-ai/sdk/resources';
+import {
+  Tool,
+  ToolUseBlock,
+  ToolsBetaMessageParam,
+} from '@anthropic-ai/sdk/resources/beta/tools/messages';
 type Payload = {
   body: {
     prompt: string;
@@ -100,6 +98,83 @@ const defaultTools = [
   // },
 ];
 
+const global_prompt = `
+Morrigu, the following is a conversation between you and the user. The user has asked for help with a specific task.
+`;
+
+const global_system = `
+${global_prompt}
+
+You have access to various IPaaS tools that can help you complete the task effectively. These tools are managed by the system and do not require any credentials or API keys to use.
+Paragon is a integration platform that allows you to connect different applications and services to automate workflows and data exchange. You can use the integrated internal system tools that leverage Paragon to complete the task effectively.
+
+<paragon>
+Source: 
+Benefits of Embedded integrations
+In contrast, embedded integrations would live within your app’s interface, and would require no additional lift on your customers’ end to activate, as you will have configured the integration workflows for them.
+
+This creates a significantly more streamlined experience for your users. All they would need to do is login through OAuth to authenticate access to their other apps, map their custom fields if needed, and the workflows would go live without any extra steps. This inherently unlocks additional value for both you and your customers on multiple fronts.
+
+
+Product Adoption
+
+From an onboarding and adoption perspective, enabling your users to activate integrations within your app in one click will drive them to the ‘Aha’ moment significantly quicker by ingesting data from their existing tools (such as CRM, marketing automation, and accounting data), and allow them to visualize how your product fits with their existing workflows right away.
+
+
+Every additional step your prospects and customers need to take to get up and running serves as an additional layer of friction that makes it less likely for them to adopt your product. Whether it’s having to clean and import/export CSVs of data to or from your app, or setting up their own account and integration workflows through Zapier, you want to minimize the time they need to spend outside of your app to get to their desired outcomes.
+
+Customer success resource savings
+
+When it comes to your own operations, centralizing the management of every deployment of an integration workflow will save your customer success team hours of troubleshooting. Instead of having to tackle each Zapier implementation’s issue for individual customers on a per use-case basis, which can often be due to user error, embedding integrations allows a single patch to fix any issues for all of your users at once. 
+
+Revenue Expansion
+
+Finally, providing embedded integrations leaves you the opportunity to monetize your integrations. For example, you may include certain integrations only in the higher tiers of your product, or offer it as an add-on to your customers’ existing plans. Given that customers would otherwise be paying Zapier to build out and manage the integrations themselves, this is commonly an easy upsell for SaaS companies.
+
+Despite the obvious benefits of embedding integrations natively in your app, in recent years, many companies have still opted to build Zapier connectors as a way to address the swarm of integration requests from their prospects and customers, simply because they couldn’t afford to allocate 6-8 weeks of engineering per integration. Frankly, if embedded integration platforms like Paragon didn’t exist in the market, this was a logical decision. However, this brings us to our final point - the onset of embedded integration platforms. 
+</paragon>
+Choose to respond to the user or to start the task. If you choose to respond, provide a brief response to the user before starting the task. If you choose to start the task, politely ask the user to wait a moment while you work on it.
+
+Then follow the steps below to complete the task effectively.
+
+Before looking for tools, you should follow these steps:
+
+First you need to gather your thoughts by:
+
+<thinking>
+$THOUGHTS
+</thinking>`;
+
+const system_2 = `
+${global_prompt}
+${global_system}
+
+Task: 
+Inform the user that you are working to complete the task and to politely wait a moment.
+
+The tools available are third party integrations that is managed by the system. You can use these tools to complete the task effectively.
+
+To get access to the tools you need to search for them. Provide a concise yet descriptive query to the search_for_more_tools tool to get a list of relevant tools tailored to your requirements.
+
+Output the query to the search_for_more_tools tool by outputting:
+
+<tool_search_query>$QUERY</tool_search_query>
+
+Rules: 
+
+1. The tools are third party integrations that are managed by the system.
+2. You can use the tools to complete the task effectively.
+3. No credentials or API keys are required to use any tools.
+4. You can search for tools by providing a descriptive query to the <tool_search_query> output.
+
+Do not make up information or provide false information to the user. 
+If you are unsure about the information, you can ask the user for clarification or provide a general response.
+Do not make up or try to use tools that do not exist in the system or you haven't looked for.
+
+
+
+`;
+
 @Controller('bedrock')
 export class BedrockController {
   private readonly logger = new Logger(BedrockController.name);
@@ -112,61 +187,8 @@ export class BedrockController {
     private readonly historyService: PrompthistoryService,
     private readonly mediaService: MediaService,
     private readonly toolService: ToolsService,
+    private readonly anthropicService: AnthropicService,
   ) {}
-
-  @Sse('InvokeStream/:featureId')
-  @Get('InvokeStream/:featureId')
-  @Header('Content-Type', 'text/event-stream')
-  @Header('Cache-Control', 'no-cache, no-transform')
-  @Header('Content-Encoding', 'none')
-  @Header('Transfer-Encoding', 'chunked')
-  async invokeStream(
-    @Param('featureId') id: string,
-    @Query('payload') payload: string,
-    @Query('token') token: string,
-  ): Promise<Observable<any>> {
-    try {
-      const validPayload = await validation.validate(
-        { id: id?.[0], payload: JSON.parse(payload) },
-        { abortEarly: false },
-      );
-
-      return new Observable((observer) => {
-        this.bedrockService
-          .InvokeModelWithResponseStream(
-            JSON.stringify(validPayload.payload.body),
-            validPayload.payload.modelId as string,
-            validPayload.payload.historyId as string,
-            {
-              modelId: (validPayload.payload.model as string) || '',
-              promptId: validPayload.payload.prompt as string | '',
-            },
-          )
-          .then(async (stream) => {
-            if (stream) {
-              const { completion } =
-                await this.bedrockService.resolveGeneration({
-                  // this will be the recursive function
-                  observer: observer,
-                  stream,
-                  completion: '',
-                  messages: [],
-                  token: token,
-                });
-            }
-          })
-          .catch((error) => {
-            // Emit an error if something goes wrong
-            this.logger.error('Error invoking stream inner', error);
-            observer.error(error);
-          });
-      });
-
-      // const flag = this.promptFlagService.findOne(validPayload.id as string, token);
-    } catch (error) {
-      this.logger.error('Error invoking stream', error);
-    }
-  }
 
   @Sse('invoke/:featureId')
   @Get('invoke/:featureId')
@@ -284,186 +306,508 @@ export class BedrockController {
       }
     }
 
-    // For this we need to update the history with the query then pull the whole query and build the messages.
-
     try {
-      const tasks = [
-        // 'AI Readiness Assessment=====================\n\n',
-        // 'Give an AI Readiness assessment to the user.',
-        // '- What industry is their business in?',
-        // '- What is the business goals and objectives for the nex 1-3 years?',
-        // '- Has the business previously used AI or ML technologies?',
-        // '- Does the business collect data digitally?',
-        // '- What data does the business collect?',
-        // '- How would the business rate the quality of their data?',
-        // '- What technology infrastructure does the business have?',
-        // '- Do you have in-house IT and data management support?',
-        // '- What is the level of AI knowledge within the business?',
-        // '- Does the team have the skills to implement AI technologies?',
-        // '- Are you willing to invest in training and development or hiring?',
-        // '- Are there any regulatory constraints on data usage in your industry or vertical?',
-        // '- Do you have policies in place to ensure ethical use of AI technologies?',
-        // '- What are the main challenges you anticipate in implementing AI technologies?',
-        // '- What are the main benefits you expect from AI implementation?',
-        // '- What specific areas of the business do you think AI could improve?',
-        // 'When you are done with the assessment, provide the user with a summary of the results and recommendations.',
-        // 'Submit the details of the report with the submit_assessment tool.',
-      ];
-      const persona =
-        'Morrigu is a AI Chatbot created by Morrigu AI, Inc. that can give valuable insights on business intelligence, data analysis, and operational tasks.';
-
-      const messageThread: MessageProp[] = messages.map((m) => {
+      const messageThread: MessageParam[] = messages.map((m) => {
         return {
           role: m.role,
           content: m.content,
         };
       });
 
-      const prefilled =
-        '<function_calls><invoke><tool_name>search_for_more_tools</tool_name><parameters><tool_search_query>';
+      const default_tools = await this.toolService.searchToolsV2(
+        'web_search, search_for_more_tools, get_tool_description',
+      );
 
-      const functions = await this.bedrockService.InvokeModelWithStream(
-        `
-        Come up with a very good tool search query for the conversation.
-        Write the function_calls block to get tools based on the conversation. Do not reflect on the conversation, just provide the tools.
-        
-        ${FunctionCallingInstructions}
+      const final_system = `
+      ${system_2}
 
-        `,
-        [
-          ...messageThread,
+      Here are some default tools available to you (there are more tools available, you can search for them using the search_for_more_tools tool):
+      ${JSON.stringify(default_tools, null, 2)}
+
+      `;
+
+      return new Observable((observer: Subscriber<any>) => {
+        const completion = [];
+
+        this.recurseStream(
+          final_system,
+          2000,
+          messageThread,
+          completion,
+          validPayload.token,
           {
+            onConnect: this.onConnect,
+            onError: this.onError,
+            onFinalMessage: (message) => {
+              this.onFinalMessage(message, validPayload.historyId, completion);
+            },
+            onStreamEvent: (event: MessageDeltaEvent, snapshot) => {
+              return this.onStreamEvent(
+                event,
+                snapshot,
+                messages,
+                system_2,
+                2000,
+                validPayload.token,
+                validPayload.historyId,
+                true,
+                observer,
+                completion,
+              );
+            },
+            onEnd: this.onEnd,
+          },
+          observer,
+        );
+      });
+    } catch (error) {
+      this.logger.error('Error invoking stream', error);
+    }
+  }
+
+  private async onConnect() {
+    console.log('Connected');
+  }
+
+  private async onError(error: any) {
+    console.log('Error', error);
+  }
+
+  private async onFinalMessage(
+    message: any,
+    historyId: string,
+    completion: any[],
+  ) {
+    if (message.stop_reason === 'stop_sequence') {
+      if (message.stop_sequence === '<thinking>') {
+        completion.push(message);
+        console.log('thinking', message.content, historyId);
+      } else if (message.stop_sequence === '</thinking>') {
+        console.log('end_thinking', message.content, historyId);
+      } else if (message.stop_sequence === '<tool_search_query>') {
+        console.log('tool_search_query', message.content, historyId);
+      } else if (message.stop_sequence === '</tool_search_query>') {
+        console.log('end_tool_search_query', message.content, historyId);
+      } else {
+        console.log('stop_sequence', message.content, historyId);
+      }
+    }
+    if (message.stop_reason === 'end_turn') {
+      this.historyService.appendResponseToHistory;
+      completion.push(message);
+      const textCompletion = completion
+        .flatMap((c) => c.content.map((t) => t.text.trim()))
+        .join('\n')
+        .trim();
+
+      const newTHing = await this.historyService.appendResponseToHistory(
+        historyId,
+        {
+          body: {
+            text: textCompletion,
+          },
+        },
+      );
+
+      console.log('newThing', newTHing);
+    }
+  }
+
+  private async onEnd() {
+    console.log('Stream ended');
+  }
+
+  private async onStreamEvent(
+    event: MessageDeltaEvent | MessageStopEvent,
+    snapshot: any,
+    messages: any[],
+    system: string,
+    max_tokens: number,
+    token: string,
+    historyId: string,
+    shouldRecurse: boolean,
+    observer: Subscriber<any>,
+    completion: any[],
+  ) {
+    if (event.type === 'message_stop') {
+      console.log(
+        'Stream Event',
+        event.type,
+        JSON.stringify(event, null, 2),
+        snapshot,
+      );
+    }
+
+    observer.next({ data: event });
+
+    // Consider storing event details in messages if necessary
+    // messages.push(event); // Append the new event to the conversation history
+
+    if ((event as MessageDeltaEvent)?.delta?.stop_reason === 'stop_sequence') {
+      const continueStreaming = await this.handleStopConditions(
+        event as MessageDeltaEvent,
+        system,
+        messages,
+        snapshot,
+        token,
+        {
+          onConnect: this.onConnect,
+          onError: this.onError,
+          onFinalMessage: (message) => {
+            this.onFinalMessage(message, historyId, completion);
+          },
+          onStreamEvent: (event: MessageDeltaEvent, snapshot) => {
+            return this.onStreamEvent(
+              event,
+              snapshot,
+              messages,
+              system,
+              max_tokens,
+              token,
+              historyId,
+              shouldRecurse,
+              observer,
+              completion,
+            );
+          },
+          onEnd: this.onEnd,
+        },
+
+        observer,
+      );
+      if (shouldRecurse && continueStreaming) {
+        // Pass the updated messages array for the next recursion
+        await this.recurseStream(
+          system,
+          max_tokens,
+          messages,
+          completion,
+          token,
+          {
+            onConnect: this.onConnect,
+            onError: this.onError,
+            onFinalMessage: (message) => {
+              this.onFinalMessage(message, historyId, completion);
+            },
+            onStreamEvent: async (event: MessageDeltaEvent, snapshot) => {
+              return this.onStreamEvent(
+                event,
+                snapshot,
+                messages,
+                system,
+                max_tokens,
+                token,
+                historyId,
+                shouldRecurse,
+                observer,
+                completion,
+              );
+            },
+            onEnd: this.onEnd,
+          },
+          observer,
+        );
+      }
+    }
+  }
+
+  public async recurseStream(
+    system: string,
+    max_tokens: number,
+    messages: any[], // This array will hold the entire conversation history
+    completion: any[],
+    token: string,
+    {
+      onConnect,
+      onError,
+      onFinalMessage,
+      onStreamEvent,
+      onEnd,
+    }: {
+      onConnect?: () => void;
+      onError?: (error: any) => void;
+      onFinalMessage?: (message: any) => void;
+      onStreamEvent?: (event: MessageDeltaEvent, snapshot: any) => void;
+      onEnd?: () => void;
+    },
+    observer?: Subscriber<any>,
+  ) {
+    try {
+      await this.anthropicService.runPromptStreaming(
+        system,
+        max_tokens,
+        messages,
+        {
+          onConnect: onConnect,
+          onError: onError,
+          onFinalMessage: onFinalMessage,
+          onStreamEvent: onStreamEvent,
+          onEnd: onEnd,
+        },
+      );
+    } catch (error) {
+      observer?.error(error);
+    }
+  }
+
+  // Assume handleStopConditions and handleStopSequence remain the same
+
+  private async handleStopConditions(
+    event: MessageDeltaEvent,
+    system: string,
+    messages: any[],
+    snapshot: any,
+    token: string,
+    {
+      onConnect,
+      onError,
+      onFinalMessage,
+      onStreamEvent,
+      onEnd,
+    }: {
+      onConnect?: () => void;
+      onError?: (error: any) => void;
+      onFinalMessage?: (message: any) => void;
+      onStreamEvent?: (event: MessageDeltaEvent, snapshot: any) => void;
+      onEnd?: () => void;
+    },
+    observer?: Subscriber<any>,
+  ): Promise<boolean> {
+    // if (event.delta.stop_reason === 'stop_sequence') {
+
+    switch (event.delta.stop_reason) {
+      case 'stop_sequence':
+        return await this.handleStopSequence(
+          event,
+          system,
+          messages,
+          snapshot,
+          token,
+          {
+            onConnect: onConnect,
+            onError: onError,
+            onFinalMessage: onFinalMessage,
+            onStreamEvent: onStreamEvent,
+            onEnd: onEnd,
+          },
+          observer,
+        );
+
+      case 'max_tokens':
+        return true; // Continue streaming if max tokens reached
+      case 'end_turn':
+        // observer?.complete();
+        return false; // End recursion
+      default:
+        return false; // Default to not continuing the recursion for unhandled cases
+    }
+    // }
+  }
+
+  private async handleStopSequence(
+    event: MessageDeltaEvent,
+    system: string,
+    messages: any[],
+    snapshot: any,
+    token: string,
+    {
+      onConnect,
+      onError,
+      onFinalMessage,
+      onStreamEvent,
+      onEnd,
+    }: {
+      onConnect?: () => void;
+      onError?: (error: any) => void;
+      onFinalMessage?: (message: any) => void;
+      onStreamEvent?: (event: MessageDeltaEvent, snapshot: any) => void;
+      onEnd?: () => void;
+    },
+    observer?: Subscriber<any>,
+  ): Promise<boolean> {
+    switch (event.delta.stop_sequence) {
+      case '<thinking>':
+        // these should not be cast to the observer but they should be included in the message thread
+        if (messages[messages.length - 1].role === 'assistant') {
+          messages[messages.length - 1].content.push({
+            type: 'text',
+            text: '<thinking>',
+          });
+        } else {
+          messages.push({
             role: 'assistant',
             content: [
               {
                 type: 'text',
-                text: prefilled,
+                text: '<thinking>',
+              },
+            ],
+          });
+        }
+
+        const response = await this.anthropicService.runPromptNonStreaming(
+          system_2,
+          2000,
+          messages,
+        );
+
+        messages[messages.length - 1].content.push(
+          ...response.content.map((c) => {
+            return {
+              type: 'text',
+              text: c.text.trim(),
+            };
+          }),
+          {
+            type: 'text',
+            text: '</thinking>',
+          },
+          {
+            type: 'text',
+            text: '<tool_search_query>',
+          },
+        );
+
+        return true; // Return true to indicate the stream should continue
+      case '</thinking>':
+        return false; // Return true to indicate the stream should continue
+      case '<tool_search_query>':
+        return false; // Return true to indicate the stream should continue
+      case '</tool_search_query>':
+        if (messages[messages.length - 1].role === 'assistant') {
+          messages[messages.length - 1].content.push({
+            type: 'text',
+            text: '</tool_search_query>',
+          });
+        } else {
+          messages.push({
+            role: 'assistant',
+            content: [
+              {
+                type: 'text',
+                text: snapshot.content[0].text,
+              },
+              {
+                type: 'text',
+                text: '</tool_search_query>',
+              },
+            ],
+          });
+        }
+
+        const tools = await this.toolService.searchToolsV2(
+          snapshot.content[0].text,
+        );
+        console.log(
+          'Found Tools',
+          tools.map((t) => t.name),
+        );
+        const tool_msgs: ToolsBetaMessageParam[] = [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Now that you have the tools and you have thought about the task, please use the tools to complete the task.',
               },
             ],
           },
-        ],
-        {
-          stream: false,
-          modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
-        },
-      );
+        ];
 
-      const xml =
-        prefilled +
-        JSON.parse(functions as string).content[0].text +
-        '</function_calls>';
-      const json = await this.xml2JsonService.convertXmlToJson(xml);
+        console.log(JSON.stringify([...messages, ...tool_msgs], null, 2));
 
-      console.log('json', json);
+        let tool_response =
+          await this.anthropicService.runPromptWithToolsNonStreaming(
+            system,
+            2000,
+            [...messages, ...tool_msgs],
+            tools as Tool[],
+            [],
+          );
 
-      const results = await this.actionService.routeFunctionCalls(
-        json,
-        validPayload.token,
-      );
-
-      const functionResults: {
-        result: {
-          tool_name: string;
-          stdout: {
-            tools: Array<{
-              tool_name: string;
-              description: string;
-              parameters: {
-                name: string;
-                type: string;
-                description: string;
-                required: boolean;
-                default: string;
-              }[];
-            }>;
-          };
-        };
-      }[] = results.function_results;
-
-      console.log('functionResults', functionResults);
-
-      //  {
-      // _id: '660dec296537ab5404f2dba6',
-      // tool_name: 'pandadoc_get_document_status',
-      // description: "This tool is designed to fetch basic data about a specific document from a PandaDoc account, including its name, status, and relevant dates. It is particularly useful for confirming the document's status to ensure it is in the expected state before proceeding with additional API methods. This capability is essential for managing document workflows efficiently, supporting both polling mechanisms and the integration with webhooks for event-driven needs as recommended by PandaDoc.",
-      // parameters: [Array],
-      // createdAt: '2024-04-03T23:54:17.764Z',
-      // updatedAt: '2024-04-03T23:54:17.764Z',
-      // __v: 0
-      // }
-
-      const foundTools = functionResults[0].result.stdout.tools.map((tool) => {
-        return {
-          tool_name: tool.tool_name,
-          description: tool.description,
-          parameters: tool.parameters,
-        };
-      });
-
-      console.log('foundTools', foundTools);
-
-      const systemPrompt = this.buildPromptService.buildPrompt({
-        task: tasks,
-        persona: persona,
-        prompt:
-          // 'Ask the user if they are ready to start the assessment then provide the user with the AI Readiness assessment question by question. When the user has sufficiently answered the question move on and ask the next question.',
-          '',
-
-        funcResults: '',
-        context: '',
-        tools: [...defaultTools, ...foundTools],
-        includeThoughtLoop: true,
-      }) as string;
-
-      return new Observable((observer) => {
-        // pre-start the conversation with the system prompt
-        const initMessages: MessageProp[] = [...messageThread];
-        this.bedrockService
-          .InvokeModelWithStream(systemPrompt, initMessages, {
-            stream: true,
-            modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
-          })
-          .then(async (stream) => {
-            if (typeof stream === 'string') {
-            } else {
-              console.log(initMessages[initMessages.length - 1]);
-              const { completion } =
-                await this.bedrockService.resolveGeneration({
-                  observer: observer,
-                  stream,
-                  completion: '',
-                  messages: [...initMessages],
-                  system: systemPrompt,
-                  tasks: tasks,
-
-                  persona,
-                  token: validPayload.token,
-                });
-
-              await this.historyService.appendResponseToHistory(
-                validPayload.historyId,
-                {
-                  owner: new Types.ObjectId(),
-                  body: {
-                    text: completion || ' ',
-                  },
-                },
-              ),
-                observer.complete();
-            }
-          })
-          .catch((error) => {
-            // Emit an error if something goes wrong
-
-            console.log('Error invoking stream inner', error);
-            this.logger.error('Error invoking stream inner', error);
-            observer.error(error);
+        while (tool_response.stop_reason === 'tool_use') {
+          tool_msgs.push({
+            role: 'assistant',
+            content: tool_response.content as (TextBlockParam | ToolUseBlock)[],
           });
-      });
 
-      // const flag = this.promptFlagService.findOne(validPayload.id as string, token);
-    } catch (error) {
-      this.logger.error('Error invoking stream', error);
+          const responses = await this.actionService.routeFunctionCalls(
+            tool_response.content[1],
+            token,
+          );
+
+          tool_msgs.push({
+            role: 'user',
+            content: [
+              {
+                type: 'tool_result',
+                tool_use_id: (tool_response.content[1] as ToolUseBlock).id,
+                content: [
+                  {
+                    type: 'text',
+                    text: JSON.stringify(responses, null, 2),
+                  },
+                ],
+              },
+            ],
+          });
+
+          tool_response =
+            await this.anthropicService.runPromptWithToolsNonStreaming(
+              system,
+              2000,
+              [...messages, ...tool_msgs],
+              tools as Tool[],
+              [],
+            );
+
+          messages[messages.length - 1].content.push(tool_response.content[0]);
+
+          await this.anthropicService.runPromptStreaming(
+            `
+          ${global_prompt}
+
+          Summarize the response and provide the user with the results. Call additional tools if necessary.
+
+          ${JSON.stringify((tool_response.content[0] as TextBlockParam).text, null, 2)}
+          `,
+            2000,
+            [
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'text',
+                    text: 'Summarize the response and provide me with the results.',
+                  },
+                ],
+              },
+              {
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'text',
+                    text: 'I will now summarize the response and provide you with the results.',
+                  },
+                ],
+              },
+            ],
+            {
+              onStreamEvent: onStreamEvent,
+              onFinalMessage: onFinalMessage,
+              onConnect: onConnect,
+              onError: onError,
+              onEnd: onEnd,
+            },
+          );
+
+          // tool_response.stop_reason = 'stop_sequence';
+        }
+
+        return true; // Return true to indicate the stream should continue
+
+      default:
+        return false; // Default to not continuing the recursion for unhandled cases
     }
   }
 }

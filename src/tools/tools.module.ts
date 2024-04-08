@@ -21,7 +21,6 @@ import { SubmitSellerContactInformationController } from './submit_seller_contac
 import { SubmitSellerContactInformationModule } from './submit_seller_contact_information/submit_seller_contact_information.module';
 import { CreateListingModule } from './create_listing/create_listing.module';
 import { FetchListingModule } from './fetch_listing/fetch_listing.module';
-import { SummarizeTextModule } from './summarize_text/summarize_text.module';
 import { SubmitAssessmentModule } from './submit_assessment/submit_assessment.module';
 import { FetchHubspotCompaniesModule } from './fetch_hubspot_companies/fetch_hubspot_companie.module';
 import { GetHubspotCompanyModule } from './get_hubspot_company/get_hubspot_company.module';
@@ -38,6 +37,7 @@ import { GetNotionPagePropertyController } from './get_notion_page_property/get_
 import { GetNotionBlockController } from './get_notion_block/get_notion_block.controller';
 import { GetNotionBlockChildrenController } from './get_notion_block_children/get_notion_block_children.controller';
 import { GetNotionCommentsController } from './get_notion_comments/get_notion_comments.controller';
+import { ShopifyGetCustomersController } from './shopify_get_customers/shopify_get_customers.controller';
 
 @Module({
   providers: [
@@ -68,6 +68,7 @@ import { GetNotionCommentsController } from './get_notion_comments/get_notion_co
     GetNotionBlockController,
     GetNotionBlockChildrenController,
     GetNotionCommentsController,
+    ShopifyGetCustomersController,
   ],
   imports: [
     MongooseModule.forFeature([
@@ -80,7 +81,6 @@ import { GetNotionCommentsController } from './get_notion_comments/get_notion_co
     SubmitSellerContactInformationModule,
     CreateListingModule,
     FetchListingModule,
-    SummarizeTextModule,
     SubmitAssessmentModule,
     FetchHubspotCompaniesModule,
     GetHubspotCompanyModule,

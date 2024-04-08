@@ -59,8 +59,10 @@ import { ListingController } from './listing/listing.controller';
 import { MediaModule } from './media/media.module';
 import { MediaService } from './media/media.service';
 import { MediaSchema } from './db/schemas/Media';
-import { AgentsModule } from './agents/agents.module';
+
 import { ToolsController } from './tools/tools.controller';
+import { AnthropicModule } from './anthropic/anthropic.module';
+import { AnthropicService } from './anthropic/anthropic.service';
 
 @Module({
   imports: [
@@ -139,7 +141,7 @@ import { ToolsController } from './tools/tools.controller';
 
     MediaModule,
 
-    AgentsModule,
+    AnthropicModule,
   ],
   controllers: [
     AppController,
@@ -164,6 +166,7 @@ import { ToolsController } from './tools/tools.controller';
     PrompthistoryService,
     ListingService,
     MediaService,
+    AnthropicService,
   ],
 })
 export class AppModule {}

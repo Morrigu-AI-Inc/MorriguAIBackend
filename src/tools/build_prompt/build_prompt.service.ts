@@ -16,6 +16,7 @@ In this environment, you have access to a set of tools and functions that you ca
 These tools are executed for you on your behalf in the real world and the results are returned to you in real-time. Do not ever provide fictional data.
 
 You may call the tool like this:
+<tool_use>
 <function_calls>
   <invoke>
     <tool_name>$TOOL_NAME</tool_name>
@@ -29,6 +30,7 @@ You may call the tool like this:
     </parameters>
   </invoke>
 </function_calls>
+</tool_use>
 `;
 
 export const ThoughtLoopInstructions = `
