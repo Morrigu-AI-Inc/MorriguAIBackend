@@ -22,12 +22,14 @@ export class PrompthistoryController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<PromptHistoryDocument> {
+  async findOne(
+    @Param('id') id: string,
+  ): Promise<Partial<PromptHistoryDocument>> {
     return this.prompthistoryService.getHistoryById(id);
   }
 
   @Post(':id/appendQuery')
-  appendQueryToHistory(
+  async appendQueryToHistory(
     @Param('id') id: string,
     @Body()
     body: {
@@ -38,8 +40,6 @@ export class PrompthistoryController {
       const validation = yup.object().shape({
         body: yup.object().required(),
       });
-
-      console.log('body', body, id);
 
       const query = validation.validateSync(
         {
@@ -52,9 +52,23 @@ export class PrompthistoryController {
         },
       );
 
-      console.log('query', query);
+      const fetchedHistory = await this.prompthistoryService.getHistoryById(id);
+      const updatedHistory = await this.prompthistoryService.updateHistory(id, {
+        chatHistory: [
+          ...fetchedHistory.chatHistory,
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: query.body?.['text'],
+              },
+            ],
+          },
+        ],
+      });
 
-      return this.prompthistoryService.appendQueryToHistory(id, query);
+      return updatedHistory;
     } catch (e) {
       return e;
     }

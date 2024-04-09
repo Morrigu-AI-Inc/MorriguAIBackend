@@ -8,6 +8,10 @@ import { QueryResponseSchema } from './schemas/QueryResponse';
 import { QueryResponsePairSchema } from './schemas/QueryResponsePair';
 import { ModelSchema } from './schemas/Model';
 import { PromptSchema } from './schemas/Prompt';
+import {
+  ChatMessageSchema,
+  HistorySchema,
+} from './schemas/ConversationHistory';
 
 @Module({
   imports: [
@@ -32,6 +36,10 @@ import { PromptSchema } from './schemas/Prompt';
     ]),
     MongooseModule.forFeature([{ name: 'Model', schema: ModelSchema }]),
     MongooseModule.forFeature([{ name: 'Prompt', schema: PromptSchema }]),
+    MongooseModule.forFeature([{ name: 'History', schema: HistorySchema }]),
+    MongooseModule.forFeature([
+      { name: 'ChatMessage', schema: ChatMessageSchema },
+    ]),
   ],
   exports: [
     MongooseModule.forFeature([
@@ -40,6 +48,10 @@ import { PromptSchema } from './schemas/Prompt';
     MongooseModule.forFeature([{ name: 'Media', schema: MediaSchema }]),
     MongooseModule.forFeature([
       { name: 'ModelFormatting', schema: ModelFormattingSchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'History', schema: HistorySchema }]),
+    MongooseModule.forFeature([
+      { name: 'ChatMessage', schema: ChatMessageSchema },
     ]),
   ],
 })

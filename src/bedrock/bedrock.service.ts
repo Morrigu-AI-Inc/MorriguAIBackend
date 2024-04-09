@@ -154,8 +154,6 @@ export class BedrockService {
 
     const bedrock = new BedrockRuntimeClient({ region: 'us-east-1' });
 
-    console.log(inf_params);
-
     const input = {
       // InvokeModelRequest
       body: JSON.stringify({
@@ -218,8 +216,6 @@ export class BedrockService {
     },
   ): Promise<AsyncIterable<ResponseStream> | string> {
     try {
-      console.log(JSON.stringify(messages, null, 2));
-
       const bedrock = new BedrockRuntimeClient({ region: 'us-east-1' });
 
       const input = {
@@ -238,7 +234,7 @@ export class BedrockService {
             '</thinking>',
             '<frontend_calls>',
             '</frontend_calls>',
-            '<tool_use>',
+            // '<tool_use>',
             // '<invoke>',
             // '</invoke>',
           ],
@@ -404,8 +400,6 @@ export class BedrockService {
                 const jsonObj =
                   await this.xml2JsonService.convertXmlToJson(xmlToParse);
 
-                console.log(token);
-
                 const fnResults = await this.actionService.routeFunctionCalls(
                   jsonObj,
                   token,
@@ -429,9 +423,7 @@ export class BedrockService {
 
                 messages.push(assistantMessage);
 
-                for (let i = 0; i < messages.length; i++) {
-                  console.log(messages[i].role, messages[i].content[0]?.text);
-                }
+
 
                 const systemPrompt = this.buildPromptService.buildPrompt({
                   task: tasks,
@@ -441,8 +433,6 @@ export class BedrockService {
                   context: '',
                   includeThoughtLoop: false,
                 }) as string;
-
-                console.log(...messages);
 
                 const results = await this.InvokeModelWithStream(
                   systemPrompt,
@@ -518,9 +508,6 @@ export class BedrockService {
                   },
                 );
 
-                console.log('ending frontend calls...');
-
-                console.log('response', response);
 
                 // append to last message
                 assistantMessage.content[0].text += JSON.parse(
@@ -587,8 +574,6 @@ export class BedrockService {
                   });
                 }
 
-                console.log('getting thoughts...', assistantMessage.content);
-
                 const response = await this.InvokeModelWithStream(
                   system,
                   [...messages, assistantMessage],
@@ -597,9 +582,6 @@ export class BedrockService {
                     modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
                   },
                 );
-                console.log('ending thoughts...');
-
-                console.log('response', response);
 
                 // append to last message
                 assistantMessage.content[0].text +=

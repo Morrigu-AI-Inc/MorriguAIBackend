@@ -38,6 +38,7 @@ import { GetNotionBlockController } from './get_notion_block/get_notion_block.co
 import { GetNotionBlockChildrenController } from './get_notion_block_children/get_notion_block_children.controller';
 import { GetNotionCommentsController } from './get_notion_comments/get_notion_comments.controller';
 import { ShopifyGetCustomersController } from './shopify_get_customers/shopify_get_customers.controller';
+import { QuickbooksQueryCustomersController } from './quickbooks_query_customers/quickbooks_query_customers.controller';
 
 @Module({
   providers: [
@@ -69,6 +70,7 @@ import { ShopifyGetCustomersController } from './shopify_get_customers/shopify_g
     GetNotionBlockChildrenController,
     GetNotionCommentsController,
     ShopifyGetCustomersController,
+    QuickbooksQueryCustomersController,
   ],
   imports: [
     MongooseModule.forFeature([

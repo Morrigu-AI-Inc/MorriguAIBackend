@@ -6,6 +6,7 @@ import {
   Message,
   MessageParam,
   MessageStreamEvent,
+  TextBlockParam,
 } from '@anthropic-ai/sdk/resources';
 import {
   Tool,
@@ -26,6 +27,7 @@ export class AnthropicService {
     '</thinking>',
     '<frontend_calls>',
     '</frontend_calls>',
+    '<tool_search_query>',
     '</tool_search_query>',
     '<tool_use>',
   ];
@@ -67,11 +69,40 @@ export class AnthropicService {
     ],
     stop_sequences: string[] = this.stop_sequences,
   ): Promise<APIPromise<Anthropic.Beta.Tools.Messages.ToolsBetaMessage>> {
+    console.log(
+      'runPromptWithToolsNonStreaming',
+      JSON.stringify(messages, null, 2),
+    );
+    console.log('runPromptWithToolsNonStreaming');
+
+    // ensure they alternate
+    const msgList = [];
+    for (let i = 0; i < messages.length; i++) {
+      if (msgList[msgList.length - 1]?.role === messages[i].role) {
+        // then its not alternating
+        msgList.push({
+          role: messages[i].role === 'user' ? 'assistant' : 'user',
+          content: [{ type: 'text', text: '<empty></empty>' }],
+        });
+      }
+
+      msgList.push({
+        role: messages[i].role,
+        content: messages[i].content,
+      });
+
+      if (msgList[msgList.length - 1].content.length === 0) {
+        msgList[msgList.length - 1].content = [
+          { type: 'text', text: '<empty></empty>' },
+        ];
+      }
+    }
+
     return this.anthropic.beta.tools.messages.create({
       model: 'claude-3-sonnet-20240229',
       system: system,
       max_tokens: max_tokens,
-      messages: messages,
+      messages: msgList,
       tools: tools,
       stop_sequences: stop_sequences,
     });
@@ -93,11 +124,27 @@ export class AnthropicService {
     ],
     stop_sequences: string[] = this.stop_sequences,
   ): Promise<any> {
+    const filterMessages = messages
+      .filter((message) => {
+        return (message.content as TextBlockParam[]).filter((content) => {
+          return content.type === 'text';
+        });
+      })
+      .map((message) => {
+        return {
+          role: message.role,
+          content: message.content,
+        };
+      });
+
+    console.log('non-streaming', JSON.stringify(filterMessages, null, 2));
+    console.log('runPromptNonStreaming');
+
     return this.anthropic.messages.create({
       model: 'claude-3-sonnet-20240229',
       system: system,
       max_tokens: max_tokens,
-      messages: messages,
+      messages: filterMessages,
       stop_sequences: stop_sequences,
     });
   }
@@ -148,12 +195,30 @@ export class AnthropicService {
     },
     stop_sequences: string[] = this.stop_sequences,
   ) {
+    const filterMessages = messages.map((message) => {
+      return {
+        role: message.role,
+        content: (message.content as TextBlockParam[]).map((content) => {
+          if (content.type !== 'text') {
+            return {
+              type: 'text',
+              text: JSON.stringify(content).trim(),
+            };
+          }
+          return {
+            type: 'text',
+            text: content.text.trim(),
+          };
+        }),
+      };
+    });
+
     return this.anthropic.messages
       .stream({
         model: 'claude-3-sonnet-20240229',
         system: system,
         max_tokens: max_tokens,
-        messages: messages,
+        messages: filterMessages as unknown as MessageParam[],
         stop_sequences: stop_sequences,
       })
       .on('text', (textDelta: string, textSnapshot: string) => {
@@ -175,6 +240,7 @@ export class AnthropicService {
         return onFinalMessage?.(message);
       })
       .on('error', (error: AnthropicError) => {
+        console.trace('error', error);
         return onError?.(error);
       })
       .on('abort', (error: APIUserAbortError) => {
