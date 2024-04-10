@@ -39,6 +39,8 @@ import { GetNotionBlockChildrenController } from './get_notion_block_children/ge
 import { GetNotionCommentsController } from './get_notion_comments/get_notion_comments.controller';
 import { ShopifyGetCustomersController } from './shopify_get_customers/shopify_get_customers.controller';
 import { QuickbooksQueryCustomersController } from './quickbooks_query_customers/quickbooks_query_customers.controller';
+import { UpdateQuickbooksCustomerController } from './update_quickbooks_customer/update_quickbooks_customer.controller';
+import { SalesforceMetadataSobjectFetcherController } from './salesforce_metadata_sobject_fetcher/salesforce_metadata_sobject_fetcher.controller';
 
 @Module({
   providers: [
@@ -71,6 +73,8 @@ import { QuickbooksQueryCustomersController } from './quickbooks_query_customers
     GetNotionCommentsController,
     ShopifyGetCustomersController,
     QuickbooksQueryCustomersController,
+    UpdateQuickbooksCustomerController,
+    SalesforceMetadataSobjectFetcherController,
   ],
   imports: [
     MongooseModule.forFeature([

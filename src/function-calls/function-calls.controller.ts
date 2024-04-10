@@ -87,7 +87,7 @@ export class FunctionCallsController {
       console.log('id', id);
       console.log('parameters', parameters);
       const result = await fetch(
-        `${process.env.BACKEND_API_URL}/api/tools/${id}?parameters=${parameters}`,
+        `${process.env.BACKEND_API_URL}/api/tools/${id}?parameters=${parameters}&(${new URLSearchParams(parameters).toString()})`,
         {
           method: 'GET',
           headers: {
