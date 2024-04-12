@@ -1,0 +1,15 @@
+{
+  "name": "quickbooks_query",
+  "description": "A AI integration tool for querying QuickBooks REST API",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "select_statement": {
+        "type": "string",
+        "title": "Select Statement",
+        "description": "The SQL select statement to query QuickBooks REST API example: SELECT * FROM Customer or SELECT * FROM Invoice",
+        "default": "SELECT * FROM Customer"
+      }
+    }
+  }
+}

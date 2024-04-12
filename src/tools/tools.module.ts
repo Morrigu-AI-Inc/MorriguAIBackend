@@ -41,6 +41,7 @@ import { ShopifyGetCustomersController } from './shopify_get_customers/shopify_g
 import { QuickbooksQueryCustomersController } from './quickbooks_query_customers/quickbooks_query_customers.controller';
 import { UpdateQuickbooksCustomerController } from './update_quickbooks_customer/update_quickbooks_customer.controller';
 import { SalesforceMetadataSobjectFetcherController } from './salesforce_metadata_sobject_fetcher/salesforce_metadata_sobject_fetcher.controller';
+import { QuickbooksQueryController } from './quickbooks_query/quickbooks_query.controller';
 
 @Module({
   providers: [
@@ -75,6 +76,7 @@ import { SalesforceMetadataSobjectFetcherController } from './salesforce_metadat
     QuickbooksQueryCustomersController,
     UpdateQuickbooksCustomerController,
     SalesforceMetadataSobjectFetcherController,
+    QuickbooksQueryController,
   ],
   imports: [
     MongooseModule.forFeature([

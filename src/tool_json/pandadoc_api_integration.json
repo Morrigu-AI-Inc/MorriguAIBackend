@@ -1,0 +1,632 @@
+{
+  "name": "pandadoc_api_integration",
+  "description": "PandaDoc API Integration",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "list_documents",
+          "document_status",
+          "document_details",
+          "download_document",
+          "download_protected_document",
+          "document_section_info",
+          "document_section_upload_status",
+          "document_sections",
+          "notarization_request_details",
+          "list_content_library_items",
+          "content_library_item_details",
+          "list_templates",
+          "template_details",
+          "list_contacts",
+          "contact_details",
+          "list_forms",
+          "list_documents_folder",
+          "list_template_folders",
+          "list_users",
+          "list_members",
+          "current_member_details",
+          "member_details",
+          "list_webhooks_subscriptions",
+          "webhook_subscription_details",
+          "list_webhooks_events",
+          "list_api_logs",
+          "search_catalog_items"
+        ]
+      }
+    },
+    "required": ["action"],
+    "oneOf": [
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_documents"]
+          },
+          "q": {
+            "type": "string",
+            "description": "Search query to filter by document reference number or name."
+          },
+          "tag": {
+            "type": "string",
+            "description": "Search tag to filter by document tag."
+          },
+          "status": {
+            "type": "integer",
+            "enum": [0, 1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+            "description": "Specify the status of the documents to return."
+          },
+          "count": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "description": "Specify how many document results to return."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Specify which page of the dataset to return. Default is 1."
+          },
+          "metadata": {
+            "type": "string",
+            "pattern": "^metadata_.+=.+$",
+            "description": "Specify metadata to filter by in the format of metadata_{key}={value}."
+          },
+          "deleted": {
+            "type": "boolean",
+            "description": "Returns only deleted documents if true."
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the document's ID."
+          },
+          "template_id": {
+            "type": "string",
+            "description": "Specify the template used for documents creation. Cannot be used with form_id."
+          },
+          "folder_uuid": {
+            "type": "string",
+            "description": "The UUID of the folder where the documents are stored."
+          },
+          "form_id": {
+            "type": "string",
+            "description": "Specify form used for documents creation. Cannot be used with template_id."
+          },
+          "order_by": {
+            "type": "string",
+            "enum": [
+              "name",
+              "date_created",
+              "date_status_changed",
+              "date_of_last_action",
+              "date_modified",
+              "date_sent",
+              "date_completed",
+              "date_expiration",
+              "date_declined",
+              "status",
+              "-name",
+              "-date_created",
+              "-date_status_changed",
+              "-date_of_last_action",
+              "-date_modified",
+              "-date_sent",
+              "-date_completed",
+              "-date_expiration",
+              "-date_declined",
+              "-status"
+            ],
+            "description": "Specify the order of documents to return."
+          },
+          "created_from": {
+            "type": "string",
+            "description": "Return results where the date_created is greater than or equal to this value."
+          },
+          "created_to": {
+            "type": "string",
+            "description": "Return results where the date_created is less than this value."
+          },
+          "modified_from": {
+            "type": "string",
+            "description": "Return results where the date_modified is greater than or equal to this value."
+          },
+          "modified_to": {
+            "type": "string",
+            "description": "Return results where the date_modified is less than this value."
+          },
+          "completed_from": {
+            "type": "string",
+            "description": "Return results where the date_completed is greater than or equal to this value."
+          },
+          "completed_to": {
+            "type": "string",
+            "description": "Return results where the date_completed is less than this value."
+          },
+          "membership_id": {
+            "type": "string",
+            "description": "Return results where a member is a document owner."
+          },
+          "contact_id": {
+            "type": "string",
+            "description": "Return results where a contact is a recipient or approver."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["document_status"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the document's ID."
+          }
+        },
+        "required": ["id"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["document_details"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the document's ID."
+          }
+        },
+        "required": ["id"]
+      },
+
+      {
+        "properties": {
+          "action": {
+            "enum": ["download_document"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the document's ID."
+          },
+          "watermark_text": {
+            "type": "string",
+            "description": "Specify the watermark text to be displayed on the document."
+          },
+          "watermark_color": {
+            "type": "string",
+            "description": "Specify the watermark color in hexadecimal format."
+          },
+          "watermark_font_size": {
+            "type": "integer",
+            "description": "Specify the watermark font size."
+          },
+          "watermark_opacity": {
+            "type": "number",
+            "description": "Specify the watermark opacity."
+          },
+          "separate_files": {
+            "type": "boolean",
+            "description": "Specify if the document should be downloaded as separate files."
+          }
+        },
+        "required": ["id"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["download_protected_document"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the document's ID."
+          },
+          "separate_files": {
+            "type": "boolean",
+            "description": "Specify if the document should be downloaded as separate files."
+          }
+        },
+        "required": ["id"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["document_section_info"]
+          },
+          "document_id": {
+            "type": "string",
+            "description": "Specify the document's ID."
+          },
+          "section_id": {
+            "type": "string",
+            "description": "Specify the section's ID."
+          }
+        },
+        "required": ["document_id", "section_id"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["document_section_upload_status"]
+          },
+          "document_id": {
+            "type": "string",
+            "description": "Specify the document's ID."
+          },
+          "upload_id": {
+            "type": "string",
+            "description": "Specify the upload's ID."
+          }
+        },
+        "required": ["document_id", "upload_id"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["document_sections"]
+          },
+          "document_id": {
+            "type": "string",
+            "description": "Specify the document's ID."
+          }
+        },
+        "required": ["document_id"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["notarization_request_details"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the notarization request's ID."
+          }
+        },
+        "required": ["id"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_content_library_items"]
+          },
+          "q": {
+            "type": "string",
+            "description": "Search query to filter by content library item name."
+          },
+          "count": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "description": "Specify how many content library item results to return."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Specify which page of the dataset to return. Default is 1."
+          },
+          "deleted": {
+            "type": "boolean",
+            "description": "Returns only deleted content library items if true."
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the content library item's ID."
+          },
+          "folder_uuid": {
+            "type": "string",
+            "description": "The UUID of the folder where the content library items are stored."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["content_library_item_details"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the content library item's ID."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_templates"]
+          },
+          "q": {
+            "type": "string",
+            "description": "Search query to filter by template name."
+          },
+          "tag": {
+            "type": "string",
+            "description": "Search tag to filter by template tag."
+          },
+          "count": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "description": "Specify how many template results to return."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Specify which page of the dataset to return. Default is 1."
+          },
+          "deleted": {
+            "type": "boolean",
+            "description": "Returns only deleted templates if true."
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the template's ID."
+          },
+          "folder_uuid": {
+            "type": "string",
+            "description": "The UUID of the folder where the templates are stored."
+          },
+          "shared": {
+            "type": "boolean",
+            "description": "Returns only shared templates if true."
+          },
+          "fields": {
+            "type": "string",
+            "description": "Specify the fields to return in the response."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["template_details"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Specify the template's ID."
+          }
+        },
+        "required": ["id"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_contacts"]
+          },
+          "email": {
+            "type": "string",
+            "description": "Search query to filter by contact email."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["contact_details"]
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_forms"]
+          },
+          "count": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "description": "Specify how many form results to return."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Specify which page of the dataset to return. Default is 1."
+          },
+          "status": {
+            "type": "integer",
+            "description": "Specify the status of the forms to return."
+          },
+          "order_by": {
+            "type": "string",
+            "enum": [
+              "name",
+              "date_created",
+              "date_modified",
+              "-name",
+              "-date_created",
+              "-date_modified"
+            ],
+            "description": "Specify the order of forms to return."
+          },
+          "asc": {
+            "type": "boolean",
+            "description": "Specify the order of forms to return in ascending order."
+          },
+          "name": {
+            "type": "string",
+            "description": "Search query to filter by form name."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_documents_folder"]
+          },
+          "parent_uuid": {
+            "type": "string",
+            "description": "The UUID of the parent folder."
+          },
+          "count": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "description": "Specify how many folder results to return."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Specify which page of the dataset to return. Default is 1."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_template_folders"]
+          },
+          "parent_uuid": {
+            "type": "string",
+            "description": "The UUID of the parent folder."
+          },
+          "count": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "description": "Specify how many folder results to return."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Specify which page of the dataset to return. Default is 1."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_users"]
+          },
+          "count": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "description": "Specify how many user results to return."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Specify which page of the dataset to return. Default is 1."
+          },
+          "show_removed": {
+            "type": "boolean",
+            "description": "Returns only removed users if true."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_members"]
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["current_member_details"]
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["member_details"]
+          },
+          "membership_id": {
+            "type": "string",
+            "description": "Specify the member's ID."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_webhooks_subscriptions"]
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["webhook_subscription_details"]
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Specify the webhook subscription's UUID."
+          }
+        }
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["list_webhooks_events"]
+          },
+          "page": {
+            "type": "integer",
+            "description": "Specify which page of the dataset to return. Default is 1."
+          },
+          "count": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "description": "Specify how many webhook event results to return."
+          },
+          "since": {
+            "type": "string",
+            "description": "Return results since this date. Example: 2021-01-01T00:00:00Z."
+          },
+          "to": {
+            "type": "string",
+            "description": "Return results up to this date. Example: 2021-01-01T00:00:00Z."
+          },
+          "http_status_code": {
+            "type": "integer",
+            "description": "Return results with this HTTP status code.",
+            "enum": [100, 200, 300, 400, 500]
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Return results with errors if true.",
+            "enum": [
+              "INTERNAL_ERROR",
+              "NOT_VALID_URL",
+              "CONNECT_ERROR",
+              "TIMEOUT_ERROR"
+            ]
+          }
+        },
+        "required": ["page", "count"]
+      },
+      {
+        "properties": {
+          "action": {
+            "enum": ["search_catalog_items"]
+          },
+          "billing_types": {
+            "type": "string",
+            "description": "Search query to filter by billing types."
+          },
+          "category_id": {
+            "type": "string",
+            "description": "Search query to filter by category ID."
+          },
+          "no_category": {
+            "type": "boolean",
+            "description": "Search query to filter by no category."
+          },
+          "order_by": {
+            "type": "string",
+            "description": "Search query to filter by order by."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Search query to filter by page."
+          },
+          "per_page": {
+            "type": "integer",
+            "description": "Search query to filter by per page."
+          },
+          "query": {
+            "type": "string",
+            "description": "Search query to filter by query."
+          },
+          "types": {
+            "type": "string",
+            "description": "Search query to filter by types."
+          }
+        }
+      }
+    ]
+  }
+}

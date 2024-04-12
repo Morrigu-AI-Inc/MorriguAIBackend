@@ -799,7 +799,6 @@ export class BedrockController {
             (c) => c.text.trim() !== '',
           );
 
-          console.log('SNAPSHOT', JSON.stringify(snapshot, null, 1));
           if (snapshot.content.length === 0) {
             if (
               hist.chatHistory[hist.chatHistory.length - 1].role === 'assistant'
@@ -926,10 +925,14 @@ export class BedrockController {
               )[],
             });
 
+            console.log('TOOTLS RESPONSE', tool_response);
+
             const responses = await this.actionService.routeFunctionCalls(
               tool_response.content[1],
               token,
             );
+
+            console.log(`Tool response: ${JSON.stringify(responses, null, 2)}`);
 
             tool_msgs.push({
               role: 'user',
@@ -986,6 +989,8 @@ export class BedrockController {
             await this.historyService.updateHistory(historyId, {
               chatHistory: uHist as ChatMessageType[],
             });
+
+            console.log('DONE RESPONSE', tool_response);
           }
           return true;
         default:
