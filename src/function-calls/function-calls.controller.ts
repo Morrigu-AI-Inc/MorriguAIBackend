@@ -49,10 +49,21 @@ export class FunctionCallsController {
     //   input: { query: 'hi' }
     // }
     // Simplified with async/await and error handling
-    console.log(new URLSearchParams(body.input).toString());
+    console.log(
+      'URL:',
+      `${process.env.TOOLCHEST_URL}/${body.name.trim()}?${new URLSearchParams({
+        ...body.input,
+        token: req.headers.authorization,
+      }).toString()}`,
+    );
     try {
       const response = await fetch(
-        `${process.env.TOOLCHEST_URL}/${body.name.trim()}?parameters=${JSON.stringify(body.input)}&token=${req.headers.authorization}&${new URLSearchParams(body.input).toString()}`,
+        `${process.env.TOOLCHEST_URL}/${body.name.trim()}?${new URLSearchParams(
+          {
+            ...body.input,
+            token: req.headers.authorization,
+          },
+        ).toString()}`,
         {
           method: 'GET',
           headers: {
@@ -84,10 +95,10 @@ export class FunctionCallsController {
     @Req() req,
   ): Promise<any> {
     try {
-      console.log('id', id);
-      console.log('parameters', parameters);
+      const { token, ...rest } = req.query;
+      console.log('rest', rest);
       const result = await fetch(
-        `${process.env.BACKEND_API_URL}/api/tools/${id}?parameters=${parameters}&(${new URLSearchParams(parameters).toString()})`,
+        `${process.env.BACKEND_API_URL}/api/tools/${id}?${new URLSearchParams(rest).toString()}`,
         {
           method: 'GET',
           headers: {

@@ -1,6 +1,12 @@
-import { Controller, Get, Param, Query, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Req,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Xml2JsonServiceService } from 'src/xml2-json-service/xml2-json-service.service';
-
 import { parseStringPromise } from 'xml2js';
 
 @Controller('tools/quickbooks_query')
@@ -9,40 +15,33 @@ export class QuickbooksQueryController {
 
   @Get()
   async getQuickbooksQuery(
-    @Query('select_statement') select_statement: string,
-    @Query('parameters') parameters: string,
+    @Query('select') select: string,
+    @Query('from') from: string,
+    @Query('where') where: string,
+    @Query('maxlimit') maxlimit: number = 5,
     @Req() req,
   ) {
     try {
-      const validPayload = JSON.parse(parameters);
-
-      if (!validPayload.select_statement) {
-        return {
-          result: {
-            tool_name: 'quickbooks_query',
-            stdout: {
-              message: 'Error in quickbooks_query params',
-              data: 'select_statement is required',
-            },
-          },
-        };
+      console.log('SQL Query Parameters', select, from, where, maxlimit);
+      if (!select || !from) {
+        throw new BadRequestException(
+          'Both select and from parameters are required.',
+        );
       }
 
-      console.log(
-        'select_statement',
-        `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?${new URLSearchParams(
-          {
-            query: validPayload.select_statement,
-          },
-        ).toString()}`,
-      );
+      // Construct the QuickBooks SQL query
+      let query = `SELECT ${select} FROM ${from}`;
+      if (where) {
+        query += ` WHERE ${where}`;
+      }
+      if (maxlimit) {
+        query += ` MAXRESULTS ${maxlimit}`;
+      }
+
+      console.log('Constructed query', encodeURIComponent(query));
 
       const results = await fetch(
-        `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?${new URLSearchParams(
-          {
-            query: validPayload.select_statement,
-          },
-        ).toString()}`,
+        `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?query=${query}&minorversion=70`,
         {
           method: 'GET',
           headers: {
@@ -52,14 +51,20 @@ export class QuickbooksQueryController {
         },
       );
 
+      if (!results.ok) {
+        throw new NotFoundException('Failed to fetch data from QuickBooks.');
+      }
+
       const output = await results.json();
+
+      console.log('output', output);
 
       const json_xml = await parseStringPromise(output.output, {
         explicitArray: false,
         ignoreAttrs: true,
       });
 
-      console.log('output', json_xml);
+      console.log('Formatted output', json_xml);
 
       return {
         result: {
@@ -71,16 +76,10 @@ export class QuickbooksQueryController {
         },
       };
     } catch (error) {
-      console.log('error', error);
-      return {
-        result: {
-          tool_name: 'quickbooks_query',
-          stdout: {
-            message: 'Error in quickbooks_query params: ' + select_statement,
-            data: error,
-          },
-        },
-      };
+      console.error('Error in quickbooks_query', error);
+      throw new BadRequestException(
+        `Error in quickbooks_query: ${error.message}`,
+      );
     }
   }
 }
