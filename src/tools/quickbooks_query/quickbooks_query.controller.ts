@@ -38,10 +38,10 @@ export class QuickbooksQueryController {
         query += ` MAXRESULTS ${maxlimit}`;
       }
 
-      console.log('Constructed query', encodeURIComponent(query));
+      console.log('Constructed query', query);
 
       const results = await fetch(
-        `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?query=${query}&minorversion=70`,
+        `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?query=${query.trim()}&minorversion=70`,
         {
           method: 'GET',
           headers: {
@@ -76,10 +76,16 @@ export class QuickbooksQueryController {
         },
       };
     } catch (error) {
-      console.error('Error in quickbooks_query', error);
-      throw new BadRequestException(
-        `Error in quickbooks_query: ${error.message}`,
-      );
+
+      return {
+        result: {
+          tool_name: 'quickbooks_query',
+          stdout: {
+            message: 'Error fetching QuickBooks data.',
+            data: 'Possible invalid QuickBooks query parameters. Ensure the Where clause is correct and does not use SQL functions. Ensure all integers have been cast to strings.',
+          },
+        },
+      };
     }
   }
 }

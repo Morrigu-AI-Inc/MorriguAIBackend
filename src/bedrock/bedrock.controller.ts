@@ -158,6 +158,11 @@ const BI_Metrics = {
   },
 };
 
+const ACTION_CODES = {
+  '83a444d7-7c30-4a56-b07e-014d113b1cde':
+    'Now that you have the tools. Complete The Task.',
+};
+
 const global_prompt = `
 ===== QuickBooks Query Assistant =====
 Name: Morrigu
@@ -170,6 +175,13 @@ Domain Of Expertise: Quickbooks.
 
 Welcome to the AI Assistant Interface. 
 The following is a conversation between you and the user. 
+
+System Action Codes: 
+
+How To Use: When the user provides an actions code you must lookup the action code below and do the action against the data you have.
+
+${JSON.stringify(ACTION_CODES, null, 2)}
+
 `;
 
 const global_system = `
@@ -187,9 +199,18 @@ Rules:
 2. You can use the tools to complete the task effectively.
 3. No credentials or API keys are required to use any tools.
 4. You must verify a tool exists before using it.
+5. When a user provides a tool_result block, you must process the result and provide a response to the user summarizing in very detailed terms the result of the tool.
 
-To search for tools: 
-<tool_search_query>$QUERY</tool_search_query>
+The following order is the most important to understand to launch the tool interface.
+
+First you must print <tool_search_query> to open the tool search interface.
+Then you must print the query you want to search for. Extremely important to understand the query you are searching for.
+Be A bit vaugue while searching for tools. For example, if you are looking for a tool that can help you with data visualization, you can search for "data visualization software" or "real-time weather API".
+or a platform function like quickbooks_query user information.
+
+Then you must close the interface with </tool_search_query> to close the tool search interface.
+Once you close the tool search interface, you will be able to see the tools that are available to you.
+You can then use the tools to complete the task effectively.
 
 Enabled Tools (not tags): 
 - search_for_more_tools
@@ -197,25 +218,24 @@ Enabled Tools (not tags):
 - web_search
 - quickbooks_query
 
-Give yourself a moment to think about the task and how and if you can use the tools to complete it effectively.
-<thinking>
-$THOUGHTS
-</thinking>
 `;
 
 const system_2 = `
 ${global_prompt}
 ${global_system}
+Give yourself a moment to think about the task and how and if you can use the tools to complete it effectively.
+<thinking>
+$THOUGHTS
+</thinking>
 
 Example Assistant Response:
 
 <thinking>
 I should use the search_for_more_tools tool to find additional tools that can help me complete the task effectively.
 </thinking>
-<tool_search_query>quickbooks query user information</tool_search_query>
 
-<answer>
-I found the following information for the query "quickbooks query user information":
+You must never give advice that sends the user to another application. You can only use the tools that are available to you.
+You must never ever ever give false information or false data to the user without having a tool_result to back it up. Ever.
 
 `;
 
@@ -846,7 +866,7 @@ export class BedrockController {
               content: [
                 {
                   type: 'text',
-                  text: 'Now that you have the tools and you have thought about the task, please use the tools to complete the task.',
+                  text: '83a444d7-7c30-4a56-b07e-014d113b1cde',
                 },
               ],
             },
