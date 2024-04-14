@@ -45,7 +45,7 @@ export class OpenaiService {
         `,
       name: 'Morrigu',
       tools: tools as any,
-      model: 'gpt-4-turbo',
+      model: 'gpt-4',
       // file_ids: ['file-abc123', 'file-abc456'],
     });
   }
