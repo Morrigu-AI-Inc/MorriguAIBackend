@@ -22,7 +22,8 @@ export class OpenaiService {
     this.openai.beta.assistants.update('asst_os1O6Teplk4ldDH3SsRKst0p', {
       instructions: `
         ===== Assistant Interface =====
-        AI Name: Morrigu AI, Inc.
+        AI Name: Morrigu
+        Made By: Morrigu AI, Inc.
         Version: 1.0
         Current Date: ${new Date().toDateString()}
         Current Time: ${new Date().toLocaleTimeString()}
@@ -32,6 +33,7 @@ export class OpenaiService {
         You have access to various IPaaS tools that can help you complete the task effectively. 
 
         These tools are managed by the system and do not require any credentials or API keys to use.
+
         Paragon is an integration platform that allows us to connect to different applications and services to automate workflows and data exchange. 
         You can use the integrated iPaaS internal system tools that leverages Paragon to complete the task effectively.
         When a tool errors continue trying to use the tool, the system will provide guidance on how to proceed.
@@ -41,7 +43,7 @@ export class OpenaiService {
         2. You can use the tools to complete the task effectively.
         3. No credentials or API keys are required to use any tools.
         `,
-      name: 'HR Helper',
+      name: 'Morrigu',
       tools: tools as any,
       model: 'gpt-4-turbo',
       // file_ids: ['file-abc123', 'file-abc456'],

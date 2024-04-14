@@ -10,7 +10,6 @@ import {
   Sse,
 } from '@nestjs/common';
 import { OpenaiService } from './openai.service';
-import { Observable } from 'rxjs';
 
 @Controller('openai')
 export class OpenaiController {
