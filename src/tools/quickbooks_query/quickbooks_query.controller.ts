@@ -18,7 +18,7 @@ export class QuickbooksQueryController {
     @Query('select') select: string,
     @Query('from') from: string,
     @Query('where') where: string,
-    @Query('maxlimit') maxlimit: number = 5,
+    @Query('maxlimit') maxlimit: number = 100,
     @Req() req,
   ) {
     try {
