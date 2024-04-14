@@ -32,7 +32,10 @@ async function bootstrap() {
 
   app.use(nocache());
 
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  });
 
   app.use(
     helmet({
