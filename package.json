@@ -41,6 +41,7 @@
     "jwks-rsa": "^3.1.0",
     "mongoose": "^8.2.1",
     "nocache": "^4.0.0",
+    "openai": "^4.33.1",
     "passport": "^0.7.0",
     "passport-auth0": "^1.4.4",
     "passport-jwt": "^4.0.1",

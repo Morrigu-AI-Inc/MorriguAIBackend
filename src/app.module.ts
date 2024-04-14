@@ -63,6 +63,7 @@ import { MediaSchema } from './db/schemas/Media';
 import { ToolsController } from './tools/tools.controller';
 import { AnthropicModule } from './anthropic/anthropic.module';
 import { AnthropicService } from './anthropic/anthropic.service';
+import { OpenaiModule } from './openai/openai.module';
 
 @Module({
   imports: [
@@ -142,6 +143,8 @@ import { AnthropicService } from './anthropic/anthropic.service';
     MediaModule,
 
     AnthropicModule,
+
+    OpenaiModule,
   ],
   controllers: [
     AppController,

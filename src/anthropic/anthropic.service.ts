@@ -141,7 +141,7 @@ export class AnthropicService {
     console.log('runPromptNonStreaming');
 
     return this.anthropic.messages.create({
-      model: 'claude-3-connet-20240229',
+      model: 'claude-3-sonnet-20240229',
       system: system,
       max_tokens: max_tokens,
       messages: filterMessages,
