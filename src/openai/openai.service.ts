@@ -108,7 +108,10 @@ export class OpenaiService {
           JSON.parse(call.function.arguments),
         ).toString();
         const callResp = await fetch(
-          'http://localhost:6060/api/tools/' + call.function.name + '?' + q,
+          `${process.env.BACKEND_API_URL}http://localhost:6060/api/tools/` +
+            call.function.name +
+            '?' +
+            q,
           {
             method: 'GET',
             headers: {
