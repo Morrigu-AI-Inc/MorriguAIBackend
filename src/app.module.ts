@@ -64,6 +64,8 @@ import { ToolsController } from './tools/tools.controller';
 import { AnthropicModule } from './anthropic/anthropic.module';
 import { AnthropicService } from './anthropic/anthropic.service';
 import { OpenaiModule } from './openai/openai.module';
+import { SlackModule } from './slack/slack.module';
+import { ExternalSlackMappingSchema } from './db/schemas/ExternalSlackMapping';
 
 @Module({
   imports: [
@@ -83,6 +85,9 @@ import { OpenaiModule } from './openai/openai.module';
       { name: 'QueryResponsePair', schema: QueryResponsePairSchema },
     ]),
     MongooseModule.forFeature([{ name: 'Media', schema: MediaSchema }]),
+    MongooseModule.forFeature([
+      { name: 'ExternalSlackMapping', schema: ExternalSlackMappingSchema },
+    ]),
     MessagesModule,
     HttpModule,
 
@@ -145,6 +150,8 @@ import { OpenaiModule } from './openai/openai.module';
     AnthropicModule,
 
     OpenaiModule,
+
+    SlackModule,
   ],
   controllers: [
     AppController,

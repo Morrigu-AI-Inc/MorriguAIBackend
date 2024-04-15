@@ -33,6 +33,7 @@
     "@nestjs/mongoose": "^10.0.4",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "@slack/web-api": "^7.0.2",
     "@types/sanitize-html": "^2.11.0",
     "@useparagon/connect": "^1.0.5",
     "cheerio": "^1.0.0-rc.12",
