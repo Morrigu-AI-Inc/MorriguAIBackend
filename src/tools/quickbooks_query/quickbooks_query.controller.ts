@@ -55,10 +55,6 @@ export class QuickbooksQueryController {
 
       console.log('results', results);
 
-      if (!results.ok) {
-        throw new NotFoundException('Failed to fetch data from QuickBooks.');
-      }
-
       const output = await results.json();
 
       console.log('output', output);
@@ -80,7 +76,6 @@ export class QuickbooksQueryController {
         },
       };
     } catch (error) {
-      console.log('Error fetching QuickBooks data', error);
       return {
         result: {
           tool_name: 'quickbooks_query',

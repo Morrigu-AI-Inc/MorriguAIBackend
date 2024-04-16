@@ -66,6 +66,7 @@ import { AnthropicService } from './anthropic/anthropic.service';
 import { OpenaiModule } from './openai/openai.module';
 import { SlackModule } from './slack/slack.module';
 import { ExternalSlackMappingSchema } from './db/schemas/ExternalSlackMapping';
+import { ToolOutputSchema } from './db/schemas/ToolOutput';
 
 @Module({
   imports: [
@@ -87,6 +88,9 @@ import { ExternalSlackMappingSchema } from './db/schemas/ExternalSlackMapping';
     MongooseModule.forFeature([{ name: 'Media', schema: MediaSchema }]),
     MongooseModule.forFeature([
       { name: 'ExternalSlackMapping', schema: ExternalSlackMappingSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'ToolOutput', schema: ToolOutputSchema },
     ]),
     MessagesModule,
     HttpModule,

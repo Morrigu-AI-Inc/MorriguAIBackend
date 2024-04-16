@@ -4,6 +4,7 @@ import { SlackController } from './slack.controller';
 import { OpenaiService } from 'src/openai/openai.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ExternalSlackMappingSchema } from 'src/db/schemas/ExternalSlackMapping';
+import { ToolOutputSchema } from 'src/db/schemas/ToolOutput';
 
 @Module({
   providers: [SlackService, OpenaiService],
@@ -11,6 +12,9 @@ import { ExternalSlackMappingSchema } from 'src/db/schemas/ExternalSlackMapping'
   imports: [
     MongooseModule.forFeature([
       { name: 'ExternalSlackMapping', schema: ExternalSlackMappingSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'ToolOutput', schema: ToolOutputSchema },
     ]),
   ],
 })

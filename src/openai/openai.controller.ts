@@ -10,6 +10,7 @@ import {
   Sse,
 } from '@nestjs/common';
 import { OpenaiService } from './openai.service';
+import { Observable } from 'rxjs';
 
 @Controller('openai')
 export class OpenaiController {
@@ -49,6 +50,55 @@ export class OpenaiController {
       );
     } catch (error) {
       console.error('Error adding message to thread', error);
+    }
+  }
+
+  @Sse('/assistant/thread/:threadId/tool_output')
+  @Get('/assistant/thread/:threadId/tool_output')
+  @Header('Content-Type', 'text/event-stream')
+  @Header('Cache-Control', 'no-cache, no-transform')
+  @Header('Content-Encoding', 'none')
+  @Header('Transfer-Encoding', 'chunked')
+  async getToolOutput(
+    @Param('threadId') threadId: string,
+    @Query('token') token,
+  ) {
+    try {
+      return new Observable((observer) => {
+        this.openaiService.streamToolOutput(threadId, token, observer);
+      });
+    } catch (error) {
+      console.error('Error getting tool output', error);
+    }
+  }
+
+  @Post('/assistant/thread/:threadId/:runId/tool_output')
+  async addToolOutputToThread(
+    @Param('threadId') threadId: string,
+    @Param('runId') runId: string,
+    @Body()
+    toolOutput: {
+      id: string;
+      out: object;
+    }[],
+  ) {
+    try {
+      return await this.openaiService.submitToolOutputs(
+        toolOutput,
+        threadId,
+        runId,
+      );
+    } catch (error) {
+      console.error('Error adding tool output to thread', error);
+    }
+  }
+
+  @Get('/assistant/thread/:threadId/required_actions')
+  async getRequiredActions(@Param('threadId') threadId: string) {
+    try {
+      return await this.openaiService.getCurrentRun(threadId);
+    } catch (error) {
+      return { error: error.message };
     }
   }
 
