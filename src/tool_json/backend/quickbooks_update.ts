@@ -43,7 +43,7 @@ const quickbooks_update = {
         operation: {
           type: 'string',
           description: 'The operation to perform',
-          enum: ['update', 'create', 'delete'],
+          enum: ['update', 'create', 'delete', 'query'],
         },
         entity: {
           type: 'string',
@@ -51,12 +51,12 @@ const quickbooks_update = {
           enum: [
             'invoice',
             'account',
-            'billPayment',
+            'billpayment',
             'bill',
             'budget',
             'class',
-            'credit_memo',
-            'customer_type',
+            'creditmemo',
+            'customertype',
             'customer',
             'department',
             'deleted_object',
@@ -103,20 +103,20 @@ const quickbooks_update = {
               ...billPaymentSchema,
             },
             {
-              entity: 'bill',
+              entity: 'bill', // pass
               ...billSchema,
             },
             {
-              entity: 'budget',
+              entity: 'budget', // fail
               description: `The Budget entity is used to create a budget for a fiscal year. The budget can be created for a specific customer, class, department`,
               ...budgetSchema,
             },
             {
-              entity: 'class',
+              entity: 'class', // pass
               ...classSchema,
             },
             {
-              entity: 'credit_memo',
+              entity: 'creditmemo', //pass
               ...creditMemoSchema,
             },
             {
@@ -124,12 +124,17 @@ const quickbooks_update = {
               ...customerSchema,
             },
             {
-              entity: 'customer_type',
+              entity: 'customertype',
+              operation: {
+                type: 'string',
+                description: 'The operation to perform',
+                enum: ['query'],
+              },
               ...customerTypeSchema,
             },
 
             {
-              entity: 'department',
+              entity: 'department', // pass
               ...departmentSchema,
             },
             {
@@ -137,11 +142,13 @@ const quickbooks_update = {
               ...deletedObjectsSchema,
             },
             {
-              entity: 'deposit',
+              entity: 'deposit', //pass 
+              description:
+                'A create request includes at least one line representing a deposit--either a direct deposit or linked deposit. More than one deposit can be included in the request; types can be mixed. A direct deposit must have at least: -One line that specifies Deposit.Line.DepositLineDetail.AccountRef. -The Deposit.DepositToAccountRef attribute specified. A deposit via linked transaction must have at least: -One line that specifies Deposit.Line.LinkedTxn. -The Deposit.DepositToAccountRef attribute specified.',
               ...depositSchema,
             },
             {
-              entity: 'employee',
+              entity: 'employee', // pass
               ...employeeSchema,
             },
             {

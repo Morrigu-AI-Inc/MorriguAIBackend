@@ -6,6 +6,6 @@ import quickbooks_update from './backend/quickbooks_update';
 
 export const frontend_tools = [display_chart];
 export const backend_tools = [quickbooks_query, quickbooks_update];
-const tools = [...backend_tools, ...frontend_tools];
+const tools = [...frontend_tools, ...backend_tools, display_chart];
 
 export default tools;

@@ -45,6 +45,7 @@ const display_chart = {
         },
         series: {
           type: 'array',
+          description: 'Array of series objects representing the chart data.',
           oneOf: [
             {
               items: {

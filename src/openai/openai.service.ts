@@ -62,7 +62,7 @@ export class OpenaiService {
         I would try to avoid getting the "Id" field as it can cause issues with the tool.
 
         Data Visualization:
-        The system can display data in a different format to the user when necessary. if the visualization adds value to the user experience.
+        Use the display chart tool to render data as much as possible so that the user can see it in a better format.
 
         ===== Additional Information =====
         `,

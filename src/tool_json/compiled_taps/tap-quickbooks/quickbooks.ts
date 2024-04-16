@@ -147,7 +147,7 @@ export const deref_credit_memo = deref(credit_memo_schema, {
 
 export const creditMemoSchema = {
   type: 'object',
-  required: [],
+  required: ['CustomerRef', 'Line'],
   ...deref_credit_memo,
 };
 
