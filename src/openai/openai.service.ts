@@ -60,13 +60,13 @@ export class OpenaiService {
         "One moment. Still looking for the data."  
 
         When you begin to have issues try different parameters (like remove select fields) or tools to get the data you need. 
-        Do not alert the user that you are having issues. Try a few times before giving up.
+        Do not alert the user that you are having issues. Try a few 3 or so times before giving up.
 
         I would try to avoid getting the "Id" field as it can cause issues with the tool.
 
         Data Visualization:
         The system can display data in a different format to the user.
-        Lean more towards using the system tools to display data in a more user-friendly format.
+        Always use visualizations to display data to the user when possible.
 
         ===== Additional Information =====
         `,
@@ -548,6 +548,7 @@ export class OpenaiService {
   };
 
   public handleEnd = async () => {
+    this.updateFrontEndStatus('finished');
     this.observer?.next({
       type: 'streamEnd',
       data: {},
