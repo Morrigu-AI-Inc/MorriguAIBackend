@@ -39,6 +39,7 @@
     "cheerio": "^1.0.0-rc.12",
     "express-oauth2-jwt-bearer": "^1.6.0",
     "helmet": "^7.1.0",
+    "json-schema-deref-sync": "^0.14.0",
     "jwks-rsa": "^3.1.0",
     "mongoose": "^8.2.1",
     "nocache": "^4.0.0",

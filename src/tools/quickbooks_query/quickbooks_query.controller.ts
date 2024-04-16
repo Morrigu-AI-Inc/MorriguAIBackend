@@ -14,14 +14,12 @@ export class QuickbooksQueryController {
   constructor(private readonly xmlService: Xml2JsonServiceService) {}
 
   @Get()
-  async getQuickbooksQuery(
-    @Query('select') select: string,
-    @Query('from') from: string,
-    @Query('where') where: string,
-    @Query('maxlimit') maxlimit: number = 100,
-    @Req() req,
-  ) {
+  async getQuickbooksQuery(@Query('payload') payload: any, @Req() req) {
     try {
+      const validPayload = JSON.parse(JSON.parse(payload));
+
+      const { select, from, where, maxlimit = 100 } = validPayload;
+
       console.log('SQL Query Parameters', select, from, where, maxlimit);
       if (!select || !from) {
         throw new BadRequestException(
@@ -38,8 +36,6 @@ export class QuickbooksQueryController {
         query += ` MAXRESULTS ${maxlimit}`;
       }
 
-      console.log('Constructed query', req.headers.authorization, query);
-
       const results = await fetch(
         `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?query=${query.trim()}&minorversion=70`,
         {
@@ -53,18 +49,12 @@ export class QuickbooksQueryController {
         },
       );
 
-      console.log('results', results);
-
       const output = await results.json();
-
-      console.log('output', output);
 
       const json_xml = await parseStringPromise(output.output, {
         explicitArray: false,
         ignoreAttrs: true,
       });
-
-      console.log('Formatted output', json_xml);
 
       return {
         result: {

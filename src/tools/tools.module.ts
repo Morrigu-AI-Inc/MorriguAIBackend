@@ -44,6 +44,7 @@ import { SalesforceMetadataSobjectFetcherController } from './salesforce_metadat
 import { QuickbooksQueryController } from './quickbooks_query/quickbooks_query.controller';
 import { SalesforceQueryModule } from './salesforce_query/salesforce_query.module';
 import { CreateInvoiceModule } from './create_invoice/create_invoice.module';
+import { QuickbooksUpdateModule } from './quickbooks_update/quickbooks_update.module';
 
 @Module({
   providers: [
@@ -97,6 +98,7 @@ import { CreateInvoiceModule } from './create_invoice/create_invoice.module';
     GetSalesforceObjectsListModule,
     SalesforceQueryModule,
     CreateInvoiceModule,
+    QuickbooksUpdateModule,
   ],
   exports: [
     MongooseModule.forFeature([

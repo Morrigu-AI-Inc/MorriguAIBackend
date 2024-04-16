@@ -3,10 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import OpenAI from 'openai';
 import { sleep } from 'openai/core';
-import { AbstractAssistantStreamRunner } from 'openai/lib/AbstractAssistantStreamRunner';
 import { AssistantStream } from 'openai/lib/AssistantStream';
-import { AssistantStreamEvent } from 'openai/resources/beta/assistants/assistants';
-
 import { Observable, Subscriber } from 'rxjs';
 import { ToolOutputDocument } from 'src/db/schemas/ToolOutput';
 import tools, { frontend_tools } from 'src/tool_json';
@@ -60,13 +57,12 @@ export class OpenaiService {
         "One moment. Still looking for the data."  
 
         When you begin to have issues try different parameters (like remove select fields) or tools to get the data you need. 
-        Do not alert the user that you are having issues. Try a few 3 or so times before giving up.
+        Do not alert the user that you are having issues. Try it 2 times then alert the user that you are having issues.
 
         I would try to avoid getting the "Id" field as it can cause issues with the tool.
 
         Data Visualization:
-        The system can display data in a different format to the user.
-        Always use visualizations to display data to the user when possible.
+        The system can display data in a different format to the user when necessary. if the visualization adds value to the user experience.
 
         ===== Additional Information =====
         `,
@@ -142,9 +138,9 @@ export class OpenaiService {
         calls.map(async (call) => {
           console.log(JSON.parse(call.function.arguments));
 
-          const q = new URLSearchParams(
-            JSON.parse(call.function.arguments),
-          ).toString();
+          const q = new URLSearchParams({
+            payload: JSON.stringify(call.function.arguments),
+          }).toString();
 
           const callResp = await fetch(
             `${process.env.BACKEND_API_URL}/api/tools/` +
@@ -441,9 +437,7 @@ export class OpenaiService {
     this.updateFrontEndStatus('done calling tool');
   };
 
-  public handleToolCallDelta = async (toolCallDelta: any, snapshot: any) => {
-    console.log('toolCall delta', toolCallDelta);
-  };
+  public handleToolCallDelta = async (toolCallDelta: any, snapshot: any) => {};
 
   public handleMessage = async (message: any) => {
     this.updateFrontEndStatus('creating');
@@ -457,6 +451,13 @@ export class OpenaiService {
 
   public handleEventv2 = async (event: any, token: string) => {
     console.log('event', event.event);
+    if (event.event === 'thread.run.completed') {
+      this.observer?.next({
+        type: 'closeStream',
+        data: event.data,
+      });
+      return;
+    }
     if (event.event === 'thread.run.requires_action') {
       console.log('thread.run.requires_action', event.data);
       if (event.data?.required_action?.type === 'submit_tool_outputs') {

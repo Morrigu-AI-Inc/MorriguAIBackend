@@ -25,7 +25,6 @@ export const quickbooks_query = {
             'Item',
             'Payment',
             'Preferences',
-            'ProfitAndLoss',
             'TaxAgency',
             'Vendor',
           ],
