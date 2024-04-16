@@ -45,35 +45,39 @@ const display_chart = {
         },
         series: {
           type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-                description: 'Name of the series.',
-              },
-
-              data: {
-                type: 'array',
-                oneOf: [
-                  {
-                    items: {
-                      // For types like bar, scatter where data points are objects
-                      type: 'object',
-                      properties: {
-                        x: { type: 'string' },
-                        y: { type: 'number' },
-                      },
-                      required: ['x', 'y'],
-                    },
+          oneOf: [
+            {
+              items: {
+                type: 'object',
+                description:
+                  'Series object representing a series in the chart.',
+                properties: {
+                  name: {
+                    type: 'string',
+                    description: 'Name of the series.',
                   },
-                ],
+
+                  data: {
+                    type: 'array',
+                    oneOf: [
+                      {
+                        items: {
+                          // For types like bar, scatter where data points are objects
+                          type: 'object',
+                          properties: {
+                            x: { type: 'string' },
+                            y: { type: 'number' },
+                          },
+                          required: ['x', 'y'],
+                        },
+                      },
+                    ],
+                  },
+                },
+                required: ['name', 'data'],
               },
             },
-            required: ['name', 'data'],
-          },
-          description:
-            'An array of series objects, each representing a series in the chart.',
+          ],
         },
         width: {
           oneOf: [

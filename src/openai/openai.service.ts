@@ -72,7 +72,7 @@ export class OpenaiService {
         `,
       name: 'Morrigu',
       tools: tools as any,
-      model: 'gpt-4',
+      model: 'gpt-4-turbo',
       // file_ids: ['file-abc123', 'file-abc456'],
     });
   }
@@ -573,7 +573,6 @@ export class OpenaiService {
   };
 
   public handleMessageDone = async (message: any) => {
-    this.updateFrontEndStatus('finished');
     const output = await this.toolOutputModel.findOne({
       runId: message.run_id,
       msgId: '',
@@ -582,7 +581,7 @@ export class OpenaiService {
     console.log('output', output);
 
     if (!output) {
-      this.updateFrontEndStatus('not found');
+      this.updateFrontEndStatus('finished'); // not error just finished
       return;
     }
     this.updateFrontEndStatus('saving');
@@ -595,15 +594,19 @@ export class OpenaiService {
       },
     );
     this.updateFrontEndStatus('saving_message');
-    await this.openai.beta.threads.messages.update(
-      message.thread_id,
-      message.id,
-      {
+    await this.openai.beta.threads.messages
+      .update(message.thread_id, message.id, {
         metadata: {
           tool_outputs: output.id,
         },
-      },
-    );
+      })
+      .then((value) => {
+        this.observer?.next({
+          type: 'refresh',
+          data: value,
+        });
+      });
+    this.updateFrontEndStatus('finished');
   };
 
   public handleTextDone = async (text: any) => {
