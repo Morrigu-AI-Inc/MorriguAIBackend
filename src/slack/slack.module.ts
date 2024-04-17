@@ -5,9 +5,10 @@ import { OpenaiService } from 'src/openai/openai.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ExternalSlackMappingSchema } from 'src/db/schemas/ExternalSlackMapping';
 import { ToolOutputSchema } from 'src/db/schemas/ToolOutput';
+import { AssistantService } from 'src/assistant/assistant.service';
 
 @Module({
-  providers: [SlackService, OpenaiService],
+  providers: [SlackService, OpenaiService, AssistantService],
   controllers: [SlackController],
   imports: [
     MongooseModule.forFeature([

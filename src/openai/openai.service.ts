@@ -5,10 +5,9 @@ import OpenAI from 'openai';
 import { sleep } from 'openai/core';
 import { AssistantStream } from 'openai/lib/AssistantStream';
 import { Observable, Subscriber } from 'rxjs';
+import { AssistantService } from 'src/assistant/assistant.service';
 import { ToolOutputDocument } from 'src/db/schemas/ToolOutput';
 import tools, { frontend_tools } from 'src/tool_json';
-
-
 
 @Injectable()
 export class OpenaiService {
@@ -21,6 +20,7 @@ export class OpenaiService {
   constructor(
     @InjectModel('ToolOutput')
     private toolOutputModel: Model<ToolOutputDocument>,
+    private readonly assistantService: AssistantService,
   ) {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
@@ -34,20 +34,10 @@ export class OpenaiService {
         Version: 1.0
         Current Date: ${new Date().toDateString()}
         Current Time: ${new Date().toLocaleTimeString()}
-        Domain Of Expertise: 
+        Domain Of Expertise: Quickbooks Query Assistant. 
 
-        Quickbooks Query Assistant. 
 
-        ===== System Information =====
-        You have access to various IPaaS tools that can help you complete the task effectively. 
-
-        These tools are managed by the system and do not require any credentials or API keys to use.
-
-        Paragon is an integration platform that allows us to connect to different applications and services to automate workflows and data exchange. 
-        You can use the integrated iPaaS internal system tools that leverages Paragon to complete the task effectively.
-        When a tool errors continue trying to use the tool, the system will provide guidance on how to proceed.
-
-        Rules:
+        Tools:
         1. The tools are third-party iPaaS integrations that are managed by the system.
         2. You can use the tools to complete the task effectively.
         3. No credentials or API keys are required to use any tools.
@@ -69,12 +59,14 @@ export class OpenaiService {
         Data Visualization:
         Use the display chart tool to render data as much as possible so that the user can see it in a better format.
 
+        Briefly respond to the user before calling a tool so they are aware of what is happening.
+
         ===== Additional Information =====
         `,
       name: 'Morrigu',
       tools: tools as any,
       // model: 'gpt-4-turbo',
-      model: 'gpt-4-turbo-2024-04-09',
+      model: 'gpt-4',
       // file_ids: ['file-abc123', 'file-abc456'],
     });
   }
@@ -634,7 +626,7 @@ export class OpenaiService {
 
           this.openai.beta.threads.runs
             .stream(threadId, {
-              assistant_id: process.env.DEFAULT_ASSISTANT,
+              assistant_id: this.assistantService.assistants.quickbooks.id,
             })
             .on('abort', this.hndleAbort)
             .on('connect', this.handleConnect)

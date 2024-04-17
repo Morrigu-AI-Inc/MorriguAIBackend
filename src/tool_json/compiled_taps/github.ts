@@ -1,27 +1,27 @@
 import * as deref from 'json-schema-deref-sync';
 
-import * as assignees_schema from '../taps/tap-github/assignees.json';
-import * as collaborators_schema from '../taps/tap-github/collaborators.json';
-import * as comments_schema from '../taps/tap-github/comments.json';
-import * as commit_comments_schema from '../taps/tap-github/commit_comments.json';
-import * as commits_schema from '../taps/tap-github/commits.json';
-import * as events_schema from '../taps/tap-github/events.json';
-import * as issue_events_schema from '../taps/tap-github/issue_events.json';
-import * as issue_labels_schema from '../taps/tap-github/issue_labels.json';
-import * as issue_milestones_schema from '../taps/tap-github/issue_milestones.json';
-import * as issues_schema from '../taps/tap-github/issues.json';
-import * as pr_commits_schema from '../taps/tap-github/pr_commits.json';
-import * as project_cards_schema from '../taps/tap-github/project_cards.json';
-import * as project_columns_schema from '../taps/tap-github/project_columns.json';
-import * as projects_schema from '../taps/tap-github/projects.json';
-import * as pull_requests_schema from '../taps/tap-github/pull_requests.json';
-import * as releases_schema from '../taps/tap-github/releases.json';
-import * as review_comments_schema from '../taps/tap-github/review_comments.json';
-import * as reviews_schema from '../taps/tap-github/reviews.json';
-import * as stargazers_schema from '../taps/tap-github/stargazers.json';
-import * as team_members_schema from '../taps/tap-github/team_members.json';
-import * as team_memberships_schema from '../taps/tap-github/team_memberships.json';
-import * as teams_schema from '../taps/tap-github/teams.json';
+import * as assignees_schema from 'src/tool_json/taps/tap-github/assignees.json';
+import * as collaborators_schema from 'src/tool_json/taps/tap-github/collaborators.json';
+import * as comments_schema from 'src/tool_json/taps/tap-github/comments.json';
+import * as commit_comments_schema from 'src/tool_json/taps/tap-github/commit_comments.json';
+import * as commits_schema from 'src/tool_json/taps/tap-github/commits.json';
+import * as events_schema from 'src/tool_json/taps/tap-github/events.json';
+import * as issue_events_schema from 'src/tool_json/taps/tap-github/issue_events.json';
+import * as issue_labels_schema from 'src/tool_json/taps/tap-github/issue_labels.json';
+import * as issue_milestones_schema from 'src/tool_json/taps/tap-github/issue_milestones.json';
+import * as issues_schema from 'src/tool_json/taps/tap-github/issues.json';
+import * as pr_commits_schema from 'src/tool_json/taps/tap-github/pr_commits.json';
+import * as project_cards_schema from 'src/tool_json/taps/tap-github/project_cards.json';
+import * as project_columns_schema from 'src/tool_json/taps/tap-github/project_columns.json';
+import * as projects_schema from 'src/tool_json/taps/tap-github/projects.json';
+import * as pull_requests_schema from 'src/tool_json/taps/tap-github/pull_requests.json';
+import * as releases_schema from 'src/tool_json/taps/tap-github/releases.json';
+import * as review_comments_schema from 'src/tool_json/taps/tap-github/review_comments.json';
+import * as reviews_schema from 'src/tool_json/taps/tap-github/reviews.json';
+import * as stargazers_schema from 'src/tool_json/taps/tap-github/stargazers.json';
+import * as team_members_schema from 'src/tool_json/taps/tap-github/team_members.json';
+import * as team_memberships_schema from 'src/tool_json/taps/tap-github/team_memberships.json';
+import * as teams_schema from 'src/tool_json/taps/tap-github/teams.json';
 
 const deref_assignees = deref(assignees_schema, {
   baseFolder: '../taps/tap-github/tap_github/schemas',

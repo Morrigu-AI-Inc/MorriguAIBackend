@@ -47,12 +47,41 @@ export class QuickbooksUpdateController {
 
         const json = await results.json();
 
-        console.log('results', json);
+        console.log('create results', json);
         return json;
       }
 
       if (operation === 'update') {
-        console.log('Updating', entity);
+        let parsedBody = undefined;
+        switch (entity) {
+          case 'budget':
+            parsedBody = {
+              Budget: body,
+            };
+            break;
+          default:
+            parsedBody = body;
+            break;
+        }
+
+        const results = await fetch(
+          `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/${entity}`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: req.headers.authorization.includes('Bearer')
+                ? req.headers.authorization
+                : `Bearer ${req.headers.authorization}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(parsedBody),
+          },
+        );
+
+        const json = await results.json();
+
+        console.log('update results', json);
+        return json;
       }
 
       if (operation === 'delete') {

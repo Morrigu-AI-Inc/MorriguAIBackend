@@ -4,10 +4,26 @@ import tools from 'src/tool_json';
 
 @Injectable()
 export class AssistantService {
-  private assistants = {
-    quickbooks: 'asst_os1O6Teplk4ldDH3SsRKst0p',
-    zendesk: 'asst_os1O6Teplk4ldDH3SsRKst0p',
-    github: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+  public assistants = {
+    quickbooks: {
+      name: 'Quickbooks',
+      description: 'Quickbooks is a tool that helps you manage your finances.',
+      icon: 'https://example.com/quickbooks.png',
+      id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+    },
+    zendesk: {
+      name: 'Zendesk',
+      description:
+        'Zendesk is a tool that helps you manage your customer support.',
+      icon: 'https://example.com/zendesk.png',
+      id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+    },
+    github: {
+      name: 'Github',
+      description: 'Github is a tool that helps you manage your code.',
+      icon: 'https://example.com/github.png',
+      id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+    },
   };
   private openai: OpenAI;
   constructor() {
