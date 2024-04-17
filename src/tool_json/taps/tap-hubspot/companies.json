@@ -1,11 +1,26 @@
 {
-  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": ["null", "object"],
   "properties": {
-    "portalId": {
-      "type": ["null", "integer"]
+    "id": {
+      "type": ["null", "string"]
     },
-    "companyId": {
-      "type": ["null", "integer"]
+    "createdAt": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "archived": {
+      "type": ["null", "boolean"]
+    },
+    "contacts": {
+      "type": ["null", "array"],
+      "items": {
+        "type": "string"
+      }
     }
   }
 }
