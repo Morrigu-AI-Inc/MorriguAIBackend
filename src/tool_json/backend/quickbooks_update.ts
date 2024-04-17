@@ -29,14 +29,14 @@ import {
   transferSchema,
   vendorCreditSchema,
   vendorSchema,
-} from '../compiled_taps/tap-quickbooks/quickbooks';
+} from '../compiled_taps/quickbooks';
 
 const quickbooks_update = {
   type: 'function',
   function: {
     name: 'quickbooks_update_create_delete',
     description:
-      'Update, create, or delete a QuickBooks entity such as: invoice, account, billPayment, bill, budget, class, creditMemo, customer, customerType, department, deletedObject, deposit, employee, estimate, item, journalEntry, paymentMethod, payment, profitLossReport, purchaseOrder, purchase, refundReceipt, salesReceipt, taxAgency, taxCode, term, timeActivity, transfer, vendorCredits, vendor.',
+      'update, create, or delete a QuickBooks entity such as: invoice, account, billPayment, bill, budget, class, creditMemo, customer, customerType, department, deletedObject, deposit, employee, estimate, item, journalEntry, paymentMethod, payment, profitLossReport, purchaseOrder, purchase, refundReceipt, salesReceipt, taxAgency, taxCode, term, timeActivity, transfer, vendorCredits, vendor.',
     parameters: {
       type: 'object',
       properties: {
@@ -87,19 +87,19 @@ const quickbooks_update = {
           description: 'The data to update the entity with',
           oneOf: [
             {
-              entity: 'invoice',
+              entity: 'invoice', //pass
               description:
                 'Have at least one Line a sales item or inline subtotal. Have a populated CustomerRef element. CurrencyRef must be defined if multicurrency is enabled for the company. Multicurrency is enabled for the company if Preferences.MultiCurrencyEnabled is set to true.',
               ...invoiceSchema,
             },
             {
-              entity: 'account',
+              entity: 'account', // pass
               description:
                 'Name must be unique. The Account.Name attribute must not contain double quotes (") or colon (:). The Account.AcctNum attribute must not contain a colon (:). ',
               ...accountSchema,
             },
             {
-              entity: 'billpayment',
+              entity: 'billpayment', // failed
               ...billPaymentSchema,
             },
             {
@@ -120,7 +120,7 @@ const quickbooks_update = {
               ...creditMemoSchema,
             },
             {
-              entity: 'customer',
+              entity: 'customer', // pass
               ...customerSchema,
             },
             {
@@ -142,9 +142,16 @@ const quickbooks_update = {
               ...deletedObjectsSchema,
             },
             {
-              entity: 'deposit', //pass 
-              description:
-                'A create request includes at least one line representing a deposit--either a direct deposit or linked deposit. More than one deposit can be included in the request; types can be mixed. A direct deposit must have at least: -One line that specifies Deposit.Line.DepositLineDetail.AccountRef. -The Deposit.DepositToAccountRef attribute specified. A deposit via linked transaction must have at least: -One line that specifies Deposit.Line.LinkedTxn. -The Deposit.DepositToAccountRef attribute specified.',
+              entity: 'deposit', //pass
+              // create or delete
+
+              description: `A create request includes at least one line representing a deposit--either a direct deposit or linked deposit. More than one deposit can be included in the request; types can be mixed. A direct deposit must have at least: -One line that specifies Deposit.Line.DepositLineDetail.AccountRef. -The Deposit.DepositToAccountRef attribute specified. A deposit via linked transaction must have at least: -One line that specifies Deposit.Line.LinkedTxn. -The Deposit.DepositToAccountRef attribute specified.
+                A delete request looks like:
+                  {
+                    "SyncToken": "3", 
+                    "Id": "148"
+                  }
+                `,
               ...depositSchema,
             },
             {
@@ -156,7 +163,7 @@ const quickbooks_update = {
               ...estimateSchema,
             },
             {
-              entity: 'item',
+              entity: 'item', // pass
               ...itemSchema,
             },
             {

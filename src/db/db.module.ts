@@ -12,6 +12,7 @@ import {
   ChatMessageSchema,
   HistorySchema,
 } from './schemas/ConversationHistory';
+import { AssistantSchema } from './schemas/Assistant';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import {
     MongooseModule.forFeature([
       { name: 'ChatMessage', schema: ChatMessageSchema },
     ]),
+    MongooseModule.forFeature([{ name: 'Assistant', schema: AssistantSchema }]),
   ],
 })
 export class DbModule {}

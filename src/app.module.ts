@@ -67,6 +67,7 @@ import { OpenaiModule } from './openai/openai.module';
 import { SlackModule } from './slack/slack.module';
 import { ExternalSlackMappingSchema } from './db/schemas/ExternalSlackMapping';
 import { ToolOutputSchema } from './db/schemas/ToolOutput';
+import { AssistantModule } from './assistant/assistant.module';
 
 @Module({
   imports: [
@@ -156,6 +157,8 @@ import { ToolOutputSchema } from './db/schemas/ToolOutput';
     OpenaiModule,
 
     SlackModule,
+
+    AssistantModule,
   ],
   controllers: [
     AppController,

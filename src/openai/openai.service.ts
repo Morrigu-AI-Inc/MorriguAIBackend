@@ -8,6 +8,8 @@ import { Observable, Subscriber } from 'rxjs';
 import { ToolOutputDocument } from 'src/db/schemas/ToolOutput';
 import tools, { frontend_tools } from 'src/tool_json';
 
+
+
 @Injectable()
 export class OpenaiService {
   private openai: OpenAI;
@@ -24,7 +26,7 @@ export class OpenaiService {
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    this.openai.beta.assistants.update('asst_os1O6Teplk4ldDH3SsRKst0p', {
+    this.openai.beta.assistants.update(process.env.DEFAULT_ASSISTANT, {
       instructions: `
         ===== Assistant Interface =====
         AI Name: Morrigu
@@ -32,7 +34,9 @@ export class OpenaiService {
         Version: 1.0
         Current Date: ${new Date().toDateString()}
         Current Time: ${new Date().toLocaleTimeString()}
-        Domain Of Expertise: Quickbooks Query Assistant.
+        Domain Of Expertise: 
+
+        Quickbooks Query Assistant. 
 
         ===== System Information =====
         You have access to various IPaaS tools that can help you complete the task effectively. 
@@ -47,6 +51,7 @@ export class OpenaiService {
         1. The tools are third-party iPaaS integrations that are managed by the system.
         2. You can use the tools to complete the task effectively.
         3. No credentials or API keys are required to use any tools.
+        4. Assumption of data is allowed however, confirm and verify the data before using it. Ensure the user is aware of the assumption.
 
         Additionally, do not say things like: 
         "It appears that there is a persistent issue while fetching customer data from ZXY. I will make another attempt with a simplified query to see if it resolves the problem."
@@ -68,14 +73,15 @@ export class OpenaiService {
         `,
       name: 'Morrigu',
       tools: tools as any,
-      model: 'gpt-4-turbo',
+      // model: 'gpt-4-turbo',
+      model: 'gpt-4-turbo-2024-04-09',
       // file_ids: ['file-abc123', 'file-abc456'],
     });
   }
 
   public async initAssistant() {
     this.assistant = await this.openai.beta.assistants.retrieve(
-      'asst_os1O6Teplk4ldDH3SsRKst0p',
+      process.env.DEFAULT_ASSISTANT,
     );
     await this.getNewThread();
     return {
@@ -86,7 +92,7 @@ export class OpenaiService {
 
   public async getNewRun(threadId: string) {
     this.run = await this.openai.beta.threads.runs.create(threadId, {
-      assistant_id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+      assistant_id: process.env.DEFAULT_ASSISTANT,
     });
     return this.run;
   }
@@ -180,7 +186,7 @@ export class OpenaiService {
     this.observer = observer;
     return this.openai.beta.threads.runs
       .stream(threadId, {
-        assistant_id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+        assistant_id: process.env.DEFAULT_ASSISTANT,
       })
       .on('toolCallDone', this.handleToolCallDone)
       .on('toolCallDelta', this.handleToolCallDelta)
@@ -256,7 +262,7 @@ export class OpenaiService {
 
             this.openai.beta.threads.runs
               .stream(event.data.thread_id, {
-                assistant_id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+                assistant_id: process.env.DEFAULT_ASSISTANT,
               })
               .on('textCreated', this.handleTextCreated)
               .on('textDelta', this.handleTextDelta)
@@ -371,7 +377,7 @@ export class OpenaiService {
     return (
       this.openai.beta.threads.runs
         .stream(threadId, {
-          assistant_id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+          assistant_id: process.env.DEFAULT_ASSISTANT,
         })
         .on('messageCreated', this.handleMessage)
         .on('runStepDone', this.handleRunStepDone)
@@ -405,7 +411,7 @@ export class OpenaiService {
   ): Promise<AssistantStream> {
     return await this.openai.beta.threads.runs
       .stream(threadId, {
-        assistant_id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+        assistant_id: process.env.DEFAULT_ASSISTANT,
       })
       .on('textCreated', this.handleTextCreated)
       .on('textDelta', this.handleTextDelta)
@@ -628,7 +634,7 @@ export class OpenaiService {
 
           this.openai.beta.threads.runs
             .stream(threadId, {
-              assistant_id: 'asst_os1O6Teplk4ldDH3SsRKst0p',
+              assistant_id: process.env.DEFAULT_ASSISTANT,
             })
             .on('abort', this.hndleAbort)
             .on('connect', this.handleConnect)

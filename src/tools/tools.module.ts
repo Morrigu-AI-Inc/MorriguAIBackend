@@ -45,6 +45,8 @@ import { QuickbooksQueryController } from './quickbooks_query/quickbooks_query.c
 import { SalesforceQueryModule } from './salesforce_query/salesforce_query.module';
 import { CreateInvoiceModule } from './create_invoice/create_invoice.module';
 import { QuickbooksUpdateModule } from './quickbooks_update/quickbooks_update.module';
+import { GithubApiIntegrationModule } from './github_api_integration/github_api_integration.module';
+import { ZendeskSupportIntegrationModule } from './zendesk_support_integration/zendesk_support_integration.module';
 
 @Module({
   providers: [
@@ -99,6 +101,8 @@ import { QuickbooksUpdateModule } from './quickbooks_update/quickbooks_update.mo
     SalesforceQueryModule,
     CreateInvoiceModule,
     QuickbooksUpdateModule,
+    GithubApiIntegrationModule,
+    ZendeskSupportIntegrationModule,
   ],
   exports: [
     MongooseModule.forFeature([

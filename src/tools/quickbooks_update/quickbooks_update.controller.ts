@@ -31,9 +31,6 @@ export class QuickbooksUpdateController {
             break;
         }
 
-        console.log('Creating', entity + ' with body: ', parsedBody);
-        console.log('Authorization', req.headers.authorization);
-
         const results = await fetch(
           `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/${entity}`,
           {
@@ -59,7 +56,29 @@ export class QuickbooksUpdateController {
       }
 
       if (operation === 'delete') {
-        console.log('Deleting', entity);
+        let parsedBody = undefined;
+
+        parsedBody = body;
+
+        const results = await fetch(
+          `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/${entity}?operation=delete`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: req.headers.authorization.includes('Bearer')
+                ? req.headers.authorization
+                : `Bearer ${req.headers.authorization}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(parsedBody),
+          },
+        );
+
+        const json = await results.json();
+
+        console.log('results', json);
+
+        return json;
       }
       return {
         message: 'Operation not supported',

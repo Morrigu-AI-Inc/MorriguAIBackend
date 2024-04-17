@@ -1,4 +1,4 @@
-import { invoiceSchema } from '../compiled_taps/tap-quickbooks/quickbooks';
+import { invoiceSchema } from '../compiled_taps/quickbooks';
 
 console.log(invoiceSchema);
 const create_invoice = {
