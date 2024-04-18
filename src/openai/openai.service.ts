@@ -615,6 +615,7 @@ export class OpenaiService {
   public async runAssistant(
     threadId,
     token,
+    assistantId = this.assistantService.assistants.quickbooks.id,
     slackFn?: (message) => Promise<void>,
   ): Promise<[Observable<any>, Subscriber<any>]> {
     try {
@@ -626,7 +627,8 @@ export class OpenaiService {
 
           this.openai.beta.threads.runs
             .stream(threadId, {
-              assistant_id: this.assistantService.assistants.quickbooks.id,
+              // assistant_id: this.assistantService.assistants.slack.id,
+              assistant_id: assistantId,
             })
             .on('abort', this.hndleAbort)
             .on('connect', this.handleConnect)

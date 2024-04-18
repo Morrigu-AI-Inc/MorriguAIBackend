@@ -47,6 +47,7 @@ import { CreateInvoiceModule } from './create_invoice/create_invoice.module';
 import { QuickbooksUpdateModule } from './quickbooks_update/quickbooks_update.module';
 import { GithubApiIntegrationModule } from './github_api_integration/github_api_integration.module';
 import { ZendeskSupportIntegrationModule } from './zendesk_support_integration/zendesk_support_integration.module';
+import { SlackApiIntegrationModule } from './slack_api_integration/slack_api_integration.module';
 
 @Module({
   providers: [
@@ -103,6 +104,7 @@ import { ZendeskSupportIntegrationModule } from './zendesk_support_integration/z
     QuickbooksUpdateModule,
     GithubApiIntegrationModule,
     ZendeskSupportIntegrationModule,
+    SlackApiIntegrationModule,
   ],
   exports: [
     MongooseModule.forFeature([

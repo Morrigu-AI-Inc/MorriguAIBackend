@@ -126,4 +126,31 @@ export class OpenaiController {
       console.error('Error adding message to thread', error);
     }
   }
+
+  @Sse('/assistant/thread/:threadId/:assistantId')
+  @Get('/assistant/thread/:threadId/:assistantId')
+  @Header('Content-Type', 'text/event-stream')
+  @Header('Cache-Control', 'no-cache, no-transform')
+  @Header('Content-Encoding', 'none')
+  @Header('Transfer-Encoding', 'chunked')
+  async runThreadOnAssistant(
+    @Param('threadId') threadId: string,
+    @Param('assistantId') assistantId: string,
+    @Req() req,
+    @Query('token') token,
+  ) {
+    //add message to thread
+    console.log('req', token);
+    try {
+      const [observer, sub] = await this.openaiService.runAssistant(
+        threadId,
+        token,
+        assistantId,
+      );
+
+      return observer;
+    } catch (error) {
+      console.error('Error adding message to thread', error);
+    }
+  }
 }
