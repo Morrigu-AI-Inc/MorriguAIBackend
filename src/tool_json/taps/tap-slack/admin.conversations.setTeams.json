@@ -1,0 +1,38 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.conversations.setTeams",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channel_id": {
+      "description": "The encoded channel_id to add or remove to workspaces.",
+      "type": "string"
+    },
+    "org_channel": {
+      "description": "True if channel has to be converted to an org channel",
+      "type": "boolean",
+      "default": false,
+      "example": true
+    },
+    "target_team_ids": {
+      "description": "A comma-separated list of workspaces to which the channel should be shared. Not required if the channel is being shared org-wide.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": ["T1234", "T5678", "T9012", "T3456"]
+    },
+    "team_id": {
+      "description": "The workspace to which the channel belongs. Omit this argument if the channel is a cross-workspace shared channel."
+    }
+  },
+  "required": [
+    "token",
+    "channel_id"
+  ]
+}

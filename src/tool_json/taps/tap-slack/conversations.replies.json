@@ -1,0 +1,74 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Conversations Replies API Response",
+  "type": "object",
+  "properties": {
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "thread_ts": {
+            "type": "string"
+          },
+          "reply_count": {
+            "type": "integer"
+          },
+          "subscribed": {
+            "type": "boolean"
+          },
+          "last_read": {
+            "type": "string"
+          },
+          "unread_count": {
+            "type": "integer"
+          },
+          "ts": {
+            "type": "string"
+          },
+          "parent_user_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "user",
+          "text",
+          "thread_ts",
+          "ts"
+        ]
+      }
+    },
+    "has_more": {
+      "type": "boolean"
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "response_metadata": {
+      "type": "object",
+      "properties": {
+        "next_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "next_cursor"
+      ]
+    }
+  },
+  "required": [
+    "messages",
+    "ok"
+  ]
+}

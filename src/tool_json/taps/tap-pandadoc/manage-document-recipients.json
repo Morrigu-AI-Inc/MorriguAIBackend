@@ -1,0 +1,221 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "canEditDocument": {
+          "type": "boolean",
+          "description": "Permission to edit document recipients"
+        },
+        "canManageRecipients": {
+          "type": "boolean",
+          "description": "Permission to manage recipients"
+        }
+      },
+      "required": [
+        "canEditDocument",
+        "canManageRecipients"
+      ]
+    },
+    "addingRecipient": {
+      "type": "object",
+      "properties": {
+        "allowedDocumentStatuses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "document.draft",
+              "document.sent",
+              "document.completed",
+              "document.approved",
+              "document.rejected"
+            ]
+          },
+          "description": "Document statuses where adding a CC recipient is allowed"
+        },
+        "recipientType": {
+          "type": "string",
+          "const": "CC",
+          "description": "Only CC recipients can be added"
+        }
+      },
+      "required": [
+        "allowedDocumentStatuses",
+        "recipientType"
+      ]
+    },
+    "removingRecipient": {
+      "type": "object",
+      "properties": {
+        "removeSigner": {
+          "type": "object",
+          "properties": {
+            "allowedDocumentStatus": {
+              "type": "string",
+              "const": "document.draft",
+              "description": "Removing a signer is only allowed in draft status"
+            },
+            "consequence": {
+              "type": "string",
+              "description": "Consequence of removing a signer"
+            }
+          },
+          "required": [
+            "allowedDocumentStatus",
+            "consequence"
+          ]
+        },
+        "removeCC": {
+          "type": "object",
+          "properties": {
+            "allowedDocumentStatuses": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "document.draft", 
+                  "document.sent",
+                  "document.completed",
+                  "document.approved", 
+                  "document.rejected"
+                ]
+              },
+              "description": "Document statuses where removing a CC recipient is allowed"
+            },
+            "consequence": {
+              "type": "string",
+              "description": "Consequence of removing a CC recipient"
+            }
+          },
+          "required": [
+            "allowedDocumentStatuses",
+            "consequence"
+          ]
+        }
+      },
+      "required": [
+        "removeSigner",
+        "removeCC"
+      ]
+    },
+    "editingRecipient": {
+      "type": "object", 
+      "properties": {
+        "editSigner": {
+          "type": "object",
+          "properties": {
+            "allowedTime": {
+              "type": "string",
+              "description": "Until when a signer can be edited"
+            }
+          },
+          "required": [
+            "allowedTime"
+          ]
+        },
+        "editCC": {
+          "type": "object",
+          "properties": {
+            "allowedDocumentStatuses": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "document.draft",
+                  "document.sent", 
+                  "document.completed",
+                  "document.approved",
+                  "document.rejected"  
+                ]
+              },
+              "description": "Document statuses where a CC recipient can be edited"
+            }
+          },
+          "required": [
+            "allowedDocumentStatuses"
+          ]
+        },
+        "updateEmailRestrictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Restrictions on updating a recipient's email address"
+        },
+        "otherDetails": {
+          "type": "string",
+          "description": "Other details about editing recipients"
+        }
+      },
+      "required": [
+        "editSigner",
+        "editCC",
+        "updateEmailRestrictions", 
+        "otherDetails"
+      ]
+    },
+    "changingSigner": {
+      "type": "object",
+      "properties": {
+        "allowedRecipients": {
+          "type": "string",
+          "description": "Who can be the new signer"
+        },
+        "originalSignerRemoval": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "boolean"
+            },
+            "retainAsCC": {
+              "type": "string",
+              "description": "How to retain the original signer"
+            }
+          },
+          "required": [
+            "status",
+            "retainAsCC"
+          ]
+        },
+        "prefilledFieldsHandling": {
+          "type": "object",
+          "properties": {
+            "draftStatus": {
+              "type": "string",
+              "description": "Behavior in draft status"
+            },
+            "afterSending": {
+              "type": "string", 
+              "description": "Behavior after sending the document"
+            }
+          },
+          "required": [
+            "draftStatus",
+            "afterSending"
+          ]
+        }
+      },
+      "required": [
+        "allowedRecipients",
+        "originalSignerRemoval",
+        "prefilledFieldsHandling"
+      ]
+    },
+    "signerVsCC": {
+      "type": "string",
+      "description": "Link to resource explaining differences between signer and CC recipient"
+    }
+  },
+  "required": [
+    "permissions",
+    "addingRecipient",
+    "removingRecipient",
+    "editingRecipient", 
+    "changingSigner",
+    "signerVsCC"
+  ]
+}

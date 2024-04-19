@@ -1,0 +1,449 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Actions Permissions API",
+  "description": "API endpoints for managing GitHub Actions permissions for organizations and repositories",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing GitHub Actions permissions",
+      "value": "/orgs/{org}/actions/permissions"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "PUT"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Media type to specify the version format of the records on the response"
+        },
+        "X-GitHub-Api-Version": {
+          "type": "string",
+          "description": "GitHub API version"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Accept",
+        "X-GitHub-Api-Version"
+      ]
+    },
+    "pathParameters": {
+      "type": "object",
+      "properties": {
+        "org": {
+          "type": "string",
+          "description": "The organization name"
+        },
+        "owner": {
+          "type": "string", 
+          "description": "The account owner of the repository"
+        },
+        "repo": {
+          "type": "string",
+          "description": "The name of the repository"
+        },
+        "repository_id": {
+          "type": "integer",
+          "description": "The unique identifier of the repository"
+        }
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "Results per page"
+        },
+        "page": {
+          "type": "integer", 
+          "description": "Page number of results to return"
+        }
+      },
+      "required": []
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "enabled_repositories": {
+          "type": "string",
+          "description": "Policy for repositories allowed to run GitHub Actions"
+        },
+        "allowed_actions": {
+          "type": "string",
+          "description": "Policy for actions allowed to run"  
+        },
+        "selected_repository_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "List of repository IDs enabled for GitHub Actions"
+        },
+        "github_owned_allowed": {
+          "type": "boolean",
+          "description": "Whether GitHub-owned actions are allowed"
+        },
+        "verified_allowed": {
+          "type": "boolean",
+          "description": "Whether verified actions are allowed"
+        },
+        "patterns_allowed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Patterns to allow specific actions/workflows"
+        },
+        "default_workflow_permissions": {
+          "type": "string", 
+          "description": "Default permissions for GITHUB_TOKEN"
+        },
+        "can_approve_pull_request_reviews": {
+          "type": "boolean",
+          "description": "Whether GitHub Actions can approve pull requests"
+        },
+        "access_level": {
+          "type": "string",
+          "description": "Access for outside workflows to private repo"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "enabled_repositories": {
+          "type": "string"
+        },
+        "allowed_actions": {
+          "type": "string"  
+        },
+        "selected_actions_url": {
+          "type": "string",
+          "description": "URL to get selected allowed actions"
+        }, 
+        "total_count": {
+          "type": "integer",
+          "description": "Total number of results"
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/repository"
+          }
+        },
+        "github_owned_allowed": {
+          "type": "boolean"
+        },
+        "verified_allowed": {
+          "type": "boolean"
+        },
+        "patterns_allowed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "default_workflow_permissions": {
+          "type": "string"
+        },
+        "can_approve_pull_request_reviews": {
+          "type": "boolean"
+        },
+        "access_level": {
+          "type": "string"
+        }
+      },
+      "required": []
+    }
+  },
+  "definitions": {
+    "repository": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/user"
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "html_url": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "fork": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "forks_url": {
+          "type": "string"
+        },
+        "keys_url": {
+          "type": "string"
+        },
+        "collaborators_url": {
+          "type": "string"
+        },
+        "teams_url": {
+          "type": "string"
+        },
+        "hooks_url": {
+          "type": "string"
+        },
+        "issue_events_url": {
+          "type": "string"
+        },
+        "events_url": {
+          "type": "string"
+        },
+        "assignees_url": {
+          "type": "string"
+        },
+        "branches_url": {
+          "type": "string"
+        },
+        "tags_url": {
+          "type": "string"
+        },
+        "blobs_url": {
+          "type": "string"
+        },
+        "git_tags_url": {
+          "type": "string" 
+        },
+        "git_refs_url": {
+          "type": "string"
+        },
+        "trees_url": {
+          "type": "string"
+        },
+        "statuses_url": {
+          "type": "string"
+        },
+        "languages_url": {
+          "type": "string"
+        },
+        "stargazers_url": {
+          "type": "string"
+        },
+        "contributors_url": {
+          "type": "string"
+        },
+        "subscribers_url": {
+          "type": "string"
+        },
+        "subscription_url": {
+          "type": "string"
+        },
+        "commits_url": {
+          "type": "string"
+        },
+        "git_commits_url": {
+          "type": "string"
+        },
+        "comments_url": {
+          "type": "string"
+        },
+        "issue_comment_url": {
+          "type": "string"
+        },
+        "contents_url": {
+          "type": "string"
+        },
+        "compare_url": {
+          "type": "string"
+        },
+        "merges_url": {
+          "type": "string"
+        },
+        "archive_url": {
+          "type": "string" 
+        },
+        "downloads_url": {
+          "type": "string"
+        },
+        "issues_url": {
+          "type": "string"
+        },
+        "pulls_url": {
+          "type": "string"
+        },
+        "milestones_url": {
+          "type": "string"
+        },
+        "notifications_url": {
+          "type": "string"
+        },
+        "labels_url": {
+          "type": "string"
+        },
+        "releases_url": {
+          "type": "string"
+        },
+        "deployments_url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "node_id",
+        "name",
+        "full_name",
+        "owner",
+        "private",
+        "html_url",
+        "description",
+        "fork",
+        "url",
+        "archive_url",
+        "assignees_url",
+        "blobs_url",
+        "branches_url",
+        "collaborators_url",
+        "comments_url",
+        "commits_url",
+        "compare_url",
+        "contents_url",
+        "contributors_url",
+        "deployments_url",
+        "downloads_url",
+        "events_url",
+        "forks_url", 
+        "git_commits_url",
+        "git_refs_url",
+        "git_tags_url",
+        "hooks_url",
+        "issue_comment_url",
+        "issue_events_url",
+        "issues_url",
+        "keys_url",
+        "labels_url",
+        "languages_url",
+        "merges_url",
+        "milestones_url",
+        "notifications_url", 
+        "pulls_url",
+        "releases_url",
+        "stargazers_url",
+        "statuses_url",
+        "subscribers_url",
+        "subscription_url",
+        "tags_url",
+        "teams_url",
+        "trees_url"
+      ]
+    },
+    "user": {
+      "type": "object", 
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "avatar_url": {
+          "type": "string"
+        },
+        "gravatar_id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "html_url": {
+          "type": "string"
+        },
+        "followers_url": {
+          "type": "string"
+        },
+        "following_url": {
+          "type": "string"
+        },
+        "gists_url": {
+          "type": "string"
+        },
+        "starred_url": {
+          "type": "string"
+        },
+        "subscriptions_url": {
+          "type": "string"
+        },
+        "organizations_url": {
+          "type": "string"
+        },
+        "repos_url": {
+          "type": "string"
+        },
+        "events_url": {
+          "type": "string" 
+        },
+        "received_events_url": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "site_admin": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "login",
+        "id", 
+        "node_id",
+        "avatar_url",
+        "gravatar_id",
+        "url",
+        "html_url",
+        "followers_url",
+        "following_url", 
+        "gists_url",
+        "starred_url",
+        "subscriptions_url",
+        "organizations_url",
+        "repos_url",
+        "events_url",
+        "received_events_url",
+        "type",
+        "site_admin"  
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "response"
+  ]
+}

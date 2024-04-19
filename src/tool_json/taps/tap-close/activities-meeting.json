@@ -1,0 +1,69 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "upcoming",
+        "in-progress",
+        "completed",
+        "canceled",
+        "declined-by-lead",
+        "declined-by-org"
+      ],
+      "description": "The status of the meeting activity."
+    },
+    "attendees": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "noreply",
+              "yes",
+              "no",
+              "maybe"
+            ],
+            "description": "The attendance status of the contact for the meeting."
+          }
+        }
+      }
+    },
+    "provider_calendar_event_id": {
+      "type": "string",
+      "description": "The provider event ID the meeting was synced from."
+    },
+    "provider_calendar_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The provider calendar IDs the meeting was synced from."
+    },
+    "provider_calendar_type": {
+      "type": "string",
+      "enum": [
+        "google",
+        "microsoft"
+      ],
+      "description": "The calendar provider type."
+    },
+    "is_recurring": {
+      "type": "boolean",
+      "description": "Whether the meeting is a recurring meeting on Google Calendar."
+    },
+    "date_created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the meeting starts."
+    },
+    "user_note_html": {
+      "type": "string",
+      "description": "The meeting notes in rich text format."
+    }
+  }
+}

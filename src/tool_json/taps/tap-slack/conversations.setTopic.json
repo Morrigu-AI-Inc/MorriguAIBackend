@@ -1,0 +1,30 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "conversations.setTopic",
+  "description": "This method is used to change the topic of a conversation.",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channel": {
+      "description": "Conversation to set the topic of",
+      "type": "string",
+      "example": "C1234567890"
+    },
+    "topic": {
+      "description": "The new topic string. Does not support formatting or linkification.",
+      "type": "string",
+      "example": "Apply topically for best effects"
+    }
+  },
+  "required": [
+    "token",
+    "channel",
+    "topic"
+  ],
+  "additionalProperties": false
+}

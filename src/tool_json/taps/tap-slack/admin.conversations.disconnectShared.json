@@ -1,0 +1,26 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel_id": {
+      "type": "string",
+      "description": "The channel to be disconnected from some workspaces."
+    },
+    "leaving_team_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "team IDs getting removed from the channel, optional if there are only two teams in the channel"
+    }
+  },
+  "required": [
+    "token",
+    "channel_id"
+  ]
+}

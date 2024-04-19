@@ -1,0 +1,53 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "object_type": {
+      "type": "string",
+      "description": "The object type for which to fetch the Custom Field Schema. One of: 'lead', 'contact', 'opportunity', 'activity/<cat_id>', 'custom_object/<cotype_id>'."
+    },
+    "fields": {
+      "type": "array",
+      "description": "List of Custom Field IDs to reorder within the Custom Field Schema.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    }
+  },
+  "required": [
+    "object_type"
+  ],
+  "oneOf": [
+    {
+      "title": "Fetch Custom Field Schema",
+      "description": "Fetch a specific Custom Field Schema.",
+      "type": "object",
+      "properties": {
+        "object_type": {}
+      },
+      "additionalProperties": false
+    },
+    {
+      "title": "Reorder Custom Fields",
+      "description": "Reorder Custom Fields within a specific Custom Field Schema.",
+      "type": "object",
+      "properties": {
+        "object_type": {},
+        "fields": {}
+      },
+      "required": [
+        "fields"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

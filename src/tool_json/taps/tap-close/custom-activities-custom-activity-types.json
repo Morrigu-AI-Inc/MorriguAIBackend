@@ -1,0 +1,67 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The ID of the Custom Activity Type."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the Custom Activity Type."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the Custom Activity Type."
+    },
+    "api_create_only": {
+      "type": "boolean",
+      "description": "Whether the Custom Activity Type can only be created via the API."
+    },
+    "editable_with_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The roles that can edit the Custom Activity Type."
+    },
+    "custom_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the Custom Field."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the Custom Field."
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the Custom Field (e.g., text, number, date, etc.)."
+          },
+          "order": {
+            "type": "integer",
+            "description": "The order of the Custom Field within the Custom Activity Type."
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether the Custom Field is required."
+          },
+          "editable": {
+            "type": "boolean",
+            "description": "Whether the Custom Field is editable."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the Custom Field."
+          }
+        }
+      },
+      "description": "The Custom Fields associated with the Custom Activity Type."
+    }
+  }
+}

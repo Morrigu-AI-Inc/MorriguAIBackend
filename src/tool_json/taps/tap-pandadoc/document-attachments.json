@@ -1,0 +1,194 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DocumentAttachments",
+  "type": "object",
+  "properties": {
+    "create_document_attachment": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Create a new document attachment."
+        },
+        "request": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The ID of the document to attach the file to."
+            },
+            "file": {
+              "type": "string",
+              "format": "binary",
+              "description": "The file to be attached."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the attachment file."
+            }
+          },
+          "required": [
+            "id",
+            "file",
+            "name"
+          ]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The ID of the created attachment."
+            }
+          }
+        }
+      }
+    },
+    "attachment_details": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Get details of a specific attachment."
+        },
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The ID of the attachment."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The ID of the attachment."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the attachment file."
+            },
+            "size": {
+              "type": "integer",
+              "description": "The size of the attachment file in bytes."
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The date and time when the attachment was created."
+            }
+          }
+        }
+      }
+    },
+    "list_attachments": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "List all attachments of a document."
+        },
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The ID of the document."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The ID of the attachment."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the attachment file."
+              },
+              "size": {
+                "type": "integer",
+                "description": "The size of the attachment file in bytes."
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The date and time when the attachment was created."
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete_attachment": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Delete a specific attachment from a document."
+        },
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The ID of the attachment to be deleted."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Indicates if the attachment was deleted successfully."
+            }
+          }
+        }
+      }
+    },
+    "download_attachment": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Download a specific attachment from a document."
+        },
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The ID of the attachment to be downloaded."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "response": {
+          "type": "string",
+          "format": "binary",
+          "description": "The contents of the attachment file."
+        }
+      }
+    }
+  }
+}

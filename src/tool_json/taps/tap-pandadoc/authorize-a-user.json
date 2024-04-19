@@ -1,0 +1,600 @@
+Here is the JSON Schema for the HTML content:
+
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-raycast-oas": {
+          "type": "string"
+        },
+        "div": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "div": {
+              "type": "object",
+              "properties": {
+                "class": {
+                  "type": "string"
+                },
+                "div": {
+                  "type": "object",
+                  "properties": {
+                    "class": {
+                      "type": "string"
+                    },
+                    "data-testid": {
+                      "type": "string"
+                    },
+                    "nav": {
+                      "type": "object",
+                      "properties": {
+                        "aria-label": {
+                          "type": "string"
+                        },
+                        "class": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "div": {
+                          "type": "object",
+                          "properties": {
+                            "class": {
+                              "type": "string"
+                            },
+                            "button": {
+                              "type": "object",
+                              "properties": {
+                                "aria-keyshortcuts": {
+                                  "type": "string"
+                                },
+                                "class": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "aria-keyshortcuts",
+                                "class"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "class",
+                            "button"
+                          ]
+                        },
+                        "div": {
+                          "type": "object",
+                          "properties": {
+                            "class": {
+                              "type": "string"
+                            },
+                            "section": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "h2": {
+                                    "type": "object",
+                                    "properties": {
+                                      "class": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "class"
+                                    ]
+                                  },
+                                  "ul": {
+                                    "type": "object",
+                                    "properties": {
+                                      "class": {
+                                        "type": "string"
+                                      },
+                                      "li": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "a": {
+                                              "type": "object",
+                                              "properties": {
+                                                "aria-current": {
+                                                  "type": "string"
+                                                },
+                                                "class": {
+                                                  "type": "string"
+                                                },
+                                                "href": {
+                                                  "type": "string"
+                                                },
+                                                "rel": {
+                                                  "type": "string"
+                                                },
+                                                "span": {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "class": {
+                                                      "type": "string"
+                                                    },
+                                                    "span": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "class": {
+                                                          "type": "string"
+                                                        },
+                                                        "button": {
+                                                          "type": "object",
+                                                          "properties": {
+                                                            "aria-expanded": {
+                                                              "type": "string"
+                                                            },
+                                                            "aria-label": {
+                                                              "type": "string"
+                                                            },
+                                                            "class": {
+                                                              "type": "string"
+                                                            },
+                                                            "i": {
+                                                              "type": "object",
+                                                              "properties": {
+                                                                "class": {
+                                                                  "type": "string"
+                                                                }
+                                                              },
+                                                              "required": [
+                                                                "class"
+                                                              ]
+                                                            }
+                                                          },
+                                                          "required": [
+                                                            "aria-expanded",
+                                                            "aria-label",
+                                                            "class",
+                                                            "i"
+                                                          ]
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "class",
+                                                        "button"
+                                                      ]
+                                                    }
+                                                  },
+                                                  "required": [
+                                                    "class",
+                                                    "span"
+                                                  ]
+                                                },
+                                                "span": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "class": {
+                                                        "type": "string"
+                                                      },
+                                                      "data-testid": {
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "class",
+                                                      "data-testid"
+                                                    ]
+                                                  }
+                                                },
+                                                "target": {
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "class",
+                                                "href",
+                                                "span",
+                                                "target"
+                                              ]
+                                            },
+                                            "ul": {
+                                              "type": "object",
+                                              "properties": {
+                                                "class": {
+                                                  "type": "string"
+                                                },
+                                                "li": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "a": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "class": {
+                                                            "type": "string"
+                                                          },
+                                                          "href": {
+                                                            "type": "string"
+                                                          },
+                                                          "span": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "class": {
+                                                                "type": "string"
+                                                              },
+                                                              "span": {
+                                                                "type": "string"
+                                                              }
+                                                            },
+                                                            "required": [
+                                                              "class",
+                                                              "span"
+                                                            ]
+                                                          },
+                                                          "target": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "required": [
+                                                          "class",
+                                                          "href",
+                                                          "span",
+                                                          "target"
+                                                        ]
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "a"
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              "required": [
+                                                "class",
+                                                "li"
+                                              ]
+                                            }
+                                          },
+                                          "required": [
+                                            "a"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "class",
+                                      "li"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "h2",
+                                  "ul"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "class",
+                            "section"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "aria-label",
+                        "class",
+                        "id",
+                        "div"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "class",
+                    "data-testid",
+                    "nav"
+                  ]
+                }
+              },
+              "required": [
+                "class",
+                "div"
+              ]
+            }
+          },
+          "required": [
+            "class",
+            "div"
+          ]
+        }
+      },
+      "required": [
+        "class",
+        "data-raycast-oas",
+        "div"
+      ]
+    },
+    "header": {
+      "type": "object",
+      "properties": {
+        "h1": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "h1",
+        "id"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-testid": {
+          "type": "string"
+        },
+        "p": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "div": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "div": {
+                "type": "object",
+                "properties": {
+                  "class": {
+                    "type": "string"
+                  },
+                  "pre": {
+                    "type": "object",
+                    "properties": {
+                      "button": {
+                        "type": "object",
+                        "properties": {
+                          "aria-label": {
+                            "type": "string"
+                          },
+                          "class": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "aria-label",
+                          "class"
+                        ]
+                      },
+                      "code": {
+                        "type": "object",
+                        "properties": {
+                          "class": {
+                            "type": "string"
+                          },
+                          "data-lang": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "class",
+                          "data-lang",
+                          "name"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "button",
+                      "code"
+                    ]
+                  }
+                },
+                "required": [
+                  "class",
+                  "pre"
+                ]
+              }
+            },
+            "required": [
+              "class",
+              "div"
+            ]
+          }
+        },
+        "p": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "div": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "figure": {
+              "type": "object",
+              "properties": {
+                "span": {
+                  "type": "object",
+                  "properties": {
+                    "aria-label": {
+                      "type": "string"
+                    },
+                    "class": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "span": {
+                      "type": "object",
+                      "properties": {
+                        "class": {
+                          "type": "string"
+                        },
+                        "img": {
+                          "type": "object",
+                          "properties": {
+                            "alt": {
+                              "type": "string"
+                            },
+                            "align": {
+                              "type": "string"
+                            },
+                            "caption": {
+                              "type": "string"
+                            },
+                            "class": {
+                              "type": "string"
+                            },
+                            "height": {
+                              "type": "string"
+                            },
+                            "loading": {
+                              "type": "string"
+                            },
+                            "src": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "width": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "alt",
+                            "align",
+                            "caption",
+                            "class",
+                            "height",
+                            "loading",
+                            "src",
+                            "title",
+                            "width"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "class",
+                        "img"
+                      ]
+                    },
+                    "tabindex": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "aria-label",
+                    "class",
+                    "role",
+                    "span",
+                    "tabindex"
+                  ]
+                },
+                "figcaption": {
+                  "type": "object",
+                  "properties": {
+                    "p": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "p"
+                  ]
+                }
+              },
+              "required": [
+                "span",
+                "figcaption"
+              ]
+            }
+          },
+          "required": [
+            "class",
+            "figure"
+          ]
+        },
+        "blockquote": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "h2": {
+              "type": "object",
+              "properties": {
+                "class": {
+                  "type": "string"
+                },
+                "span": {
+                  "type": "object",
+                  "properties": {
+                    "class": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                },
+                "p": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "class",
+                "span",
+                "p"
+              ]
+            },
+            "p": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "class",
+            "h2",
+            "p"
+          ]
+        }
+      },
+      "required": [
+        "class",
+        "data-testid",
+        "p",
+        "div",
+        "blockquote"
+      ]
+    }
+  },
+  "required": [
+    "header",
+    "div"
+  ]
+}

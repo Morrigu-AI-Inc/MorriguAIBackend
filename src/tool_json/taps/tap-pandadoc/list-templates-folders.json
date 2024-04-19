@@ -1,0 +1,62 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "folders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "created_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modified_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parent_uuid": {
+            "type": "string"
+          },
+          "parent_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "uuid",
+          "name",
+          "created_date",
+          "modified_date",
+          "parent_uuid",
+          "parent_name"
+        ]
+      }
+    },
+    "count": {
+      "type": "integer"
+    },
+    "total": {
+      "type": "integer"
+    },
+    "page": {
+      "type": "integer"
+    },
+    "pages": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "folders",
+    "count",
+    "total",
+    "page",
+    "pages"
+  ]
+}

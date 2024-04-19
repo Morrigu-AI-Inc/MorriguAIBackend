@@ -1,0 +1,289 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "invites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "direction": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "date_last_updated": {
+            "type": "integer"
+          },
+          "invite_type": {
+            "type": "string"
+          },
+          "invite": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "date_created": {
+                "type": "integer"
+              },
+              "date_invalid": {
+                "type": "integer"
+              },
+              "inviting_team": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "icon": {
+                    "type": "object"
+                  },
+                  "is_verified": {
+                    "type": "boolean"
+                  },
+                  "domain": {
+                    "type": "string"
+                  },
+                  "date_created": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "inviting_user": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "team_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "updated": {
+                    "type": "integer"
+                  },
+                  "profile": {
+                    "type": "object",
+                    "properties": {
+                      "real_name": {
+                        "type": "string"
+                      },
+                      "display_name": {
+                        "type": "string"
+                      },
+                      "real_name_normalized": {
+                        "type": "string"
+                      },
+                      "display_name_normalized": {
+                        "type": "string"
+                      },
+                      "team": {
+                        "type": "string"
+                      },
+                      "avatar_hash": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "image_24": {
+                        "type": "string"
+                      },
+                      "image_32": {
+                        "type": "string"
+                      },
+                      "image_48": {
+                        "type": "string"
+                      },
+                      "image_72": {
+                        "type": "string"
+                      },
+                      "image_192": {
+                        "type": "string"
+                      },
+                      "image_512": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "link": {
+                "type": "string"
+              }
+            }
+          },
+          "channel": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "is_private": {
+                "type": "boolean"
+              },
+              "is_im": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "acceptances": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "approval_status": {
+                  "type": "string"
+                },
+                "date_accepted": {
+                  "type": "integer"
+                },
+                "date_invalid": {
+                  "type": "integer"
+                },
+                "date_last_updated": {
+                  "type": "integer"
+                },
+                "accepting_team": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "object"
+                    },
+                    "is_verified": {
+                      "type": "boolean"
+                    },
+                    "domain": {
+                      "type": "string"
+                    },
+                    "date_created": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "accepting_user": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "team_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "updated": {
+                      "type": "integer"
+                    },
+                    "profile": {
+                      "type": "object",
+                      "properties": {
+                        "real_name": {
+                          "type": "string"
+                        },
+                        "display_name": {
+                          "type": "string"
+                        },
+                        "real_name_normalized": {
+                          "type": "string"
+                        },
+                        "display_name_normalized": {
+                          "type": "string"
+                        },
+                        "team": {
+                          "type": "string"
+                        },
+                        "avatar_hash": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "image_24": {
+                          "type": "string"
+                        },
+                        "image_32": {
+                          "type": "string"
+                        },
+                        "image_48": {
+                          "type": "string"
+                        },
+                        "image_72": {
+                          "type": "string"
+                        },
+                        "image_192": {
+                          "type": "string"
+                        },
+                        "image_512": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "reviews": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "date_review": {
+                        "type": "integer"
+                      },
+                      "reviewing_team": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "icon": {
+                            "type": "object"
+                          },
+                          "is_verified": {
+                            "type": "boolean"
+                          },
+                          "domain": {
+                            "type": "string"
+                          },
+                          "date_created": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

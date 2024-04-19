@@ -1,0 +1,106 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "users.profile.set",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "name": {
+      "description": "Name of a single key to set. Usable only if `profile` is not passed.",
+      "type": "string",
+      "example": "first_name"
+    },
+    "profile": {
+      "description": "Collection of key:value pairs presented as a URL-encoded JSON hash. At most 50 fields may be set. Each field name is limited to 255 characters.",
+      "type": "object",
+      "properties": {
+        "display_name": {
+          "description": "The display name the user has chosen to identify themselves by in their workspace profile. Maximum of 80 characters.",
+          "type": "string"
+        },
+        "email": {
+          "description": "A valid email address. It cannot have spaces, or be in use by another member of the same team. It must have an `@` and a domain. Changing a user's email address will send an email to both the old and new addresses, and also post a slackbot message to the user informing them of the change. You cannot update your own email using this method. This field can only be changed *by admins* for users on **paid** teams.",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "The user's first name. The name `slackbot` cannot be used. Updating `first_name` will update the first name within `real_name`.",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "The user's last name. The name `slackbot` cannot be used. Updating `last_name` will update the second name within `real_name`.",
+          "type": "string"
+        },
+        "phone": {
+          "description": "The user's phone number, in any format.",
+          "type": "string"
+        },
+        "pronouns": {
+          "description": "The user's pronouns.",
+          "type": "string"
+        },
+        "real_name": {
+          "description": "The user's first and last name. Updating this field will update `first_name` and `last_name`. If only one name is provided, the value of `last_name` will be cleared. Maximum of 80 characters.",
+          "type": "string"
+        },
+        "start_date": {
+          "description": "The date the person joined the organization (Business+ or Enterprise customers only).",
+          "type": "string",
+          "format": "date"
+        },
+        "title": {
+          "description": "The user's title.",
+          "type": "string"
+        },
+        "status_emoji": {
+          "description": "The displayed emoji that is enabled for the Slack team, such as `:train:`.",
+          "type": "string"
+        },
+        "status_expiration": {
+          "description": "The Unix timestamp of when the status will expire. Providing `0` or omitting this field results in a custom status that will not expire.",
+          "type": "integer"
+        },
+        "status_text": {
+          "description": "The displayed text of up to 100 characters. We strongly encourage brevity.",
+          "type": "string"
+        },
+        "fields": {
+          "description": "Custom fields defined for the workspace.",
+          "type": "object",
+          "patternProperties": {
+            "^X[a-fA-F0-9]{8}$": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": ["string", "array", "number", "boolean", "null"]
+                },
+                "alt": {
+                  "description": "Alternative display text for the field value.",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    "user": {
+      "description": "ID of user to change. This argument may only be specified by admins on paid teams.",
+      "type": "string",
+      "example": "W1234567890"
+    },
+    "value": {
+      "description": "Value to set a single key to. Usable only if `profile` is not passed.", 
+      "type": "string",
+      "example": "John"
+    }
+  },
+  "required": [
+    "token"
+  ],
+  "additionalProperties": false
+}

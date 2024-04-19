@@ -1,0 +1,75 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Cookie Consent Banner API",
+  "description": "The Cookie Consent Banner API allows managing visitor cookie tracking and consent banners to comply with EU cookie laws and the General Data Protection Regulation (GDPR).",
+  "type": "object",
+  "properties": {
+    "revokeCookieConsent": {
+      "type": "object",
+      "description": "Removes cookies created by the HubSpot tracking code under GDPR consent banner.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["revokeCookieConsent"]
+        },
+        "example": {
+          "type": "string",
+          "value": "_hsp.push(['revokeCookieConsent']);"
+        }
+      },
+      "required": ["method"]
+    },
+    "doNotTrack": {
+      "type": "object",
+      "description": "Places the __hs_do_not_track cookie to prevent HubSpot tracking code from sending visitor information.",
+      "properties": {
+        "method": {
+          "type": "string", 
+          "enum": ["doNotTrack"]
+        },
+        "example": {
+          "type": "string",
+          "value": "_hsq.push(['doNotTrack']);"
+        }
+      },
+      "required": ["method"]
+    },
+    "addPrivacyConsentListener": {
+      "type": "object",
+      "description": "Retrieves the current visitor's privacy consent status for analytics, advertisement, and functionality categories.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["addPrivacyConsentListener"]
+        },
+        "callbackFunction": {
+          "type": "string",
+          "description": "Function called with visitor's consent object"
+        },
+        "example": {
+          "type": "string",
+          "value": "_hsp.push(['addPrivacyConsentListener', function(consent) {...}]);"
+        }
+      },
+      "required": ["method", "callbackFunction"]
+    },
+    "showBanner": {
+      "type": "object", 
+      "description": "Shows the cookie consent banner to allow visitors to manage their consent preferences.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["showBanner"]
+        },
+        "example": {
+          "type": "string", 
+          "value": "_hsp.push(['showBanner']);"
+        }
+      },
+      "required": ["method"]
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

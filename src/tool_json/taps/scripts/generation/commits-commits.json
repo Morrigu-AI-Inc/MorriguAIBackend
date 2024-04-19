@@ -1,0 +1,339 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Commits API",
+  "description": "REST API endpoints for commits",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting commit details",
+      "value": "/repos/{owner}/{repo}/commits/{ref}"
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"  
+        }
+      },
+      "required": ["accept", "Authorization"]
+    },
+    "pathParameters": {
+      "type": "object", 
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "The account owner of the repository"
+        },
+        "repo": {
+          "type": "string",
+          "description": "The name of the repository without the .git extension"
+        },
+        "ref": {
+          "type": "string",
+          "description": "The commit reference. Can be a commit SHA, branch name, or tag name"
+        }
+      },
+      "required": ["owner", "repo", "ref"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "The page number of the results to fetch"
+        },
+        "per_page": {
+          "type": "integer", 
+          "description": "The number of results per page (max 100)"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL for the commit"
+        },
+        "sha": {
+          "type": "string",
+          "description": "SHA for the commit"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "html_url": {
+          "type": "string",
+          "description": "GitHub URL for the commit"  
+        },
+        "comments_url": {
+          "type": "string",
+          "description": "URL for comments on the commit"
+        },
+        "commit": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "author": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"  
+                },
+                "date": {
+                  "type": "string"
+                }
+              }
+            },
+            "committer": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string"  
+                }
+              }
+            },
+            "message": {
+              "type": "string",
+              "description": "Commit message"
+            },
+            "tree": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "sha": {
+                  "type": "string"  
+                }
+              }
+            },
+            "comment_count": {
+              "type": "integer"
+            },
+            "verification": {
+              "type": "object",
+              "properties": {
+                "verified": {
+                  "type": "boolean"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "signature": {
+                  "type": ["string", "null"]
+                },
+                "payload": {
+                  "type": ["string", "null"]
+                }
+              }
+            }
+          }
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "login": {
+              "type": "string"  
+            },
+            "id": {
+              "type": "integer"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "avatar_url": {
+              "type": "string"
+            },
+            "gravatar_id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "html_url": {
+              "type": "string"
+            },
+            "followers_url": {
+              "type": "string"
+            },
+            "following_url": {
+              "type": "string"
+            },
+            "gists_url": {
+              "type": "string"
+            },
+            "starred_url": {
+              "type": "string"
+            },
+            "subscriptions_url": {
+              "type": "string"
+            },
+            "organizations_url": {
+              "type": "string"
+            },
+            "repos_url": {
+              "type": "string"
+            },
+            "events_url": {
+              "type": "string"
+            },
+            "received_events_url": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "site_admin": {
+              "type": "boolean"
+            }
+          }
+        },
+        "committer": {
+          "type": "object",
+          "properties": {
+            "login": {
+              "type": "string"
+            },
+            "id": {
+              "type": "integer"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "avatar_url": {
+              "type": "string"
+            },
+            "gravatar_id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "html_url": {
+              "type": "string"
+            },
+            "followers_url": {
+              "type": "string"
+            },
+            "following_url": {
+              "type": "string"
+            },
+            "gists_url": {
+              "type": "string"
+            },
+            "starred_url": {
+              "type": "string"
+            },
+            "subscriptions_url": {
+              "type": "string"
+            },
+            "organizations_url": {
+              "type": "string"
+            },
+            "repos_url": {
+              "type": "string"
+            },
+            "events_url": {
+              "type": "string"
+            },
+            "received_events_url": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "site_admin": {
+              "type": "boolean"
+            }
+          }
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "sha": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "additions": {
+              "type": "integer"
+            },
+            "deletions": {
+              "type": "integer"
+            },
+            "total": {
+              "type": "integer"
+            }
+          }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filename": {
+                "type": "string"
+              },
+              "additions": {
+                "type": "integer"
+              },
+              "deletions": {
+                "type": "integer"
+              },
+              "changes": {
+                "type": "integer"
+              },
+              "status": {
+                "type": "string"
+              },
+              "raw_url": {
+                "type": "string"
+              },
+              "blob_url": {
+                "type": "string"
+              },
+              "patch": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": ["url", "sha", "html_url", "commit", "author", "committer"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+}

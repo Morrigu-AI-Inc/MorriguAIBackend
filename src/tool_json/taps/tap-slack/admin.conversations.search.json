@@ -1,0 +1,60 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.conversations.search",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "connected_team_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of encoded team IDs, signifying the external orgs to search through."
+    },
+    "cursor": {
+      "type": "string",
+      "description": "Set cursor to next_cursor returned by the previous call to list items in the next page."
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Maximum number of items to be returned. Must be between 1 - 20 both inclusive. Default is 10."
+    },
+    "query": {
+      "type": "string",
+      "description": "Name of the the channel to query by."
+    },
+    "search_channel_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The type of channel to include or exclude in the search."
+    },
+    "sort": {
+      "type": "string",
+      "description": "Possible values are relevant (search ranking based on what we think is closest), name (alphabetical), member_count (number of users in the channel), and created (date channel was created)."
+    },
+    "sort_dir": {
+      "type": "string",
+      "description": "Sort direction. Possible values are asc for ascending order or desc for descending order."
+    },
+    "team_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Comma separated string of team IDs, signifying the internal workspaces to search through."
+    },
+    "total_count_only": {
+      "type": "boolean",
+      "description": "Only return the total_count of channels. Omits channel data and allows access for admins without channel manager permissions."
+    }
+  },
+  "required": [
+    "token"
+  ]
+}

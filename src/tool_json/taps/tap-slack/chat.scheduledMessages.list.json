@@ -1,0 +1,56 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "scheduled_messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "channel_id": {
+            "type": "string"
+          },
+          "post_at": {
+            "type": "integer"
+          },
+          "date_created": {
+            "type": "integer"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "channel_id",
+          "post_at",
+          "date_created",
+          "text"
+        ]
+      }
+    },
+    "response_metadata": {
+      "type": "object",
+      "properties": {
+        "next_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "next_cursor"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "scheduled_messages",
+    "response_metadata"
+  ]
+}

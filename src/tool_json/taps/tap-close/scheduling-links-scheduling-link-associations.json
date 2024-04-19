@@ -1,0 +1,67 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scheduling Link Associations",
+  "type": "object",
+  "properties": {
+    "mapSharedLinkToUserSchedulingLink": {
+      "description": "Map a Shared Scheduling Link to a User Scheduling Link.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/shared_scheduling_link_association/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "mapSharedLinkToUrl": {
+      "description": "Map a Shared Scheduling Link to a URL.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/shared_scheduling_link_association/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "unmapSharedSchedulingLink": {
+      "description": "Unmap a Shared Scheduling Link.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/shared_scheduling_link_association/unmap"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    }
+  },
+  "required": [
+    "mapSharedLinkToUserSchedulingLink",
+    "mapSharedLinkToUrl",
+    "unmapSharedSchedulingLink"
+  ]
+}

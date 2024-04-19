@@ -1,0 +1,215 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMS Templates API",
+  "description": "API for managing HubSpot CMS templates",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing CMS templates",
+      "value": "/content/api/v2/templates"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/x-www-form-urlencoded", "application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "category_id": {
+          "type": "integer",
+          "description": "The category of content this template can be used for (1 for landing page, 2 for email, 3 for site page)"
+        },
+        "folder": {
+          "type": "string",
+          "description": "The name of the folder to save the template in Design Manager"
+        },
+        "template_type": {
+          "type": "integer",
+          "description": "The type of template (2 for email, 4 for page, etc.)"
+        },
+        "path": {
+          "type": "string",
+          "description": "The Design Manager path to the directory that contains the file being created"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source code of the template"
+        },
+        "is_available_for_new_content": {
+          "type": "boolean",
+          "description": "Whether the template should be expected to pass validation and be used with live content"
+        }
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "The number of items to return"
+        },
+        "offset": {
+          "type": "integer",
+          "description": "The offset set to start returning rows from"
+        },
+        "deleted_at": {
+          "type": "string",
+          "description": "Filter for deleted templates (exact, gt, lt)"
+        },
+        "id": {
+          "type": "string",
+          "description": "Filter templates by ID (exact)"
+        },
+        "is_available_for_new_content": {
+          "type": "string",
+          "description": "Filter templates by availability for new content (exact)"
+        },
+        "label": {
+          "type": "string", 
+          "description": "Filter templates by label (exact)"
+        },
+        "path": {
+          "type": "string",
+          "description": "Filter templates by path (exact)"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "description": "Total number of templates"
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category_id": {
+                "type": "integer",
+                "description": "The category ID of the template"  
+              },
+              "cdn_minified_url": {
+                "type": "string",
+                "description": "URL of minified template on CDN"
+              },
+              "cdn_url": {
+                "type": "string", 
+                "description": "URL of template on CDN"
+              },
+              "deleted_at": {
+                "type": "integer",
+                "description": "Timestamp when template was deleted (0 if not deleted)"
+              },
+              "folder": {
+                "type": "string",
+                "description": "Folder containing the template"
+              },
+              "generated_from_layout_id": {
+                "type": ["string", "null"],
+                "description": "ID of layout this template was generated from"
+              },
+              "id": {
+                "type": "integer",
+                "description": "Unique ID of the template"
+              },
+              "is_available_for_new_content": {
+                "type": "boolean",
+                "description": "Whether template is available for new content"
+              },
+              "is_from_layout": {
+                "type": "boolean",
+                "description": "Whether template was generated from a layout"
+              },
+              "is_read_only": {
+                "type": "boolean",
+                "description": "Whether the template is read-only"
+              },
+              "label": {
+                "type": "string",
+                "description": "Label/name of the template"
+              },
+              "linked_style_id": {
+                "type": "string",
+                "description": "ID of linked style, if any"
+              },
+              "path": {
+                "type": "string",
+                "description": "Path of the template file"
+              },
+              "portal_id": {
+                "type": "integer",
+                "description": "ID of the HubSpot portal"
+              },
+              "source": {
+                "type": "string",
+                "description": "Source code of the template"  
+              },
+              "template_type": {
+                "type": "string",
+                "description": "Type of template (4 for page, etc.)"
+              },
+              "thumbnail_width": {
+                "type": "integer", 
+                "description": "Width of template thumbnail image"
+              },
+              "updated": {
+                "type": "integer",
+                "description": "Timestamp when template was last updated"
+              }
+            },
+            "required": [
+              "category_id",
+              "cdn_minified_url",
+              "cdn_url", 
+              "deleted_at",
+              "folder",
+              "id",
+              "is_available_for_new_content",
+              "is_from_layout",
+              "is_read_only",
+              "label",
+              "path",
+              "portal_id", 
+              "source",
+              "template_type",
+              "thumbnail_width",
+              "updated"
+            ]
+          }  
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Number of results to return"
+        },
+        "offset": {
+          "type": "integer", 
+          "description": "Offset to start returning results from"
+        }
+      },
+      "required": ["total_count", "objects", "limit", "offset"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

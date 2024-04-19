@@ -1,0 +1,66 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the user."
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the user."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the user."
+          },
+          "license": {
+            "type": "string",
+            "description": "The license type of the user."
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the user."
+          },
+          "role": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "workspace_id": {
+                  "type": "string",
+                  "description": "The unique identifier for the workspace."
+                },
+                "role": {
+                  "type": "string",
+                  "description": "The role of the user in the workspace."
+                }
+              },
+              "required": [
+                "workspace_id",
+                "role"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "license",
+          "status",
+          "role"
+        ]
+      }
+    }
+  },
+  "required": [
+    "users"
+  ]
+}

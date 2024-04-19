@@ -1,0 +1,65 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.workflows.search",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "app_id": {
+      "type": "string",
+      "description": "The parent app ID for which to return workflows"
+    },
+    "collaborator_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Only include workflows by the collaborators inputted"
+    },
+    "cursor": {
+      "type": "string",
+      "description": "Set cursor to next_cursor returned by the previous call to list items in the next page"
+    },
+    "limit": {
+      "type": "integer",
+      "default": 20,
+      "description": "The number of results that will be returned by the API on each invocation"
+    },
+    "no_collaborators": {
+      "type": "boolean",
+      "description": "Only include workflows with no collaborators in the result; default is false"
+    },
+    "num_trigger_ids": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of trigger IDs to fetch for each workflow"
+    },
+    "query": {
+      "type": "string",
+      "description": "A search query to filter for workflow name or description"
+    },
+    "sort": {
+      "type": "string",
+      "enum": ["premium_runs"],
+      "default": "premium_runs",
+      "description": "The field used to sort the returned workflows"
+    },
+    "sort_dir": {
+      "type": "string",
+      "enum": ["asc", "desc"],
+      "default": "desc",
+      "description": "Sort direction. asc for ascending, desc for descending order"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["code", "workflow_builder", "sales_home"],
+      "description": "Source of workflow creation"
+    }
+  },
+  "required": [
+    "token"
+  ]
+}

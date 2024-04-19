@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Codespaces API",
+  "description": "API endpoints for managing GitHub Codespaces",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing codespaces in a repository",
+      "value": "/repos/{owner}/{repo}/codespaces"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["accept", "Authorization"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "The number of results per page (max 100)"
+        },
+        "page": {
+          "type": "integer", 
+          "description": "The page number of the results to fetch"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "total_count": {
+          "type": "integer"
+        },
+        "codespaces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"  
+              },
+              "environment_id": {
+                "type": "string"
+              },
+              "owner": {
+                "type": "object"
+              },
+              "billable_owner": {
+                "type": "object"
+              },
+              "repository": {
+                "type": "object"
+              },
+              "machine": {
+                "type": "object"
+              },
+              "prebuild": {
+                "type": "boolean"
+              },
+              "devcontainer_path": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "last_used_at": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "git_status": {
+                "type": "object"
+              },
+              "location": {
+                "type": "string"
+              },
+              "idle_timeout_minutes": {
+                "type": "integer"
+              },
+              "web_url": {
+                "type": "string"
+              },
+              "machines_url": {
+                "type": "string"
+              },
+              "start_url": {
+                "type": "string"
+              }, 
+              "stop_url": {
+                "type": "string"
+              },
+              "recent_folders": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name", 
+              "environment_id",
+              "owner",
+              "billable_owner",
+              "repository",
+              "machine",
+              "prebuild",
+              "devcontainer_path", 
+              "created_at",
+              "updated_at",
+              "last_used_at",
+              "state",
+              "url",
+              "git_status",
+              "location",
+              "idle_timeout_minutes",
+              "web_url",
+              "machines_url",
+              "start_url",
+              "stop_url",
+              "recent_folders"
+            ]
+          }
+        }
+      },
+      "required": ["total_count", "codespaces"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

@@ -1,0 +1,219 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Git Tags API",
+  "description": "API endpoints for interacting with Git tag objects in a repository",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for creating a tag object",
+      "value": "/repos/{owner}/{repo}/git/tags"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for creating a tag"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Media type to accept"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Accept"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "description": "The tag name"
+        },
+        "message": {
+          "type": "string",
+          "description": "The tag message"
+        },
+        "object": {
+          "type": "string",
+          "description": "The SHA of the Git object being tagged"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "commit",
+            "tree",
+            "blob"
+          ],
+          "description": "The type of the object being tagged"
+        },
+        "tagger": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the author"
+            },
+            "email": {
+              "type": "string",
+              "description": "The email of the author"
+            },
+            "date": {
+              "type": "string",
+              "description": "The timestamp when tagged in ISO 8601 format"
+            }
+          },
+          "required": [
+            "name",
+            "email",
+            "date"
+          ]
+        }
+      },
+      "required": [
+        "tag",
+        "message",
+        "object",
+        "type",
+        "tagger"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "description": "The Node ID of the tag"
+        },
+        "tag": {
+          "type": "string",
+          "description": "The tag name"
+        },
+        "sha": {
+          "type": "string",
+          "description": "The SHA of the tag object"
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of the tag object"
+        },
+        "message": {
+          "type": "string",
+          "description": "The tag message"
+        },
+        "tagger": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the tagger"
+            },
+            "email": {
+              "type": "string", 
+              "description": "The email of the tagger"
+            },
+            "date": {
+              "type": "string",
+              "description": "The timestamp when tagged in ISO 8601 format"
+            }
+          },
+          "required": [
+            "name",
+            "email", 
+            "date"
+          ]
+        },
+        "object": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type of the Git object"
+            },
+            "sha": {
+              "type": "string",
+              "description": "The SHA of the Git object"
+            },
+            "url": {
+              "type": "string",
+              "description": "The URL of the Git object"  
+            }
+          },
+          "required": [
+            "type",
+            "sha",
+            "url"
+          ]
+        },
+        "verification": {
+          "type": "object",
+          "properties": {
+            "verified": {
+              "type": "boolean",
+              "description": "Whether the signature is verified"
+            },
+            "reason": {
+              "type": "string",
+              "description": "The reason for verification status"
+            },
+            "signature": {
+              "type": ["string", "null"],
+              "description": "The extracted signature"
+            },
+            "payload": {
+              "type": ["string", "null"],
+              "description": "The value that was signed"
+            }
+          },
+          "required": [
+            "verified",
+            "reason",
+            "signature",
+            "payload"
+          ]
+        }
+      },
+      "required": [
+        "node_id",
+        "tag",
+        "sha", 
+        "url",
+        "message",
+        "tagger",
+        "object",
+        "verification"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "contentType",
+    "body",
+    "queryParameters",
+    "response"
+  ],
+  "additionalProperties": false
+}

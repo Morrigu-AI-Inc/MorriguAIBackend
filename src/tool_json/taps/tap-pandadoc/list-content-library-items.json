@@ -1,0 +1,76 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "count": {
+      "type": "integer"
+    },
+    "next": {
+      "type": ["string", "null"]
+    },
+    "previous": {
+      "type": ["string", "null"]
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": ["string", "null"]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "parent_folder_uuid": {
+            "type": ["string", "null"]
+          },
+          "parent_folder_name": {
+            "type": ["string", "null"]
+          },
+          "created_by": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "email": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": ["id", "email", "name"]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "required": ["uuid", "name", "content_type", "created_by", "created_at", "updated_at", "deleted"]
+      }
+    }
+  },
+  "required": ["count", "results"]
+}

@@ -1,0 +1,210 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "apiDocsToggler": {
+      "type": "object",
+      "properties": {
+        "apiDocsToggler__toggle": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "innerText": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "innerText"
+          ]
+        },
+        "apiDocsToggler__target": {
+          "type": "object",
+          "properties": {
+            "apiReference__nutritionalInfo": {
+              "type": "object",
+              "properties": {
+                "apiReference__factBlocks": {
+                  "type": "object",
+                  "properties": {
+                    "apiReference__factBlock": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "apiReference__factLabel": {
+                            "type": "object",
+                            "properties": {
+                              "innerText": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "innerText"
+                            ]
+                          },
+                          "apiReference__fact": {
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "apiReference__factLabel",
+                          "apiReference__fact"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "apiReference__factBlock"
+                  ]
+                }
+              },
+              "required": [
+                "apiReference__factBlocks"
+              ]
+            }
+          },
+          "required": [
+            "apiReference__nutritionalInfo"
+          ]
+        }
+      },
+      "required": [
+        "apiDocsToggler__toggle",
+        "apiDocsToggler__target"
+      ]
+    },
+    "apiDocsToggler2": {
+      "type": "object",
+      "properties": {
+        "apiDocsToggler__toggle": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "innerText": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "innerText"
+          ]
+        },
+        "apiDocsToggler__target": {
+          "type": "object",
+          "properties": {
+            "apiMethodPage__argumentSection": {
+              "type": "object",
+              "properties": {
+                "apiMethodPage__argumentList": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "apiMethodPage__listName": {
+                        "type": "object",
+                        "properties": {
+                          "innerText": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "innerText"
+                        ]
+                      },
+                      "apiMethodPage__argumentRow": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "apiMethodPage__argumentMetadata": {
+                              "type": "object",
+                              "properties": {
+                                "apiMethodPage__argument": {
+                                  "type": "object",
+                                  "properties": {
+                                    "innerText": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "innerText"
+                                  ]
+                                },
+                                "apiMethodPage__argumentExtras": {
+                                  "type": "object",
+                                  "properties": {
+                                    "apiMethodPage__argumentType": {
+                                      "type": "object"
+                                    },
+                                    "apiMethodPage__argumentOptionality": {
+                                      "type": "object",
+                                      "properties": {
+                                        "innerText": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "innerText"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "apiMethodPage__argumentType",
+                                    "apiMethodPage__argumentOptionality"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "apiMethodPage__argument",
+                                "apiMethodPage__argumentExtras"
+                              ]
+                            },
+                            "apiMethodPage__argumentDesc": {
+                              "type": "object"
+                            }
+                          },
+                          "required": [
+                            "apiMethodPage__argumentMetadata",
+                            "apiMethodPage__argumentDesc"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "apiMethodPage__listName",
+                      "apiMethodPage__argumentRow"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "apiMethodPage__argumentList"
+              ]
+            }
+          },
+          "required": [
+            "apiMethodPage__argumentSection"
+          ]
+        }
+      },
+      "required": [
+        "apiDocsToggler__toggle",
+        "apiDocsToggler__target"
+      ]
+    }
+  },
+  "required": [
+    "apiDocsToggler",
+    "apiDocsToggler2"
+  ]
+}

@@ -1,0 +1,52 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "description": "First name of the recipient."
+    },
+    "last_name": {
+      "type": "string",
+      "description": "Last name of the recipient."
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address of the recipient.",
+      "format": "email"
+    },
+    "role": {
+      "type": "string",
+      "description": "Role of the recipient (signer or cc).",
+      "enum": [
+        "signer",
+        "cc"
+      ]
+    },
+    "order": {
+      "type": "integer",
+      "description": "Order of the recipient in the document."
+    },
+    "access": {
+      "type": "string",
+      "description": "Access level of the recipient.",
+      "enum": [
+        "view",
+        "fill",
+        "approve"
+      ]
+    },
+    "require_validate": {
+      "type": "boolean",
+      "description": "Whether the recipient is required to validate their identity."
+    },
+    "require_completed_fields": {
+      "type": "boolean",
+      "description": "Whether the recipient is required to fill in all assigned fields."
+    }
+  },
+  "required": [
+    "role"
+  ]
+}

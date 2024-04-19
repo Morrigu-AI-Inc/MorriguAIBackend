@@ -1,0 +1,425 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Actions Artifacts API",
+  "description": "Interact with artifacts in GitHub Actions workflows",
+  "type": "object",
+  "properties": {
+    "listArtifactsForRepository": {
+      "type": "object",
+      "description": "Lists all artifacts for a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to list artifacts for a repository",
+          "value": "/repos/{owner}/{repo}/actions/artifacts"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "Number of results per page"
+            },
+            "page": {
+              "type": "integer", 
+              "description": "Page number of results to fetch"
+            },
+            "name": {
+              "type": "string",
+              "description": "Filter artifacts by name"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "Total number of artifacts"
+            },
+            "artifacts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique identifier of the artifact"
+                  },
+                  "node_id": {
+                    "type": "string" 
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the artifact" 
+                  },
+                  "size_in_bytes": {
+                    "type": "integer",
+                    "description": "Size of the artifact in bytes"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "API URL to get artifact metadata"
+                  },
+                  "archive_download_url": {
+                    "type": "string",
+                    "description": "URL to download artifact archive"
+                  },
+                  "expired": {
+                    "type": "boolean", 
+                    "description": "Whether the artifact has expired"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "description": "Time artifact was created"
+                  },
+                  "expires_at": {
+                    "type": "string",
+                    "description": "Time artifact will expire" 
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "description": "Last time artifact was updated"
+                  },
+                  "workflow_run": {
+                    "type": "object",
+                    "description": "Workflow run that created the artifact"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "size_in_bytes", 
+                  "url",
+                  "archive_download_url",
+                  "expired",
+                  "created_at",
+                  "expires_at",
+                  "updated_at",
+                  "workflow_run"
+                ]
+              }
+            }
+          },
+          "required": [
+            "total_count",
+            "artifacts"
+          ]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method", 
+        "headers",
+        "response"
+      ]
+    },
+    "getArtifact": {
+      "type": "object",
+      "description": "Gets a specific artifact for a workflow run",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to get an artifact",
+          "value": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"  
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "Unique identifier of the artifact"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string", 
+              "description": "Name of the artifact"
+            },
+            "size_in_bytes": {
+              "type": "integer",
+              "description": "Size of artifact in bytes" 
+            },
+            "url": {
+              "type": "string",
+              "description": "API URL to get artifact metadata"
+            },
+            "archive_download_url": {
+              "type": "string",
+              "description": "URL to download artifact archive"
+            },
+            "expired": {
+              "type": "boolean",
+              "description": "Whether artifact has expired" 
+            },
+            "created_at": {
+              "type": "string",
+              "description": "Time artifact was created"
+            },
+            "expires_at": {
+              "type": "string", 
+              "description": "Time artifact will expire"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "Last time artifact was updated"
+            },
+            "workflow_run": {
+              "type": "object",
+              "description": "Workflow run that created artifact"
+            }
+          },
+          "required": [
+            "id",
+            "name", 
+            "size_in_bytes",
+            "url",
+            "archive_download_url",
+            "expired",
+            "created_at", 
+            "expires_at",
+            "updated_at",
+            "workflow_run"
+          ]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers", 
+        "response"
+      ]
+    },
+    "deleteArtifact": {
+      "type": "object", 
+      "description": "Deletes an artifact for a workflow run",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to delete an artifact",
+          "value": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers"
+      ]
+    },
+    "downloadArtifact": {
+      "type": "object",
+      "description": "Gets a redirect URL to download an artifact archive",
+      "properties": {
+        "endpoint": {
+          "type": "string", 
+          "description": "API endpoint to download an artifact",
+          "value": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}" 
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "response": {
+          "type": "string",
+          "description": "Redirect URL to download the artifact archive (check 'Location' response header)"
+        }
+      },
+      "required": [
+        "endpoint", 
+        "method",
+        "headers",
+        "response"
+      ]
+    },
+    "listWorkflowRunArtifacts": {
+      "type": "object",
+      "description": "Lists artifacts for a workflow run",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to list artifacts for a workflow run",
+          "value": "/repos/{owner}/{repo}/actions/runs/{run_id}/artifacts"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"], 
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "Number of results per page"
+            },
+            "page": {
+              "type": "integer",
+              "description": "Page number of results to fetch"
+            },
+            "name": {
+              "type": "string", 
+              "description": "Filter artifacts by name"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "Total number of artifacts"
+            },
+            "artifacts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique identifier of the artifact"
+                  },
+                  "node_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the artifact"
+                  },
+                  "size_in_bytes": {
+                    "type": "integer", 
+                    "description": "Size of artifact in bytes"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "API URL to get artifact metadata"
+                  },
+                  "archive_download_url": {
+                    "type": "string",
+                    "description": "URL to download artifact archive" 
+                  },
+                  "expired": {
+                    "type": "boolean",
+                    "description": "Whether artifact has expired"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "description": "Time artifact was created"
+                  },
+                  "expires_at": {
+                    "type": "string",
+                    "description": "Time artifact will expire"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "description": "Last time artifact was updated"
+                  },
+                  "workflow_run": {
+                    "type": "object",
+                    "description": "Workflow run that created artifact"
+                  }
+                },
+                "required": [
+                  "id", 
+                  "name",
+                  "size_in_bytes",
+                  "url", 
+                  "archive_download_url",
+                  "expired",
+                  "created_at",
+                  "expires_at",
+                  "updated_at", 
+                  "workflow_run"
+                ]
+              }
+            }
+          },
+          "required": [
+            "total_count",
+            "artifacts"
+          ]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers",
+        "queryParameters", 
+        "response" 
+      ]
+    }
+  },
+  "required": [
+    "listArtifactsForRepository",
+    "getArtifact",
+    "deleteArtifact", 
+    "downloadArtifact",
+    "listWorkflowRunArtifacts"
+  ]
+}

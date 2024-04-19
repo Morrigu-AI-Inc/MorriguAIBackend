@@ -1,0 +1,508 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Release Assets API",
+  "description": "API endpoints for managing release assets in a GitHub repository",
+  "type": "object",
+  "properties": {
+    "getReleaseAsset": {
+      "type": "object",
+      "description": "Get a release asset from a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to get a release asset",
+          "value": "/repos/{owner}/{repo}/releases/assets/{asset_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "asset_id": {
+              "type": "integer",
+              "description": "The unique identifier of the asset"
+            }
+          },
+          "required": ["owner", "repo", "asset_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The API URL of the release asset"
+            },
+            "browser_download_url": {
+              "type": "string",
+              "description": "The URL to download the asset from a browser"
+            },
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the asset"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The GraphQL node ID of the asset"  
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the asset file"
+            },
+            "label": {
+              "type": "string", 
+              "description": "A short description of the asset"
+            },
+            "state": {
+              "type": "string",
+              "description": "The state of the asset upload"
+            },
+            "content_type": {
+              "type": "string",
+              "description": "The content type of the asset"
+            },
+            "size": {
+              "type": "integer",
+              "description": "The file size in bytes"  
+            },
+            "download_count": {
+              "type": "integer",
+              "description": "The number of times this asset was downloaded"
+            },
+            "created_at": {
+              "type": "string",
+              "description": "The time the asset was created"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "The time the asset was last updated" 
+            },
+            "uploader": {
+              "type": "object",
+              "description": "The user that uploaded the asset"
+            }
+          },
+          "required": ["url", "browser_download_url", "id", "name", "state", "size", "created_at", "updated_at", "uploader"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "updateReleaseAsset": {
+      "type": "object",
+      "description": "Update a release asset in a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to update a release asset",
+          "value": "/repos/{owner}/{repo}/releases/assets/{asset_id}"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["PATCH"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]  
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "asset_id": {
+              "type": "integer",
+              "description": "The unique identifier of the asset"
+            }
+          },
+          "required": ["owner", "repo", "asset_id"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The new file name of the asset"
+            },
+            "label": {
+              "type": "string",
+              "description": "A new short description of the asset"
+            },
+            "state": {
+              "type": "string", 
+              "description": "The new upload state of the asset"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The API URL of the updated asset"  
+            },
+            "browser_download_url": {
+              "type": "string",
+              "description": "The browser download URL of the updated asset"
+            },
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the asset"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The GraphQL node ID of the asset"
+            },
+            "name": {
+              "type": "string", 
+              "description": "The new name of the asset file"
+            },
+            "label": {
+              "type": "string",
+              "description": "The new short description of the asset"
+            },
+            "state": {
+              "type": "string",
+              "description": "The new upload state of the asset"  
+            },
+            "content_type": {
+              "type": "string",
+              "description": "The content type of the asset"
+            },
+            "size": {
+              "type": "integer",
+              "description": "The file size of the asset in bytes"
+            },
+            "download_count": {
+              "type": "integer",
+              "description": "The number of downloads of the asset"
+            },
+            "created_at": {
+              "type": "string",
+              "description": "The time the asset was created"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "The time the asset was last updated"
+            },
+            "uploader": {
+              "type": "object",
+              "description": "The user that uploaded the asset"
+            }
+          },
+          "required": ["url", "browser_download_url", "id", "name", "label", "state", "content_type", "size", "download_count", "created_at", "updated_at", "uploader"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "deleteReleaseAsset": {
+      "type": "object",
+      "description": "Delete a release asset from a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to delete a release asset",
+          "value": "/repos/{owner}/{repo}/releases/assets/{asset_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"  
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object", 
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string", 
+              "description": "The name of the repository"
+            },
+            "asset_id": {
+              "type": "integer",
+              "description": "The unique identifier of the asset"
+            }
+          },
+          "required": ["owner", "repo", "asset_id"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters"]
+    },
+    "listReleaseAssets": {
+      "type": "object",
+      "description": "List release assets for a repository release",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to list release assets",
+          "value": "/repos/{owner}/{repo}/releases/{release_id}/assets" 
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository" 
+            },
+            "release_id": {
+              "type": "integer", 
+              "description": "The unique identifier of the release"
+            }
+          },
+          "required": ["owner", "repo", "release_id"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of results to return"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "The API URL of the asset"
+              },
+              "browser_download_url": {
+                "type": "string",
+                "description": "The browser download URL of the asset"  
+              },
+              "id": {
+                "type": "integer",
+                "description": "The unique identifier of the asset"
+              },
+              "node_id": {
+                "type": "string",
+                "description": "The GraphQL node ID of the asset"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the asset file"
+              },
+              "label": {
+                "type": "string",
+                "description": "A short description of the asset" 
+              },
+              "state": {
+                "type": "string",
+                "description": "The state of the asset upload"
+              },
+              "content_type": {
+                "type": "string",
+                "description": "The content type of the asset"
+              },
+              "size": {
+                "type": "integer",
+                "description": "The file size of the asset in bytes"
+              },
+              "download_count": {
+                "type": "integer",
+                "description": "The number of times this asset was downloaded"
+              },
+              "created_at": {
+                "type": "string",
+                "description": "The time the asset was created"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "The time the asset was last updated"
+              },
+              "uploader": {
+                "type": "object", 
+                "description": "The user that uploaded the asset"
+              }
+            },
+            "required": ["url", "browser_download_url", "id", "name", "label", "state", "content_type", "size", "download_count", "created_at", "updated_at", "uploader"]
+          }
+        }
+      }, 
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "uploadReleaseAsset": {
+      "type": "object",
+      "description": "Upload a release asset to a repository release",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to upload a release asset",
+          "value": "/repos/{owner}/{repo}/releases/{release_id}/assets?name={asset_name}&label={asset_label}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            },
+            "Content-Type": {
+              "type": "string",
+              "description": "The Content-Type of the asset file being uploaded"
+            }
+          },
+          "required": ["Authorization", "Content-Type"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            }, 
+            "release_id": {
+              "type": "integer",
+              "description": "The unique identifier of the release"
+            }
+          },
+          "required": ["owner", "repo", "release_id"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the asset file"
+            },
+            "label": {
+              "type": "string",
+              "description": "A short description of the asset"
+            }
+          },
+          "required": ["name"]
+        },
+        "requestBody": {
+          "type": "string",
+          "description": "The raw binary content of the asset file"
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The API URL of the uploaded asset"
+            },
+            "browser_download_url": {
+              "type": "string",
+              "description": "The browser download URL of the uploaded asset"
+            },
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the asset"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The GraphQL node ID of the asset"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the uploaded asset file"
+            },
+            "label": {
+              "type": "string",
+              "description": "A short description of the uploaded asset"
+            },
+            "state": {
+              "type": "string",
+              "description": "The state of the asset upload"
+            },
+            "content_type": {
+              "type": "string",
+              "description": "The content type of the uploaded asset"
+            },
+            "size": {
+              "type": "integer",
+              "description": "The file size of the uploaded asset in bytes"
+            },
+            "download_count": {
+              "type": "integer",
+              "description": "The number of times the uploaded asset was downloaded"
+            },
+            "created_at": {
+              "type": "string",
+              "description": "The time the asset was created"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "The time the asset was last updated"
+            },

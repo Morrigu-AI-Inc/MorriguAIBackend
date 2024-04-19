@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "About the REST API",
+  "description": "Overview and introduction to GitHub's REST API for building scripts and applications.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "No specific endpoint, this is general information about the REST API.",
+      "value": ""
+    },
+    "method": {
+      "type": "string",
+      "enum": [],
+      "description": "No specific HTTP method, this is general information."
+    },
+    "headers": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No specific content type, this is general information."
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

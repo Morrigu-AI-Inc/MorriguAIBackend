@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "GET /custom_field/contact/": {
+      "description": "List all the Contact Custom Fields for your organization."
+    },
+    "POST /custom_field/contact/": {
+      "description": "Create a new Contact Custom Field."
+    },
+    "GET /custom_field/contact/{id}/": {
+      "description": "Fetch Contact Custom Field's details."
+    },
+    "PUT /custom_field/contact/{custom_field_id}/": {
+      "description": "Update a Contact Custom Field. You can rename it, change its type, change whether it accepts multiple values or not, change whether editing its values is restricted to specific Roles, or update the options for a \"choices\" field type."
+    },
+    "DELETE /custom_field/contact/{custom_field_id}/": {
+      "description": "Delete a Contact Custom Field. The field will immediately disappear from any Contact API responses."
+    }
+  }
+}

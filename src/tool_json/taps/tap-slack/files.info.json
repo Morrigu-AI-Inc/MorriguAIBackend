@@ -1,0 +1,214 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "file": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created": {
+          "type": "integer"
+        },
+        "timestamp": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "mimetype": {
+          "type": "string"
+        },
+        "filetype": {
+          "type": "string"
+        },
+        "pretty_type": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "editable": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "is_external": {
+          "type": "boolean"
+        },
+        "external_type": {
+          "type": "string"
+        },
+        "is_public": {
+          "type": "boolean"
+        },
+        "public_url_shared": {
+          "type": "boolean"
+        },
+        "display_as_bot": {
+          "type": "boolean"
+        },
+        "username": {
+          "type": "string"
+        },
+        "url_private": {
+          "type": "string"
+        },
+        "url_private_download": {
+          "type": "string"
+        },
+        "thumb_64": {
+          "type": "string"
+        },
+        "thumb_80": {
+          "type": "string"
+        },
+        "thumb_360": {
+          "type": "string"
+        },
+        "thumb_360_w": {
+          "type": "integer"
+        },
+        "thumb_360_h": {
+          "type": "integer"
+        },
+        "thumb_160": {
+          "type": "string"
+        },
+        "thumb_360_gif": {
+          "type": "string"
+        },
+        "image_exif_rotation": {
+          "type": "integer"
+        },
+        "original_w": {
+          "type": "integer"
+        },
+        "original_h": {
+          "type": "integer"
+        },
+        "deanimate_gif": {
+          "type": "string"
+        },
+        "pjpeg": {
+          "type": "string"
+        },
+        "permalink": {
+          "type": "string"
+        },
+        "permalink_public": {
+          "type": "string"
+        },
+        "comments_count": {
+          "type": "integer"
+        },
+        "is_starred": {
+          "type": "boolean"
+        },
+        "shares": {
+          "type": "object"
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "has_rich_preview": {
+          "type": "boolean"
+        },
+        "alt_txt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "created",
+        "timestamp",
+        "name",
+        "title",
+        "mimetype",
+        "filetype",
+        "pretty_type",
+        "user",
+        "editable",
+        "size",
+        "mode",
+        "is_external",
+        "external_type",
+        "is_public",
+        "public_url_shared",
+        "display_as_bot",
+        "username",
+        "url_private",
+        "url_private_download",
+        "thumb_64",
+        "thumb_80",
+        "thumb_360",
+        "thumb_360_w",
+        "thumb_360_h",
+        "thumb_160",
+        "thumb_360_gif",
+        "image_exif_rotation",
+        "original_w",
+        "original_h",
+        "deanimate_gif",
+        "pjpeg",
+        "permalink",
+        "permalink_public",
+        "comments_count",
+        "is_starred",
+        "shares",
+        "channels",
+        "groups", 
+        "ims",
+        "has_rich_preview",
+        "alt_txt"
+      ]
+    },
+    "comments": {
+      "type": "array"
+    },
+    "response_metadata": {
+      "type": "object",
+      "properties": {
+        "next_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "next_cursor"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "file",
+    "comments",
+    "response_metadata"
+  ]
+}

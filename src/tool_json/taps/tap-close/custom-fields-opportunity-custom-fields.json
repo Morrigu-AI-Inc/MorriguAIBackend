@@ -1,0 +1,49 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "custom_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "accepts_multiple_values": {
+            "type": "boolean"
+          },
+          "restricted_to_roles": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": ["id", "value"]
+            }
+          }
+        },
+        "required": ["id", "name", "type"]
+      }
+    }
+  }
+}

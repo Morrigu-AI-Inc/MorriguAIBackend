@@ -1,0 +1,41 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "allow_message_deletion": {
+      "type": "boolean"
+    },
+    "display_real_names": {
+      "type": "boolean"
+    },
+    "disable_file_uploads": {
+      "type": "string",
+      "enum": [
+        "disallow_all",
+        "allow_all",
+        "type:owner,type:admin",
+        "type:regular"
+      ]
+    },
+    "msg_edit_window_mins": {
+      "type": "integer"
+    },
+    "who_can_post_general": {
+      "type": "string",
+      "enum": [
+        "everyone"
+      ]
+    },
+    "error": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ok"
+  ],
+  "additionalProperties": false
+}

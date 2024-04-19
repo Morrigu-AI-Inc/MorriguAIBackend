@@ -1,0 +1,66 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub App Installation Access Token Endpoints",
+  "description": "Endpoints available for GitHub App installation access tokens to access the GitHub API",
+  "type": "object",
+  "properties": {
+    "actions": {
+      "type": "object",
+      "properties": {
+        "get-cache-usage-for-org": {
+          "description": "Get GitHub Actions cache usage for an organization",
+          "endpoint": "/orgs/{org}/actions/cache/usage",
+          "method": {
+            "type": "string",
+            "enum": ["GET"]
+          }
+        },
+        "get-cache-usage-for-repo": {
+          "description": "Get GitHub Actions cache usage for a repository",
+          "endpoint": "/repos/{owner}/{repo}/actions/cache/usage",
+          "method": {
+            "type": "string",
+            "enum": ["GET"]
+          }
+        },
+        
+        // ...additional action endpoints
+      }
+    },
+    "activity": {
+      "type": "object",
+      "properties": {
+        "list-events-for-org": {
+          "description": "List public organization events",
+          "endpoint": "/orgs/{org}/events",
+          "method": {
+            "type": "string",
+            "enum": ["GET"]
+          }
+        },
+        "list-events-for-repo": {
+          "description": "List repository events",
+          "endpoint": "/repos/{owner}/{repo}/events",
+          "method": {
+            "type": "string",
+            "enum": ["GET"]
+          }
+        },
+        
+        // ...additional activity endpoints
+      }
+    },
+    
+    // ...additional top-level properties for other categories
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}
+
+
+This is a high-level JSON schema that outlines the structure for the GitHub App installation access token endpoints. It has a top-level "actions" and "activity" properties, each containing nested objects for the respective endpoints in those categories. 
+
+The schema defines the expected properties like "endpoint" (the URL path), "method" (HTTP method), "headers", and "response" schema. You would need to fill in the actual values for each endpoint definition based on the API documentation.
+
+Note that I have only included a few example endpoints under "actions" and "activity" for brevity. You would need to add all the remaining endpoints documented in the "Authentication endpoints available for GitHub App installation access tokens" section.

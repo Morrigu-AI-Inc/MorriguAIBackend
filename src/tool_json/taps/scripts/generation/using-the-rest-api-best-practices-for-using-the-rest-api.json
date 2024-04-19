@@ -1,0 +1,55 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Best Practices for Using the GitHub REST API",
+  "description": "Guidelines and recommendations for interacting with the GitHub REST API in an efficient and responsible manner.",
+  "type": "object",
+  "properties": {
+    "avoidPolling": {
+      "type": "object",
+      "description": "Recommends subscribing to webhook events instead of polling the API for data to stay within rate limits.",
+      "properties": {}
+    },
+    "makeAuthenticatedRequests": {
+      "type": "object",
+      "description": "Suggests making authenticated requests to benefit from higher rate limits.",
+      "properties": {}
+    },
+    "avoidConcurrentRequests": {
+      "type": "object",
+      "description": "Advises making requests serially instead of concurrently to avoid exceeding secondary rate limits.",
+      "properties": {}
+    },
+    "pauseBetweenMutativeRequests": {
+      "type": "object",
+      "description": "Recommends waiting at least one second between POST, PATCH, PUT, or DELETE requests to avoid secondary rate limits.",
+      "properties": {}
+    },
+    "handleRateLimitErrors": {
+      "type": "object",
+      "description": "Provides guidelines for handling rate limit errors, such as honoring retry-after headers, respecting rate limit reset times, and implementing exponential backoff.",
+      "properties": {}
+    },
+    "followRedirects": {
+      "type": "object",
+      "description": "Explains the importance of following HTTP redirects and the different redirection status codes used by the API.",
+      "properties": {}
+    },
+    "avoidParsingURLs": {
+      "type": "object",
+      "description": "Warns against manually parsing URLs returned by the API, as the URL structure may change in the future.",
+      "properties": {}
+    },
+    "useConditionalRequests": {
+      "type": "object",
+      "description": "Recommends using conditional requests with ETag and Last-Modified headers to avoid unnecessary data transfers and rate limit consumption.",
+      "properties": {}
+    },
+    "handleErrors": {
+      "type": "object",
+      "description": "Advises against ignoring repeated 4xx and 5xx error codes, and encourages proper error handling to avoid potential suspension for abuse.",
+      "properties": {}
+    }
+  },
+  "required": []
+}

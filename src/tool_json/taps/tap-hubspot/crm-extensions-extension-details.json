@@ -1,0 +1,278 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Extension Details API",
+  "description": "API for creating, viewing, updating, and deleting CRM extension object types",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for CRM extension operations",
+      "value": "/extensions/sales-objects/v1/object-types"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "applicationId": {
+          "type": "integer",
+          "description": "The ID of the HubSpot application that will own this object type"
+        },
+        "baseUris": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of URIs. When you define actions, the URIs for these actions must be under one of these URIs"
+        },
+        "dataFetchUri": {
+          "type": "string",
+          "description": "The URI the CRM will call to fetch Sales Objects for the specified associatedHubSpotObjectTypes"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of this object. This will be displayed as the title of the CRM sidebar card"
+        },
+        "propertyDefinitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the property"
+              },
+              "label": {
+                "type": "string",
+                "description": "The label for the property"
+              },
+              "dataType": {
+                "type": "string",
+                "description": "The data type of the property"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "The type of option (e.g. SUCCESS, DEFAULT)"
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "The label for the option"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the option"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "label",
+                    "name"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "name",
+              "label",
+              "dataType"
+            ]
+          },
+          "description": "The common properties that these objects will have, in the order they should appear on the sidebar card"
+        },
+        "associatedHubSpotObjectTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CONTACT",
+              "COMPANY",
+              "DEAL",
+              "TICKET"
+            ]
+          },
+          "description": "A set of CONTACT, COMPANY, DEAL, or TICKET. This determines where on the CRM this Object Type will appear -- contact, company, deal, or ticket details pages"
+        },
+        "associatedHubSpotObjectTypeProperties": {
+          "type": "object",
+          "patternProperties": {
+            "^(CONTACT|COMPANY|DEAL|TICKET)$": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "HubSpot properties to send in the data fetch request, by CRM object type"
+        }
+      },
+      "required": [
+        "applicationId",
+        "baseUris",
+        "dataFetchUri",
+        "title",
+        "propertyDefinitions",
+        "associatedHubSpotObjectTypes"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "object-type-id": {
+          "type": "integer",
+          "description": "The id of the object type"
+        },
+        "hapikey": {
+          "type": "string",
+          "description": "Your Developer HAPIkey. This must be a Developer HAPIkey associated with the Developer portal that the OAuth app was created in"
+        }
+      },
+      "required": [
+        "hapikey"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The ID of the created/updated object type"
+        },
+        "applicationId": {
+          "type": "integer",
+          "description": "The ID of the HubSpot application that owns this object type"
+        },
+        "baseUris": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of URIs. The URIs for defined actions must be under one of these URIs"
+        },
+        "dataFetchUri": {
+          "type": "string",
+          "description": "The URI the CRM will call to fetch Sales Objects for the specified associatedHubSpotObjectTypes"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of this object, displayed as the title of the CRM sidebar card"
+        },
+        "propertyDefinitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the property"
+              },
+              "label": {
+                "type": "string",
+                "description": "The label for the property"
+              },
+              "dataType": {
+                "type": "string",
+                "description": "The data type of the property"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "The type of option (e.g. SUCCESS, DEFAULT)"
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "The label for the option"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the option"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "label", 
+                    "name"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "name",
+              "label",
+              "dataType"  
+            ]
+          },
+          "description": "The common properties that these objects have, in the order they appear on the sidebar card"
+        },
+        "associatedHubSpotObjectTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CONTACT",
+              "COMPANY", 
+              "DEAL",
+              "TICKET"
+            ]
+          },
+          "description": "The CRM object types where this object type appears (contact, company, deal, or ticket details pages)"
+        },
+        "associatedHubSpotObjectTypeProperties": {
+          "type": "object",
+          "patternProperties": {
+            "^(CONTACT|COMPANY|DEAL|TICKET)$": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "HubSpot properties sent in the data fetch request, by CRM object type"
+        }
+      },
+      "required": [
+        "id",
+        "applicationId",
+        "baseUris",
+        "dataFetchUri",
+        "title",
+        "propertyDefinitions", 
+        "associatedHubSpotObjectTypes",
+        "associatedHubSpotObjectTypeProperties"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

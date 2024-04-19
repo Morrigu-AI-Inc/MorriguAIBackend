@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "List Users on a Workspace",
+  "description": "API for listing users on a workspace in Slack's Enterprise Grid",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing users",
+      "example": "admin.users.list"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/x-www-form-urlencoded", "application/json"]
+        }
+      },
+      "required": ["Authorization", "Content-Type"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Authentication token bearing required scopes"
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Cursor for pagination"
+        },
+        "include_deactivated_user_workspaces": {
+          "type": "boolean",
+          "description": "Whether to include workspaces where the user may be deactivated"
+        },
+        "is_active": {
+          "type": "boolean",
+          "description": "Filter for either active or deactivated users"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Number of users to retrieve per page"
+        },
+        "team_id": {
+          "type": "string",
+          "description": "ID of the workspace, required if using an org-level token"
+        }
+      },
+      "required": ["token"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "description": "Indicates success or failure of the request"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "User ID"
+              },
+              "email": {
+                "type": "string",
+                "description": "User email address"
+              },
+              "is_admin": {
+                "type": "boolean",
+                "description": "Indicates if the user is an admin"
+              },
+              "is_active": {
+                "type": "boolean",
+                "description": "Indicates if the user is active"
+              },
+              "username": {
+                "type": "string",
+                "description": "User's username"
+              },
+              "full_name": {
+                "type": "string",
+                "description": "User's full name"
+              },
+              "workspaces": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "List of workspace IDs the user belongs to"
+                }
+              }
+            }
+          },
+          "description": "List of users"
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "body", "response"]
+}

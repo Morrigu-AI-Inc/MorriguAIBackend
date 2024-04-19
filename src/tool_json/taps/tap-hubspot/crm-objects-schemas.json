@@ -1,0 +1,214 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Objects Schemas API",
+  "description": "This API allows you to define new types of CRM records in your HubSpot account, manage object schemas, and create custom records using the custom object records API.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing CRM object schemas",
+      "value": "/crm/v3/schemas"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "secondaryDisplayProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of property names to be used as secondary display properties"
+        },
+        "requiredProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of required property names"
+        },
+        "searchableProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of searchable property names"
+        },
+        "primaryDisplayProperty": {
+          "type": "string",
+          "description": "Primary display property name"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the object schema"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the object schema"
+        },
+        "associatedObjects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["CONTACT"]
+          },
+          "description": "Array of associated object types"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the property"
+              },
+              "label": {
+                "type": "string",
+                "description": "Label of the property"
+              },
+              "isPrimaryDisplayLabel": {
+                "type": "boolean",
+                "description": "Indicates if the property is the primary display label"
+              }
+            },
+            "required": ["name", "label", "isPrimaryDisplayLabel"]
+          },
+          "description": "Array of property definitions"
+        },
+        "labels": {
+          "type": "object",
+          "properties": {
+            "plural": {
+              "type": "string",
+              "description": "Plural label for the object schema"
+            },
+            "singular": {
+              "type": "string",
+              "description": "Singular label for the object schema"
+            }
+          },
+          "required": ["plural", "singular"]
+        }
+      },
+      "required": ["name", "properties", "labels"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "archived": {
+          "type": "boolean",
+          "description": "Whether to include archived schemas"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "objectTypeId": {
+          "type": "string",
+          "description": "ID of the object type"
+        },
+        "primaryDisplayProperty": {
+          "type": "string",
+          "description": "Primary display property name"
+        },
+        "secondaryDisplayProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of secondary display property names"
+        },
+        "requiredProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of required property names"
+        },
+        "searchableProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of searchable property names"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the object schema"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the object schema"
+        },
+        "associatedObjects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["CONTACT"]
+          },
+          "description": "Array of associated object types"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the property"
+              },
+              "label": {
+                "type": "string",
+                "description": "Label of the property"
+              },
+              "isPrimaryDisplayLabel": {
+                "type": "boolean",
+                "description": "Indicates if the property is the primary display label"
+              }
+            },
+            "required": ["name", "label", "isPrimaryDisplayLabel"]
+          },
+          "description": "Array of property definitions"
+        },
+        "labels": {
+          "type": "object",
+          "properties": {
+            "plural": {
+              "type": "string",
+              "description": "Plural label for the object schema"
+            },
+            "singular": {
+              "type": "string",
+              "description": "Singular label for the object schema"
+            }
+          },
+          "required": ["plural", "singular"]
+        }
+      },
+      "required": ["objectTypeId", "primaryDisplayProperty", "secondaryDisplayProperties", "requiredProperties", "searchableProperties", "name", "description", "associatedObjects", "properties", "labels"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "users.deletePhoto",
+  "type": "object",
+  "properties": {
+    "method": {
+      "type": "object",
+      "properties": {
+        "access": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "GET"
+                },
+                "url": {
+                  "type": "string",
+                  "const": "users.deletePhoto"
+                }
+              },
+              "required": ["method", "url"]
+            },
+            "js": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client.users.deletePhoto"
+                }
+              },
+              "required": ["method"]
+            },
+            "python": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client.users_deletePhoto"
+                }
+              },
+              "required": ["method"]
+            },
+            "java": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client().usersDeletePhoto"
+                }
+              },
+              "required": ["method"]
+            }
+          },
+          "required": ["http", "js", "python", "java"]
+        }
+      },
+      "required": ["access"]
+    },
+    "scopes": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "const": "users.profile:write"
+          }
+        }
+      },
+      "required": ["user"]
+    },
+    "contentTypes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "const": "application/x-www-form-urlencoded"
+      }
+    },
+    "rateLimit": {
+      "type": "string",
+      "const": "Tier 2"
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "token"
+              },
+              "type": {
+                "type": "string",
+                "const": "token"
+              },
+              "required": {
+                "type": "boolean",
+                "const": true
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string",
+                "const": "xxxx-xxxxxxxxx-xxxx"
+              }
+            },
+            "required": ["name", "type", "required", "description", "example"]
+          }
+        }
+      },
+      "required": ["required"]
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object"
+          }
+        },
+        "required": ["title", "response"]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "description"]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "description"]
+      }
+    }
+  },
+  "required": [
+    "method",
+    "scopes",
+    "contentTypes",
+    "rateLimit",
+    "arguments",
+    "examples",
+    "errors",
+    "warnings"
+  ]
+}

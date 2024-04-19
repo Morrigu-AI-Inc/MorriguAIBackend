@@ -1,0 +1,63 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CustomField",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The user-readable name of this Field."
+    },
+    "description": {
+      "type": "string",
+      "description": "A longer description of the Field that may be shown to users for context. The description may be null and has a 280 character limit.",
+      "maxLength": 280
+    },
+    "type": {
+      "type": "string",
+      "description": "Determines the data type of the values that can be stored on this Field.",
+      "enum": [
+        "text",
+        "number",
+        "date",
+        "datetime",
+        "choices",
+        "user",
+        "contact",
+        "custom_object",
+        "textarea",
+        "hidden"
+      ]
+    },
+    "choices": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "A list of valid values for a 'choices' type Custom Field."
+    },
+    "accepts_multiple_values": {
+      "type": "boolean",
+      "description": "Determines if multiple values can be assigned to this Custom Field. Multiple values are currently only supported for the 'user', 'choices', 'contact', and 'custom_object' type Custom Fields."
+    },
+    "editable_with_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of Roles that can edit the values of this Custom Field. Empty if the editing is not restricted."
+    },
+    "referenced_custom_type_id": {
+      "type": "string",
+      "description": "Stores the ID of the Custom Object Type this field references. Relevant only on 'custom_object' type fields."
+    },
+    "back_reference_is_visible": {
+      "type": "boolean",
+      "description": "If true, this field will also display a back reference in the Close UI, listing objects that reference the given Custom Object. Relevant only on 'custom_object' type fields."
+    }
+  },
+  "required": [
+    "name",
+    "type"
+  ]
+}

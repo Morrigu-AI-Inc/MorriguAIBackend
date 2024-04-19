@@ -1,0 +1,172 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Commerce Invoices API",
+  "description": "API for fetching information about an account's invoices. This is a read-only API that cannot be used for creating or managing invoices.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for fetching invoices",
+      "value": "/crm/v3/objects/invoices"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "propertiesWithHistory": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Properties for which to return historical values"
+        },
+        "idProperty": {
+          "type": "string",
+          "description": "Property to use as the ID for the objects"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "ID of the invoice to fetch"
+              }
+            },
+            "required": ["id"]
+          },
+          "description": "List of invoice IDs or unique property values to fetch"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of properties to include in the response"
+        },
+        "query": {
+          "type": "string",
+          "description": "Search query for filtering invoices"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return"
+        },
+        "after": {
+          "type": "string",
+          "description": "Offset for fetching the next page of results"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of properties to sort the results by"
+        },
+        "filterGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "highValue": {
+                      "type": "string",
+                      "description": "Upper bound for a range filter"
+                    },
+                    "propertyName": {
+                      "type": "string",
+                      "description": "Name of the property to filter on"
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "List of values to filter by"
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "Value to filter by"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": ["EQ", "NEQ", "LT", "LTE", "GT", "GTE", "CONTAINS", "NOT_CONTAINS", "STARTS_WITH", "ENDS_WITH"],
+                      "description": "Operator for the filter"
+                    }
+                  },
+                  "required": ["propertyName", "operator"]
+                },
+                "description": "List of filters to apply"
+              }
+            },
+            "description": "Group of filters to apply"
+          },
+          "description": "List of filter groups to apply"
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "archived": {
+          "type": "boolean",
+          "description": "Whether to include archived invoices"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "List of invoices matching the request"
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "next": {
+              "type": "object",
+              "properties": {
+                "after": {
+                  "type": "string",
+                  "description": "Offset for fetching the next page of results"
+                }
+              },
+              "required": ["after"]
+            }
+          },
+          "required": ["next"]
+        }
+      },
+      "required": ["results"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

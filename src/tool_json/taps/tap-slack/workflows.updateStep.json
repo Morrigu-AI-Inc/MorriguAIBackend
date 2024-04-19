@@ -1,0 +1,51 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "workflowsUpdateStep",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "workflow_step_edit_id": {
+      "type": "string",
+      "description": "A context identifier provided with `view_submission` payloads used to call back to `workflows.updateStep`."
+    },
+    "inputs": {
+      "type": "object",
+      "description": "A JSON key-value map of inputs required from a user during configuration."
+    },
+    "outputs": {
+      "type": "array",
+      "description": "An JSON array of output objects used during step execution.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "type", "label"]
+      }
+    },
+    "step_image_url": {
+      "type": "string",
+      "description": "An optional field that can be used to override app image that is shown in the Workflow Builder."
+    },
+    "step_name": {
+      "type": "string", 
+      "description": "An optional field that can be used to override the step name that is shown in the Workflow Builder."
+    }
+  },
+  "required": [
+    "token",
+    "workflow_step_edit_id"
+  ]
+}

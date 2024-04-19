@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Event Types",
+  "description": "This schema describes the different types of events that can be triggered by activity on GitHub and returned by the GitHub Events API.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the event."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of event."
+    },
+    "actor": {
+      "type": "object",
+      "description": "The user that triggered the event.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the actor."
+        },
+        "login": {
+          "type": "string",
+          "description": "The username of the actor."
+        },
+        "display_login": {
+          "type": "string",
+          "description": "The specific display format of the username."
+        },
+        "gravatar_id": {
+          "type": "string",
+          "description": "The unique identifier of the Gravatar profile for the actor."
+        },
+        "url": {
+          "type": "string",
+          "description": "The REST API URL used to retrieve the user object, which includes additional user information."
+        },
+        "avatar_url": {
+          "type": "string",
+          "description": "The URL of the actor's profile image."
+        }
+      },
+      "required": [
+        "id",
+        "login",
+        "gravatar_id",
+        "url",
+        "avatar_url"
+      ]
+    },
+    "repo": {
+      "type": "object",
+      "description": "The repository object where the event occurred.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the repository."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the repository, which includes the owner and repository name."
+        },
+        "url": {
+          "type": "string",
+          "description": "The REST API URL used to retrieve the repository object, which includes additional repository information."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "url"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "description": "The event payload object is unique to the event type."
+    },
+    "public": {
+      "type": "boolean",
+      "description": "Whether the event is visible to all users."
+    },
+    "created_at": {
+      "type": "string",
+      "description": "The date and time when the event was triggered, formatted according to ISO 8601."
+    },
+    "org": {
+      "type": "object",
+      "description": "The organization that was chosen by the actor to perform action that triggers the event.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the organization."
+        },
+        "login": {
+          "type": "string",
+          "description": "The name of the organization."
+        },
+        "gravatar_id": {
+          "type": "string",
+          "description": "The unique identifier of the Gravatar profile for the organization."
+        },
+        "url": {
+          "type": "string",
+          "description": "The REST API URL used to retrieve the organization object, which includes additional organization information."
+        },
+        "avatar_url": {
+          "type": "string",
+          "description": "The URL of the organization's profile image."
+        }
+      },
+      "required": [
+        "id",
+        "login",
+        "gravatar_id",
+        "url",
+        "avatar_url"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "actor",
+    "repo",
+    "public",
+    "created_at"
+  ]
+}

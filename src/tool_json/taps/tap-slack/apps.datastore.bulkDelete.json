@@ -1,0 +1,38 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "apps.datastore.bulkDelete",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "datastore": {
+      "description": "name of the datastore",
+      "type": "string"
+    },
+    "ids": {
+      "description": "IDs of items to be deleted",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "7c6dd137",
+        "c7d6d731"
+      ]
+    },
+    "app_id": {
+      "description": "An optional app ID.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "token",
+    "datastore",
+    "ids"
+  ],
+  "additionalProperties": false
+}

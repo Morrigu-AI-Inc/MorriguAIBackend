@@ -1,0 +1,47 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "trigger_id": {
+      "type": "string",
+      "description": "Encoded ID of the trigger"
+    },
+    "channel_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of encoded channel IDs"
+    },
+    "org_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of encoded organization IDs"
+    },
+    "team_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of encoded workspace IDs"
+    },
+    "user_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of encoded user IDs"
+    }
+  },
+  "required": [
+    "token",
+    "trigger_id"
+  ]
+}

@@ -1,0 +1,39 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "id": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The trigger type ID for which to set the permissions"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "everyone",
+        "named_entities",
+        "no_one"
+      ],
+      "description": "The function visibility"
+    },
+    "user_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of user IDs to allow for named_entities visibility"
+    }
+  },
+  "required": [
+    "token",
+    "id",
+    "visibility"
+  ]
+}

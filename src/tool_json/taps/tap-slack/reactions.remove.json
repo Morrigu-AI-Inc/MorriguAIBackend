@@ -1,0 +1,50 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "name": {
+      "type": "string",
+      "description": "Reaction (emoji) name."
+    },
+    "channel": {
+      "type": "string",
+      "description": "Channel where the message to remove reaction from was posted."
+    },
+    "file": {
+      "type": "string",
+      "description": "File to remove reaction from."
+    },
+    "file_comment": {
+      "type": "string",
+      "description": "File comment to remove reaction from."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Timestamp of the message to remove reaction from."
+    }
+  },
+  "required": [
+    "token",
+    "name"
+  ],
+  "dependencies": {
+    "file": [
+      "file"
+    ],
+    "file_comment": [
+      "file_comment"
+    ],
+    "channel": [
+      "timestamp"
+    ],
+    "timestamp": [
+      "channel"
+    ]
+  },
+  "additionalProperties": false
+}

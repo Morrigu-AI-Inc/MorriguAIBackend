@@ -1,0 +1,28 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel": {
+      "type": "string",
+      "description": "Channel containing the message to be deleted."
+    },
+    "ts": {
+      "type": "string",
+      "description": "Timestamp of the message to be deleted."
+    },
+    "as_user": {
+      "type": "boolean",
+      "description": "Pass true to delete the message as the authed user with `chat:write:user` scope."
+    }
+  },
+  "required": [
+    "token",
+    "channel",
+    "ts"
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "POST"
+                },
+                "url": {
+                  "type": "string",
+                  "const": "apps.manifest.create"
+                }
+              },
+              "required": ["method", "url"]
+            },
+            "javascript": {
+              "type": "string",
+              "const": "app.client.apps.manifest.create"
+            },
+            "python": {
+              "type": "string",
+              "const": "app.client.apps_manifest_create"
+            },
+            "java": {
+              "type": "string",
+              "const": "app.client().appsManifestCreate"
+            }
+          }
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "required": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "const": "App configuration token"
+              }
+            }
+          },
+          "required": ["required"]
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string",
+              "const": "application/x-www-form-urlencoded"
+            },
+            {
+              "type": "string",
+              "const": "application/json"
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "rateLimits": {
+          "type": "string",
+          "const": "Tier 1"
+        }
+      },
+      "required": ["method", "scopes", "contentTypes", "rateLimits"]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "const": "token"
+                },
+                "type": {
+                  "type": "string",
+                  "const": "token"
+                },
+                "required": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "description": {
+                  "type": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "const": "xxxx-xxxxxxxxx-xxxx"
+                }
+              },
+              "required": ["name", "type", "required", "description", "example"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "const": "manifest"
+                },
+                "type": {
+                  "type": "string",
+                  "const": "manifest object as string"
+                },
+                "required": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["name", "type", "required", "description"]
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": ["required"]
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "Common successful response"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "type": "boolean",
+                "const": true
+              },
+              "app_id": {
+                "type": "string",
+                "const": "A012ABCD0A0"
+              },
+              "credentials": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "type": "string"
+                  },
+                  "client_secret": {
+                    "type": "string"
+                  },
+                  "verification_token": {
+                    "type": "string"
+                  },
+                  "signing_secret": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "client_id",
+                  "client_secret",
+                  "verification_token",
+                  "signing_secret"
+                ]
+              },
+              "oauth_authorize_url": {
+                "type": "string"
+              }
+            },
+            "required": ["ok", "app_id", "credentials", "oauth_authorize_url"]
+          }
+        },
+        "required": ["title", "response"]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["error", "description"]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["warning", "description"]
+      }
+    }
+  },
+  "required": ["facts", "arguments", "examples", "errors", "warnings"]
+}

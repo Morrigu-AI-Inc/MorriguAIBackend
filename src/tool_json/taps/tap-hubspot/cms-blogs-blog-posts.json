@@ -1,0 +1,582 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMS Blogs Blog posts",
+  "description": "Use the blog posts API to create, manage, and publish blog posts on your website.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing blog posts",
+      "value": "/cms/v3/blogs/posts"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/x-www-form-urlencoded", "application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "publishDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "language": {
+          "type": "string"
+        },
+        "enableLayoutStylesheets": {
+          "type": "boolean"
+        },
+        "metaDescription": {
+          "type": "string"
+        },
+        "attachedStylesheets": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "password": {
+          "type": "string"
+        },
+        "htmlTitle": {
+          "type": "string"
+        },
+        "publishImmediately": {
+          "type": "boolean"
+        },
+        "translations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "archivedInDashboard": {
+                "type": "boolean"
+              },
+              "created": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "tagIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "publishDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "publicAccessRules": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "password": {
+                "type": "string"
+              },
+              "authorName": {
+                "type": "string"
+              },
+              "publicAccessRulesEnabled": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": "string"
+              },
+              "campaign": {
+                "type": "string"
+              },
+              "id": {
+                "type": "integer"
+              },
+              "state": {
+                "type": "string"
+              },
+              "updated": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "slug": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "archivedInDashboard",
+              "created",
+              "publishDate",
+              "password",
+              "authorName",
+              "publicAccessRulesEnabled",
+              "name",
+              "campaign",
+              "id",
+              "state",
+              "updated",
+              "slug"
+            ]
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "createdById": {
+          "type": "string"
+        },
+        "rssBody": {
+          "type": "string"
+        },
+        "currentlyPublished": {
+          "type": "boolean"
+        },
+        "archivedInDashboard": {
+          "type": "boolean"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "contentTypeCategory": {
+          "type": "string"
+        },
+        "mabExperimentId": {
+          "type": "string"
+        },
+        "updatedById": {
+          "type": "string"
+        },
+        "translatedFromId": {
+          "type": "string"
+        },
+        "folderId": {
+          "type": "string"
+        },
+        "widgetContainers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "pageExpiryRedirectId": {
+          "type": "integer"
+        },
+        "dynamicPageDataSourceType": {
+          "type": "integer"
+        },
+        "featuredImage": {
+          "type": "string"
+        },
+        "authorName": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "dynamicPageHubDbTableId": {
+          "type": "string"
+        },
+        "campaign": {
+          "type": "string"
+        },
+        "dynamicPageDataSourceId": {
+          "type": "string"
+        },
+        "enableDomainStylesheets": {
+          "type": "boolean"
+        },
+        "includeDefaultCustomCss": {
+          "type": "boolean"
+        },
+        "layoutSections": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "cssStyle": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "params": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                }
+              },
+              "rows": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "cssStyle": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "params": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object"
+                        }
+                      },
+                      "rows": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "null"
+                          }
+                        }
+                      },
+                      "rowMetaData": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "cssClass": {
+                              "type": "string"
+                            },
+                            "styles": {
+                              "type": "object",
+                              "properties": {
+                                "backgroundColor": {
+                                  "type": "object",
+                                  "properties": {
+                                    "a": {
+                                      "type": "integer"
+                                    },
+                                    "r": {
+                                      "type": "integer"
+                                    },
+                                    "b": {
+                                      "type": "integer"
+                                    },
+                                    "g": {
+                                      "type": "integer"
+                                    }
+                                  },
+                                  "required": [
+                                    "a",
+                                    "r",
+                                    "b",
+                                    "g"
+                                  ]
+                                },
+                                "flexboxPositioning": {
+                                  "type": "string"
+                                },
+                                "backgroundImage": {
+                                  "type": "object",
+                                  "properties": {
+                                    "imageUrl": {
+                                      "type": "string"
+                                    },
+                                    "backgroundSize": {
+                                      "type": "string"
+                                    },
+                                    "backgroundPosition": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "imageUrl",
+                                    "backgroundSize",
+                                    "backgroundPosition"
+                                  ]
+                                },
+                                "forceFullWidthSection": {
+                                  "type": "boolean"
+                                },
+                                "verticalAlignment": {
+                                  "type": "string"
+                                },
+                                "maxWidthSectionCentering": {
+                                  "type": "integer"
+                                },
+                                "backgroundGradient": {
+                                  "type": "object",
+                                  "properties": {
+                                    "angle": {
+                                      "type": "object",
+                                      "properties": {
+                                        "units": {
+                                          "type": "string"
+                                        },
+                                        "value": {
+                                          "type": "integer"
+                                        }
+                                      },
+                                      "required": [
+                                        "units",
+                                        "value"
+                                      ]
+                                    },
+                                    "sideOrCorner": {
+                                      "type": "object",
+                                      "properties": {
+                                        "horizontalSide": {
+                                          "type": "string"
+                                        },
+                                        "verticalSide": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "horizontalSide",
+                                        "verticalSide"
+                                      ]
+                                    },
+                                    "colors": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "color": {
+                                            "type": "object",
+                                            "properties": {
+                                              "a": {
+                                                "type": "integer"
+                                              },
+                                              "r": {
+                                                "type": "integer"
+                                              },
+                                              "b": {
+                                                "type": "integer"
+                                              },
+                                              "g": {
+                                                "type": "integer"
+                                              }
+                                            },
+                                            "required": [
+                                              "a",
+                                              "r",
+                                              "b",
+                                              "g"
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "color"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "angle",
+                                    "sideOrCorner",
+                                    "colors"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "backgroundColor",
+                                "flexboxPositioning",
+                                "backgroundImage",
+                                "forceFullWidthSection",
+                                "verticalAlignment",
+                                "maxWidthSectionCentering",
+                                "backgroundGradient"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "cssClass",
+                            "styles"
+                          ]
+                        }
+                      },
+                      "cells": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      },
+                      "cssClass": {
+                        "type": "string"
+                      },
+                      "w": {
+                        "type": "integer"
+                      },
+                      "cssId": {
+                        "type": "string"
+                      },
+                      "x": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "styles": {
+                        "type": "object",
+                        "properties": {
+                          "backgroundColor": {
+                            "type": "object",
+                            "properties": {
+                              "a": {
+                                "type": "integer"
+                              },
+                              "r": {
+                                "type": "integer"
+                              },
+                              "b": {
+                                "type": "integer"
+                              },
+                              "g": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "a",
+                              "r",
+                              "b",
+                              "g"
+                            ]
+                          },
+                          "flexboxPositioning": {
+                            "type": "string"
+                          },
+                          "backgroundImage": {
+                            "type": "object",
+                            "properties": {
+                              "imageUrl": {
+                                "type": "string"
+                              },
+                              "backgroundSize": {
+                                "type": "string"
+                              },
+                              "backgroundPosition": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "imageUrl",
+                              "backgroundSize",
+                              "backgroundPosition"
+                            ]
+                          },
+                          "forceFullWidthSection": {
+                            "type": "boolean"
+                          },
+                          "verticalAlignment": {
+                            "type": "string"
+                          },
+                          "maxWidthSectionCentering": {
+                            "type": "integer"
+                          },
+                          "backgroundGradient": {
+                            "type": "object",
+                            "properties": {
+                              "angle": {
+                                "type": "object",
+                                "properties": {
+                                  "units": {
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "units",
+                                  "value"
+                                ]
+                              },
+                              "sideOrCorner": {
+                                "type": "object",
+                                "properties": {
+                                  "horizontalSide": {
+                                    "type": "string"
+                                  },
+                                  "verticalSide": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "horizontalSide",
+                                  "verticalSide"
+                                ]
+                              },
+                              "colors": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "color": {
+                                      "type": "object",
+                                      "properties": {
+                                        "a": {
+                                          "type": "integer"
+                                        },
+                                        "r": {
+                                          "type": "integer"
+                                        },
+                                        "b": {
+                                          "type": "integer"
+                                        },
+                                        "g": {
+                                          "type": "integer"
+                                        }
+                                      },
+                                      "required": [
+                                        "a",
+                                        "r",
+                                        "b",
+                                        "g"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "color"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "angle",
+                              "sideOrCorner",
+                              "colors"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "backgroundColor",
+                          "flexboxPositioning",
+                          "backgroundImage",
+                          "forceFullWidthSection",
+                          "verticalAlignment",
+                          "maxWidthSection

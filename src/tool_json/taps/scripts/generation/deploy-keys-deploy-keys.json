@@ -1,0 +1,405 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub REST API for Deploy Keys",
+  "description": "REST API endpoints for managing deploy keys in a GitHub repository",
+  "type": "object",
+  "properties": {
+    "listDeployKeys": {
+      "type": "object",
+      "description": "List all deploy keys for a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing deploy keys",
+          "value": "/repos/{owner}/{repo}/keys"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "key": {
+                "type": "string",
+                "description": "The deploy key content"
+              },
+              "url": {
+                "type": "string",
+                "description": "The API URL for the deploy key"
+              },
+              "title": {
+                "type": "string",
+                "description": "A name for the deploy key"
+              },
+              "verified": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "read_only": {
+                "type": "boolean",
+                "description": "Whether the key has read-only access"
+              },
+              "added_by": {
+                "type": "string"
+              },
+              "last_used": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "id",
+              "key",
+              "url",
+              "title",
+              "verified",
+              "created_at",
+              "read_only",
+              "added_by"
+            ]
+          }
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers",
+        "pathParameters",
+        "response"
+      ]
+    },
+    "createDeployKey": {
+      "type": "object",
+      "description": "Create a new deploy key for a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a deploy key",
+          "value": "/repos/{owner}/{repo}/keys"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "A name for the key"
+            },
+            "key": {
+              "type": "string",
+              "description": "The contents of the key"
+            },
+            "read_only": {
+              "type": "boolean",
+              "description": "If true, the key will only be able to read repository contents"
+            }
+          },
+          "required": ["key"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "key": {
+              "type": "string",
+              "description": "The deploy key content"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL for the deploy key"
+            },
+            "title": {
+              "type": "string",
+              "description": "A name for the deploy key"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "read_only": {
+              "type": "boolean",
+              "description": "Whether the key has read-only access"
+            },
+            "added_by": {
+              "type": "string"
+            },
+            "last_used": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "key",
+            "url",
+            "title",
+            "verified",
+            "created_at",
+            "read_only",
+            "added_by"
+          ]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method", 
+        "headers",
+        "pathParameters",
+        "body",
+        "response"
+      ]
+    },
+    "getDeployKey": {
+      "type": "object",
+      "description": "Get a single deploy key for a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a deploy key",
+          "value": "/repos/{owner}/{repo}/keys/{key_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            },
+            "key_id": {
+              "type": "integer",
+              "description": "The unique identifier of the key"
+            }
+          },
+          "required": ["owner", "repo", "key_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "key": {
+              "type": "string",
+              "description": "The deploy key content"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL for the deploy key"
+            },
+            "title": {
+              "type": "string",
+              "description": "A name for the deploy key"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "read_only": {
+              "type": "boolean",
+              "description": "Whether the key has read-only access"
+            },
+            "added_by": {
+              "type": "string"
+            },
+            "last_used": {
+              "type": "string", 
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "key", 
+            "url",
+            "title",
+            "verified",
+            "created_at",
+            "read_only",
+            "added_by"
+          ]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers", 
+        "pathParameters",
+        "response"
+      ]
+    },
+    "deleteDeployKey": {
+      "type": "object",
+      "description": "Delete a deploy key from a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for deleting a deploy key",
+          "value": "/repos/{owner}/{repo}/keys/{key_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            },
+            "key_id": {
+              "type": "integer",
+              "description": "The unique identifier of the key"
+            }
+          },
+          "required": ["owner", "repo", "key_id"]
+        },
+        "response": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers",
+        "pathParameters",
+        "response"
+      ]
+    }
+  },
+  "required": ["listDeployKeys", "createDeployKey", "getDeployKey", "deleteDeployKey"],
+  "additionalProperties": false
+}

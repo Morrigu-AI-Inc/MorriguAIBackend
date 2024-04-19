@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "accessMethods": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "POST"
+                },
+                "url": {
+                  "type": "string",
+                  "const": "workflows.triggers.permissions.remove"
+                }
+              },
+              "required": ["method", "url"]
+            },
+            "java": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client().workflowsTriggersPermissionsRemove"
+                }
+              },
+              "required": ["method"]
+            },
+            "python": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client.workflows_triggers_permissions_remove"
+                }
+              },
+              "required": ["method"]
+            },
+            "js": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client.workflows.triggers.permissions.remove"
+                }
+              },
+              "required": ["method"]
+            }
+          },
+          "required": ["http", "java", "python", "js"]
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "const": "triggers:write"
+          },
+          "minItems": 1
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["application/x-www-form-urlencoded", "application/json"]
+          },
+          "minItems": 1
+        },
+        "rateLimits": {
+          "type": "string",
+          "const": "Tier 3"
+        }
+      },
+      "required": ["accessMethods", "scopes", "contentTypes", "rateLimits"]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "const": "token"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "example": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name", "description", "example"]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "const": "trigger_id"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "example": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name", "description", "example"]
+              }
+            ]
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["channel_ids", "org_ids", "team_ids", "user_ids"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              }
+            },
+            "required": ["name", "description", "example"]
+          }
+        }
+      },
+      "required": ["required", "optional"]
+    },
+    "usageInfo": {
+      "type": "string"
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object"
+          }
+        },
+        "required": ["title", "response"]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["error", "description"]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["warning", "description"]
+      }
+    }
+  },
+  "required": [
+    "facts",
+    "arguments",
+    "usageInfo",
+    "examples",
+    "errors",
+    "warnings"
+  ]
+}

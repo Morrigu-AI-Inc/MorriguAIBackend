@@ -1,0 +1,164 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Method access"
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "granular_bot": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Required scopes for Bot tokens"
+            },
+            "user": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Required scopes for User tokens"
+            },
+            "bot": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Required scopes for Legacy bot tokens"
+            }
+          }
+        },
+        "contenttypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Content types"
+        },
+        "ratelimits": {
+          "type": "string",
+          "description": "Rate limits"
+        }
+      }
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "description",
+              "example"
+            ]
+          }
+        }
+      },
+      "required": [
+        "required"
+      ]
+    },
+    "usage_info": {
+      "type": "object",
+      "properties": {
+        "output_parameters_schema": {
+          "type": "object"
+        },
+        "output_object": {
+          "type": "object"
+        }
+      }
+    },
+    "example_responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "example": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "example"
+        ]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name", 
+          "description"
+        ]
+      }
+    }
+  },
+  "required": [
+    "facts",
+    "arguments",
+    "usage_info",
+    "example_responses",
+    "errors",
+    "warnings"
+  ]
+}

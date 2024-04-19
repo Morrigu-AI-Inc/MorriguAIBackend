@@ -1,0 +1,161 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "notices": {
+      "type": "object",
+      "properties": {
+        "info": {
+          "type": "string",
+          "description": "Information about the method requiring a paid plan."
+        }
+      }
+    },
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "The HTTP method access for the endpoint."
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "bot_tokens": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Required scopes for bot tokens."
+            },
+            "user_tokens": {
+              "type": "string",
+              "description": "Required scopes for user tokens."
+            }
+          }
+        },
+        "content_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Accepted content types for the request."
+        },
+        "rate_limits": {
+          "type": "string",
+          "description": "Rate limit tier for the method."
+        }
+      }
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              },
+              "default": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "usage_info": {
+      "type": "object",
+      "properties": {
+        "info": {
+          "type": "string",
+          "description": "Additional information about the method usage."
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Examples of how to use the method."
+        }
+      }
+    },
+    "example_responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "example": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

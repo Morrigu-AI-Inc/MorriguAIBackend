@@ -1,0 +1,75 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BulkActions",
+  "type": "object",
+  "properties": {
+    "s_query": {
+      "type": "object",
+      "description": "Structured query for filtering leads, similar to the Advanced Filtering API endpoint, but with the 'query' field renamed to 's_query'",
+      "properties": {
+        "queries": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "queries"
+      ]
+    },
+    "results_limit": {
+      "type": "integer",
+      "description": "Maximum number of results to return"
+    },
+    "sort": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "contact_preference": {
+      "type": "string",
+      "description": "For email and sequence subscription actions, whether to use the lead email ('lead') or contact emails ('contact')",
+      "enum": [
+        "lead",
+        "contact"
+      ]
+    },
+    "lead_status_id": {
+      "type": "integer",
+      "description": "ID of the Lead Status to set for bulk edit actions of type 'set_lead_status'"
+    },
+    "custom_field_id": {
+      "type": "integer",
+      "description": "ID of the custom field for bulk edit actions involving custom fields"
+    },
+    "custom_field_name": {
+      "type": "string",
+      "description": "Name of the custom field for bulk edit actions involving custom fields"
+    },
+    "custom_field_value": {
+      "description": "New value for the custom field in bulk edit actions of type 'set_custom_field'"
+    },
+    "custom_field_values": {
+      "type": "array",
+      "description": "New values for custom fields that support multiple values"
+    },
+    "custom_field_operation": {
+      "type": "string",
+      "description": "Operation to perform on multi-value custom fields ('replace', 'add', or 'remove')",
+      "enum": [
+        "replace",
+        "add", 
+        "remove"
+      ]
+    },
+    "send_done_email": {
+      "type": "boolean",
+      "description": "Whether to receive a confirmation email after the bulk action is done",
+      "default": true
+    }
+  },
+  "required": [
+    "s_query"
+  ]
+}

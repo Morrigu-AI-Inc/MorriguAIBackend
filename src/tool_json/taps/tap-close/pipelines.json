@@ -1,45 +1,37 @@
+
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
-  "type": ["null", "object"],
-  "additionalProperties": true,
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Pipelines",
+  "description": "Pipelines are named and ordered groups of Opportunity Statuses. They allow you to group your Opportunity Statuses into separate categories that make sense for the different teams and workflows at your company.",
+  "type": "object",
   "properties": {
-    "created_by": {
-      "type": ["null", "string"]
-    },
-    "updated_by": {
-      "type": ["null", "string"]
-    },
-    "date_updated": {
-      "type": ["null", "string"]
-    },
-    "date_created": {
-      "type": ["null", "string"]
-    },
-    "id": {
-      "type": ["null", "string"]
-    },
-    "name": {
-      "type": ["null", "string"]
-    },
-    "organization_id": {
-      "type": ["null", "string"]
-    },
-    "statuses": {
-      "type": ["null", "array"],
+    "pipelines": {
+      "type": "array",
       "items": {
-        "type": ["null", "object"],
+        "type": "object",
         "properties": {
           "id": {
-            "type": ["null", "string"]
+            "type": "string"
           },
-          "label": {
-            "type": ["null", "string"]
+          "name": {
+            "type": "string"
           },
-          "type": {
-            "type": ["null", "string"]
+          "statuses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": ["id"]
+            }
           }
-        }
+        },
+        "required": ["id", "name", "statuses"]
       }
     }
-  }
+  },
+  "required": ["pipelines"]
 }

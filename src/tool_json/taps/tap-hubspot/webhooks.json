@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Webhooks API", 
+  "description": "The Webhooks API allows you to subscribe to events happening in a HubSpot account with your integration installed.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing webhook settings and subscriptions",
+      "value": "/webhooks/v3/{appId}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "PUT", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body for PUT, POST and PATCH requests"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "hapikey": {
+          "type": "string",
+          "description": "Your HubSpot developer API key"
+        }
+      },
+      "required": ["hapikey"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "throttling": {
+          "type": "object",
+          "properties": {
+            "period": {
+              "type": "string",
+              "enum": ["SECONDLY"],
+              "description": "The period at which throttling is applied"
+            },
+            "maxConcurrentRequests": {
+              "type": "integer",
+              "description": "The maximum number of concurrent requests allowed"
+            }
+          },
+          "required": ["period", "maxConcurrentRequests"]
+        },
+        "targetUrl": {
+          "type": "string",
+          "description": "The URL to receive webhook requests"
+        },
+        "propertyName": {
+          "type": "string",
+          "description": "The property name to subscribe to events for"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the subscription is active or not"
+        },
+        "eventType": {
+          "type": "string",
+          "description": "The event type to subscribe to"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "active": {
+                "type": "boolean",
+                "description": "Whether to activate or deactivate the subscription"
+              },
+              "id": {
+                "type": "integer",
+                "description": "The ID of the subscription"
+              }
+            },
+            "required": ["active", "id"]
+          }
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "settings": {
+          "type": "object",
+          "properties": {
+            "targetUrl": {
+              "type": "string",
+              "description": "The URL configured to receive webhook requests"
+            },
+            "throttling": {
+              "type": "object",
+              "properties": {
+                "period": {
+                  "type": "string",
+                  "description": "The period at which throttling is applied"
+                },
+                "maxConcurrentRequests": {
+                  "type": "integer",
+                  "description": "The maximum number of concurrent requests allowed"
+                }
+              }
+            }
+          }
+        },
+        "subscriptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The ID of the subscription"
+              },
+              "propertyName": {
+                "type": "string",
+                "description": "The property name subscribed to"
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Whether the subscription is active or not"  
+              },
+              "eventType": {
+                "type": "string",
+                "description": "The event type subscribed to"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+}

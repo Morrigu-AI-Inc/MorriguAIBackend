@@ -1,0 +1,120 @@
+Here is the JSON Schema for the HTML content:
+
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        "headline-container-grid-itemGdPV-VbhShYs": {
+          "type": "object",
+          "properties": {
+            "button-containerobFfV0vf6giV": {
+              "type": "object",
+              "properties": {
+                "reference-flyout": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "reference-sidebar-mobile-button26mqim6Chewq": {
+      "type": "object"
+    },
+    "Flyout95xhYIIoTKtc": {
+      "type": "object",
+      "properties": {
+        "Nav3C5f8FcjkaHj": {
+          "type": "object",
+          "properties": {
+            "ref-QuickNav-mobile-containerARtvyEDVpRhW": {
+              "type": "object"
+            },
+            "QuickNav-button2KzlQbz5Pm2Y": {
+              "type": "object"
+            },
+            "Sidebar1t2G1ZJq-vU1": {
+              "type": "object",
+              "properties": {
+                "Sidebar-listWrapper6Q9_yUrG906C": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Sidebar-headingTRQyOa2pk0gh": {
+                        "type": "object"
+                      },
+                      "Sidebar-list3cZWQLaBf9k8": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "Sidebar-item23D-2Kd61_k3": {
+                              "type": "object",
+                              "properties": {
+                                "Sidebar-link2Dsha-r-GKh2": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Sidebar-link-textLuTE1ySm4Kqn": {
+                                      "type": "object"
+                                    },
+                                    "Sidebar-link-buttonWrapper3hnFHNku8_BJ": {
+                                      "type": "object"
+                                    },
+                                    "Sidebar-link-expandIcon2yVH6SarI6NW": {
+                                      "type": "object"
+                                    },
+                                    "subpages": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "Sidebar-link2Dsha-r-GKh2": {
+                                            "type": "object",
+                                            "properties": {
+                                              "Sidebar-link-textLuTE1ySm4Kqn": {
+                                                "type": "object"
+                                              },
+                                              "Sidebar-methodfUM3m6FEWm6w": {
+                                                "type": "object"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "Sidebar-methodfUM3m6FEWm6w": {
+                                      "type": "object"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "APIHeader-url-parameterFHIqVFeNEd7b": {
+      "type": "object"
+    },
+    "excerptT2m-MzSJGRK7": {
+      "type": "object"
+    }
+  }
+}
+
+
+This JSON Schema defines the structure of the HTML elements and their classes found in the provided content. Note that this schema only captures the structural information present in the HTML and does not include any semantic information about the data being represented.

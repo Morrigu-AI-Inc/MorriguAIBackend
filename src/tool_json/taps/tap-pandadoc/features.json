@@ -1,0 +1,86 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        "headline-container-grid-itemGdPV-VbhShYs": {
+          "type": "object",
+          "properties": {
+            "button-containerobFfV0vf6giV": {
+              "type": "object",
+              "properties": {
+                "reference-flyout": {
+                  "type": "object",
+                  "properties": {
+                    "Flyout95xhYIIoTKtc": {
+                      "type": "object",
+                      "properties": {
+                        "Nav3C5f8FcjkaHj": {
+                          "type": "object",
+                          "properties": {
+                            "ref-QuickNav-mobile-containerARtvyEDVpRhW": {
+                              "type": "object"
+                            },
+                            "Sidebar1t2G1ZJq-vU1": {
+                              "type": "object",
+                              "properties": {
+                                "Sidebar-listWrapper6Q9_yUrG906C": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "Sidebar-list3cZWQLaBf9k8": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "Sidebar-link2Dsha-r-GKh2": {
+                                              "type": "string"
+                                            },
+                                            "subpages": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "Sidebar-methodfUM3m6FEWm6w": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "content-head": {
+          "type": "object"
+        }
+      }
+    },
+    "rm-Markdown": {
+      "type": "object",
+      "properties": {
+        "rdmd-html": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

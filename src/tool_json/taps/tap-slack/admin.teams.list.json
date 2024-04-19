@@ -1,0 +1,58 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.teams.list",
+  "description": "This Admin API lists workspaces in an enterprise organization.",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "teams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "discoverability": {
+            "type": "string"
+          },
+          "primary_owner": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "user_id",
+              "email"
+            ]
+          },
+          "team_url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "discoverability",
+          "primary_owner",
+          "team_url"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "teams"
+  ]
+}

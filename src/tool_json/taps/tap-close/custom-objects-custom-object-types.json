@@ -1,0 +1,48 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the Custom Object Type"
+    },
+    "name_plural": {
+      "type": "string",
+      "description": "A pluralized version of the name, for some UI display."
+    },
+    "description": {
+      "type": "string",
+      "description": "A longer description of the Custom Object Type."
+    },
+    "api_create_only": {
+      "type": "boolean",
+      "description": "If true, instances can only be created by API clients. Defaults to false."
+    },
+    "editable_with_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Only users with the given roles can edit instances of this type."
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "The list of fields that belong to the Custom Object Type."
+    },
+    "back_reference_fields": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "The list of any objects (Leads, Contacts, Opportunities, Custom Activities, Custom Objects) that reference the Custom Object Type."
+    }
+  },
+  "required": [
+    "name",
+    "name_plural"
+  ]
+}

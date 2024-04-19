@@ -1,0 +1,22 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "trigger_type_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The trigger types IDs for which to get the permissions"
+    }
+  },
+  "required": [
+    "token",
+    "trigger_type_ids"
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Custom Event Definitions API",
+  "description": "API to define and manage custom events that can be associated with records in HubSpot CRM",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing custom event definitions",
+      "value": "/events/v3/event-definitions"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the custom event definition"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the custom event definition"
+        },
+        "label": {
+          "type": "string",
+          "description": "Label for the custom event definition"
+        },
+        "primaryObject": {
+          "type": "string",
+          "description": "Primary object associated with the custom event definition"
+        },
+        "propertyDefinitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the property"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the property"
+              },
+              "label": {
+                "type": "string",
+                "description": "Label for the property"
+              },
+              "type": {
+                "type": "string",
+                "description": "Data type of the property"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "string",
+                      "description": "Value of the option"
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "Label for the option"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the option"
+                    },
+                    "displayOrder": {
+                      "type": "integer",
+                      "description": "Display order of the option"
+                    },
+                    "hidden": {
+                      "type": "boolean",
+                      "description": "Whether the option is hidden or not"
+                    }
+                  },
+                  "required": ["value", "label"]
+                },
+                "description": "List of options for the property"
+              }
+            },
+            "required": ["name", "type"]
+          },
+          "description": "List of property definitions for the custom event definition"
+        }
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "type": "string",
+          "description": "Name of the custom event definition"
+        },
+        "propertyName": {
+          "type": "string",
+          "description": "Name of the property in the custom event definition"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the custom event definition"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the custom event definition"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the custom event definition"
+        },
+        "label": {
+          "type": "string",
+          "description": "Label for the custom event definition"
+        },
+        "primaryObject": {
+          "type": "string",
+          "description": "Primary object associated with the custom event definition"
+        },
+        "propertyDefinitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the property"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the property"
+              },
+              "label": {
+                "type": "string",
+                "description": "Label for the property"
+              },
+              "type": {
+                "type": "string",
+                "description": "Data type of the property"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "string",
+                      "description": "Value of the option"
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "Label for the option"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the option"
+                    },
+                    "displayOrder": {
+                      "type": "integer",
+                      "description": "Display order of the option"
+                    },
+                    "hidden": {
+                      "type": "boolean",
+                      "description": "Whether the option is hidden or not"
+                    }
+                  },
+                  "required": ["value", "label"]
+                },
+                "description": "List of options for the property"
+              }
+            },
+            "required": ["name", "type"]
+          },
+          "description": "List of property definitions for the custom event definition"
+        }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

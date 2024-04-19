@@ -1,0 +1,71 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "call": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "date_start": {
+          "type": "integer"
+        },
+        "external_unique_id": {
+          "type": "string"
+        },
+        "join_url": {
+          "type": "string"
+        },
+        "desktop_app_join_url": {
+          "type": "string"
+        },
+        "external_display_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "slack_id": {
+                "type": "string"
+              },
+              "external_id": {
+                "type": "string"
+              },
+              "display_name": {
+                "type": "string"
+              },
+              "avatar_url": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "id",
+        "date_start",
+        "external_unique_id",
+        "join_url",
+        "title",
+        "users"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "ok",
+    "call"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,27 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "chat.meMessage",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "channel": {
+      "type": "string",
+      "description": "Channel to send message to."
+    },
+    "ts": {
+      "type": "string",
+      "description": "Timestamp of the message."
+    },
+    "error": {
+      "type": "string",
+      "description": "Error code explaining why the request failed."
+    }
+  },
+  "required": [
+    "ok"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,37 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Admin Barriers Create",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "barriered_from_usergroup_ids": {
+      "type": "array",
+      "description": "A list of IDP Groups ids that the primary usergroup is to be barriered from.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "primary_usergroup_id": {
+      "type": "string",
+      "description": "The id of the primary IDP Group"
+    },
+    "restricted_subjects": {
+      "type": "array",
+      "description": "What kind of interactions are blocked by this barrier?",
+      "items": {
+        "type": "string",
+        "enum": ["im", "mpim", "call"]
+      }
+    }
+  },
+  "required": [
+    "token",
+    "barriered_from_usergroup_ids",
+    "primary_usergroup_id", 
+    "restricted_subjects"
+  ]
+}

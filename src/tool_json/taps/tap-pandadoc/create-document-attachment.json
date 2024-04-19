@@ -1,0 +1,41 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the attachment file"
+          },
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "description": "Base64 encoded attachment file content"
+          }
+        },
+        "required": [
+          "name",
+          "file"
+        ]
+      }
+    }
+  },
+  "required": [
+    "attachments"
+  ]
+}
+
+
+This JSON schema describes the request body for creating a document attachment. The key properties are:
+
+- `attachments` (required): An array of attachment objects
+  - Each attachment object has:
+    - `name` (required): The name of the attachment file
+    - `file` (required): The Base64 encoded content of the attachment file
+
+So the request body should contain an `attachments` array with one or more attachment object items, each specifying the `name` and `file` content.

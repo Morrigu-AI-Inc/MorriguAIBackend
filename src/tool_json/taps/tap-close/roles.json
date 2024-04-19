@@ -1,37 +1,40 @@
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
-  "type": ["null", "object"],
-  "additionalProperties": true,
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
   "properties": {
-    "date_created": {
-      "type": ["null", "string"]
-    },
-    "date_updated": {
-      "type": ["null", "string"]
-    },
-    "editable": {
-      "type": ["null", "boolean"]
-    },
-    "id": {
-      "type": ["null", "string"]
-    },
     "name": {
-      "type": ["null", "string"]
+      "type": "string",
+      "description": "Name of the role"
     },
-    "organization_id": {
-      "type": ["null", "string"]
+    "description": {
+      "type": "string",
+      "description": "Description of the role"
     },
     "permissions": {
-      "type": ["null", "array"]
-    },
-    "visibility_user_lcf_behavior": {
-      "type": ["null", "string"]
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of permissions granted to the role"
     },
     "visibility_user_lcf_ids": {
-      "type": ["null", "array"],
+      "type": "array",
       "items": {
-        "type": ["null", "string"]
-      }
+        "type": "integer"
+      },
+      "description": "A list of Lead Custom Field IDs that define which leads user with this role can see. If the role has 'view_all_leads' permission, this field should be empty."
+    },
+    "visibility_user_lcf_behavior": {
+      "type": "string",
+      "enum": [
+        "require_assignment",
+        "allow_unassigned"
+      ],
+      "description": "Defines how lead visibility works for leads that don't have assigned users. If the role has 'view_all_leads' permission, this field should be empty."
     }
-  }
+  },
+  "required": [
+    "name",
+    "permissions"
+  ]
 }

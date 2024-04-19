@@ -1,0 +1,161 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the notarization request."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the notarization request.",
+      "enum": [
+        "SENT",
+        "WAITING_FOR_NOTARY",
+        "ACCEPTED",
+        "LIVE",
+        "COMPLETED",
+        "CANCELLED"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the notarization request was created."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the notarization request was last updated."
+    },
+    "creator": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the creator of the notarization request."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the creator."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the creator."
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "name"
+      ]
+    },
+    "invitees": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the invitee."
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the invitee."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the invitee."
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the invitee in the notarization request."
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "role"
+        ]
+      },
+      "description": "The list of invitees for the notarization request."
+    },
+    "signed_documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "document_type": {
+            "type": "string",
+            "description": "The type of the signed document.",
+            "enum": [
+              "SINGLE",
+              "COMBINED"
+            ]
+          },
+          "download_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL for downloading the signed document."
+          },
+          "file_name": {
+            "type": "string",
+            "description": "The name of the signed document file."
+          }
+        },
+        "required": [
+          "document_type",
+          "download_link",
+          "file_name"
+        ]
+      },
+      "description": "The list of signed documents from the notarization request."
+    },
+    "timestamps": {
+      "type": "object",
+      "properties": {
+        "sent_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the notarization request was sent."
+        },
+        "waiting_for_notary_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the process of finding a notary was initiated."
+        },
+        "accepted_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the notarization request was accepted by the notary."
+        },
+        "live_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the notarization session started."
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the notarization session was completed."
+        },
+        "cancelled_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the notarization request was cancelled."
+        }
+      },
+      "description": "The timestamps associated with the notarization request lifecycle."
+    }
+  },
+  "required": [
+    "id",
+    "status",
+    "created_at",
+    "updated_at",
+    "creator",
+    "invitees"
+  ]
+}

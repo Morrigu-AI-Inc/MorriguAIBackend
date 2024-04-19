@@ -1,0 +1,36 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "bookmark_id": {
+      "type": "string",
+      "description": "Bookmark to update."
+    },
+    "channel_id": {
+      "type": "string",
+      "description": "Channel to update bookmark in."
+    },
+    "emoji": {
+      "type": "string",
+      "description": "Emoji tag to apply to the link."
+    },
+    "link": {
+      "type": "string",
+      "description": "Link to bookmark."
+    },
+    "title": {
+      "type": "string",
+      "description": "Title for the bookmark."
+    }
+  },
+  "required": [
+    "token",
+    "bookmark_id",
+    "channel_id"
+  ]
+}

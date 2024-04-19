@@ -1,0 +1,536 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Migrations Source Imports API",
+  "description": "API endpoints for importing source code from external Git repositories into a GitHub repository.",
+  "type": "object",
+  "properties": {
+    "getImportStatus": {
+      "type": "object",
+      "description": "Get the status of an import operation",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to get import status",
+          "value": "/repos/{owner}/{repo}/import"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string", 
+              "description": "The name of the repository"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "vcs": {
+              "type": "string",
+              "description": "The version control system used by the source"
+            },
+            "use_lfs": {
+              "type": "boolean",
+              "description": "Whether Git LFS is used for storing large files"
+            },
+            "vcs_url": {
+              "type": "string",
+              "description": "The URL of the originating repository"
+            },
+            "status": {
+              "type": "string",
+              "description": "The current status of the import"
+            },
+            "status_text": {
+              "type": "string",
+              "description": "The status text describing the state"
+            },
+            "has_large_files": {
+              "type": "boolean", 
+              "description": "Whether the import has large files"
+            },
+            "large_files_size": {
+              "type": "integer",
+              "description": "The total size of large files"
+            },
+            "large_files_count": {
+              "type": "integer", 
+              "description": "The total number of large files"
+            },
+            "authors_count": {
+              "type": "integer",
+              "description": "The number of authors mapped"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL for this import"
+            },
+            "html_url": {
+              "type": "string",
+              "description": "The HTML URL for this import"
+            },
+            "authors_url": {
+              "type": "string",
+              "description": "The API URL to get authors mapped"
+            },
+            "repository_url": {
+              "type": "string", 
+              "description": "The API URL for the GitHub repository"
+            }
+          },
+          "required": [
+            "vcs",
+            "use_lfs", 
+            "vcs_url",
+            "status",
+            "status_text",
+            "has_large_files",
+            "url",
+            "html_url",
+            "authors_url", 
+            "repository_url"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "startImport": {
+      "type": "object",
+      "description": "Start an import operation from an external Git repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to start an import",
+          "value": "/repos/{owner}/{repo}/import"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PUT"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "vcs_url": {
+              "type": "string",
+              "description": "The URL of the originating repository"
+            },
+            "vcs": {
+              "type": "string",
+              "description": "The version control system used by the source",
+              "enum": ["subversion", "git", "mercurial", "tfvc"]
+            },
+            "vcs_username": {
+              "type": "string",
+              "description": "Username for authentication to originating repository"
+            },
+            "vcs_password": {
+              "type": "string",
+              "description": "Password for authentication to originating repository"  
+            },
+            "tfvc_project": {
+              "type": "string",
+              "description": "For a TFVC import, the name of the project"
+            }
+          },
+          "required": ["vcs_url"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "vcs": {
+              "type": "string",
+              "description": "The version control system used"
+            },
+            "use_lfs": {
+              "type": "boolean",
+              "description": "Whether Git LFS is used"  
+            },
+            "vcs_url": {
+              "type": "string",
+              "description": "The URL of the originating repository"
+            },
+            "status": {
+              "type": "string",
+              "description": "The current status of the import"
+            },
+            "status_text": {
+              "type": "string",
+              "description": "The status text describing the state"
+            },
+            "has_large_files": {
+              "type": "boolean",
+              "description": "Whether the import has large files"
+            },
+            "large_files_size": {
+              "type": "integer",
+              "description": "The total size of large files"
+            },
+            "large_files_count": {
+              "type": "integer",
+              "description": "The total number of large files"
+            },
+            "authors_count": {
+              "type": "integer",
+              "description": "The number of authors mapped"
+            },
+            "commit_count": {
+              "type": "integer",
+              "description": "The total number of commits that will be imported"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL for this import" 
+            },
+            "html_url": {
+              "type": "string", 
+              "description": "The HTML URL for this import"
+            },
+            "authors_url": {
+              "type": "string",
+              "description": "The API URL to get authors mapped"
+            },
+            "repository_url": {
+              "type": "string",
+              "description": "The API URL for the GitHub repository"
+            }
+          },
+          "required": [
+            "vcs",
+            "use_lfs",
+            "vcs_url", 
+            "status",
+            "status_text",
+            "has_large_files",
+            "large_files_size",
+            "large_files_count",
+            "authors_count",
+            "commit_count",
+            "url",
+            "html_url",
+            "authors_url",
+            "repository_url"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "body", "response"]
+    },
+    "updateImport": {
+      "type": "object",
+      "description": "Update authentication, project choice or restart an existing import",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to update an import",
+          "value": "/repos/{owner}/{repo}/import"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["PATCH"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "vcs_username": {
+              "type": "string",
+              "description": "Username for authentication to originating repository"
+            },
+            "vcs_password": {
+              "type": "string",
+              "description": "Password for authentication to originating repository"
+            },
+            "vcs": {
+              "type": "string",
+              "description": "The version control system used by the source",
+              "enum": ["subversion", "tfvc", "git", "mercurial"]
+            },
+            "tfvc_project": {
+              "type": "string",
+              "description": "For a TFVC import, the name of the project"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "vcs": {
+              "type": "string",
+              "description": "The version control system used" 
+            },
+            "use_lfs": {
+              "type": "boolean",
+              "description": "Whether Git LFS is used"
+            },
+            "vcs_url": {
+              "type": "string", 
+              "description": "The URL of the originating repository"
+            },
+            "status": {
+              "type": "string",
+              "description": "The current status of the import"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL for this import"
+            },
+            "html_url": {
+              "type": "string",
+              "description": "The HTML URL for this import" 
+            },
+            "authors_url": {
+              "type": "string",
+              "description": "The API URL to get authors mapped"
+            },
+            "repository_url": {
+              "type": "string",
+              "description": "The API URL for the GitHub repository"
+            }
+          },
+          "required": [
+            "vcs",
+            "use_lfs",
+            "vcs_url",
+            "status",
+            "url", 
+            "html_url",
+            "authors_url",
+            "repository_url"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "cancelImport": {
+      "type": "object", 
+      "description": "Cancel an import operation",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to cancel an import",
+          "value": "/repos/{owner}/{repo}/import"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            }
+          },
+          "required": ["owner", "repo"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters"]
+    },
+    "getCommitAuthors": {
+      "type": "object",
+      "description": "List authors mapped during an import to provide identifying information",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to get commit authors",
+          "value": "/repos/{owner}/{repo}/import/authors"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "since": {
+              "type": "integer",
+              "description": "A user ID to only return users with a greater ID"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The ID of the mapped author"
+              },
+              "remote_id": {
+                "type": "string",
+                "description": "The identifier used in the original repository"
+              },
+              "remote_name": {
+                "type": "string", 
+                "description": "The name used in the original repository"
+              },
+              "email": {
+                "type": "string",
+                "description": "The email of the author after mapping"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the author after mapping" 
+              },
+              "url": {
+                "type": "string",
+                "description": "The URL to view this mapped author"
+              },
+              "import_url": {
+                "type": "string",
+                "description": "The URL for the import operation"
+              }
+            },
+            "required": [
+              "id",
+              "remote_id",
+              "remote_name", 
+              "email",
+              "name",
+              "url",
+              "import_url"
+            ]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "mapCommitAuthor": {
+      "type": "object",
+      "description": "Map or update an author's identity from the original import",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to map a commit author",
+          "value": "/repos/{owner}/{repo}/import/authors/{author_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PATCH"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "

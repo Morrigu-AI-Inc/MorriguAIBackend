@@ -1,0 +1,106 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Custom Code Actions API",
+  "description": "API endpoint to execute custom code actions in HubSpot workflows",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for executing custom code actions",
+      "const": "/automation/v4/actions/custom-code/executions"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "Content type of the request body",
+          "const": "application/json"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Content-Type"
+      ]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "object",
+          "properties": {
+            "portalId": {
+              "type": "integer",
+              "description": "Your portal ID"
+            },
+            "actionDefinitionId": {
+              "type": "integer",
+              "description": "Your custom action definition ID"
+            }
+          },
+          "required": [
+            "portalId",
+            "actionDefinitionId"
+          ]
+        },
+        "object": {
+          "type": "object",
+          "properties": {
+            "objectType": {
+              "type": "string",
+              "description": "The type of CRM object that is enrolled in the workflow",
+              "enum": ["CONTACT"]
+            },
+            "objectId": {
+              "type": "integer",
+              "description": "The ID of the CRM object that is enrolled in the workflow"
+            }
+          },
+          "required": [
+            "objectType",
+            "objectId"
+          ]
+        },
+        "inputFields": {
+          "type": "object",
+          "description": "Properties or values passed as input to the custom code action"
+        },
+        "callbackId": {
+          "type": "string",
+          "description": "A unique ID for this execution"
+        }
+      },
+      "required": [
+        "origin",
+        "object",
+        "callbackId"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "outputFields": {
+          "type": "object",
+          "description": "Data outputs from the custom code action to be used in later workflow actions"
+        }
+      }
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "body",
+    "response"
+  ]
+}

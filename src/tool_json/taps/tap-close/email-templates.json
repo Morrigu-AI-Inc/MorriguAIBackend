@@ -1,0 +1,185 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header-wrapper": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string"
+        },
+        "h1": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "style",
+        "h1"
+      ]
+    },
+    "content-wrapper": {
+      "type": "object",
+      "properties": {
+        "p": {
+          "type": "string"
+        },
+        "h2": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "a": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "a",
+              "code"
+            ]
+          }
+        },
+        "ul": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "li": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "ul": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "li": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "code": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "code"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "li"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "ul"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "li"
+            ]
+          }
+        }
+      },
+      "required": [
+        "p",
+        "h2",
+        "ul"
+      ]
+    },
+    "nav": {
+      "type": "object",
+      "properties": {
+        "a": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "svg": {
+                "type": "string"
+              },
+              "div": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "div": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "div"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "svg",
+              "div"
+            ]
+          }
+        }
+      },
+      "required": [
+        "a"
+      ]
+    },
+    "aside": {
+      "type": "object",
+      "properties": {
+        "h4": {
+          "type": "string"
+        },
+        "ul": {
+          "type": "object",
+          "properties": {
+            "li": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "a"
+                ]
+              }
+            }
+          },
+          "required": [
+            "li"
+          ]
+        }
+      },
+      "required": [
+        "h4",
+        "ul"
+      ]
+    }
+  },
+  "required": [
+    "header-wrapper",
+    "content-wrapper", 
+    "nav",
+    "aside"
+  ]
+}

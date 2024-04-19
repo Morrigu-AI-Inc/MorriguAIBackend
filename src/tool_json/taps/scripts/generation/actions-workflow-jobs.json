@@ -1,0 +1,468 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Actions Workflow Jobs API",
+  "description": "API endpoints for interacting with workflow jobs in GitHub Actions",
+  "type": "object",
+  "properties": {
+    "getJobForWorkflow": {
+      "type": "object",
+      "description": "Gets a specific job in a workflow run",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a job for a workflow run",
+          "value": "/repos/{owner}/{repo}/actions/jobs/{job_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "job_id": {
+              "type": "integer",
+              "description": "The unique identifier of the job"
+            }
+          },
+          "required": ["owner", "repo", "job_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the job"
+            },
+            "run_id": {
+              "type": "integer",
+              "description": "The unique identifier of the workflow run"
+            },
+            "run_url": {
+              "type": "string",
+              "description": "The API URL for the workflow run"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The node ID of the job"
+            },
+            "head_sha": {
+              "type": "string",
+              "description": "The SHA of the commit that triggered the workflow run"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL for the job"
+            },
+            "html_url": {
+              "type": "string",
+              "description": "The HTML URL for the job in GitHub"
+            },
+            "status": {
+              "type": "string",
+              "description": "The current status of the job"
+            },
+            "conclusion": {
+              "type": "string",
+              "description": "The conclusion of the job"
+            },
+            "started_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The time the job started"
+            },
+            "completed_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The time the job completed"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the job"
+            },
+            "steps": {
+              "type": "array",
+              "description": "The steps in the job",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the step"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "The status of the step"
+                  },
+                  "conclusion": {
+                    "type": "string",
+                    "description": "The conclusion of the step"
+                  },
+                  "number": {
+                    "type": "integer",
+                    "description": "The step number"
+                  },
+                  "started_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time the step started"
+                  },
+                  "completed_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time the step completed"
+                  }
+                },
+                "required": ["name", "status", "conclusion", "number", "started_at", "completed_at"]
+              }
+            },
+            "check_run_url": {
+              "type": "string",
+              "description": "The API URL for the check run associated with the job"
+            },
+            "labels": {
+              "type": "array",
+              "description": "The labels associated with the job",
+              "items": {
+                "type": "string"
+              }
+            },
+            "runner_id": {
+              "type": "integer",
+              "description": "The unique identifier of the runner used for the job"
+            },
+            "runner_name": {
+              "type": "string",
+              "description": "The name of the runner used for the job"
+            },
+            "runner_group_id": {
+              "type": "integer",
+              "description": "The unique identifier of the runner group used for the job"
+            },
+            "runner_group_name": {
+              "type": "string",
+              "description": "The name of the runner group used for the job"
+            },
+            "workflow_name": {
+              "type": "string",
+              "description": "The name of the workflow"
+            },
+            "head_branch": {
+              "type": "string",
+              "description": "The branch that triggered the workflow run"
+            }
+          },
+          "required": ["id", "run_id", "run_url", "node_id", "head_sha", "url", "html_url", "status", "conclusion", "started_at", "completed_at", "name", "steps", "check_run_url", "runner_id", "runner_name", "runner_group_id", "runner_group_name", "workflow_name", "head_branch"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "downloadJobLogsForWorkflowRun": {
+      "type": "object",
+      "description": "Gets a redirect URL to download a plain text file of logs for a workflow job",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for downloading job logs for a workflow run",
+          "value": "/repos/{owner}/{repo}/actions/jobs/{job_id}/logs"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "job_id": {
+              "type": "integer",
+              "description": "The unique identifier of the job"
+            }
+          },
+          "required": ["owner", "repo", "job_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "Location": {
+              "type": "string",
+              "description": "The URL to download the job logs"
+            }
+          },
+          "required": ["Location"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "listJobsForWorkflowRunAttempt": {
+      "type": "object",
+      "description": "Lists jobs for a specific workflow run attempt",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing jobs for a workflow run attempt",
+          "value": "/repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "run_id": {
+              "type": "integer",
+              "description": "The unique identifier of the workflow run"
+            },
+            "attempt_number": {
+              "type": "integer",
+              "description": "The attempt number of the workflow run"
+            }
+          },
+          "required": ["owner", "repo", "run_id", "attempt_number"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "The total number of jobs in the workflow run attempt"
+            },
+            "jobs": {
+              "type": "array",
+              "description": "The list of jobs in the workflow run attempt",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the job"
+                  },
+                  "run_id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the workflow run"
+                  },
+                  "run_url": {
+                    "type": "string",
+                    "description": "The API URL for the workflow run"
+                  },
+                  "node_id": {
+                    "type": "string",
+                    "description": "The node ID of the job"
+                  },
+                  "head_sha": {
+                    "type": "string",
+                    "description": "The SHA of the commit that triggered the workflow run"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "The API URL for the job"
+                  },
+                  "html_url": {
+                    "type": "string",
+                    "description": "The HTML URL for the job in GitHub"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "The current status of the job"
+                  },
+                  "conclusion": {
+                    "type": "string",
+                    "description": "The conclusion of the job"
+                  },
+                  "started_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time the job started"
+                  },
+                  "completed_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time the job completed"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the job"
+                  },
+                  "steps": {
+                    "type": "array",
+                    "description": "The steps in the job",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the step"
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "The status of the step"
+                        },
+                        "conclusion": {
+                          "type": "string",
+                          "description": "The conclusion of the step"
+                        },
+                        "number": {
+                          "type": "integer",
+                          "description": "The step number"
+                        },
+                        "started_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The time the step started"
+                        },
+                        "completed_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The time the step completed"
+                        }
+                      },
+                      "required": ["name", "status", "conclusion", "number", "started_at", "completed_at"]
+                    }
+                  },
+                  "check_run_url": {
+                    "type": "string",
+                    "description": "The API URL for the check run associated with the job"
+                  },
+                  "labels": {
+                    "type": "array",
+                    "description": "The labels associated with the job",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "runner_id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the runner used for the job"
+                  },
+                  "runner_name": {
+                    "type": "string",
+                    "description": "The name of the runner used for the job"
+                  },
+                  "runner_group_id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the runner group used for the job"
+                  },
+                  "runner_group_name": {
+                    "type": "string",
+                    "description": "The name of the runner group used for the job"
+                  },
+                  "workflow_name": {
+                    "type": "string",
+                    "description": "The name of the workflow"
+                  },
+                  "head_branch": {
+                    "type": "string",
+                    "description": "The branch that triggered the workflow run"
+                  }
+                },
+                "required": ["id", "run_id", "run_url", "node_id", "head_sha", "url", "html_url", "status", "conclusion", "started_at", "completed_at", "name", "steps", "check_run_url", "runner_id", "runner_name", "runner_group_id", "runner_group_name", "workflow_name", "head_branch"]
+              }
+            }
+          },
+          "required": ["total_count", "jobs"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "listJobsForWorkflowRun": {
+      "type": "object",
+      "description": "Lists jobs for a workflow run",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing jobs for a workflow run",
+          "value": "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              

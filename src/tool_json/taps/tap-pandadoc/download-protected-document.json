@@ -1,0 +1,141 @@
+Here is the JSON Schema for the HTML content from the file 'download-protected-document.html':
+
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-raycast-oas": {
+          "type": "string"
+        },
+        "div": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "div": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "class": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "content-head": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "h1": {
+          "type": "string"
+        }
+      }
+    },
+    "headline-container-article-info2GaOf2jMpV0r": {
+      "type": "object",
+      "properties": {
+        "span": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "data-testid": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "excerptT2m-MzSJGRK7": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-testid": {
+          "type": "string"
+        },
+        "p": {
+          "type": "string"
+        }
+      }
+    },
+    "content-body": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-testid": {
+          "type": "string"
+        },
+        "blockquote": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "theme": {
+              "type": "string"
+            },
+            "h2": {
+              "type": "object",
+              "properties": {
+                "class": {
+                  "type": "string"
+                },
+                "span": {
+                  "type": "object",
+                  "properties": {
+                    "class": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "p": {
+                  "type": "string"
+                }
+              }
+            },
+            "p": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ModalWrapper": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+
+
+This JSON Schema defines the structure of the HTML content, including the different sections, classes, and elements present in the file. Note that this schema only covers the structure of the HTML and does not include any validation rules for the values or content within the elements.

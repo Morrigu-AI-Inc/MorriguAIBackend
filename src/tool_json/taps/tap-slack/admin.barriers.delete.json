@@ -1,0 +1,20 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "barrier_id": {
+      "type": "string",
+      "description": "The ID of the barrier you're trying to delete"
+    }
+  },
+  "required": [
+    "token",
+    "barrier_id"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,100 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Call Activity",
+  "type": "object",
+  "properties": {
+    "call_method": {
+      "type": "string",
+      "description": "The method of the call (regular, power, or predictive)",
+      "enum": ["regular", "power", "predictive"]
+    },
+    "disposition": {
+      "type": "string",
+      "description": "The disposition of the call",
+      "enum": ["answered", "no-answer", "vm-answer", "vm-left", "busy", "blocked", "error", "abandoned"]
+    },
+    "cost": {
+      "type": "number",
+      "description": "The cost of the call in US cents"
+    },
+    "note_html": {
+      "type": "string",
+      "description": "The rich-text note for the call activity, takes precedence over note field"
+    },
+    "note": {
+      "type": "string",
+      "description": "The plaintext note for the call activity"
+    },
+    "recording_transcript": {
+      "type": "object",
+      "properties": {
+        "utterances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "speaker_label": {
+                "type": "string"
+              },
+              "speaker_side": {
+                "type": "string",
+                "enum": ["contact", "close-user"]
+              },
+              "start": {
+                "type": "number"
+              },
+              "end": {
+                "type": "number"
+              },
+              "text": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "summary_text": {
+          "type": "string"
+        },
+        "summary_html": {
+          "type": "string"
+        }
+      }
+    },
+    "voicemail_transcript": {
+      "type": "object",
+      "properties": {
+        "utterances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "speaker_label": {
+                "type": "string"
+              },
+              "speaker_side": {
+                "type": "string",
+                "enum": ["contact", "close-user"]  
+              },
+              "start": {
+                "type": "number"
+              },
+              "end": {
+                "type": "number"
+              },
+              "text": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "summary_text": {
+          "type": "string"
+        },
+        "summary_html": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

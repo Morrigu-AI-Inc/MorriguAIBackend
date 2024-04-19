@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Feedback Submissions",
+  "description": "API endpoints for retrieving feedback submissions from HubSpot CRM. Feedback submissions include NPS, CSAT, CES, and custom feedback survey responses.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving feedback submissions",
+      "value": "/crm/v3/objects/feedback_submissions"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": [
+        "Authorization"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "propertiesWithHistory": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of property names to include in the response along with their historical values."
+        },
+        "idProperty": {
+          "type": "string",
+          "description": "The name of the property that uniquely identifies the object."
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique identifier for the object."
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "description": "The list of objects to return."
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of properties to include in the response."
+        },
+        "query": {
+          "type": "string",
+          "description": "The search query to use for finding objects."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The maximum number of objects to return in the response."
+        },
+        "after": {
+          "type": "string",
+          "description": "The paging token to use for retrieving the next page of results."
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of properties to sort the results by."
+        },
+        "filterGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "highValue": {
+                      "type": "string",
+                      "description": "The high value for a range filter."
+                    },
+                    "propertyName": {
+                      "type": "string",
+                      "description": "The name of the property to filter on."
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "The list of values to filter for."
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "The single value to filter for."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": ["EQ", "NEQ", "LT", "LTE", "GT", "GTE", "BETWEEN", "CONTAINS", "NOT_CONT"],
+                      "description": "The operator to use for filtering."
+                    }
+                  },
+                  "required": [
+                    "propertyName",
+                    "operator"
+                  ]
+                }
+              }
+            }
+          },
+          "description": "The list of filter groups to apply to the search."
+        }
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "archived": {
+          "type": "boolean",
+          "description": "Whether to include archived objects in the response."
+        },
+        "idProperty": {
+          "type": "string",
+          "description": "The name of the property that uniquely identifies the object."
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of properties to include in the response."
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "The list of feedback submission objects returned by the request."
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "next": {
+              "type": "object",
+              "properties": {
+                "after": {
+                  "type": "string",
+                  "description": "The paging token to use for retrieving the next page of results."
+                }
+              },
+              "required": [
+                "after"
+              ]
+            }
+          },
+          "required": [
+            "next"
+          ],
+          "description": "Paging information for retrieving additional results."
+        }
+      },
+      "required": [
+        "results"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

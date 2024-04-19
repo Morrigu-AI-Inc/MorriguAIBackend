@@ -1,0 +1,74 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "message": {
+            "type": "object"
+          },
+          "file": {
+            "type": "object"
+          },
+          "comment": {
+            "type": "object"
+          },
+          "group": {
+            "type": "string"
+          },
+          "date_create": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      }
+    },
+    "paging": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer"
+        },
+        "spill": {
+          "type": "integer"
+        },
+        "page": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "pages": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "per_page",
+        "spill",
+        "page",
+        "total",
+        "pages"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "items",
+    "paging"
+  ]
+}

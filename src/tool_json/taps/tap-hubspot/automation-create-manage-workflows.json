@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create & Manage Workflows",
+  "description": "Use the workflows API to create and manage workflows, enroll and remove contacts from workflows, and get workflow performance data.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing workflows",
+      "value": "/automation/v3/workflows"
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET", "POST", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": [
+        "Authorization"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the workflow"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["DRIP_DELAY", "STATIC_ANCHOR", "PROPERTY_ANCHOR"],
+          "description": "Type of the workflow"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the workflow is enabled or not"
+        },
+        "actions": {
+          "type": "array",
+          "description": "List of actions in the workflow"
+        },
+        "onlyEnrollsManually": {
+          "type": "boolean",
+          "description": "Whether contacts should be enrolled manually only"  
+        },
+        "segmentCriteria": {
+          "type": "array",
+          "description": "Enrollment criteria for the workflow"
+        },
+        "goalCriteria": {
+          "type": "array",  
+          "description": "Goal criteria for the workflow"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "workflowId": {
+          "type": "integer",
+          "description": "The ID of the workflow"
+        },
+        "errors": {
+          "type": "boolean",
+          "description": "Include workflow validation errors and warnings"
+        },
+        "stats": {
+          "type": "boolean",
+          "description": "Include performance stats for the workflow"  
+        },
+        "start": {
+          "type": "integer",
+          "description": "The start timestamp for performance data"
+        },
+        "end": {
+          "type": "integer",  
+          "description": "The end timestamp for performance data"
+        },
+        "bucket": {
+          "type": "string",
+          "enum": ["DAY", "WEEK", "MONTH"],
+          "description": "Time period to group performance data"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "workflows": {
+          "type": "array",
+          "description": "List of workflow metadata objects"
+        },
+        "performance": {
+          "type": "array",
+          "description": "Performance data for a workflow"  
+        }
+      },
+      "required": []
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "response"
+  ]
+}

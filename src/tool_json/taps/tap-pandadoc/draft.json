@@ -1,0 +1,14 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The ID of the document to move to draft status."
+    }
+  },
+  "required": [
+    "id"
+  ]
+}

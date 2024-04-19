@@ -1,0 +1,32 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "id": {
+      "type": "string",
+      "description": "id returned by the calls.add method."
+    },
+    "desktop_app_join_url": {
+      "type": "string",
+      "description": "When supplied, available Slack clients will attempt to directly launch the 3rd-party Call with this URL."
+    },
+    "join_url": {
+      "type": "string",
+      "description": "The URL required for a client to join the Call."
+    },
+    "title": {
+      "type": "string",
+      "description": "The name of the Call."
+    }
+  },
+  "required": [
+    "token",
+    "id"
+  ],
+  "additionalProperties": false
+}

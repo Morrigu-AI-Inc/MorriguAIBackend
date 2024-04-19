@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "listSmsTemplates": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "const": "/sms_template/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "createSmsTemplate": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/sms_template/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "fetchSmsTemplate": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/sms_template/\\d+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "updateSmsTemplate": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/sms_template/\\d+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "deleteSmsTemplate": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "DELETE"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/sms_template/\\d+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    }
+  },
+  "required": [
+    "listSmsTemplates",
+    "createSmsTemplate",
+    "fetchSmsTemplate",
+    "updateSmsTemplate",
+    "deleteSmsTemplate"
+  ]
+}

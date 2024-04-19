@@ -1,0 +1,47 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "text": {
+      "type": "string",
+      "description": "The content of the reminder"
+    },
+    "time": {
+      "type": ["string", "integer"],
+      "description": "Can also take a type of integer. When this reminder should happen: the Unix timestamp (up to five years from now), the number of seconds until the reminder (if within 24 hours), or a natural language description (Ex. \"in 15 minutes,\" or \"every Thursday\")"
+    },
+    "recurrence": {
+      "type": "object",
+      "description": "Specify the repeating behavior of a reminder. Available options: `daily`, `weekly`, `monthly`, or `yearly`. If `weekly`, may further specify the days of the week.",
+      "properties": {
+        "frequency": {
+          "type": "string",
+          "enum": ["daily", "weekly", "monthly", "yearly"]
+        },
+        "weekdays": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+          }
+        }
+      },
+      "required": ["frequency"]
+    },
+    "team_id": {
+      "type": "string",
+      "description": "Encoded team id, required if org token is used"
+    },
+    "user": {
+      "type": "string",
+      "description": "No longer supported - reminders cannot be set for other users. Previously, was the user who would receive the reminder."
+    }
+  },
+  "required": ["token", "text", "time"],
+  "additionalProperties": false
+}

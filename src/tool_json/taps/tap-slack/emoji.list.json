@@ -1,0 +1,24 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "emoji": {
+      "type": "object",
+      "patternProperties": {
+        "^\\w+$": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "ok",
+    "emoji"
+  ],
+  "additionalProperties": false
+}

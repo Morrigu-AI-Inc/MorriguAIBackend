@@ -1,0 +1,136 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Get a diff of the dependencies between commits",
+  "description": "Gets the diff of the dependency changes between two commits of a repository, based on the changes to the dependency manifests made in those commits.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting a diff of the dependencies between commits",
+      "value": "/repos/{owner}/{repo}/dependency-graph/compare/{basehead}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        }
+      },
+      "required": ["Authorization", "accept"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The full path, relative to the repository root, of the dependency manifest file."
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "change_type": {
+            "type": "string",
+            "description": "The type of change for this dependency"
+          },
+          "manifest": {
+            "type": "string",
+            "description": "The manifest file for this dependency"
+          },
+          "ecosystem": {
+            "type": "string",
+            "description": "The ecosystem for this dependency"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the dependency"
+          },
+          "version": {
+            "type": "string",
+            "description": "The version of the dependency"
+          },
+          "package_url": {
+            "type": "string",
+            "description": "The package URL for this dependency"
+          },
+          "license": {
+            "type": "string",
+            "description": "The license of the dependency"
+          },
+          "source_repository_url": {
+            "type": "string",
+            "description": "The source repository URL for this dependency"
+          },
+          "vulnerabilities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "severity": {
+                  "type": "string",
+                  "description": "The severity of the vulnerability"
+                },
+                "advisory_ghsa_id": {
+                  "type": "string",
+                  "description": "The GitHub Advisory ID for this vulnerability"
+                },
+                "advisory_summary": {
+                  "type": "string",
+                  "description": "A summary of the vulnerability advisory"
+                },
+                "advisory_url": {
+                  "type": "string",
+                  "description": "The URL for the vulnerability advisory"
+                }
+              },
+              "required": [
+                "severity",
+                "advisory_ghsa_id",
+                "advisory_summary",
+                "advisory_url"
+              ]
+            },
+            "description": "Any known vulnerabilities for this dependency version"
+          }
+        },
+        "required": [
+          "change_type",
+          "manifest",
+          "ecosystem",
+          "name",
+          "version",
+          "package_url",
+          "source_repository_url",
+          "vulnerabilities"
+        ]
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

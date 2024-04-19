@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "List codespaces for the organization",
+  "description": "Lists the codespaces associated to a specified organization.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing codespaces for the organization",
+      "value": "/orgs/{org}/codespaces"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "The number of results per page (max 100)."
+        },
+        "page": {
+          "type": "integer",
+          "description": "The page number of the results to fetch."
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "description": "The total number of codespaces for the organization."
+        },
+        "codespaces": {
+          "type": "array",
+          "description": "The list of codespaces for the organization.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The unique identifier of the codespace."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the codespace."
+              },
+              "environment_id": {
+                "type": "string",
+                "description": "The unique identifier of the environment associated with the codespace."
+              },
+              "owner": {
+                "type": "object",
+                "description": "The owner of the codespace."
+              },
+              "billable_owner": {
+                "type": "object",
+                "description": "The billable owner of the codespace."
+              },
+              "repository": {
+                "type": "object",
+                "description": "The repository associated with the codespace."
+              },
+              "machine": {
+                "type": "object",
+                "description": "The machine specifications of the codespace."
+              },
+              "prebuild": {
+                "type": "boolean",
+                "description": "Whether the codespace is a prebuild or not."
+              },
+              "devcontainer_path": {
+                "type": "string",
+                "description": "The path to the devcontainer configuration file."
+              },
+              "created_at": {
+                "type": "string",
+                "description": "The date and time when the codespace was created."
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "The date and time when the codespace was last updated."
+              },
+              "last_used_at": {
+                "type": "string",
+                "description": "The date and time when the codespace was last used."
+              },
+              "state": {
+                "type": "string",
+                "description": "The current state of the codespace."
+              },
+              "url": {
+                "type": "string",
+                "description": "The API URL of the codespace."
+              },
+              "git_status": {
+                "type": "object",
+                "description": "The Git status of the codespace."
+              },
+              "location": {
+                "type": "string",
+                "description": "The location of the codespace."
+              },
+              "idle_timeout_minutes": {
+                "type": "integer",
+                "description": "The idle timeout minutes for the codespace."
+              },
+              "web_url": {
+                "type": "string",
+                "description": "The web URL of the codespace."
+              },
+              "machines_url": {
+                "type": "string",
+                "description": "The API URL for the machines associated with the codespace."
+              },
+              "start_url": {
+                "type": "string",
+                "description": "The API URL for starting the codespace."
+              },
+              "stop_url": {
+                "type": "string",
+                "description": "The API URL for stopping the codespace."
+              },
+              "recent_folders": {
+                "type": "array",
+                "description": "The list of recently accessed folders in the codespace."
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "environment_id",
+              "owner",
+              "billable_owner",
+              "repository",
+              "machine",
+              "prebuild",
+              "devcontainer_path",
+              "created_at",
+              "updated_at",
+              "last_used_at",
+              "state",
+              "url",
+              "git_status",
+              "location",
+              "idle_timeout_minutes",
+              "web_url",
+              "machines_url",
+              "start_url",
+              "stop_url",
+              "recent_folders"
+            ]
+          }
+        }
+      },
+      "required": ["total_count", "codespaces"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "contentType", "body", "queryParameters", "response"],
+  "additionalProperties": false
+}

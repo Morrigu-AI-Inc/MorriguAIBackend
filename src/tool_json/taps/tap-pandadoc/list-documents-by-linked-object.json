@@ -1,0 +1,64 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "created_date": {
+            "type": "string"
+          },
+          "modified_date": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "linked_objects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "entity_id": {
+                  "type": "string"
+                },
+                "entity_type": {
+                  "type": "string"
+                },
+                "provider": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "count": {
+      "type": "integer"
+    }
+  }
+}

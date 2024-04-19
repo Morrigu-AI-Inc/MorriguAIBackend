@@ -1,0 +1,37 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "is_private": {
+      "type": "boolean",
+      "description": "When true, creates a private channel instead of a public channel"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the public or private channel to create."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the public or private channel to create."
+    },
+    "org_wide": {
+      "type": "boolean",
+      "description": "When true, the channel will be available org-wide."
+    },
+    "team_id": {
+      "type": ["string", "null"],
+      "description": "The workspace to create the channel in. Note: this argument is required unless you set org_wide=true."
+    }
+  },
+  "required": [
+    "token",
+    "is_private",
+    "name"
+  ],
+  "additionalProperties": false
+}

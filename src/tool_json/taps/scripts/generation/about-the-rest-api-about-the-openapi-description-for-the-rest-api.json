@@ -1,0 +1,82 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "About the OpenAPI description for the REST API",
+  "description": "Information about the OpenAPI description of the GitHub REST API",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "Endpoint for getting information about the OpenAPI description",
+      "value": "/rest/about-the-openapi-description"
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Accept": {
+          "type": "string",
+          "description": "Content type to return"
+        }
+      },
+      "required": ["Accept"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object", 
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "about_openapi": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "Description of what OpenAPI is"
+            },
+            "github_openapi": {
+              "type": "object", 
+              "properties": {
+                "description": {
+                  "type": "string",
+                  "description": "Description of GitHub's OpenAPI implementation"
+                },
+                "versions": {
+                  "type": "array",
+                  "description": "Versions of OpenAPI description provided"
+                },
+                "formats": {
+                  "type": "array", 
+                  "description": "Formats the OpenAPI descriptions are available in"
+                }
+              }
+            },
+            "using_openapi": {
+              "type": "array",
+              "description": "Ways the OpenAPI description can be used"
+            }
+          }
+        }
+      },
+      "required": ["about_openapi"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

@@ -1,0 +1,218 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The ID of the template."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the template."
+    },
+    "author": {
+      "type": "object",
+      "description": "Information about the author of the template.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the author."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the author."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the author."
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "description": "The roles defined in the template.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the role."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the role."
+          },
+          "is_author": {
+            "type": "boolean",
+            "description": "Indicates whether this role is the author role."
+          }
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "description": "The fields defined in the template.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the field."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the field."
+          },
+          "value": {
+            "type": ["string", "number", "boolean", "null"],
+            "description": "The value of the field."
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "description": "The tokens defined in the template.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the token."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the token."
+          },
+          "value": {
+            "type": ["string", "number", "boolean", "null"],
+            "description": "The value of the token."
+          }
+        }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "description": "Pricing information defined in the template.",
+      "properties": {
+        "pricing_tables": {
+          "type": "array",
+          "description": "The pricing tables defined in the template.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The ID of the pricing table."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the pricing table."
+              }
+            }
+          }
+        },
+        "products": {
+          "type": "array",
+          "description": "The products defined in the template.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The ID of the product."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the product."
+              },
+              "price": {
+                "type": "number",
+                "description": "The price of the product."
+              }
+            }
+          }
+        },
+        "quotes": {
+          "type": "array",
+          "description": "The quotes defined in the template.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The ID of the quote."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the quote."
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Metadata associated with the template.",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "The description of the template."
+        },
+        "folder_id": {
+          "type": "string",
+          "description": "The ID of the folder containing the template."
+        },
+        "folder_name": {
+          "type": "string",
+          "description": "The name of the folder containing the template."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the template."
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "The tags associated with the template.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "content_placeholders": {
+      "type": "array",
+      "description": "The content placeholders defined in the template.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the content placeholder."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the content placeholder."
+          }
+        }
+      }
+    },
+    "date_created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the template was created."
+    },
+    "date_modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the template roles were last modified."
+    },
+    "content_date_modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the template content was last modified."
+    }
+  }
+}

@@ -1,0 +1,59 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "permissions": {
+      "type": "object",
+      "patternProperties": {
+        "^Wf\\d+$": {
+          "type": "object",
+          "properties": {
+            "who_can_run": {
+              "type": "object",
+              "properties": {
+                "permission_type": {
+                  "type": "string",
+                  "enum": [
+                    "everyone",
+                    "named_entities"
+                  ]
+                }
+              },
+              "required": [
+                "permission_type"
+              ]
+            },
+            "user_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "channel_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "complete": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "who_can_run",
+            "complete"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "ok",
+    "permissions"
+  ]
+}

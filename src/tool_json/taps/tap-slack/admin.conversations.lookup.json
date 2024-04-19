@@ -1,0 +1,39 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "last_message_activity_before": {
+      "type": "integer",
+      "description": "Filter by public channels where the most recent message was sent before last_message_activity"
+    },
+    "team_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of team IDs to filter by"
+    },
+    "cursor": {
+      "type": "string",
+      "description": "Set cursor to next_cursor returned in the previous call, to fetch the next page."
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Maximum number of results"
+    },
+    "max_member_count": {
+      "type": "integer",
+      "description": "Filter by public channels with member count equal to or less than the specified number"
+    }
+  },
+  "required": [
+    "token",
+    "last_message_activity_before",
+    "team_ids"
+  ]
+}

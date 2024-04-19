@@ -1,0 +1,43 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "id": {
+      "type": "string",
+      "description": "id returned by the calls.add method."
+    },
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "slack_id": {
+            "type": "string"
+          },
+          "external_id": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "avatar_url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "The list of users to add as participants in the Call."
+    }
+  },
+  "required": [
+    "token",
+    "id",
+    "users"
+  ],
+  "additionalProperties": false
+}

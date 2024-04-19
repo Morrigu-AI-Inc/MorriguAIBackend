@@ -1,0 +1,136 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method_access": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"]
+                },
+                "url": {
+                  "type": "string",
+                  "pattern": "^https://slack\\.com/api/apps\\.manifest\\.validate$"
+                }
+              },
+              "required": ["method", "url"]
+            },
+            "javascript": {
+              "type": "string"
+            },
+            "python": {
+              "type": "string"  
+            },
+            "java": {
+              "type": "string"
+            }
+          }
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "app_config": {
+              "type": "array"
+            }
+          },
+          "required": ["app_config"]
+        },
+        "content_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["application/x-www-form-urlencoded", "application/json"]
+          }
+        },
+        "rate_limits": {
+          "type": "string",
+          "enum": ["Tier 3"]
+        }
+      },
+      "required": ["method_access", "scopes", "content_types", "rate_limits"]
+    },
+    "arguments": {
+      "type": "object", 
+      "properties": {
+        "required": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string"
+            },
+            "manifest": {
+              "type": "string"
+            }
+          },
+          "required": ["token", "manifest"]
+        },
+        "optional": {
+          "type": "object",
+          "properties": {
+            "app_id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": ["required"]
+    },
+    "usage_info": {
+      "type": "string"
+    },
+    "example_responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "example": {
+            "type": "object"
+          }
+        },
+        "required": ["example"]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["error", "description"]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string" 
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["warning", "description"]
+      }
+    }
+  },
+  "required": ["facts", "arguments", "example_responses", "errors"]
+}

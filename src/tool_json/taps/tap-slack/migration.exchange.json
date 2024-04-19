@@ -1,0 +1,35 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "team_id": {
+      "type": "string"
+    },
+    "enterprise_id": {
+      "type": "string"
+    },
+    "user_id_map": {
+      "type": "object",
+      "patternProperties": {
+        "^[UW]\\d+$": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "invalid_user_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "ok"
+  ],
+  "additionalProperties": false
+}

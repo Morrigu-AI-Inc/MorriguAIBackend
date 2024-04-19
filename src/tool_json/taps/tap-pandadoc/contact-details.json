@@ -1,0 +1,66 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Contact ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "Contact name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email address"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "company": {
+      "type": "string",
+      "description": "Contact's company name"
+    },
+    "website": {
+      "type": "string",
+      "description": "Contact's company website"
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "street": {
+          "type": "string",
+          "description": "Street address"
+        },
+        "city": {
+          "type": "string",
+          "description": "City"
+        },
+        "state": {
+          "type": "string",
+          "description": "State/Province"  
+        },
+        "zip": {
+          "type": "string",
+          "description": "ZIP/Postal Code"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country"
+        }
+      },
+      "description": "Contact's address details"
+    },
+    "custom_fields": {
+      "type": "object",
+      "description": "Custom fields for the contact"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "email"
+  ]
+}

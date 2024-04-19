@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Pipelines API",
+  "description": "Use the CRM pipelines API to create and manage deal and ticket pipelines. Pipelines enable you to track the status or progress of deals and tickets, such as closing deals and opening support tickets.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing CRM pipelines",
+      "value": "/crm/v3/pipelines"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "displayOrder": {
+          "type": "integer",
+          "description": "The display order of the pipeline"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "The label of the pipeline stage"
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Metadata associated with the pipeline stage"
+              },
+              "displayOrder": {
+                "type": "integer",
+                "description": "The display order of the pipeline stage"
+              }
+            },
+            "required": ["label", "metadata", "displayOrder"]
+          }
+        },
+        "label": {
+          "type": "string",
+          "description": "The label of the pipeline"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether the pipeline is archived or not"
+        }
+      },
+      "required": ["label", "stages"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "validateReferencesBeforeDelete": {
+          "type": "boolean",
+          "description": "Whether to validate references before deleting a pipeline"
+        },
+        "validateDealStageUsagesBeforeDelete": {
+          "type": "boolean",
+          "description": "Whether to validate deal stage usages before deleting a pipeline"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique ID of the pipeline"
+        },
+        "displayOrder": {
+          "type": "integer",
+          "description": "The display order of the pipeline"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique ID of the pipeline stage"
+              },
+              "label": {
+                "type": "string",
+                "description": "The label of the pipeline stage"
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Metadata associated with the pipeline stage"
+              },
+              "displayOrder": {
+                "type": "integer",
+                "description": "The display order of the pipeline stage"
+              }
+            },
+            "required": ["id", "label", "metadata", "displayOrder"]
+          }
+        },
+        "label": {
+          "type": "string",
+          "description": "The label of the pipeline"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether the pipeline is archived or not"
+        }
+      },
+      "required": ["id", "displayOrder", "stages", "label", "archived"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

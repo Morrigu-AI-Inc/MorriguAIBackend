@@ -1,0 +1,19 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "custom_object_type_id": {
+      "type": "integer",
+      "description": "The ID of the Custom Object Type this Field should belong to."
+    },
+    "required": {
+      "type": "boolean",
+      "description": "Whether the Field will be required to save the object."
+    }
+  },
+  "required": [
+    "custom_object_type_id",
+    "required"
+  ]
+}

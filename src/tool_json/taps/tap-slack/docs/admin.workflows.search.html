@@ -1,0 +1,268 @@
+<div class="apiDocsToggler apiDocsToggler--showOnLoad apiReference__nutritionalInfoToggler"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="facts">Facts</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__nutritionalInfo"><div class="apiReference__factBlocks"><div class="apiReference__factBlock apiReference__factBlock--accessMethods"><h3 id="method" class="apiReference__factLabel"><i class="c-icon c-icon--plug c-icon--inline"></i>Method access</h3><div class="apiReference__fact apiDocsTabber"><div class="apiDocsTabber__switches"><div class="apiDocsTabber__switch apiDocsTabber__switch--active" data-target="http">HTTP</div><div class="apiDocsTabber__switch" data-target="js"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>JavaScript</div><div class="apiDocsTabber__switch" data-target="python"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>Python</div><div class="apiDocsTabber__switch" data-target="java"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>Java</div></div><div class="apiDocsTabber__tabs"><div class="apiReference__accessMethod apiReference__accessMethod--http apiDocsTabber__tab apiDocsTabber__tab--active" data-tab="http"><span id="http_access" class="apiReference__accessMethodLabel">HTTP</span><div class="apiReference__accessMethodInfo"><code class="apiReference__methodAccessUrl"><span class="apiMethodPage__method apiMethodPage__postMethod">POST</span><span class="apiReference__methodUrlString" onclick="window.getSelection().selectAllChildren(this);"><span>https://slack.</span><span>com/api/admin.</span><span>workflows.</span><span>search</span></span></code></div></div><div class="apiReference__accessMethod apiReference__accessMethod--java apiDocsTabber__tab" data-tab="java"><span id="java_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for Java</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client().</span>adminWorkflowsSearch</code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div><div class="apiReference__accessMethod apiReference__accessMethod--python apiDocsTabber__tab" data-tab="python"><span id="python_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for Python</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client.</span><span>admin_workflows_search</span></code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div><div class="apiReference__accessMethod apiReference__accessMethod--js apiDocsTabber__tab" data-tab="js"><span id="js_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for JavaScript</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client.</span>admin.workflows.search</code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div></div></div></div><div class="apiReference__factBlock apiReference__factBlock--scopes"><h3 id="scopes" class="apiReference__factLabel"><i class="c-icon c-icon--key c-icon--inline"></i>Required scopes</h3><div class="apiReference__fact"><div class="apiReference__tokenGrid"><div class="apiReference__tokenRow apiReference__tokenRow--user"><span class="apiReference__tokenType"><a class="apiReference__tokenTypePill apiReference__tokenTypePill--user" href="/docs/token-types#user">User tokens</a></span><span class="apiReference__tokenRowScopes"><a href="/scopes/admin.workflows:read" title="" class="apiReference__scope apiReference__scope--admin.workflows:read"><code>admin.workflows:read</code></a></span></div></div></div></div><div class="apiReference__factBlock apiReference__factBlock--contentTypes"><h3 id="contenttypes" class="apiReference__factLabel"><i class="c-icon c-icon--create-post c-icon--inline"></i>Content types</h3><div class="apiReference__fact apiMethodPage__contentTypes"><code>application/x-www-form-urlencoded</code><a title="Learn more about sending HTTP POST with JSON" href="/web#posting_json"><code>application/json</code></a></div></div><li class="apiReference__factBlock apiReference__factBlock--rateLimits"><h3 id="ratelimites" class="apiReference__factLabel"><i class="c-icon c-icon--dashboard c-icon--inline"></i>Rate limits</h3><span class="apiMethodPage__rateLimit apiReference__fact apiMethodPage__rateLimit--t2"><a href="/docs/rate-limits#tier_t2">Tier 2</a></span></li></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="args">Arguments</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__arguments"><div class="apiMethodPage__argumentSection"><div class="apiMethodPage__argumentList apiMethodPage__argumentList----required"><span class="apiMethodPage__listName apiMethodPage__listName--required">Required arguments</span><div class="apiMethodPage__argumentRow"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--token"><code>token</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType"><a href="/authentication/token-types">token</a></div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--required"><i>·</i>Required</div><a class="apiMethodPage__argumentPermalink" href="#arg_token" name="arg_token"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">xxxx-xxxxxxxxx-xxxx</code></div></div></div></div></div><div class="apiMethodPage__argumentList apiMethodPage__argumentList----optional"><span class="apiMethodPage__listName apiMethodPage__listName--optional">Optional arguments</span><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--app_id"><code>app_id</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType"></div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_app_id" name="arg_app_id"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>The parent app ID for which to return workflows</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">A12345</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--collaborator_ids"><code>collaborator_ids</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">array</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_collaborator_ids" name="arg_collaborator_ids"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Only include workflows by the collaborators inputted</p>
+</div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--cursor"><code>cursor</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">string</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_cursor" name="arg_cursor"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Set <code>cursor</code> to <code>next_cursor</code> returned by the previous call to list items in the next page</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">dXNlcjpVMDYxTkZUVDI=</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--limit"><code>limit</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">integer</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_limit" name="arg_limit"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>The number of results that will be returned by the API on each invocation</p>
+<div class="apiReference__example"><strong>Default</strong><div class="apiReference__exampleCode"><code class="json hljs">20</code></div></div><div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">20</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--no_collaborators"><code>no_collaborators</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">boolean</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_no_collaborators" name="arg_no_collaborators"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Only include workflows with no collaborators in the result; default is false</p>
+<div class="apiReference__example"><strong>Default</strong><div class="apiReference__exampleCode"><code class="json hljs"></code></div></div><div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">true</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--num_trigger_ids"><code>num_trigger_ids</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">integer</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_num_trigger_ids" name="arg_num_trigger_ids"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Number of trigger IDs to fetch for each workflow; default is 0</p>
+<div class="apiReference__example"><strong>Default</strong><div class="apiReference__exampleCode"><code class="json hljs">0</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--query"><code>query</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">string</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_query" name="arg_query"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>A search query to filter for workflow name or description</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">Time off</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--sort"><code>sort</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">enum</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_sort" name="arg_sort"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>The field used to sort the returned workflows</p>
+<div class="apiReference__enumValues"><span>Value should be one of<code>premium_runs</code></span></div><div class="apiReference__example"><strong>Default</strong><div class="apiReference__exampleCode"><code class="json hljs">premium_runs</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--sort_dir"><code>sort_dir</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">enum</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_sort_dir" name="arg_sort_dir"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Sort direction. Possible values are <code>asc</code> for ascending order like (1, 2, 3) or (a, b, c), and <code>desc</code> for descending order like (3, 2, 1) or (c, b, a)</p>
+<div class="apiReference__enumValues"><span>Value should be one of<code>asc</code><code>desc</code></span></div><div class="apiReference__example"><strong>Default</strong><div class="apiReference__exampleCode"><code class="json hljs">desc</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--source"><code>source</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">enum</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_source" name="arg_source"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Source of workflow creation, either from code or workflow builder</p>
+<div class="apiReference__enumValues"><span>Value should be one of<code>code</code><code>workflow_builder</code><code>sales_home</code></span></div></div></div></div></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="markdown">Usage info</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiDocsPage__markdownOutput"><p>This method allows searching accross all workflows in the top-level team of the caller. When sorting by premium runs, the results are not guaranteed to be in an exact ordering relative to the latest live data, since the run counts used for sorting may be out of sync by up to 24 hours. It returns an array of all workflows in the org, letting you filter by app ID, name, etc.</p>
+<p>This method requires the caller having the permission to manage apps for the workspace or enterprise.</p>
+</div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="examples">Example responses</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__response"><div class="apiReference__example"><h3>Common successful response</h3><p class="example_description"></p><p>Typical success response</p>
+<p></p><pre><code class="json">{
+    "ok": true,
+    "total_found": 2,
+    "workflows": [
+        {
+            "id": "Wf014FQ97ZT5",
+            "workflow_function_id": "Fn014EPW7SBU",
+            "callback_id": "untitled_workflow",
+            "title": "Hello there",
+            "description": "A brand new workflow",
+            "input_parameters": {
+                "Ft014FQ980RZ__user_id": {
+                    "type": "slack#/types/user_id",
+                    "name": "Ft014FQ980RZ__user_id",
+                    "description": "User who reacted to the message",
+                    "title": "User who reacted to the message",
+                    "is_required": false
+                },
+                "Ft014FQ980RZ__message_context": {
+                    "type": "slack#/types/message_context",
+                    "name": "Ft014FQ980RZ__message_context",
+                    "description": "Reference to the message that was reacted to",
+                    "title": "Reference to the message that was reacted to",
+                    "is_required": true
+                }
+            },
+            "steps": [
+                {
+                    "id": "a1468ed7-82a2-4d3a-8598-d67194a10148",
+                    "function_id": "Fn010P",
+                    "inputs": {
+                        "message": {
+                            "value": [
+                                {
+                                    "type": "rich_text",
+                                    "elements": [
+                                        {
+                                            "type": "rich_text_section",
+                                            "elements": [
+                                                {
+                                                    "text": "Hello ",
+                                                    "type": "text"
+                                                },
+                                                {
+                                                    "id": "{{inputs.Ft014FQ980RZ__user_id}}",
+                                                    "type": "workflowtoken",
+                                                    "property": "",
+                                                    "data_type": "slack#/types/user_id"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "hidden": false,
+                            "locked": false
+                        },
+                        "message_context": {
+                            "value": "{{inputs.Ft014FQ980RZ__message_context}}",
+                            "hidden": false,
+                            "locked": false
+                        },
+                        "reply_broadcast": {
+                            "value": "false",
+                            "hidden": false,
+                            "locked": false
+                        }
+                    }
+                }
+            ],
+            "collaborators": [
+                "U014FM2DQF5"
+            ],
+            "icons": {
+                "image_96": "https://slack-pantry.dev.slack.com/11d89af/img/apps/workflows_96.png",
+                "image_192": "https://slack-pantry.dev.slack.com/11d89af/img/apps/workflows_192.png"
+            },
+            "is_published": true,
+            "last_updated_by": "U014FM2DQF5",
+            "unpublished_change_count": 0,
+            "app_id": "A014EPW7S3U",
+            "source": "workflow_builder",
+            "billing_type": "simple",
+            "last_published_version_id": "Wfv014FQ9NHCK",
+            "last_published_date": "1674675746"
+        },
+        {
+            "id": "Wf014HH0GN9G",
+            "workflow_function_id": "Fn014HH0GN82",
+            "callback_id": "give_kudos_workflow",
+            "title": "Give kudos",
+            "description": "Acknowledge the impact someone had on you",
+            "input_parameters": {
+                "interactivity": {
+                    "type": "slack#/types/interactivity",
+                    "name": "interactivity",
+                    "title": "Interactivity",
+                    "is_required": true
+                }
+            },
+            "steps": [
+                {
+                    "id": "0",
+                    "function_id": "Fn010N",
+                    "inputs": {
+                        "title": {
+                            "value": "Give someone kudos",
+                            "hidden": false,
+                            "locked": false
+                        },
+                        "fields": {
+                            "value": {
+                                "elements": [
+                                    {
+                                        "name": "doer_of_good_deeds",
+                                        "type": "slack#/types/user_id",
+                                        "title": "Whose deeds are deemed worthy of a kudo?",
+                                        "description": "Recognizing such deeds is dazzlingly desirable of you!"
+                                    },
+                                    {
+                                        "name": "kudo_channel",
+                                        "type": "slack#/types/channel_id",
+                                        "title": "Where should this message be shared?"
+                                    },
+                                    {
+                                        "long": true,
+                                        "name": "kudo_message",
+                                        "type": "string",
+                                        "title": "What would you like to say?"
+                                    },
+                                    {
+                                        "enum": [
+                                            "Appreciation for someone \ud83e\udec2",
+                                            "Celebrating a victory \ud83c\udfc6",
+                                            "Thankful for great teamwork \u26bd\ufe0f",
+                                            "Amazed at awesome work \u2604\ufe0f",
+                                            "Excited for the future \ud83c\udf89",
+                                            "No vibes, just plants \ud83e\udeb4"
+                                        ],
+                                        "name": "kudo_vibe",
+                                        "type": "string",
+                                        "title": "What is this kudo's \"vibe\"?",
+                                        "description": "What sorts of energy is given off?"
+                                    }
+                                ],
+                                "required": [
+                                    "doer_of_good_deeds",
+                                    "kudo_channel",
+                                    "kudo_message"
+                                ]
+                            },
+                            "hidden": false,
+                            "locked": false
+                        },
+                        "description": {
+                            "value": "Continue the positive energy through your written word",
+                            "hidden": false,
+                            "locked": false
+                        },
+                        "submit_label": {
+                            "value": "Share",
+                            "hidden": false,
+                            "locked": false
+                        },
+                        "interactivity": {
+                            "value": "{{inputs.interactivity}}",
+                            "hidden": false,
+                            "locked": false
+                        }
+                    }
+                },
+                {
+                    "id": "1",
+                    "function_id": "Fn014JHDUP3M",
+                    "inputs": {
+                        "vibe": {
+                            "value": "{{steps.0.fields.kudo_vibe}}",
+                            "hidden": false,
+                            "locked": false
+                        }
+                    }
+                },
+                {
+                    "id": "2",
+                    "function_id": "Fn0102",
+                    "inputs": {
+                        "message": {
+                            "value": "*Hey &lt;@{{steps.0.fields.doer_of_good_deeds}}&gt;!* Someone wanted to share some kind words with you :otter:\n&gt; {{steps.0.fields.kudo_message}}\n{{steps.1.URL}}",
+                            "hidden": false,
+                            "locked": false
+                        },
+                        "channel_id": {
+                            "value": "{{steps.0.fields.kudo_channel}}",
+                            "hidden": false,
+                            "locked": false
+                        }
+                    }
+                }
+            ],
+            "collaborators": [
+                "U014ELP4Z9Q"
+            ],
+            "icons": {
+                "image_96": "https://example.com/avatars/2023-03-01/1153578567186_dd65b1ee58919c5d8665_96.png",
+                "image_192": "https://example.com/avatars/2023-03-01/1153578567186_dd65b1ee58919c5d8665_192.png"
+            },
+            "is_published": true,
+            "last_updated_by": "U014ELP4Z9Q",
+            "unpublished_change_count": 0,
+            "app_id": "A014HH0GN7L",
+            "source": "app",
+            "billing_type": "complex",
+            "last_published_version_id": "Wfv014JHDUP4K",
+            "last_published_date": "1677682235"
+        }
+    ],
+    "response_metadata": {
+        "next_cursor": "aWQ6MTE1MzU3ODU2NjMyMg=="
+    }
+}</code></pre></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="errors">Errors</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__errors"><p> This table lists the expected errors that this method could return. However, other errors can be returned in the case where the service is down or other unexpected factors affect processing. Callers should always check the value of the <code>ok</code> params in the response. </p><table class="apiDocsTable apiDocsTable--active"><thead><tr><th>Error</th><th>Description</th></tr></thead><tbody><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_cursor</code></span></td><td data-label="Description"><p>Value passed for <code>cursor</code> was not valid or is no longer valid.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_allowed</code></span></td><td data-label="Description"><p>The user is not allowed to access this API method.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>access_denied</code></span></td><td data-label="Description"><p>Access to a resource specified in the request is denied.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>account_inactive</code></span></td><td data-label="Description"><p>Authentication token is for a deleted user or workspace when using a <code>bot</code> token.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>deprecated_endpoint</code></span></td><td data-label="Description"><p>The endpoint has been deprecated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>ekm_access_denied</code></span></td><td data-label="Description"><p>Administrators have suspended the ability to post a message.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>enterprise_is_restricted</code></span></td><td data-label="Description"><p>The method cannot be called from an Enterprise.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_auth</code></span></td><td data-label="Description"><p>Some aspect of authentication cannot be validated. Either the provided token is invalid or the request originates from an IP address disallowed from making the request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>is_bot</code></span></td><td data-label="Description"><p>This method cannot be called by a legacy bot.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>method_deprecated</code></span></td><td data-label="Description"><p>The method has been deprecated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>missing_scope</code></span></td><td data-label="Description"><p>The token used is not granted the specific scope permissions required to complete this request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_allowed_token_type</code></span></td><td data-label="Description"><p>The token type used in this request is not allowed.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_authed</code></span></td><td data-label="Description"><p>No authentication token provided.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>no_permission</code></span></td><td data-label="Description"><p>The workspace token used in this request does not have the permissions necessary to complete the request. Make sure your app is a member of the conversation it's attempting to post a message to.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>org_login_required</code></span></td><td data-label="Description"><p>The workspace is undergoing an enterprise migration and will not be available until migration is complete.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>token_expired</code></span></td><td data-label="Description"><p>Authentication token has expired</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>token_revoked</code></span></td><td data-label="Description"><p>Authentication token is for a deleted user or workspace or the app has been removed when using a <code>user</code> token.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>two_factor_setup_required</code></span></td><td data-label="Description"><p>Two factor setup is required.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>accesslimited</code></span></td><td data-label="Description"><p>Access to this method is limited on the current network</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>fatal_error</code></span></td><td data-label="Description"><p>The server could not complete your operation(s) without encountering a catastrophic error. It's possible some aspect of the operation succeeded before the error was raised.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>internal_error</code></span></td><td data-label="Description"><p>The server could not complete your operation(s) without encountering an error, likely due to a transient issue on our end. It's possible some aspect of the operation succeeded before the error was raised.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_arg_name</code></span></td><td data-label="Description"><p>The method was passed an argument whose name falls outside the bounds of accepted or expected values. This includes very long names and names with non-alphanumeric characters other than <code>_</code>. If you get this error, it is typically an indication that you have made a <em>very</em> malformed API call.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_arguments</code></span></td><td data-label="Description"><p>The method was either called with invalid arguments or some detail about the arguments passed is invalid, which is more likely when using complex arguments like blocks or attachments.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_array_arg</code></span></td><td data-label="Description"><p>The method was passed an array as an argument. Please only input valid strings.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the <code>charset</code> specified in the <code>Content-Type</code> header was invalid. Valid charset names are: <code>utf-8</code> <code>iso-8859-1</code>.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_form_data</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request with <code>Content-Type</code> <code>application/x-www-form-urlencoded</code> or <code>multipart/form-data</code>, but the form data was either missing or syntactically invalid.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_post_type</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the specified <code>Content-Type</code> was invalid. Valid types are: <code>application/json</code> <code>application/x-www-form-urlencoded</code> <code>multipart/form-data</code> <code>text/plain</code>.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>missing_post_type</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request and included a data payload, but the request did not include a <code>Content-Type</code> header.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>ratelimited</code></span></td><td data-label="Description"><p>The request has been ratelimited. Refer to the <code>Retry-After</code> header for when to retry the request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>request_timeout</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the <code>POST</code> data was either missing or truncated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>service_unavailable</code></span></td><td data-label="Description"><p>The service is temporarily unavailable</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>team_added_to_org</code></span></td><td data-label="Description"><p>The workspace associated with your request is currently undergoing migration to an Enterprise Organization. Web API and other platform operations will be intermittently unavailable until the transition is complete.</p>
+</td></tr></tbody></table></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="warnings">Warnings</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__warnings"><p>This table lists the expected warnings that this method will return. However, other warnings can be returned in the case where the service is experiencing unexpected trouble. </p><table class="apiDocsTable apiDocsTable--active"><thead><tr><th>Warning</th><th>Description</th></tr></thead><tbody><tr><td data-label="Warning"><span class="apiReference__titleCell"><code>missing_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, and recommended practice for the specified <code>Content-Type</code> is to include a <code>charset</code> parameter. However, no <code>charset</code> was present. Specifically, non-form-data content types (e.g. <code>text/plain</code>) are the ones for which <code>charset</code> is recommended.</p>
+</td></tr><tr><td data-label="Warning"><span class="apiReference__titleCell"><code>superfluous_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, and the specified <code>Content-Type</code> is not defined to understand the <code>charset</code> parameter. However, <code>charset</code> was in fact present. Specifically, form-data content types (e.g. <code>multipart/form-data</code>) are the ones for which <code>charset</code> is superfluous.</p>
+</td></tr></tbody></table></div></div>

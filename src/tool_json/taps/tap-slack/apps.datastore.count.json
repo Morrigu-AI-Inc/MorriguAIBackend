@@ -1,0 +1,43 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": ["boolean", "null"]
+    },
+    "datastore": {
+      "type": "string"
+    },
+    "count": {
+      "type": "integer"
+    },
+    "error": {
+      "type": "string"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "pointer": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok"
+  ]
+}

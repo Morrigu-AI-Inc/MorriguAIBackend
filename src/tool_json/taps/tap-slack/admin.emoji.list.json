@@ -1,0 +1,53 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "emoji": {
+      "type": "object",
+      "patternProperties": {
+        "^\\w+$": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "date_created": {
+              "type": "integer"
+            },
+            "uploaded_by": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "date_created",
+            "uploaded_by"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "response_metadata": {
+      "type": "object",
+      "properties": {
+        "next_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "next_cursor"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "ok",
+    "emoji",
+    "response_metadata"
+  ],
+  "additionalProperties": false
+}

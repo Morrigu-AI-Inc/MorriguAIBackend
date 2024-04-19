@@ -1,0 +1,417 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Teams Discussion Comments API",
+  "description": "API endpoints for managing discussion comments on team discussions in GitHub",
+  "type": "object",
+  "properties": {
+    "listComments": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing comments on a team discussion",
+          "value": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "direction": {
+              "type": "string",
+              "description": "The direction to sort the results by",
+              "enum": ["asc", "desc"],
+              "default": "desc"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)",
+              "default": 30
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch",
+              "default": 1
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "author": {
+                "type": "object"
+              },
+              "body": {
+                "type": "string"
+              },
+              "body_html": {
+                "type": "string"
+              },
+              "body_version": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "last_edited_at": {
+                "type": ["string", "null"]
+              },
+              "discussion_url": {
+                "type": "string"
+              },
+              "html_url": {
+                "type": "string"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "number": {
+                "type": "integer"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "reactions": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "author",
+              "body",
+              "body_html",
+              "body_version", 
+              "created_at",
+              "discussion_url",
+              "html_url",
+              "node_id",
+              "number", 
+              "updated_at",
+              "url"
+            ]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "createComment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string", 
+          "description": "API endpoint for creating a comment on a team discussion",
+          "value": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]  
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "string",
+              "description": "The discussion comment's body text"
+            }
+          },
+          "required": ["body"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "object"
+            },
+            "body": {
+              "type": "string"
+            },
+            "body_html": {
+              "type": "string"  
+            },
+            "body_version": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "last_edited_at": {
+              "type": ["string", "null"]
+            },
+            "discussion_url": {
+              "type": "string"
+            },
+            "html_url": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "number": {
+              "type": "integer"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "reactions": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "author",
+            "body",
+            "body_html",
+            "body_version",
+            "created_at", 
+            "discussion_url",
+            "html_url",
+            "node_id",
+            "number",
+            "updated_at",
+            "url"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "body", "response"]
+    },
+    "getComment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a specific comment on a team discussion",
+          "value": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "object"
+            },
+            "body": {
+              "type": "string"
+            },
+            "body_html": {
+              "type": "string"
+            },
+            "body_version": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "last_edited_at": {
+              "type": ["string", "null"]
+            },
+            "discussion_url": {
+              "type": "string"
+            },
+            "html_url": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string"  
+            },
+            "number": {
+              "type": "integer"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "reactions": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "author",
+            "body",
+            "body_html", 
+            "body_version",
+            "created_at",
+            "discussion_url",
+            "html_url",
+            "node_id",
+            "number",
+            "updated_at", 
+            "url"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "updateComment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for updating a comment on a team discussion",
+          "value": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"  
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PATCH"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object", 
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "string",
+              "description": "The discussion comment's body text"
+            }
+          },
+          "required": ["body"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "object"
+            },
+            "body": {
+              "type": "string"
+            },
+            "body_html": {
+              "type": "string"
+            },
+            "body_version": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "last_edited_at": {
+              "type": "string"
+            },
+            "discussion_url": {
+              "type": "string"
+            },
+            "html_url": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "number": {
+              "type": "integer"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "reactions": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "author",
+            "body",
+            "body_html",
+            "body_version",
+            "created_at",
+            "last_edited_at",
+            "discussion_url", 
+            "html_url",
+            "node_id",
+            "number",
+            "updated_at",
+            "url"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "body", "response"]
+    },
+    "deleteComment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for deleting a comment on a team discussion",
+          "value": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"], 
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "response": {
+          "type": "string",
+          "description": "No content response for successful deletion"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

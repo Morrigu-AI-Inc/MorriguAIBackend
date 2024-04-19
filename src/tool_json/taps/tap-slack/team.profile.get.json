@@ -1,0 +1,106 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "ordering": {
+                "type": "integer"
+              },
+              "label": {
+                "type": "string"
+              },
+              "hint": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "possible_values": {
+                "type": ["string", "null"]
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "is_scim": {
+                    "type": "boolean"
+                  },
+                  "is_protected": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "is_hidden": {
+                "type": "boolean"
+              },
+              "section_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "ordering",
+              "label",
+              "type",
+              "options",
+              "section_id"
+            ]
+          }
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "team_id": {
+                "type": "string"
+              },
+              "section_type": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "order": {
+                "type": "integer"
+              },
+              "is_hidden": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "team_id",
+              "section_type",
+              "label",
+              "order"
+            ]
+          }
+        }
+      },
+      "required": [
+        "fields"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "profile"
+  ]
+}

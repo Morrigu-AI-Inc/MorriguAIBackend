@@ -1,0 +1,29 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.conversations.convertToPrivate",
+  "description": "This API method converts a public channel to a private channel.",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channel_id": {
+      "description": "The channel to convert to private.",
+      "type": "string",
+      "example": "C12345"
+    },
+    "name": {
+      "description": "Name of private channel to create. Only respected when converting an MPIM.",
+      "type": "string",
+      "example": "new_private_channel_name"
+    }
+  },
+  "required": [
+    "token",
+    "channel_id"
+  ],
+  "additionalProperties": false
+}

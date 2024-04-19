@@ -1,0 +1,49 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "The URL where webhook payloads will be sent."
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "document.created",
+          "document.updated",
+          "document.sent",
+          "document.completed",
+          "document.approved",
+          "document.declined",
+          "document.expired"
+        ]
+      },
+      "description": "The list of events to subscribe to."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the webhook subscription."
+    },
+    "included_workspaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The list of workspace IDs to include in the subscription."
+    },
+    "excluded_workspaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The list of workspace IDs to exclude from the subscription."
+    }
+  },
+  "required": [
+    "url",
+    "events"
+  ]
+}

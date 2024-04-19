@@ -1,0 +1,32 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "entity_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IDs to assign to the policy.",
+      "example": [
+        "U0130R122E8",
+        "U0133AHT0M8"
+      ]
+    },
+    "entity_type": {
+      "type": "string",
+      "description": "The type of entity to assign to the policy. Currently, 'USER' is supported."
+    },
+    "policy_name": {
+      "type": "string",
+      "description": "The name of the authentication policy to assign the entities to. Currently, 'email_password' is the only policy that may be used with this method.",
+      "example": "email_password"
+    }
+  },
+  "required": [
+    "entity_ids",
+    "entity_type",
+    "policy_name"
+  ]
+}

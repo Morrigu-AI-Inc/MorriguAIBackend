@@ -1,0 +1,71 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        "headline-container-grid-itemGdPV-VbhShYs button-containerobFfV0vf6giV": {
+          "type": "object",
+          "properties": {
+            "reference-flyout": {
+              "type": "object",
+              "properties": {
+                "icon-menu reference-sidebar-mobile-button26mqim6Chewq": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "headline-container-grid-itemGdPV-VbhShYs button-containerobFfV0vf6giV"
+      ]
+    },
+    "content-head": {
+      "type": "object",
+      "properties": {
+        "h1": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "h1"
+      ]
+    },
+    "headline-container-article-info2GaOf2jMpV0r": {
+      "type": "object",
+      "properties": {
+        "APIMethod APIMethod_fixedWidth APIMethod_post headline-container-api-method1Hc-Fm7uaccR": {
+          "type": "string"
+        },
+        "headline-container-article-info-url2nV_XrjpFuVQ": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "APIMethod APIMethod_fixedWidth APIMethod_post headline-container-api-method1Hc-Fm7uaccR",
+        "headline-container-article-info-url2nV_XrjpFuVQ"
+      ]
+    },
+    "rm-Markdown markdown-body content-body": {
+      "type": "object",
+      "properties": {
+        "p": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "p"
+      ]
+    }
+  },
+  "required": [
+    "headline-container21aRBSn8Bqg6",
+    "content-head",
+    "headline-container-article-info2GaOf2jMpV0r", 
+    "rm-Markdown markdown-body content-body"
+  ]
+}

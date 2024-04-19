@@ -1,0 +1,101 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Search API",
+  "description": "API endpoints for searching various entities on GitHub.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for searching",
+      "value": "/search"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": [
+        "Authorization"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/x-www-form-urlencoded",
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "The search query string"
+        },
+        "sort": {
+          "type": "string",
+          "description": "Sorts the search results"
+        },
+        "order": {
+          "type": "string",
+          "description": "Order of the search results"
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "Number of results per page"
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number of results to fetch"
+        }
+      },
+      "required": [
+        "q"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "description": "Total number of results found"
+        },
+        "incomplete_results": {
+          "type": "boolean",
+          "description": "Whether the results are incomplete due to timeout"
+        },
+        "items": {
+          "type": "array",
+          "description": "List of search result items"
+        }
+      },
+      "required": [
+        "total_count",
+        "incomplete_results",
+        "items"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

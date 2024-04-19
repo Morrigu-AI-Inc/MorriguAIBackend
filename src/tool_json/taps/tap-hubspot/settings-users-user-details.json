@@ -1,0 +1,165 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User Details API",
+  "description": "API for fetching, creating, updating, and searching user information in a HubSpot account",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for user details operations",
+      "value": "/crm/v3/objects/users"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization", "Content-Type"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Number of results to return"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether to include archived users"
+        },
+        "idProperty": {
+          "type": "string",
+          "description": "Unique property to use for the ID value"
+        }
+      }
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "ID of the user object"
+              },
+              "associations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "associationCategory": {
+                            "type": "string"
+                          },
+                          "associationTypeId": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "to": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "properties": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "query": {
+          "type": "string",
+          "description": "Search query for users"
+        },
+        "filterGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "highValue": {
+                      "type": "string"
+                    },
+                    "propertyName": {
+                      "type": "string"
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": ["EQ"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "properties": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

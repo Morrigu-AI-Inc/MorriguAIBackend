@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Repository Traffic API",
+  "description": "API endpoints for retrieving repository traffic metrics",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving repository traffic metrics",
+      "value": "/repos/{owner}/{repo}/traffic/{metric}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Content type to accept in the response"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Accept"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body required"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per": {
+          "type": "string",
+          "description": "The time frame to display results for",
+          "enum": [
+            "day",
+            "week"
+          ]
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "description": "The total number of views/clones/etc."
+        },
+        "uniques": {
+          "type": "integer",
+          "description": "The total number of unique views/clones/etc."
+        },
+        "views": {
+          "type": "array",
+          "description": "An array of view/clone/etc. data points",
+          "items": {
+            "type": "object",
+            "properties": {
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The timestamp for the data point"
+              },
+              "count": {
+                "type": "integer",
+                "description": "The number of views/clones/etc. for the data point"
+              },
+              "uniques": {
+                "type": "integer",
+                "description": "The number of unique views/clones/etc. for the data point"
+              }
+            },
+            "required": [
+              "timestamp",
+              "count",
+              "uniques"
+            ]
+          }
+        }
+      },
+      "required": [
+        "count",
+        "uniques",
+        "views"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

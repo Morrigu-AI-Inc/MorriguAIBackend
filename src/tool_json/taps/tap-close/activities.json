@@ -1,0 +1,508 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header-wrapper": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "h1": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "_value": {
+              "type": "string",
+              "const": "Activities"
+            }
+          },
+          "required": [
+            "class",
+            "_value"
+          ]
+        }
+      },
+      "required": [
+        "style",
+        "h1"
+      ]
+    },
+    "hr": {
+      "type": "object"
+    },
+    "css-1yp4ln": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "div": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "class": {
+                  "type": "string"
+                },
+                "style": {
+                  "type": "object",
+                  "properties": {
+                    "data-emotion-css": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data-emotion-css"
+                  ]
+                },
+                "div": {
+                  "type": "object",
+                  "properties": {
+                    "class": {
+                      "type": "string"
+                    },
+                    "style": {
+                      "type": "object",
+                      "properties": {
+                        "data-emotion-css": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "data-emotion-css"
+                      ]
+                    },
+                    "div": {
+                      "type": "object",
+                      "properties": {
+                        "class": {
+                          "type": "string"
+                        },
+                        "p": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "string",
+                              "description": "Activities belong to Leads and can represent any type of activity that was performed on a Lead or its Contacts (e.g. Calls, Emails, Notes, etc.)."
+                            }
+                          ]
+                        },
+                        "h2": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "const": "list-or-filter-all-activity-types"
+                            },
+                            "style": {
+                              "type": "object",
+                              "properties": {
+                                "position": {
+                                  "type": "string",
+                                  "const": "relative"
+                                }
+                              },
+                              "required": [
+                                "position"
+                              ]
+                            },
+                            "a": {
+                              "type": "object",
+                              "properties": {
+                                "class": {
+                                  "type": "string",
+                                  "const": "headingLink"
+                                },
+                                "href": {
+                                  "type": "string",
+                                  "const": "#list-or-filter-all-activity-types"
+                                },
+                                "_value": {
+                                  "type": "string",
+                                  "const": "List or filter all activity types."
+                                }
+                              },
+                              "required": [
+                                "class",
+                                "href",
+                                "_value"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "style",
+                            "a"
+                          ]
+                        },
+                        "p": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "string",
+                              "const": "GET /activity/{?lead_id, user_id, user_id__in, contact_id, contact_id__in, _type, _type__in, date_created__gt, date_created__lt, _fields}"
+                            },
+                            {
+                              "type": "string",
+                              "description": "To list only a specific activity type (e.g., only `Call` or `LeadStatusChange`), use the other resources listed separately. When querying activities for a single lead (using the `lead_id` parameter), you can ask for multiple activity types using `_type__in`."
+                            },
+                            {
+                              "type": "string",
+                              "description": "When listing [Custom Activities](/resources/custom-activities/), `_type` and `_type__in` can include Custom Activity Type ids (e.g. `actitype_1h5m6uHM9BZOpwVhyRJb4Y`) to filter by a specific custom activity type or `Custom` to list custom activities of any type."
+                            },
+                            {
+                              "type": "string",
+                              "description": "The following filtering parameters can only be used for listing activities on a single lead (using the `lead_id` parameter): `user_id`, `user_id__in`, `contact_id`, `contact_id__in`, `_type`, `_type__in`."
+                            },
+                            {
+                              "type": "string",
+                              "const": "thread_emails parameter:"
+                            },
+                            {
+                              "type": "string",
+                              "description": "(Default) when this parameter is not present, `Email` objects will be returned for each email message."
+                            },
+                            {
+                              "type": "string",
+                              "description": "A value of `true` will return `EmailThread` objects representing email conversations. Stripped-down version of `Email` objects will also be returned."
+                            },
+                            {
+                              "type": "string",
+                              "description": "A value of `only` will return `EmailThread` objects representing email conversations. `Email` objects will not be returned."
+                            }
+                          ]
+                        },
+                        "div": {
+                          "type": "object",
+                          "properties": {
+                            "class": {
+                              "type": "string"
+                            },
+                            "div": {
+                              "type": "object",
+                              "properties": {
+                                "class": {
+                                  "type": "string"
+                                },
+                                "style": {
+                                  "type": "object",
+                                  "properties": {
+                                    "data-emotion-css": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "data-emotion-css"
+                                  ]
+                                },
+                                "button": {
+                                  "type": "object",
+                                  "properties": {
+                                    "class": {
+                                      "type": "string"
+                                    },
+                                    "svg": {
+                                      "type": "object",
+                                      "properties": {
+                                        "viewBox": {
+                                          "type": "string",
+                                          "const": "0 0 24 24"
+                                        },
+                                        "class": {
+                                          "type": "string"
+                                        },
+                                        "path": {
+                                          "type": "object",
+                                          "properties": {
+                                            "fill": {
+                                              "type": "string",
+                                              "const": "none"
+                                            },
+                                            "stroke": {
+                                              "type": "string",
+                                              "const": "currentColor"
+                                            },
+                                            "stroke-linecap": {
+                                              "type": "string",
+                                              "const": "round"
+                                            },
+                                            "stroke-linejoin": {
+                                              "type": "string",
+                                              "const": "round"
+                                            },
+                                            "stroke-width": {
+                                              "type": "string",
+                                              "const": "1.5"
+                                            },
+                                            "d": {
+                                              "type": "string",
+                                              "const": "M23.25 7.311L12.53 18.03a.749.749 0 0 1-1.059.001l-.001-.001L.75 7.311"
+                                            }
+                                          },
+                                          "required": [
+                                            "fill",
+                                            "stroke",
+                                            "stroke-linecap",
+                                            "stroke-linejoin",
+                                            "stroke-width",
+                                            "d"
+                                          ]
+                                        }
+                                      },
+                                      "required": [
+                                        "viewBox",
+                                        "class",
+                                        "path"
+                                      ]
+                                    },
+                                    "_value": {
+                                      "type": "string",
+                                      "const": "Example Request/Response"
+                                    }
+                                  },
+                                  "required": [
+                                    "class",
+                                    "svg",
+                                    "_value"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "class",
+                                "style",
+                                "button"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "class",
+                            "div"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "class",
+                        "style",
+                        "p",
+                        "h2",
+                        "p",
+                        "div"
+                      ]
+                    },
+                    "nav": {
+                      "type": "object",
+                      "properties": {
+                        "class": {
+                          "type": "string"
+                        },
+                        "style": {
+                          "type": "object",
+                          "properties": {
+                            "data-emotion-css": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "data-emotion-css"
+                          ]
+                        },
+                        "a": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "class": {
+                                  "type": "string"
+                                },
+                                "href": {
+                                  "type": "string",
+                                  "const": "/resources/contacts/"
+                                },
+                                "svg": {
+                                  "type": "object",
+                                  "properties": {
+                                    "viewBox": {
+                                      "type": "string",
+                                      "const": "0 0 14 24"
+                                    },
+                                    "class": {
+                                      "type": "string"
+                                    },
+                                    "path": {
+                                      "type": "object",
+                                      "properties": {
+                                        "fill": {
+                                          "type": "string",
+                                          "const": "none"
+                                        },
+                                        "fill-rule": {
+                                          "type": "string",
+                                          "const": "evenodd"
+                                        },
+                                        "stroke": {
+                                          "type": "string",
+                                          "const": "currentColor"
+                                        },
+                                        "stroke-linecap": {
+                                          "type": "string",
+                                          "const": "round"
+                                        },
+                                        "stroke-linejoin": {
+                                          "type": "string",
+                                          "const": "round"
+                                        },
+                                        "stroke-width": {
+                                          "type": "string",
+                                          "const": "1.5"
+                                        },
+                                        "d": {
+                                          "type": "string",
+                                          "const": "M12.5.75L1.78 11.47a.749.749 0 0 0-.001 1.059l.001.001L12.5 23.25"
+                                        }
+                                      },
+                                      "required": [
+                                        "fill",
+                                        "fill-rule",
+                                        "stroke",
+                                        "stroke-linecap",
+                                        "stroke-linejoin",
+                                        "stroke-width",
+                                        "d"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "viewBox",
+                                    "class",
+                                    "path"
+                                  ]
+                                },
+                                "div": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "class": {
+                                          "type": "string"
+                                        },
+                                        "style": {
+                                          "type": "object",
+                                          "properties": {
+                                            "data-emotion-css": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "data-emotion-css"
+                                          ]
+                                        },
+                                        "div": {
+                                          "type": "object",
+                                          "properties": {
+                                            "class": {
+                                              "type": "string"
+                                            },
+                                            "_value": {
+                                              "type": "string",
+                                              "const": "Previous"
+                                            }
+                                          },
+                                          "required": [
+                                            "class",
+                                            "_value"
+                                          ]
+                                        }
+                                      },
+                                      "required": [
+                                        "class",
+                                        "style",
+                                        "div"
+                                      ]
+                                    },
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "class": {
+                                          "type": "string"
+                                        },
+                                        "_value": {
+                                          "type": "string",
+                                          "const": "Contacts"
+                                        }
+                                      },
+                                      "required": [
+                                        "class",
+                                        "_value"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "class",
+                                "href",
+                                "svg",
+                                "div"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "style": {
+                                  "type": "string",
+                                  "const": "margin-left:auto"
+                                },
+                                "class": {
+                                  "type": "string"
+                                },
+                                "href": {
+                                  "type": "string",
+                                  "const": "/resources/activities/call/"
+                                },
+                                "div": {
+                                  "type": "object",
+                                  "properties": {
+                                    "class": {
+                                      "type": "string"
+                                    },
+                                    "style": {
+                                      "type": "object",
+                                      "properties": {
+                                        "data-emotion-css": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "data-emotion-css"
+                                      ]
+                                    },
+                                    "div": {
+                                      "type": "array",
+                                      "items": [
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            

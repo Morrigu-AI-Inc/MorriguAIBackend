@@ -1,0 +1,36 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes.",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "crop_w": {
+      "type": "string",
+      "description": "Width/height of crop box (always square)",
+      "example": "100"
+    },
+    "crop_x": {
+      "type": "string",
+      "description": "X coordinate of top-left corner of crop box",
+      "example": "10"
+    },
+    "crop_y": {
+      "type": "string",
+      "description": "Y coordinate of top-left corner of crop box",
+      "example": "15"
+    },
+    "image": {
+      "type": "string",
+      "description": "File contents via `multipart/form-data`.",
+      "example": "..."
+    }
+  },
+  "required": [
+    "token"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Event Analytics API",
+  "description": "Use the web analytics API to fetch events associated with CRM records of any type. This includes standard events, such as website page views and email opens, as well as custom events.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for fetching event analytics",
+      "value": "/events/v3/events/"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body for this endpoint"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique ID of the event instance."
+        },
+        "eventTypeId": {
+          "type": "integer",
+          "description": "The ID of the event type."
+        },
+        "eventTypeKey": {
+          "type": "string",
+          "description": "The key of the event type."
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time at which the event occurred."
+        },
+        "objectId": {
+          "type": "string",
+          "description": "The ID of the object associated with this event."
+        },
+        "objectType": {
+          "type": "string",
+          "description": "The type of the object associated with this event."
+        },
+        "sourceId": {
+          "type": "string",
+          "description": "The ID of the source associated with this event."
+        },
+        "sourceType": {
+          "type": "string",
+          "description": "The type of the source associated with this event."
+        },
+        "properties": {
+          "type": "object",
+          "description": "A set of custom properties associated with this event instance."
+        }
+      },
+      "required": [
+        "id",
+        "eventTypeId",
+        "eventTypeKey",
+        "occurredAt",
+        "objectId",
+        "objectType"
+      ]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

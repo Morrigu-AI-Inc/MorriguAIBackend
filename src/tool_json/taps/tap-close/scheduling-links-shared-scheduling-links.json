@@ -1,0 +1,99 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "listSharedSchedulingLinks": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "const": "/shared_scheduling_link/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "createSharedSchedulingLink": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/shared_scheduling_link/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "fetchSharedSchedulingLink": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/shared_scheduling_link/\\d+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "updateSharedSchedulingLink": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/shared_scheduling_link/\\d+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "deleteSharedSchedulingLink": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "DELETE"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/shared_scheduling_link/\\d+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    }
+  },
+  "required": [
+    "listSharedSchedulingLinks",
+    "createSharedSchedulingLink",
+    "fetchSharedSchedulingLink",
+    "updateSharedSchedulingLink",
+    "deleteSharedSchedulingLink"
+  ]
+}

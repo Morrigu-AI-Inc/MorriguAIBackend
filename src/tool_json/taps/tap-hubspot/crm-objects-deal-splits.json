@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Deal Splits API",
+  "description": "Use the deal splits API to split existing deals between owners when credit and/or commission are shared between them.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for creating or replacing deal splits",
+      "value": "/crm/v3/objects/deals/splits/batch/upsert"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "Content type of the request body"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Content-Type"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "splits": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "percentage": {
+                      "type": "number",
+                      "description": "Percentage of the deal split"
+                    },
+                    "ownerId": {
+                      "type": "number",
+                      "description": "ID of the owner for the deal split"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "ownerId"
+                  ]
+                }
+              },
+              "id": {
+                "type": "number",
+                "description": "ID of the deal to split"
+              }
+            },
+            "required": [
+              "splits",
+              "id"
+            ]
+          }
+        }
+      },
+      "required": [
+        "inputs"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "Status of the operation"
+              },
+              "id": {
+                "type": "number",
+                "description": "ID of the deal"
+              },
+              "splits": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "percentage": {
+                      "type": "number",
+                      "description": "Percentage of the deal split"
+                    },
+                    "ownerId": {
+                      "type": "number",
+                      "description": "ID of the owner for the deal split"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "results"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "contentType",
+    "body",
+    "response"
+  ],
+  "additionalProperties": false
+}

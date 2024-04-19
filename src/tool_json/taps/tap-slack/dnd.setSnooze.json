@@ -1,0 +1,20 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "num_minutes": {
+      "type": "string",
+      "description": "Number of minutes, from now, to snooze until."
+    }
+  },
+  "required": [
+    "token",
+    "num_minutes"
+  ],
+  "additionalProperties": false
+}

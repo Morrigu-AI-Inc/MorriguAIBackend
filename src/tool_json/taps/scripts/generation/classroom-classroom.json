@@ -1,0 +1,542 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Classroom API",
+  "description": "API endpoints for interacting with GitHub Classroom",
+  "type": "object",
+  "properties": {
+    "getAssignment": {
+      "type": "object",
+      "description": "Gets a GitHub Classroom assignment",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting an assignment",
+          "value": "/assignments/{assignment_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "assignment_id": {
+              "type": "integer",
+              "description": "The unique identifier of the classroom assignment"
+            }
+          },
+          "required": ["assignment_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the assignment"
+            },
+            "public_repo": {
+              "type": "boolean",
+              "description": "Whether the assignment repository is public"
+            },
+            "title": {
+              "type": "string",
+              "description": "The title of the assignment"
+            },
+            "type": {
+              "type": "string",
+              "description": "The type of the assignment (individual or group)"
+            },
+            "invite_link": {
+              "type": "string",
+              "description": "The invite link for the assignment"
+            },
+            "invitations_enabled": {
+              "type": "boolean",
+              "description": "Whether invitations are enabled for the assignment"
+            },
+            "slug": {
+              "type": "string",
+              "description": "The slug of the assignment"
+            },
+            "students_are_repo_admins": {
+              "type": "boolean",
+              "description": "Whether students are repo admins for their assignment repositories"
+            },
+            "feedback_pull_requests_enabled": {
+              "type": "boolean",
+              "description": "Whether feedback pull requests are enabled for the assignment"
+            },
+            "max_teams": {
+              "type": "integer",
+              "description": "The maximum number of teams allowed for the assignment"
+            },
+            "max_members": {
+              "type": "integer",
+              "description": "The maximum number of members allowed per team for the assignment"
+            },
+            "editor": {
+              "type": "string",
+              "description": "The editor used for the assignment (e.g., codespaces)"
+            },
+            "accepted": {
+              "type": "integer",
+              "description": "The number of accepted assignments"
+            },
+            "submitted": {
+              "type": "integer",
+              "description": "The number of submitted assignments"
+            },
+            "passing": {
+              "type": "integer",
+              "description": "The number of passing assignments"
+            },
+            "language": {
+              "type": "string",
+              "description": "The programming language used for the assignment"
+            },
+            "deadline": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The deadline for the assignment"
+            },
+            "starter_code_repository": {
+              "type": "object",
+              "description": "The repository containing the starter code for the assignment"
+            },
+            "classroom": {
+              "type": "object",
+              "description": "The classroom associated with the assignment"
+            }
+          },
+          "required": [
+            "id",
+            "public_repo",
+            "title",
+            "type",
+            "invite_link",
+            "invitations_enabled",
+            "slug",
+            "students_are_repo_admins",
+            "feedback_pull_requests_enabled",
+            "max_teams",
+            "max_members",
+            "editor",
+            "accepted",
+            "submitted",
+            "passing",
+            "language",
+            "deadline",
+            "starter_code_repository",
+            "classroom"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "listAcceptedAssignments": {
+      "type": "object",
+      "description": "Lists accepted assignments for a GitHub Classroom assignment",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing accepted assignments",
+          "value": "/assignments/{assignment_id}/accepted_assignments"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "assignment_id": {
+              "type": "integer",
+              "description": "The unique identifier of the classroom assignment"
+            }
+          },
+          "required": ["assignment_id"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The unique identifier of the accepted assignment"
+              },
+              "submitted": {
+                "type": "boolean",
+                "description": "Whether the assignment was submitted"
+              },
+              "passing": {
+                "type": "boolean",
+                "description": "Whether the assignment is passing"
+              },
+              "commit_count": {
+                "type": "integer",
+                "description": "The number of commits for the assignment"
+              },
+              "grade": {
+                "type": "string",
+                "description": "The grade for the assignment"
+              },
+              "students": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The unique identifier of the student"
+                    },
+                    "login": {
+                      "type": "string",
+                      "description": "The login name of the student"
+                    },
+                    "avatar_url": {
+                      "type": "string",
+                      "description": "The avatar URL of the student"
+                    },
+                    "html_url": {
+                      "type": "string",
+                      "description": "The HTML URL of the student's GitHub profile"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "login",
+                    "avatar_url",
+                    "html_url"
+                  ]
+                }
+              },
+              "repository": {
+                "type": "object",
+                "description": "The repository containing the student's assignment submission"
+              },
+              "assignment": {
+                "type": "object",
+                "description": "The assignment associated with the accepted assignment"
+              }
+            },
+            "required": [
+              "id",
+              "submitted",
+              "passing",
+              "commit_count",
+              "grade",
+              "students",
+              "repository",
+              "assignment"
+            ]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "queryParameters", "response"]
+    },
+    "getAssignmentGrades": {
+      "type": "object",
+      "description": "Gets grades for a GitHub Classroom assignment",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting assignment grades",
+          "value": "/assignments/{assignment_id}/grades"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "assignment_id": {
+              "type": "integer",
+              "description": "The unique identifier of the classroom assignment"
+            }
+          },
+          "required": ["assignment_id"]
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "assignment_name": {
+                "type": "string",
+                "description": "The name of the assignment"
+              },
+              "assignment_url": {
+                "type": "string",
+                "description": "The URL of the assignment"
+              },
+              "starter_code_url": {
+                "type": "string",
+                "description": "The URL of the starter code repository"
+              },
+              "github_username": {
+                "type": "string",
+                "description": "The GitHub username of the student"
+              },
+              "roster_identifier": {
+                "type": "string",
+                "description": "The roster identifier of the student"
+              },
+              "student_repository_name": {
+                "type": "string",
+                "description": "The name of the student's repository for the assignment"
+              },
+              "student_repository_url": {
+                "type": "string",
+                "description": "The URL of the student's repository for the assignment"
+              },
+              "submission_timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The timestamp of the student's submission"
+              },
+              "points_awarded": {
+                "type": "integer",
+                "description": "The points awarded to the student for the assignment"
+              },
+              "points_available": {
+                "type": "integer",
+                "description": "The total points available for the assignment"
+              },
+              "group_name": {
+                "type": "string",
+                "description": "The name of the student's group for the assignment (if applicable)"
+              }
+            },
+            "required": [
+              "assignment_name",
+              "assignment_url",
+              "starter_code_url",
+              "github_username",
+              "roster_identifier",
+              "student_repository_name",
+              "student_repository_url",
+              "submission_timestamp",
+              "points_awarded",
+              "points_available",
+              "group_name"
+            ]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "listClassrooms": {
+      "type": "object",
+      "description": "Lists GitHub Classroom classrooms for the current user",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing classrooms",
+          "value": "/classrooms"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The unique identifier of the classroom"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the classroom"
+              },
+              "archived": {
+                "type": "boolean",
+                "description": "Whether the classroom is archived"
+              },
+              "url": {
+                "type": "string",
+                "description": "The URL of the classroom"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "archived",
+              "url"
+            ]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+    },
+    "getClassroom": {
+      "type": "object",
+      "description": "Gets a GitHub Classroom classroom for the current user",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a classroom",
+          "value": "/classrooms/{classroom_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "classroom_id": {
+              "type": "integer",
+              "description": "The unique identifier of the classroom"
+            }
+          },
+          "required": ["classroom_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the classroom"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the classroom"
+            },
+            "archived": {
+              "type": "boolean",
+              "description": "Whether the classroom is archived"
+            },
+            "organization": {
+              "type": "object",
+              "description": "The organization associated with the classroom"
+            },
+            "url": {
+              "type": "string",
+              "description": "The URL of the classroom"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "archived",
+            "organization",
+            "url"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "listAssignmentsForClassroom": {
+      "type": "object",
+      "description": "Lists GitHub Classroom assignments for a classroom",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing assignments for a classroom",
+          "value

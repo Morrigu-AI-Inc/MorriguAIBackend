@@ -1,0 +1,32 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "error": {
+      "type": "object",
+      "description": "A JSON-based object with a `message` property that should contain a human readable error message.",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "message"
+      ]
+    },
+    "workflow_step_execute_id": {
+      "type": "string",
+      "description": "Context identifier that maps to the correct workflow step execution."
+    }
+  },
+  "required": [
+    "token",
+    "error",
+    "workflow_step_execute_id"
+  ]
+}

@@ -1,0 +1,184 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "files": {
+      "type": "object",
+      "properties": {
+        "matches": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "pagination": {
+          "type": "object",
+          "properties": {
+            "first": {
+              "type": "integer"
+            },
+            "last": {
+              "type": "integer"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "page_count": {
+              "type": "integer"
+            },
+            "per_page": {
+              "type": "integer"
+            },
+            "total_count": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "first",
+            "last",
+            "page",
+            "page_count",
+            "per_page",
+            "total_count"
+          ]
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "pages": {
+              "type": "integer"
+            },
+            "total": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "count",
+            "page",
+            "pages",
+            "total"
+          ]
+        },
+        "total": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "matches",
+        "pagination",
+        "paging",
+        "total"
+      ]
+    },
+    "messages": {
+      "type": "object",
+      "properties": {
+        "matches": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "pagination": {
+          "type": "object",
+          "properties": {
+            "first": {
+              "type": "integer"
+            },
+            "last": {
+              "type": "integer"  
+            },
+            "page": {
+              "type": "integer"
+            },
+            "page_count": {
+              "type": "integer"
+            },
+            "per_page": {
+              "type": "integer"
+            },
+            "total_count": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "first",
+            "last", 
+            "page",
+            "page_count",
+            "per_page",
+            "total_count"
+          ]
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "pages": {
+              "type": "integer"
+            },
+            "total": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "count",
+            "page",
+            "pages", 
+            "total"
+          ]
+        },
+        "total": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "matches",
+        "pagination",
+        "paging",
+        "total"
+      ]
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "posts": {
+      "type": "object",
+      "properties": {
+        "matches": {
+          "type": "array",
+          "items": {}
+        },
+        "total": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "matches",
+        "total"
+      ]
+    },
+    "query": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "files",
+    "messages",
+    "ok", 
+    "posts",
+    "query"
+  ]
+}

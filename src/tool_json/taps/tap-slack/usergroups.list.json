@@ -1,0 +1,94 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "usergroups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "team_id": {
+            "type": "string"
+          },
+          "is_usergroup": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "is_external": {
+            "type": "boolean"
+          },
+          "date_create": {
+            "type": "integer"
+          },
+          "date_update": {
+            "type": "integer"
+          },
+          "date_delete": {
+            "type": "integer"
+          },
+          "auto_type": {
+            "type": ["string", "null"]
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "updated_by": {
+            "type": "string"
+          },
+          "deleted_by": {
+            "type": ["string", "null"]
+          },
+          "prefs": {
+            "type": "object",
+            "properties": {
+              "channels": {
+                "type": "array"
+              },
+              "groups": {
+                "type": "array"
+              }
+            },
+            "required": ["channels", "groups"]
+          },
+          "user_count": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "team_id",
+          "is_usergroup",
+          "name",
+          "description",
+          "handle",
+          "is_external",
+          "date_create",
+          "date_update",
+          "date_delete",
+          "created_by",
+          "updated_by",
+          "prefs"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "usergroups"
+  ]
+}

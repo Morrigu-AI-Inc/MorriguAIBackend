@@ -1,0 +1,150 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Method access"
+        },
+        "scopes": {
+          "type": "string",
+          "description": "Required scopes"
+        },
+        "contenttypes": {
+          "type": "string",
+          "description": "Content types"
+        },
+        "ratelimites": {
+          "type": "string",
+          "description": "Rate limits"
+        }
+      },
+      "required": [
+        "method",
+        "scopes",
+        "contenttypes",
+        "ratelimites"
+      ]
+    },
+    "args": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "Authentication token bearing required scopes"
+              },
+              "reminder": {
+                "type": "string",
+                "description": "The ID of the reminder to be marked as complete"
+              }
+            },
+            "required": [
+              "token",
+              "reminder"
+            ]
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "team_id": {
+                "type": "string",
+                "description": "Encoded team id, required if org token is used"
+              }
+            },
+            "required": [
+              "team_id"
+            ]
+          }
+        }
+      },
+      "required": [
+        "required",
+        "optional"
+      ]
+    },
+    "markdown": {
+      "type": "string",
+      "description": "Usage info"
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Example name"
+          },
+          "response": {
+            "type": "object",
+            "description": "Example response"
+          }
+        },
+        "required": [
+          "name",
+          "response"
+        ]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Error code"
+          },
+          "description": {
+            "type": "string",
+            "description": "Error description"
+          }
+        },
+        "required": [
+          "code",
+          "description"
+        ]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Warning code"
+          },
+          "description": {
+            "type": "string",
+            "description": "Warning description"
+          }
+        },
+        "required": [
+          "code",
+          "description"
+        ]
+      }
+    }
+  },
+  "required": [
+    "facts",
+    "args",
+    "markdown",
+    "examples",
+    "errors",
+    "warnings"
+  ]
+}

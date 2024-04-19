@@ -1,0 +1,47 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MeetingSearch",
+  "type": "object",
+  "properties": {
+    "provider_calendar_event_id": {
+      "type": "string",
+      "description": "The provider event ID the meeting was synced from"
+    },
+    "provider_calendar_id": {
+      "type": "string",
+      "description": "The provider calendar ID the meeting was synced from"
+    },
+    "provider_calendar_type": {
+      "type": "string",
+      "enum": [
+        "google",
+        "microsoft"
+      ],
+      "description": "Either 'google' or 'microsoft'"
+    },
+    "starts_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The meeting start time, useful for finding meetings created from instances of recurring events"
+    },
+    "starts_at__gte": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The meeting start time greater than or equal to filter"
+    },
+    "starts_at__lt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The meeting start time less than filter"
+    },
+    "lead_id": {
+      "type": "string",
+      "description": "The lead ID to filter meetings for"
+    }
+  },
+  "required": [
+    "provider_calendar_event_id"
+  ],
+  "additionalProperties": false
+}

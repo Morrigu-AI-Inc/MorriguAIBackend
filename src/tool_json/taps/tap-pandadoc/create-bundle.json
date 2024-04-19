@@ -1,0 +1,41 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "description": "The unique identifier for the section upload process."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "document_sections_uploaded.PROCESSED"
+            ],
+            "description": "The status of the section upload process. When 'document_sections_uploaded.PROCESSED', the section is ready for editing."
+          },
+          "section_uuids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The unique identifier for each section in the bundle."
+            }
+          }
+        },
+        "required": [
+          "uuid",
+          "status",
+          "section_uuids"
+        ]
+      }
+    }
+  },
+  "required": [
+    "sections"
+  ]
+}

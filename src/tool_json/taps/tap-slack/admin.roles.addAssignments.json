@@ -1,0 +1,35 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "entity_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of the entity IDs for which roles will be assigned. These can be Org IDs, Team IDs or Channel IDs"
+    },
+    "role_id": {
+      "type": "string",
+      "description": "ID of the role to which users will be assigned"
+    },
+    "user_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of IDs from the users to be added to the given role"
+    }
+  },
+  "required": [
+    "token",
+    "entity_ids",
+    "role_id", 
+    "user_ids"
+  ]
+}

@@ -1,0 +1,76 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "type": {
+      "type": "string"
+    },
+    "message": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "ts": {
+          "type": "string"
+        },
+        "team": {
+          "type": "string"
+        },
+        "reactions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "count": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "name",
+              "users",
+              "count"
+            ]
+          }
+        },
+        "permalink": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "text",
+        "user",
+        "ts",
+        "team",
+        "reactions",
+        "permalink"
+      ]
+    },
+    "channel": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ok"
+  ]
+}

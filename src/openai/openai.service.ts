@@ -627,8 +627,8 @@ export class OpenaiService {
 
           this.openai.beta.threads.runs
             .stream(threadId, {
-              // assistant_id: this.assistantService.assistants.slack.id,
-              assistant_id: assistantId,
+              assistant_id: this.assistantService.assistants.hubspot.id,
+              // assistant_id: assistantId,
             })
             .on('abort', this.hndleAbort)
             .on('connect', this.handleConnect)

@@ -1,0 +1,285 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Users API",
+  "description": "REST API endpoints for users to get public and private information about authenticated users",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint to get the authenticated user",
+      "value": "/user"
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        },
+        "X-GitHub-Api-Version": {
+          "type": "string",
+          "description": "API version, e.g. 2022-11-28"
+        }
+      },
+      "required": ["Authorization", "Accept", "X-GitHub-Api-Version"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The new name of the user"
+        },
+        "email": {
+          "type": "string", 
+          "description": "The publicly visible email address of the user"
+        },
+        "blog": {
+          "type": "string",
+          "description": "The new blog URL of the user"  
+        },
+        "twitter_username": {
+          "type": ["string", "null"],
+          "description": "The new Twitter username of the user"
+        },
+        "company": {
+          "type": "string",
+          "description": "The new company of the user"
+        },
+        "location": {
+          "type": "string",
+          "description": "The new location of the user"
+        },
+        "hireable": {
+          "type": "boolean",
+          "description": "The new hiring availability of the user"
+        },
+        "bio": {
+          "type": "string",
+          "description": "The new short biography of the user"
+        }
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object", 
+      "properties": {
+        "since": {
+          "type": "integer",
+          "description": "A user ID. Only return users with an ID greater than this ID"
+        },
+        "per_page": {
+          "type": "integer", 
+          "description": "The number of results per page (max 100)"
+        },
+        "subject_type": {
+          "type": "string",
+          "enum": ["organization", "repository", "issue", "pull_request"],
+          "description": "Identifies which additional information about the person's hovercard"
+        },
+        "subject_id": {
+          "type": "string",
+          "description": "Uses the ID for the subject_type specified"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "description": "The username for the user"
+        },
+        "id": {
+          "type": "integer",
+          "description": "The unique ID for the user"
+        },
+        "node_id": {
+          "type": "string",
+          "description": "The Node ID for the user"
+        },
+        "avatar_url": {
+          "type": "string", 
+          "description": "The URL of the user's avatar image"
+        },
+        "gravatar_id": {
+          "type": "string",
+          "description": "The Gravatar ID for the user"
+        },
+        "url": {
+          "type": "string",
+          "description": "The API URL for the user"
+        },
+        "html_url": {
+          "type": "string",
+          "description": "The GitHub URL for the user"
+        },
+        "followers_url": {
+          "type": "string",
+          "description": "The API URL to get the user's followers"
+        },
+        "following_url": {
+          "type": "string",
+          "description": "The API URL to get who the user is following"
+        },
+        "gists_url": {
+          "type": "string",
+          "description": "The API URL for the user's gists"
+        },
+        "starred_url": {
+          "type": "string",
+          "description": "The API URL for the user's starred repositories"  
+        },
+        "subscriptions_url": {
+          "type": "string",
+          "description": "The API URL for the user's subscriptions"
+        },
+        "organizations_url": {
+          "type": "string",
+          "description": "The API URL for the user's organizations"
+        },
+        "repos_url": {
+          "type": "string",
+          "description": "The API URL for the user's repositories"
+        },
+        "events_url": {
+          "type": "string", 
+          "description": "The API URL for the user's events"
+        },
+        "received_events_url": {
+          "type": "string",
+          "description": "The API URL for events received by the user"
+        },
+        "type": {
+          "type": "string",
+          "description": "The user type (User or Organization)"
+        },
+        "site_admin": {
+          "type": "boolean",
+          "description": "Whether the user is a site administrator"
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's full name" 
+        },
+        "company": {
+          "type": "string", 
+          "description": "The company the user is associated with"
+        },
+        "blog": {
+          "type": "string",
+          "description": "The user's blog URL"
+        },
+        "location": {
+          "type": "string",
+          "description": "The user's location"
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's public email address"
+        },
+        "hireable": {
+          "type": "boolean",
+          "description": "Whether the user is hireable"
+        },
+        "bio": {
+          "type": "string",
+          "description": "The user's biography"
+        },
+        "twitter_username": {
+          "type": "string",
+          "description": "The user's Twitter username"
+        },
+        "public_repos": {
+          "type": "integer",
+          "description": "The number of public repositories owned by the user"
+        },
+        "public_gists": {
+          "type": "integer", 
+          "description": "The number of public gists owned by the user"
+        },
+        "followers": {
+          "type": "integer",
+          "description": "The number of followers for the user"
+        },
+        "following": {
+          "type": "integer",
+          "description": "The number of users the user is following"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The date the user account was created"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The date the user account was last updated"
+        },
+        "private_gists": {
+          "type": "integer",
+          "description": "The number of private gists owned by the user"
+        },
+        "total_private_repos": {
+          "type": "integer",
+          "description": "The total number of private repositories owned by the user"
+        },
+        "owned_private_repos": {
+          "type": "integer",
+          "description": "The number of private repositories owned by the user"
+        },
+        "disk_usage": {
+          "type": "integer", 
+          "description": "The user's disk usage quota"
+        },
+        "collaborators": {
+          "type": "integer",
+          "description": "The number of collaborators for the user's repositories"
+        },
+        "two_factor_authentication": {
+          "type": "boolean", 
+          "description": "Whether the user has two-factor authentication enabled"
+        },
+        "plan": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The user's GitHub plan name"
+            },
+            "space": {
+              "type": "integer",
+              "description": "The user's GitHub plan space quota"
+            },
+            "private_repos": {
+              "type": "integer",
+              "description": "The user's GitHub plan private repository quota" 
+            },
+            "collaborators": {
+              "type": "integer",
+              "description": "The user's GitHub plan collaborator quota"
+            }
+          },
+          "required": ["name", "space", "private_repos", "collaborators"]
+        }
+      },
+      "required": ["login", "id", "url", "type"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

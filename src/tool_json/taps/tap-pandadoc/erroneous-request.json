@@ -1,0 +1,147 @@
+Here is the JSON Schema for the HTML content you provided:
+
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-raycast-oas": {
+          "type": "string"
+        },
+        "div": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "div": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "class": {
+                      "type": "string"
+                    },
+                    "div": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "class": {
+                            "type": "string"
+                        },
+                          "data-testid": {
+                            "type": "string"
+                          },
+                          "nav": {
+                            "type": "object",
+                            "properties": {
+                              "aria-label": {
+                                "type": "string"
+                              },
+                              "class": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "div": {
+                                "type": "array",
+                                "items": {}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "id": {
+      "type": "string"
+    },
+    "h1": {
+      "type": "string"
+    }
+  },
+  "div": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "span": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "data-testid": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "span": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "data-testid": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "div": {
+    "type": "object",
+    "properties": {
+      "class": {
+        "type": "string"
+      },
+      "data-testid": {
+        "type": "string"
+      },
+      "p": {
+        "type": "string"
+      }
+    }
+  },
+  "div": {
+    "type": "object",
+    "properties": {
+      "class": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      }
+    }
+  }
+}
+
+
+This JSON Schema defines the structure of the HTML elements and their attributes present in the provided content.

@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Companies API",
+  "description": "Use the companies API to create and manage CRM records that represent the companies and organizations that interact with your business.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for company operations",
+      "value": "/crm/v3/objects/companies"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "associations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "types": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "associationCategory": {
+                      "type": "string"
+                    },
+                    "associationTypeId": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "to": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer"
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "idProperty": {
+          "type": "string"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "properties": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": ["string", "number", "boolean"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

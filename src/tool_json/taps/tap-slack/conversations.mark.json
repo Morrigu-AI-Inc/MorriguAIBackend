@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mark a Conversation as Read",
+  "description": "Sets the read cursor in a channel at a specific point.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for marking a conversation as read",
+      "example": "conversations.mark"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/x-www-form-urlencoded", "application/json"],
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization", "Content-Type"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter."
+        },
+        "channel": {
+          "type": "string",
+          "description": "ID of conversation to mark as read"
+        },
+        "ts": {
+          "type": "string",
+          "description": "Timestamp of the most recently seen message"
+        }
+      },
+      "required": ["token", "channel", "ts"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "description": "Indicates the success or failure of the request"
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message returned when the operation fails"
+        }
+      },
+      "required": ["ok"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "body", "response"]
+}

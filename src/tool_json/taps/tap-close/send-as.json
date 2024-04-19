@@ -1,0 +1,184 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SendAs",
+  "type": "object",
+  "properties": {
+    "list_associations": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "const": "/send_as/"
+        },
+        "query": {
+          "type": "object",
+          "properties": {
+            "allowing_user_id": {
+              "type": "integer"
+            },
+            "allowed_user_id": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        },
+        "description": {
+          "type": "string",
+          "const": "List all Send As Associations by allowing or allowed user."
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "create_association": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/send_as/"
+        },
+        "description": {
+          "type": "string",
+          "const": "Create a Send As Association."
+        }
+      },
+      "required": [
+        "method", 
+        "path",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "delete_by_user": {
+      "type": "object", 
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "DELETE"
+        },
+        "path": {
+          "type": "string", 
+          "const": "/send_as/"
+        },
+        "query": {
+          "type": "object",
+          "properties": {
+            "allowing_user_id": {
+              "type": "integer"
+            },
+            "allowed_user_id": {
+              "type": "integer" 
+            }
+          },
+          "required": [
+            "allowing_user_id",
+            "allowed_user_id"
+          ],
+          "additionalProperties": false
+        },
+        "description": {
+          "type": "string",
+          "const": "Delete a Send As Association by allowed user."
+        }
+      },
+      "required": [
+        "method",
+        "path", 
+        "query",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "get_by_id": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/send_as/\\d+/$"
+        },
+        "description": {
+          "type": "string", 
+          "const": "Retrieve a single Send As Association."
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "delete_by_id": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "DELETE"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/send_as/\\d+/$"
+        },
+        "description": {
+          "type": "string",
+          "const": "Delete a Send As Association by ID."
+        }
+      },
+      "required": [
+        "method",
+        "path", 
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "bulk_update": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string", 
+          "const": "/send_as/bulk/"
+        },
+        "description": {
+          "type": "string",
+          "const": "Edit Send As Associations in bulk."
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "list_associations",
+    "create_association",
+    "delete_by_user",
+    "get_by_id", 
+    "delete_by_id",
+    "bulk_update"
+  ],
+  "additionalProperties": false
+}

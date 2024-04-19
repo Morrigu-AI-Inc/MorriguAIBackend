@@ -1,0 +1,35 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "usergroup": {
+      "type": "string",
+      "description": "The encoded ID of the user group to update."
+    },
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "A comma separated string of encoded user IDs that represent the entire list of users for the user group."
+    },
+    "include_count": {
+      "type": "boolean",
+      "description": "Include the number of users in the user group."
+    },
+    "team_id": {
+      "type": "string",
+      "description": "encoded team id where the user group exists, required if org token is used"
+    }
+  },
+  "required": [
+    "token",
+    "usergroup",
+    "users"
+  ]
+}

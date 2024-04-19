@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Owners API",
+  "description": "API to retrieve owner IDs and other related information for users in the HubSpot account.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving owners",
+      "value": "/crm/v3/owners/"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No content type for GET requests"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "The maximum number of results to return"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether to include archived owners or not"
+        },
+        "idProperty": {
+          "type": "string",
+          "description": "The property to use for the owner ID (id or userId)"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique ID of the owner"
+              },
+              "userId": {
+                "type": "string",
+                "description": "The user ID of the owner"
+              },
+              "email": {
+                "type": "string",
+                "description": "The email address of the owner"
+              },
+              "firstName": {
+                "type": "string",
+                "description": "The first name of the owner"
+              },
+              "lastName": {
+                "type": "string",
+                "description": "The last name of the owner"
+              },
+              "archived": {
+                "type": "boolean",
+                "description": "Whether the owner is archived or not"
+              }
+            },
+            "required": ["id", "userId", "email"]
+          }
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "next": {
+              "type": ["string", "null"],
+              "description": "The URL for the next page of results, or null if there are no more results"
+            }
+          }
+        }
+      },
+      "required": ["results"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

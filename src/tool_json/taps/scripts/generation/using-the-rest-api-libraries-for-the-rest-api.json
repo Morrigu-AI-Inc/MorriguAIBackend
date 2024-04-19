@@ -1,0 +1,97 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Libraries for the GitHub REST API",
+  "description": "Information about official and third-party libraries for interacting with the GitHub REST API",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "No specific endpoint, this describes libraries for the GitHub REST API",
+      "value": ""
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET"],
+      "description": "HTTP method used to retrieve library information"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication, not required"
+        }
+      },
+      "required": []
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body needed"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object", 
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "official_github_libraries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string"
+              },
+              "library": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": ["language", "library", "url"]
+          }
+        },
+        "third_party_libraries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string" 
+              },
+              "libraries": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["name", "url"]
+                }
+              }
+            },
+            "required": ["language", "libraries"]
+          }
+        }
+      },
+      "required": ["official_github_libraries", "third_party_libraries"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

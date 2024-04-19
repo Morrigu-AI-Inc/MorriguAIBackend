@@ -1,0 +1,127 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Custom Object Instances",
+  "type": "object",
+  "properties": {
+    "list_all_custom_object_instances": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "const": "/custom_object/{?lead_id, custom_object_type_id}"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ]
+    },
+    "create_new_custom_object_instance": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/custom_object/"
+        },
+        "description": {
+          "type": "string"
+        },
+        "required_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description",
+        "required_fields"
+      ]
+    },
+    "retrieve_single_custom_object_instance": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/custom_object/\\{id\\}/$"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ]
+    },
+    "update_custom_object_instance": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/custom_object/\\{id\\}/$"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ]
+    },
+    "delete_custom_object_instance": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "DELETE"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/custom_object/\\{id\\}/$"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ]
+    }
+  },
+  "required": [
+    "list_all_custom_object_instances",
+    "create_new_custom_object_instance", 
+    "retrieve_single_custom_object_instance",
+    "update_custom_object_instance",
+    "delete_custom_object_instance"
+  ]
+}

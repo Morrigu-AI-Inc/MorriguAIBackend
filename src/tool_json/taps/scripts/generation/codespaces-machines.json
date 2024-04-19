@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Codespaces Machines API",
+  "description": "API endpoints for managing Codespaces machine types",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing available machine types",
+      "value": "/repos/{owner}/{repo}/codespaces/machines"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["accept", "Authorization"]
+    },
+    "pathParameters": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "The account owner of the repository"
+        },
+        "repo": {
+          "type": "string",
+          "description": "The name of the repository without the .git extension"
+        }
+      },
+      "required": ["owner", "repo"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "The location to check for available machines"
+        },
+        "client_ip": {
+          "type": "string",
+          "description": "IP for location auto-detection when proxying a request"
+        },
+        "ref": {
+          "type": "string",
+          "description": "The branch or commit to check for prebuild availability and devcontainer restrictions"
+        }
+      },
+      "additionalProperties": false
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "description": "The total number of machine types available"
+        },
+        "machines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The internal name of the machine type"
+              },
+              "display_name": {
+                "type": "string",
+                "description": "The display name of the machine type"
+              },
+              "operating_system": {
+                "type": "string",
+                "description": "The operating system of the machine type"
+              },
+              "storage_in_bytes": {
+                "type": "integer",
+                "description": "The storage capacity of the machine type in bytes"
+              },
+              "memory_in_bytes": {
+                "type": "integer",
+                "description": "The memory capacity of the machine type in bytes"
+              },
+              "cpus": {
+                "type": "integer",
+                "description": "The number of CPUs of the machine type"
+              }
+            },
+            "required": ["name", "display_name", "operating_system", "storage_in_bytes", "memory_in_bytes", "cpus"]
+          }
+        }
+      },
+      "required": ["total_count", "machines"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

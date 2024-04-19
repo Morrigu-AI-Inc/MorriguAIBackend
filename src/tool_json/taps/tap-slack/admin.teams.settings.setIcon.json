@@ -1,0 +1,27 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.teams.settings.setIcon",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "image_url": {
+      "description": "Image URL for the icon",
+      "type": "string",
+      "example": "http://mysite.com/icon.jpeg"
+    },
+    "team_id": {
+      "description": "ID for the workspace to set the icon for.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "token",
+    "image_url",
+    "team_id"
+  ]
+}

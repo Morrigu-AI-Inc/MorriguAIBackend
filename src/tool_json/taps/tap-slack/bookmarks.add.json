@@ -1,0 +1,45 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel_id": {
+      "type": "string",
+      "description": "Channel to add bookmark in."
+    },
+    "title": {
+      "type": "string",
+      "description": "Title for the bookmark."
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the bookmark i.e link."
+    },
+    "emoji": {
+      "type": "string",
+      "description": "Emoji tag to apply to the link."
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "ID of the entity being bookmarked. Only applies to message and file types."
+    },
+    "link": {
+      "type": "string",
+      "description": "Link to bookmark."
+    },
+    "parent_id": {
+      "type": "string",
+      "description": "Id of this bookmark's parent"
+    }
+  },
+  "required": [
+    "token",
+    "channel_id", 
+    "title",
+    "type"
+  ]
+}

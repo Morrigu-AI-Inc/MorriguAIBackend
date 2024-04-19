@@ -1,0 +1,93 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "inbox",
+        "draft",
+        "scheduled",
+        "outbox",
+        "sent"
+      ]
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "inbound",
+        "outbound"
+      ]
+    },
+    "date_created": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date_scheduled": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "send_in": {
+      "type": "integer",
+      "maximum": 59
+    },
+    "text": {
+      "type": "string"
+    },
+    "template_id": {
+      "type": "integer"
+    },
+    "local_phone": {
+      "type": "string"
+    },
+    "lead_id": {
+      "type": "integer"
+    },
+    "user_id": {
+      "type": "integer"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "media_id": {
+            "type": "string"
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "url",
+          "filename",
+          "size",
+          "content_type",
+          "media_id"
+        ]
+      }
+    }
+  },
+  "required": [
+    "status",
+    "lead_id"
+  ]
+}

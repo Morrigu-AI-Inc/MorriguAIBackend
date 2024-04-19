@@ -1,0 +1,29 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel": {
+      "type": "string",
+      "description": "The channel the scheduled_message is posting to"
+    },
+    "scheduled_message_id": {
+      "type": "string",
+      "description": "scheduled_message_id returned from call to chat.scheduleMessage"
+    },
+    "as_user": {
+      "type": "boolean",
+      "description": "Pass true to delete the message as the authed user with chat:write:user scope. Bot users in this context are considered authed users. If unused or false, the message will be deleted with chat:write:bot scope."
+    }
+  },
+  "required": [
+    "token",
+    "channel",
+    "scheduled_message_id"
+  ],
+  "additionalProperties": false
+}

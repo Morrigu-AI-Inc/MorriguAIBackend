@@ -1,0 +1,270 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Git Commits API",
+  "description": "REST API endpoints for interacting with Git commit objects in a repository",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for creating a new Git commit",
+      "value": "/repos/{owner}/{repo}/git/commits"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method for creating a commit"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Media type to accept",
+          "default": "application/vnd.github+json"
+        }
+      },
+      "required": [
+        "Authorization"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "The commit message"
+        },
+        "tree": {
+          "type": "string",
+          "description": "The SHA of the tree object this commit points to"
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The SHAs of the parent commits"
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the author"
+            },
+            "email": {
+              "type": "string",
+              "description": "The email of the author"
+            },
+            "date": {
+              "type": "string",
+              "description": "The timestamp of when this commit was authored",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "name",
+            "email"
+          ],
+          "description": "Information about the author of the commit"
+        },
+        "committer": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the committer"
+            },
+            "email": {
+              "type": "string",
+              "description": "The email of the committer"  
+            },
+            "date": {
+              "type": "string",
+              "description": "The timestamp of when this commit was committed",
+              "format": "date-time"
+            }
+          },
+          "description": "Information about the committer (if different than author)"
+        },
+        "signature": {
+          "type": "string",
+          "description": "The PGP signature for signing the commit"
+        }
+      },
+      "required": [
+        "message",
+        "tree"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "sha": {
+          "type": "string",
+          "description": "The SHA of the created commit"
+        },
+        "node_id": {
+          "type": "string",
+          "description": "The Git commit Node ID"
+        },
+        "url": {
+          "type": "string",
+          "description": "The API URL for the created commit"
+        },
+        "html_url": {
+          "type": "string",
+          "description": "The GitHub URL for the created commit" 
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The timestamp of when this commit was authored"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the author"
+            },
+            "email": {
+              "type": "string",
+              "description": "The email of the author"
+            }
+          },
+          "required": [
+            "date",
+            "name",
+            "email"
+          ]
+        },
+        "committer": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string", 
+              "format": "date-time",
+              "description": "The timestamp of when this commit was committed"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the committer"
+            },
+            "email": {
+              "type": "string",
+              "description": "The email of the committer"
+            }
+          },
+          "required": [
+            "date",
+            "name", 
+            "email"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "The commit message"
+        },
+        "tree": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The API URL for the tree object"
+            },
+            "sha": {
+              "type": "string", 
+              "description": "The SHA of the tree object"
+            }
+          },
+          "required": [
+            "url",
+            "sha"
+          ]
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "The API URL for the parent commit"
+              },
+              "sha": {
+                "type": "string",
+                "description": "The SHA of the parent commit"
+              },
+              "html_url": {
+                "type": "string",
+                "description": "The GitHub URL for the parent commit"
+              }
+            },
+            "required": [
+              "url",
+              "sha"
+            ]
+          },
+          "description": "The parent commits for this commit"
+        },
+        "verification": {
+          "type": "object",
+          "properties": {
+            "verified": {
+              "type": "boolean",
+              "description": "Indicates if the signature is verified"
+            },
+            "reason": {
+              "type": "string",
+              "description": "The reason for the verification status"
+            },
+            "signature": {
+              "type": ["string", "null"],
+              "description": "The signature extracted from the commit"
+            },
+            "payload": {
+              "type": ["string", "null"],
+              "description": "The value that was signed"
+            }
+          },
+          "required": [
+            "verified",
+            "reason"
+          ]
+        }
+      },
+      "required": [
+        "sha",
+        "node_id",
+        "url",
+        "author",
+        "committer", 
+        "message",
+        "tree",
+        "verification"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "contentType", 
+    "body",
+    "response"
+  ],
+  "additionalProperties": false
+}

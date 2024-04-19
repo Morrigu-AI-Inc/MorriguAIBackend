@@ -1,0 +1,152 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Webhook Subscriptions",
+  "type": "object",
+  "properties": {
+    "list": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "const": "/webhook/"
+        },
+        "description": {
+          "type": "string",
+          "const": "List Webhook subscriptions."
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ]
+    },
+    "create": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/webhook/"
+        },
+        "description": {
+          "type": "string",
+          "const": "Create new Webhook subscription."
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description",
+        "notes"
+      ]
+    },
+    "retrieve": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/webhook/\\{id\\}/$"
+        },
+        "description": {
+          "type": "string",
+          "const": "Retrieve a single Webhook subscription."
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description"
+      ]
+    },
+    "update": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/webhook/\\{id\\}/$"
+        },
+        "description": {
+          "type": "string",
+          "const": "Update existing Webhook subscription."
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "active": {
+              "type": "string",
+              "const": "active - subscription is active"
+            },
+            "paused": {
+              "type": "string",
+              "const": "paused - subscription is paused"
+            }
+          },
+          "required": [
+            "active",
+            "paused"
+          ]
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "description",
+        "status"
+      ]
+    },
+    "delete": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "DELETE"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/webhook/\\{id\\}/$"
+        },
+        "description": {
+          "type": "string",
+          "const": "Delete Webhook subscription."
+        }
+      },
+      "required": [
+        "method",
+        "path", 
+        "description"
+      ]
+    }
+  },
+  "required": [
+    "list",
+    "create",
+    "retrieve", 
+    "update",
+    "delete"
+  ]
+}

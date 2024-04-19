@@ -1,0 +1,31 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel": {
+      "type": "string",
+      "description": "Channel to add star to, or channel where the message to add star to was posted (used with `timestamp`)."
+    },
+    "file": {
+      "type": "string",
+      "description": "File to add star to."
+    },
+    "file_comment": {
+      "type": "string",
+      "description": "File comment to add star to."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Timestamp of the message to add star to."
+    }
+  },
+  "required": [
+    "token"
+  ],
+  "additionalProperties": false
+}

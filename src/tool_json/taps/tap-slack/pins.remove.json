@@ -1,0 +1,40 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "pins.remove",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel": {
+      "type": "string",
+      "description": "Channel where the item is pinned to.",
+      "required": true
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Timestamp of the message to un-pin."
+    }
+  },
+  "required": [
+    "channel"
+  ],
+  "additionalProperties": false
+}
+
+
+This JSON schema represents the arguments for the `pins.remove` method in the Slack API. Here's a breakdown of the schema:
+
+- `$schema` specifies the schema version being used.
+- `title` provides a descriptive name for the schema.
+- `type` is set to `object` since the schema describes an object.
+- `properties` defines the properties (arguments) of the object:
+  - `token` is a string representing the authentication token.
+  - `channel` is a required string representing the channel where the item is pinned.
+  - `timestamp` is an optional string representing the timestamp of the message to un-pin.
+- `required` specifies that the `channel` property is required.
+- `additionalProperties` is set to `false`, which means no additional properties are allowed.
+
+Note that this schema only covers the arguments for the `pins.remove` method and does not include other information such as the method access, required scopes, content types, rate limits, or example responses.

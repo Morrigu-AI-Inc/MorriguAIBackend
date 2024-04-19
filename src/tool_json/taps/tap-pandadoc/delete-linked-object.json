@@ -1,0 +1,77 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        " data-raycast-oas": {
+          "type": "string"
+        }
+      },
+      "required": [
+        " data-raycast-oas"
+      ]
+    },
+    "headline-container-grid-itemGdPV-VbhShYs button-containerobFfV0vf6giV": {
+      "type": "object",
+      "properties": {
+        "reference-flyout": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "reference-flyout"
+      ]
+    },
+    "icon-menu reference-sidebar-mobile-button26mqim6Chewq ": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "aria-label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "aria-label"
+      ]
+    },
+    "Flyout95xhYIIoTKtc undefined rm-Flyout": {
+      "type": "object",
+      "properties": {
+        "data-testid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-testid"
+      ]
+    },
+    "rm-Sidebar hub-sidebar reference-redesign Nav3C5f8FcjkaHj mobile": {
+      "type": "object",
+      "properties": {
+        "aria-label": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "aria-label",
+        "id"
+      ]
+    }
+  },
+  "required": [
+    "headline-container21aRBSn8Bqg6",
+    "headline-container-grid-itemGdPV-VbhShYs button-containerobFfV0vf6giV", 
+    "icon-menu reference-sidebar-mobile-button26mqim6Chewq ",
+    "Flyout95xhYIIoTKtc undefined rm-Flyout",
+    "rm-Sidebar hub-sidebar reference-redesign Nav3C5f8FcjkaHj mobile"
+  ]
+}

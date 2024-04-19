@@ -1,306 +1,622 @@
+
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
-  "type": ["null", "object"],
-  "additionalProperties": true,
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
   "properties": {
-    "status_id": {
-      "type": ["null", "string"]
-    },
-    "opportunities": {
-      "type": ["null", "array"],
-      "items": {
-        "type": ["null", "object"],
-        "properties": {
-          "contact_name": {
-            "type": ["null", "string"]
-          },
-          "status_id": {
-            "type": ["null", "string"]
-          },
-          "lead_id": {
-            "type": ["null", "string"]
-          },
-          "user_id": {
-            "type": ["null", "string"]
-          },
-          "annualized_expected_value": {
-            "type": ["null", "integer"]
-          },
-          "id": {
-            "type": ["null", "string"]
-          },
-          "updated_by_name": {
-            "type": ["null", "string"]
-          },
-          "value": {
-            "type": ["null", "integer"]
-          },
-          "date_created": {
-            "type": ["null", "string"]
-          },
-          "integration_links": {
-            "type": ["null", "array"]
-          },
-          "created_by": {
-            "type": ["null", "string"]
-          },
-          "status_display_name": {
-            "type": ["null", "string"]
-          },
-          "value_currency": {
-            "type": ["null", "string"]
-          },
-          "created_by_name": {
-            "type": ["null", "string"]
-          },
-          "status_type": {
-            "type": ["null", "string"]
-          },
-          "date_lost": {
-            "type": ["null", "string"]
-          },
-          "value_period": {
-            "type": ["null", "string"]
-          },
-          "note": {
-            "type": ["null", "string"]
-          },
-          "confidence": {
-            "type": ["null", "integer"]
-          },
-          "status_label": {
-            "type": ["null", "string"]
-          },
-          "user_name": {
-            "type": ["null", "string"]
-          },
-          "value_formatted": {
-            "type": ["null", "string"]
-          },
-          "updated_by": {
-            "type": ["null", "string"]
-          },
-          "organization_id": {
-            "type": ["null", "string"]
-          },
-          "contact_id": {
-            "type": ["null", "string"]
-          },
-          "lead_name": {
-            "type": ["null", "string"]
-          },
-          "date_won": {
-            "type": ["null", "string"]
-          },
-          "expected_value": {
-            "type": ["null", "integer"]
-          },
-          "annualized_value": {
-            "type": ["null", "integer"]
-          },
-          "date_updated": {
-            "type": ["null", "string"]
-          }
-        }
-      }
-    },
-    "id": {
-      "type": ["null", "string"]
-    },
-    "updated_by_name": {
-      "type": ["null", "string"]
-    },
-    "status_label": {
-      "type": ["null", "string"]
-    },
-    "date_created": {
-      "type": ["null", "string"]
-    },
-    "integration_links": {
-      "type": ["null", "array"],
-      "items": {
-        "type": ["null", "object"],
-        "properties": {
-          "name": {
-            "type": ["null", "string"]
-          },
-          "url": {
-            "type": ["null", "string"]
-          }
-        }
-      }
-    },
-    "html_url": {
-      "type": ["null", "string"]
-    },
-    "created_by": {
-      "type": ["null", "string"]
-    },
-    "custom": {
-      "type": ["null", "object"],
+    "header-wrapper": {
+      "type": "object",
       "properties": {
-        "Current Vendor/Software": {
-          "type": ["null", "string"]
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
         },
-        "Industry": {
-          "type": ["null", "string"]
-        },
-        "Lead Owner": {
-          "type": ["null", "string"]
-        },
-        "Referral Source": {
-          "type": ["null", "string"]
+        "h1": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "#text": {
+              "type": "string",
+              "const": "Leads"
+            }
+          },
+          "required": [
+            "class",
+            "#text"
+          ]
         }
-      }
+      },
+      "required": [
+        "style",
+        "h1"
+      ]
     },
-    "addresses": {
-      "type": ["null", "array"],
-      "items": {
-        "type": ["null", "object"],
-        "properties": {
-          "country": {
-            "type": ["null", "string"]
+    "hr": {
+      "type": "string",
+      "const": "<hr>"
+    },
+    "css-1yp4ln": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
           },
-          "city": {
-            "type": ["null", "string"]
-          },
-          "label": {
-            "type": ["null", "string"]
-          },
-          "address_2": {
-            "type": ["null", "string"]
-          },
-          "address_1": {
-            "type": ["null", "string"]
-          },
-          "zipcode": {
-            "type": ["null", "string"]
-          },
-          "state": {
-            "type": ["null", "string"]
-          }
+          "required": [
+            "data-emotion-css"
+          ]
         }
-      }
+      },
+      "required": [
+        "style"
+      ]
     },
-    "display_name": {
-      "type": ["null", "string"]
+    "e1llsqps0": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string",
+          "const": "css-1yp4ln e1llsqps0"
+        }
+      },
+      "required": [
+        "class"
+      ]
     },
-    "tasks": {
-      "type": ["null", "array"],
-      "items": {
-        "type": ["null", "object"],
-        "properties": {}
-      }
+    "css-a181dj": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        }
+      },
+      "required": [
+        "style"
+      ]
     },
-    "description": {
-      "type": ["null", "string"]
-    },
-    "contacts": {
-      "type": ["null", "array"],
-      "items": {
-        "type": ["null", "object"],
-        "properties": {
-          "display_name": {
-            "type": ["null", "string"]
-          },
-          "lead_id": {
-            "type": ["null", "string"]
-          },
-          "id": {
-            "type": ["null", "string"]
-          },
-          "urls": {
-            "type": ["null", "array"]
-          },
-          "date_created": {
-            "type": ["null", "string"]
-          },
-          "integration_links": {
-            "type": ["null", "array"],
-            "items": {
-              "type": ["null", "object"],
+    "e1llsqps1": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string",
+          "const": "css-a181dj e1llsqps1"
+        },
+        "css-1f43zf7": {
+          "type": "object",
+          "properties": {
+            "style": {
+              "type": "object",
               "properties": {
-                "name": {
-                  "type": ["null", "string"]
-                },
-                "url": {
-                  "type": ["null", "string"]
+                "data-emotion-css": {
+                  "type": "string"
                 }
+              },
+              "required": [
+                "data-emotion-css"
+              ]
+            }
+          },
+          "required": [
+            "style"
+          ]
+        },
+        "e1llsqps2": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "content-wrapper css-1f43zf7 e1llsqps2" 
+            },
+            "p": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "ul": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "li": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "li"
+                ]
+              }
+            },
+            "h2": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "style": {
+                    "type": "string"
+                  },
+                  "a": {
+                    "type": "object",
+                    "properties": {
+                      "class": {
+                        "type": "string"
+                      },
+                      "href": {
+                        "type": "string"
+                      },
+                      "#text": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "class",
+                      "href", 
+                      "#text"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "style",
+                  "a"
+                ]
+              }
+            },
+            "blockquote": {
+              "type": "object",
+              "properties": {
+                "p": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "p"
+              ]
+            },
+            "style": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "data-emotion-css": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "data-emotion-css"
+                ]
+              }
+            },
+            "div": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "class": {
+                    "type": "string"
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "data-emotion-css": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "data-emotion-css"
+                    ]
+                  },
+                  "button": {
+                    "type": "object",
+                    "properties": {
+                      "class": {
+                        "type": "string"
+                      },
+                      "svg": {
+                        "type": "object",
+                        "properties": {
+                          "viewBox": {
+                            "type": "string"
+                          },
+                          "class": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "object",
+                            "properties": {
+                              "fill": {
+                                "type": "string"
+                              },
+                              "stroke": {
+                                "type": "string" 
+                              },
+                              "stroke-linecap": {
+                                "type": "string"
+                              },
+                              "stroke-linejoin": {
+                                "type": "string"
+                              },
+                              "stroke-width": {
+                                "type": "string"
+                              },
+                              "d": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "fill",
+                              "stroke",
+                              "stroke-linecap",
+                              "stroke-linejoin", 
+                              "stroke-width",
+                              "d"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "viewBox",
+                          "class",
+                          "path"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "class",
+                      "svg"
+                    ]
+                  }
+                },
+                "required": [
+                  "class",
+                  "style",
+                  "button"
+                ]
               }
             }
           },
-          "updated_by": {
-            "type": ["null", "string"]
-          },
-          "name": {
-            "type": ["null", "string"]
-          },
-          "organization_id": {
-            "type": ["null", "string"]
-          },
-          "created_by": {
-            "type": ["null", "string"]
-          },
-          "phones": {
-            "type": ["null", "array"],
-            "items": {
-              "type": ["null", "object"],
-              "properties": {
-                "country": {
-                  "type": ["null", "string"]
-                },
-                "phone": {
-                  "type": ["null", "string"]
-                },
-                "phone_formatted": {
-                  "type": ["null", "string"]
-                },
-                "type": {
-                  "type": ["null", "string"]
-                }
-              }
-            }
-          },
-          "title": {
-            "type": ["null", "string"]
-          },
-          "emails": {
-            "type": ["null", "array"],
-            "items": {
-              "type": ["null", "object"],
-              "properties": {
-                "email": {
-                  "type": ["null", "string"]
-                },
-                "type": {
-                  "type": ["null", "string"]
-                }
-              }
-            }
-          },
-          "date_updated": {
-            "type": ["null", "string"]
-          }
+          "required": [
+            "class",
+            "p",
+            "ul",
+            "h2",
+            "blockquote",
+            "style",
+            "div"
+          ]
         }
-      }
+      },
+      "required": [
+        "class",
+        "css-1f43zf7",
+        "e1llsqps2" 
+      ]
     },
-    "updated_by": {
-      "type": ["null", "string"]
+    "css-9ckfit": {
+      "type": "object", 
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        }
+      },
+      "required": [
+        "style"
+      ]
     },
-    "name": {
-      "type": ["null", "string"]
+    "e1sfxy7w0": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string",
+          "const": "css-9ckfit e1sfxy7w0"
+        },
+        "nav": {
+          "type": "object",
+          "properties": {
+            "css-spe9v1": {
+              "type": "object",
+              "properties": {
+                "style": {
+                  "type": "object",
+                  "properties": {
+                    "data-emotion-css": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data-emotion-css"
+                  ]
+                }
+              },
+              "required": [
+                "style"
+              ]
+            },
+            "e1sfxy7w1": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "class": {
+                    "type": "string",
+                    "const": "css-spe9v1 e1sfxy7w1"
+                  },
+                  "href": {
+                    "type": "string"
+                  },
+                  "svg": {
+                    "type": "object",
+                    "properties": {
+                      "viewBox": {
+                        "type": "string"
+                      },
+                      "class": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "object",
+                        "properties": {
+                          "fill": {
+                            "type": "string"
+                          },
+                          "fill-rule": {
+                            "type": "string"
+                          },
+                          "stroke": {
+                            "type": "string"
+                          },
+                          "stroke-linecap": {
+                            "type": "string"
+                          },
+                          "stroke-linejoin": {
+                            "type": "string"
+                          },
+                          "stroke-width": {
+                            "type": "string"
+                          },
+                          "d": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "fill", 
+                          "fill-rule",
+                          "stroke",
+                          "stroke-linecap",
+                          "stroke-linejoin",
+                          "stroke-width",
+                          "d"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "viewBox",
+                      "class", 
+                      "path"
+                    ]
+                  },
+                  "css-16mhdhi": {
+                    "type": "object",
+                    "properties": {
+                      "class": {
+                        "type": "string",
+                        "const": "css-16mhdhi e1sfxy7w2"
+                      },
+                      "css-1vhhq4p": {
+                        "type": "object",
+                        "properties": {
+                          "class": {
+                            "type": "string",
+                            "const": "css-1vhhq4p e1sfxy7w3"
+                          },
+                          "#text": {
+                            "type": "string",
+                            "const": "Previous"
+                          }
+                        },
+                        "required": [
+                          "class",
+                          "#text"
+                        ]
+                      },
+                      "css-mtbysh": {
+                        "type": "object",
+                        "properties": {
+                          "class": {
+                            "type": "string", 
+                            "const": "css-mtbysh e1sfxy7w4"
+                          },
+                          "#text": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "class",
+                          "#text"
+                        ] 
+                      }
+                    }, 
+                    "required": [
+                      "class",
+                      "css-1vhhq4p",
+                      "css-mtbysh"
+                    ]
+                  }
+                },
+                "required": [
+                  "class",
+                  "href",
+                  "svg",
+                  "css-16mhdhi"
+                ]
+              }
+            },
+            "css-18eg9eb": {
+              "type": "object",
+              "properties": {
+                "style": {
+                  "type": "string"
+                },
+                "class": {
+                  "type": "string",
+                  "const": "css-18eg9eb e1sfxy7w2"
+                },
+                "div": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "class": {
+                        "type": "string",
+                        "const": "css-1vhhq4p e1sfxy7w3"
+                      },
+                      "#text": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "class",
+                      "#text"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "style",
+                "class",
+                "div"
+              ]
+            }
+          },
+          "required": [
+            "css-spe9v1",
+            "e1sfxy7w1",
+            "css-18eg9eb"
+          ]  
+        }
+      },
+      "required": [
+        "class",
+        "nav" 
+      ]
     },
-    "organization_id": {
-      "type": ["null", "string"]
+    "css-u6jpbo": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object", 
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"  
+          ]
+        }
+      },
+      "required": [
+        "style"
+      ]
     },
-    "created_by_name": {
-      "type": ["null", "string"]
-    },
-    "url": {
-      "type": ["null", "string"]
-    },
-    "date_updated": {
-      "type": ["null", "string"]
-    }
-  }
-}
+    "e1llsqps3": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string",
+          "const": "css-u6jpbo e1llsqps3"
+        },
+        "h4": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string" 
+            },
+            "#text": {
+              "type": "string",
+              "const": "Leads"  
+            }
+          },
+          "required": [
+            "class",
+            "#text"
+          ]
+        },
+        "css-1b603mp": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "css-1b603mp e1wyoreh0" 
+            },
+            "ul": {
+              "type": "object",
+              "properties": {
+                "css-1jgp2cw": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "class": {
+                        "type": "string",
+                        "pattern": "^(| css-1jgp2cw e1wyoreh1)$"
+                      },
+                      "style": {
+                        "type": "string"
+                      },
+                      "a": {
+                        "type": "object",
+                        "properties": {
+                          "href": {
+                            "type": "string" 
+                          },
+                          "#text": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "href",
+                          "#text"
+                        ]
+                      }  
+                    },
+                    "required": [
+                      "class",
+                      "a"
+                    ]
+                  }  
+                }
+              },
+              "required": [
+                "css-1jgp2cw"  
+              ]
+            }

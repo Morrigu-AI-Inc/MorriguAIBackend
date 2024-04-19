@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Extensions Calling SDK",
+  "description": "Endpoints for configuring and managing the Calling SDK for HubSpot CRM Extensions",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting calling settings",
+      "value": "/crm/v3/extensions/calling/{appId}/settings"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "hapikey": {
+          "type": "string",
+          "description": "Your HubSpot developer API key"
+        }
+      },
+      "required": ["hapikey"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "isReady": {
+          "type": "boolean",
+          "description": "Indicates if the calling extension is ready to be used"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name or label of the calling extension"
+        },
+        "supportsCustomObjects": {
+          "type": "boolean",
+          "description": "Indicates if the calling extension supports custom objects"
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of the iframe for the calling extension"
+        },
+        "width": {
+          "type": "integer",
+          "description": "The width of the iframe for the calling extension"
+        },
+        "height": {
+          "type": "integer",
+          "description": "The height of the iframe for the calling extension"
+        }
+      },
+      "required": ["isReady", "name", "supportsCustomObjects", "url", "width", "height"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

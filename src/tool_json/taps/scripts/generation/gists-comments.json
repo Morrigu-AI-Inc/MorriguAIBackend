@@ -1,0 +1,381 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Gists Comments API",
+  "description": "REST API endpoints for gist comments. Use the REST API to view and modify comments on a gist.",
+  "type": "object",
+  "properties": {
+    "listGistComments": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing comments on a gist",
+          "value": "/gists/{gist_id}/comments"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "gist_id": {
+              "type": "string",
+              "description": "The unique identifier of the gist"
+            }
+          },
+          "required": ["gist_id"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer", 
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "user": {
+                "type": "object"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"  
+              },
+              "author_association": {
+                "type": "string"
+              }
+            },
+            "required": ["id", "node_id", "url", "body", "user", "created_at", "updated_at", "author_association"]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "createGistComment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a comment on a gist",
+          "value": "/gists/{gist_id}/comments"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]  
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "gist_id": {
+              "type": "string",
+              "description": "The unique identifier of the gist"
+            }
+          },
+          "required": ["gist_id"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "string",
+              "description": "The comment text"
+            }
+          },
+          "required": ["body"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "user": {
+              "type": "object"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "author_association": {
+              "type": "string"
+            }
+          },
+          "required": ["id", "node_id", "url", "body", "user", "created_at", "updated_at", "author_association"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "body", "response"]
+    },
+    "getGistComment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a comment on a gist",
+          "value": "/gists/{gist_id}/comments/{comment_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "gist_id": {
+              "type": "string",
+              "description": "The unique identifier of the gist"
+            },
+            "comment_id": {
+              "type": "integer",
+              "description": "The unique identifier of the comment"
+            }
+          },
+          "required": ["gist_id", "comment_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "user": {
+              "type": "object"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "author_association": {
+              "type": "string"
+            }
+          },
+          "required": ["id", "node_id", "url", "body", "user", "created_at", "updated_at", "author_association"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "updateGistComment": {
+      "type": "object", 
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for updating a comment on a gist",
+          "value": "/gists/{gist_id}/comments/{comment_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PATCH"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "gist_id": {
+              "type": "string",
+              "description": "The unique identifier of the gist"
+            },
+            "comment_id": {
+              "type": "integer",
+              "description": "The unique identifier of the comment"
+            }
+          },
+          "required": ["gist_id", "comment_id"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "string",
+              "description": "The comment text"
+            }
+          },
+          "required": ["body"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "user": {
+              "type": "object"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "author_association": {
+              "type": "string"
+            }
+          },
+          "required": ["id", "node_id", "url", "body", "user", "created_at", "updated_at", "author_association"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "body", "response"]
+    },
+    "deleteGistComment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for deleting a comment on a gist",
+          "value": "/gists/{gist_id}/comments/{comment_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "gist_id": {
+              "type": "string",
+              "description": "The unique identifier of the gist"
+            },
+            "comment_id": {
+              "type": "integer",
+              "description": "The unique identifier of the comment"
+            }
+          },
+          "required": ["gist_id", "comment_id"]
+        },
+        "response": {
+          "type": "null"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    }
+  },
+  "required": ["listGistComments", "createGistComment", "getGistComment", "updateGistComment", "deleteGistComment"]
+}

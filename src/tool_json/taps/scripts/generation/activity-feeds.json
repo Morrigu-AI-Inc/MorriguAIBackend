@@ -1,0 +1,99 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Activity Feeds API", 
+  "description": "API for retrieving different activity feeds for the authenticated user on GitHub",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving feeds",
+      "value": "/feeds"
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Accept": {
+          "type": "string",
+          "description": "Media type to return feeds in"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "X-GitHub-Api-Version": {
+          "type": "string",
+          "description": "GitHub API version"
+        }
+      },
+      "required": [
+        "Authorization",
+        "X-GitHub-Api-Version"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "timeline_url": {
+          "type": "string",
+          "description": "URL for GitHub global public timeline"
+        },
+        "user_url": {
+          "type": "string",
+          "description": "URI template for any user's public timeline"
+        },
+        "current_user_public_url": {
+          "type": "string", 
+          "description": "URL for authenticated user's public timeline"
+        },
+        "current_user_url": {
+          "type": "string",
+          "description": "URL for authenticated user's private timeline" 
+        },
+        "current_user_actor_url": {
+          "type": "string",
+          "description": "URL for activity created by authenticated user"
+        },
+        "current_user_organization_url": {
+          "type": "string",
+          "description": "URL for organizations authenticated user is a member of"
+        },
+        "current_user_organization_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "URLs for organizations authenticated user is a member of"
+        },
+        "security_advisories_url": {
+          "type": "string",
+          "description": "URL for GitHub security advisories"
+        },
+        "_links": {
+          "type": "object",
+          "description": "Hypermedia links to different feed resources"
+        }
+      },
+      "required": [
+        "timeline_url",
+        "user_url", 
+        "current_user_public_url",
+        "current_user_url",
+        "current_user_actor_url",
+        "security_advisories_url",
+        "_links"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "response"
+  ]
+}

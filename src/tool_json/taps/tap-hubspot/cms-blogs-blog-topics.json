@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMS Blogs Blog Topics API",
+  "description": "API for managing blog topics in a HubSpot account",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing blog topics",
+      "value": "/blogs/v3/topics"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The topic name"
+        },
+        "description": {
+          "type": "string",
+          "description": "The topic description"
+        },
+        "groupedTopicName": {
+          "type": "string",
+          "description": "The new name of the combined topic (for grouping topics)"
+        },
+        "topicIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "The list of topic IDs to merge (for grouping topics)"
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Search for topics by ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Search for topics by name"
+        },
+        "slug": {
+          "type": "string",
+          "description": "Search for topics by slug"
+        },
+        "created": {
+          "type": "integer",
+          "description": "Filter topics by creation date (in milliseconds)"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The maximum number of items to return"
+        },
+        "offset": {
+          "type": "integer",
+          "description": "The offset for paging results"
+        },
+        "casing": {
+          "type": "string",
+          "description": "Use snake_case for query parameters and response fields"
+        },
+        "q": {
+          "type": "string",
+          "description": "Search for topics by name or slug"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Filter topics by association with published blog posts"
+        },
+        "blog": {
+          "type": "integer",
+          "description": "Filter topics by the blog they are used on"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The unique ID of the topic"
+              },
+              "portalId": {
+                "type": "integer",
+                "description": "The hub ID"
+              },
+              "name": {
+                "type": "string",
+                "description": "The topic name"
+              },
+              "slug": {
+                "type": "string",
+                "description": "The URL-friendly version of the topic name"
+              },
+              "description": {
+                "type": "string",
+                "description": "The topic description"
+              },
+              "created": {
+                "type": "integer",
+                "description": "When the topic was created (in milliseconds)"
+              },
+              "updated": {
+                "type": "integer",
+                "description": "When the topic was last updated (in milliseconds)"
+              },
+              "deletedAt": {
+                "type": "integer",
+                "description": "When the topic was deleted (in milliseconds), or 0 if not deleted"
+              },
+              "totalPosts": {
+                "type": "integer",
+                "description": "The total number of posts (including drafts) associated with the topic"
+              },
+              "livePosts": {
+                "type": "integer",
+                "description": "The number of published posts associated with the topic"
+              },
+              "lastUsed": {
+                "type": "integer",
+                "description": "The most recent publish date of a blog post associated with the topic (in milliseconds)"
+              },
+              "associatedBlogIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "The list of blog IDs where the topic has been used"
+              },
+              "publicUrl": {
+                "type": "string",
+                "description": "The public URL of the topic"
+              },
+              "status": {
+                "type": "string",
+                "description": "The status of the topic (active or inactive)"
+              }
+            },
+            "required": [
+              "id",
+              "portalId",
+              "name",
+              "slug",
+              "description",
+              "created",
+              "updated",
+              "deletedAt"
+            ]
+          }
+        },
+        "message": {
+          "type": "string",
+          "description": "Any error or status message"
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of results"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The maximum number of results returned"  
+        },
+        "offset": {
+          "type": "integer", 
+          "description": "The offset used for paging"
+        },
+        "totalCount": {
+          "type": "integer",
+          "description": "The total number of results matched (for search)"
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

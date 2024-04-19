@@ -1,0 +1,32 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.conversations.restrictAccess.removeGroup",
+  "description": "This method removes an IDP group from a private channel's allowlist.",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channel_id": {
+      "description": "The channel to remove the linked group from.",
+      "type": "string"
+    },
+    "group_id": {
+      "description": "The IDP Group ID to remove from the private channel.",
+      "type": "string"
+    },
+    "team_id": {
+      "description": "The workspace where the channel exists. Required for channels tied to one workspace, optional for shared channels.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "token",
+    "channel_id", 
+    "group_id"
+  ],
+  "additionalProperties": false
+}

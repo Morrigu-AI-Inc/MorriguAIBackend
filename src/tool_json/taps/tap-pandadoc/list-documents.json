@@ -1,0 +1,76 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "count": {
+      "type": "integer",
+      "description": "The total number of documents found."
+    },
+    "next": {
+      "type": "string",
+      "description": "A URL for the next page of results."
+    },
+    "previous": {
+      "type": "string",
+      "description": "A URL for the previous page of results."
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the document."
+          },
+          "status": {
+            "type": "string",
+            "description": "The current status of the document."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the document."
+          },
+          "recipient_status": {
+            "type": "string",
+            "description": "The status of the recipient's interaction with the document."
+          },
+          "date_created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the document was created."
+          },
+          "date_modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the document was last modified."
+          },
+          "date_status_changed": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the status of the document was last changed."
+          }
+        }
+      }
+    }
+  }
+}
+
+
+This JSON schema defines the structure of the response for listing documents. The main properties are:
+
+- `count`: The total number of documents found.
+- `next`: A URL for the next page of results (if any).
+- `previous`: A URL for the previous page of results (if any).
+- `results`: An array of document objects, each containing properties like `id`, `status`, `name`, `recipient_status`, and various date fields.
+
+The `results` array contains objects with the following properties for each document:
+
+- `id`: The unique identifier of the document.
+- `status`: The current status of the document (e.g., "draft", "sent", "completed").
+- `name`: The name of the document.
+- `recipient_status`: The status of the recipient's interaction with the document (e.g., "awaiting", "viewed", "completed").
+- `date_created`: The date and time when the document was created.
+- `date_modified`: The date and time when the document was last modified.
+- `date_status_changed`: The date and time when the status of the document was last changed.

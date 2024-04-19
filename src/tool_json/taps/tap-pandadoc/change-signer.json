@@ -1,0 +1,18 @@
+
+{
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "description": "Set to 'contact' to specify an individual contact."
+    },
+    "id": {
+      "type": "string",
+      "description": "The ID of the contact to use as the replacement signer."
+    }
+  },
+  "required": [
+    "kind",
+    "id"
+  ]
+}

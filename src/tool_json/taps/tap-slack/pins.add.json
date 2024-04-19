@@ -1,0 +1,24 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "channel": {
+      "type": "string",
+      "description": "Channel to pin the message to. You must also include a `timestamp` when pinning messages."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Timestamp of the message to pin. You must also include the `channel`."
+    },
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    }
+  },
+  "required": [
+    "channel",
+    "token"
+  ],
+  "additionalProperties": false
+}

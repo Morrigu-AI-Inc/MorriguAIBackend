@@ -1,0 +1,138 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "POST"
+                },
+                "url": {
+                  "type": "string",
+                  "pattern": "^https://slack\\.com/api/api\\.test$"
+                }
+              },
+              "required": ["method", "url"]
+            },
+            "javascript": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "pattern": "^app\\.client\\.api\\.test$"
+                }
+              },
+              "required": ["method"]
+            },
+            "python": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "pattern": "^app\\.client\\.api_test$"
+                }
+              },
+              "required": ["method"]
+            },
+            "java": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "pattern": "^app\\.client\\(\\)\\.apiTest$"
+                }
+              },
+              "required": ["method"]
+            }
+          }
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {}
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["application/x-www-form-urlencoded", "application/json"]
+          }
+        },
+        "rateLimits": {
+          "type": "string",
+          "const": "Tier 4"
+        }
+      },
+      "required": ["method", "scopes", "contentTypes", "rateLimits"]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Error response to return"
+        }
+      }
+    },
+    "usageInfo": {
+      "type": "string"
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object"
+          }
+        },
+        "required": ["response"]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"  
+          }
+        },
+        "required": ["error", "description"]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["warning", "description"]
+      }
+    }
+  },
+  "required": ["facts"]
+}

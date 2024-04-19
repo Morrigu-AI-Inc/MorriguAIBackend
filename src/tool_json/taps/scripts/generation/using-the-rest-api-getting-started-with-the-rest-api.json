@@ -1,0 +1,94 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Get started with the REST API",
+  "description": "Learn how to use the GitHub REST API with GitHub CLI, curl, or JavaScript.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting started with the REST API",
+      "value": "/repos/{owner}/{repo}/issues"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Accept": {
+          "type": "string",
+          "description": "Media type for the response"
+        },
+        "X-GitHub-Api-Version": {
+          "type": "string",
+          "description": "GitHub API version"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Accept", "X-GitHub-Api-Version"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/x-www-form-urlencoded", "application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the issue"
+        },
+        "body": {
+          "type": "string",
+          "description": "Body of the issue"
+        }
+      },
+      "required": ["title"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "Number of items to return per page"
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number to return"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the issue"
+        },
+        "body": {
+          "type": "string",
+          "description": "Body of the issue"
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "ID of the user who created the issue"
+            }
+          },
+          "required": ["id"]
+        }
+      },
+      "required": ["title", "user"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

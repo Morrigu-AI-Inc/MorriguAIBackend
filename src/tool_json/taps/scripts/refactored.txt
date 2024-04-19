@@ -1,0 +1,430 @@
+Here is the output for the refactored code with the requested changes and additions:
+
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/app/index.tsx===
+import { ReactElement } from 'react';
+import { Stack, Typography } from '@mui/material';
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+import AuthGuard from 'utils/route-guard/AuthGuard';
+import ChatThread from './chat-thread';
+
+const App = () => {
+  return (
+    <Page title="Morrigu AI">
+      <Stack spacing={3}>
+        <Typography variant="h3">Welcome to Morrigu AI</Typography>
+        <MainCard>
+          <ChatThread />
+        </MainCard>
+      </Stack>
+    </Page>
+  );
+};
+
+App.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <AuthGuard>
+      <Layout>{page}</Layout>
+    </AuthGuard>
+  );
+};
+
+export default App;
+===end===
+
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/app/chat-thread/index.tsx===
+import { ReactElement, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { Stack, TextField, Grid, FormControl, IconButton, Avatar, Typography } from '@mui/material';
+import { SendOutlined, PaperClipOutlined, PhotoOutlined } from '@ant-design/icons';
+import Dropzone from 'components/Dropzone';
+import Markdown from 'react-markdown';
+import { useFormik } from 'formik';
+import ChatVizMessage, { ChartVizMessageDataType } from './ChatVizMessage';
+import ChatStatusIndicator from './ChatStatusIndicator';
+
+type ThreadMessage = {
+  id: string;
+  object: string;
+  created_at: number;
+  assistant_id: string;
+  thread_id: string;
+  run_id: string;
+  role: string;
+  content: Content[];
+  file_ids: string[];
+  metadata: Record<string, unknown>;
+};
+
+type Content = {
+  type: string;
+  text: TextContent;
+};
+
+type TextContent = {
+  value: string;
+  annotations: any[];
+};
+
+const ChatThread = () => {
+  const scrollRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [response, setResponse] = useState<string>('');
+  const [files, setFiles] = useState<File[]>([]);
+  const [processedFiles, setProcessedFiles] = useState<unknown[]>([]);
+  const [messages, setMessages] = useState<ThreadMessage[]>([]);
+  const [actionRequired, setActionRequired] = useState<Record<string, unknown>>({});
+  const [chartData, setChartData] = useState<ChartVizMessageDataType | undefined>(undefined);
+  const [status, setStatus] = useState<string>('loading');
+
+  const router = useRouter();
+  const { threadId } = router.query;
+
+  useEffect(() => {
+    const fetchRun = async () => {
+      if (!threadId) return;
+
+      const thread = await fetch(`/api/openai/assistant/thread/${threadId}/messages`);
+      const data = await thread.json();
+
+      for (const message of data) {
+        if (message.metadata) {
+          if (message.metadata?.tool_outputs?.[0]?.output) {
+            const metadata = message.metadata;
+            const output = JSON.parse(metadata?.tool_outputs?.[0]?.output);
+            metadata.tool_outputs[0].output = output;
+
+            if (output?.chartData) {
+              output.chartData = JSON.parse(output?.chartData);
+            }
+          }
+        }
+      }
+
+      setMessages(data.reverse());
+      setLoading(false);
+    };
+
+    fetchRun();
+  }, [threadId]);
+
+  useEffect(() => {
+    fetch(`/api/openai/assistant/thread/${threadId}/required_actions`)
+      .then(async (res) => {
+        const data = await res.json();
+
+        if (data.status === 'requires_action') {
+          const func = data.required_action?.submit_tool_outputs?.tool_calls[0].function;
+          const name = func.name;
+          const args = JSON.parse(func.arguments);
+
+          if (name === 'display_chart') {
+            const runId = data.id;
+            setChartData(args);
+            fetch(`/api/openai/assistant/thread/${threadId}/${runId}/tool_output`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify([
+                {
+                  id: data.required_action?.submit_tool_outputs?.tool_calls[0].id,
+                  out: {
+                    type: 'success',
+                    message: 'Chart displayed successfully'
+                  }
+                }
+              ])
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        console.error('Error fetching required actions', err);
+      });
+  }, [threadId]);
+
+  const formik = useFormik({
+    initialValues: {
+      message: ''
+    },
+    onSubmit: (values) => {
+      handleSend(values);
+    }
+  });
+
+  const handleUpdateMessages = async () => {
+    if (!threadId) return;
+
+    const thread = await fetch(`/api/openai/assistant/thread/${threadId}/messages`);
+    const data = await thread.json();
+
+    for (const message of data) {
+      if (message.metadata) {
+        if (message.metadata?.tool_outputs?.[0]?.output) {
+          const metadata = message.metadata;
+          const output = JSON.parse(metadata?.tool_outputs?.[0]?.output);
+          metadata.tool_outputs[0].output = output;
+
+          if (output?.chartData) {
+            output.chartData = JSON.parse(output?.chartData);
+          }
+        }
+      }
+    }
+
+    setMessages(data.reverse());
+    setResponse('');
+  };
+
+  const handleSend = async (values: { message: string }) => {
+    setResponse('');
+    setChartData(undefined);
+
+    if (!threadId) return;
+
+    await fetch(`/api/openai/assistant/thread/${threadId}/message`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        role: 'user',
+        content: values.message
+      })
+    })
+      .then(() => {
+        handleUpdateMessages();
+      })
+      .then(async (res) => {
+        formik.resetForm();
+        const tokenResp = await fetch('/api/jwt');
+        const { token } = await tokenResp.json();
+
+        const es = new EventSource(
+          `/api/openai/assistant/thread/${threadId}?token=${token}`
+        );
+
+        es.addEventListener('closeStream', (event) => {
+          es.close();
+        });
+
+        es.addEventListener('messageDelta', (event) => {
+          const content = JSON.parse(event.data).content[0];
+          setResponse((prev) => (prev += content.text.value));
+        });
+
+        es.addEventListener('update_status', (event) => {
+          setStatus(JSON.parse(event.data).status);
+        });
+
+        es.addEventListener('refresh', (event) => {
+          handleUpdateMessages();
+          setResponse('');
+          setChartData(undefined);
+        });
+
+        es.addEventListener('streamEnd', (event) => {
+          handleUpdateMessages();
+        });
+
+        es.addEventListener('frontend_tool_call', (event) => {
+          const eventData = JSON.parse(event.data);
+
+          const func = eventData.calls[0].function;
+          const data = JSON.parse(func.arguments);
+
+          if (func.name === 'display_chart') {
+            setChartData(data);
+          }
+        });
+      });
+  };
+
+  const scrollTOBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollTOBottom();
+  }, [messages, response]);
+
+  return (
+    <Grid container padding={0}>
+      <Grid
+        component={'div'}
+        item
+        xs={12}
+        gap={2}
+        sx={{
+          overflowY: 'auto',
+          minHeight: 'calc(100vh - 245px)',
+          maxHeight: 'calc(100vh - 245px)',
+          paddingX: 0
+        }}
+        ref={scrollRef}
+      >
+        {messages.map((m, i) => {
+          return (
+            <Stack
+              key={i}
+              flexGrow={0}
+              sx={{
+                alignItems: m.role === 'assistant' ? 'flex-start' : 'flex-end'
+              }}
+              justifyContent={m.role === 'assistant' ? 'flex-start' : 'flex-end'}
+            >
+              {(
+                m?.metadata?.tool_outputs as {
+                  id: string;
+                  type: 'function';
+                  function: { name: string; arguments: ChartVizMessageDataType };
+                }[]
+              )
+                ?.filter((toolOutput) => {
+                  return toolOutput.function.arguments ? true : false;
+                })
+                .map((toolOutput) => {
+                  return (
+                    <>
+                      <ChatVizMessage data={toolOutput.function.arguments} key={toolOutput.id} />
+                    </>
+                  );
+                })}
+
+              {m.content[0]?.text.value && (
+                <Stack
+                  direction={'row'}
+                  gap={2}
+                  justifyContent={m.role === 'assistant' ? 'flex-start' : 'flex-end'}
+                  maxWidth={'80%'}
+                  marginY={2}
+                >
+                  {m.role === 'assistant' && <Avatar sx={{ color: 'white' }} src={'/assets/images/icons/LogoIcon.svg'} />}
+                  <MainCard
+                    sx={{
+                      backgroundColor: m.role === 'assistant' ? '#F5F5F5' : 'primary.main',
+                      color: m.role === 'assistant' ? 'black' : 'white',
+                      padding: 0
+                    }}
+                  >
+                    <Markdown>{m.content[0]?.text.value}</Markdown>
+                  </MainCard>
+                  {m.role === 'user' && (
+                    <Avatar sx={{ backgroundColor: 'primary.main', color: 'white' }} icon>
+                      U
+                    </Avatar>
+                  )}
+                </Stack>
+              )}
+            </Stack>
+          );
+        })}
+        {chartData && <ChatVizMessage data={chartData} />}
+
+        {response && (
+          <Stack direction={'row'} gap={2} justifyContent={'flex-start'} maxWidth={'80%'} marginY={2}>
+            <Avatar sx={{ color: 'white' }} src={'/assets/images/icons/LogoIcon.svg'} />
+            <MainCard
+              sx={{
+                backgroundColor: '#F5F5F5',
+                color: 'text.primary',
+                paddingX: 1,
+                borderRadius: 1
+              }}
+            >
+              <Markdown>{response}</Markdown>
+            </MainCard>
+          </Stack>
+        )}
+
+        {status !== 'finished' && (
+          <Stack direction={'row'} gap={1} justifyContent={'flex-start'} alignItems={'flex-end'} maxWidth={'80%'} marginY={2}>
+            {status !== 'finished' && <ChatStatusIndicator status={status as any} />}
+            {status !== 'finished' && <Typography>{status}</Typography>}
+          </Stack>
+        )}
+      </Grid>
+
+      <Grid item xs={12}>
+        <Stack direction={'row'} flexGrow={1} gap={2}>
+          <Stack flexGrow={1}>
+            <FormControl>
+              <Stack gap={2}>
+                <TextField
+                  id="message"
+                  name="message"
+                  value={formik.values.message}
+                  onChange={formik.handleChange}
+                  error={formik.touched.message && Boolean(formik.errors.message)}
+                  helperText={formik.touched.message && formik.errors.message}
+                  maxRows={15}
+                  multiline
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSend({
+                        message: formik.values.message
+                      });
+                    }
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        onClick={() =>
+                          handleSend({
+                            message: formik.values.message
+                          })
+                        }
+                      >
+                        <SendOutlined />
+                      </IconButton>
+                    ),
+                    startAdornment: (
+                      <Stack direction={'row'} spacing={0} gap={0} mr={2}>
+                        <Stack>
+                          <Stack direction={'row'}>
+                            {processedFiles && processedFiles.length > 0 && (
+                              <Stack gap={2}>
+                                {processedFiles.map((file) => (
+                                  <Stack key={file.name} direction={'row'} alignItems={'center'} gap={1}>
+                                    <Avatar>
+                                      <img src={file.url} alt={file.name} />
+                                    </Avatar>
+                                  </Stack>
+                                ))}
+                              </Stack>
+                            )}
+                          </Stack>
+                          <Dropzone onDrop={(files) => setFiles(files)}>
+                            <Stack direction={'row'}>
+                              <IconButton>
+                                <PaperClipOutlined />
+                              </IconButton>
+                              <IconButton>
+                                <PhotoOutlined />
+                              </IconButton>
+                            </Stack>
+                          </Dropzone>
+                        </Stack>
+                      </Stack>
+                    )
+                  }}
+                />
+              </Stack>
+            </FormControl>
+          </Stack>
+        </Stack>
+      </Grid>
+    </Grid>
+  );
+};
+
+ChatThread.getLayout = function getLayout(page: ReactElement) {
+  return <AuthGuard>{page}</AuthGuard>;
+};
+
+export default ChatThread;
+===end===

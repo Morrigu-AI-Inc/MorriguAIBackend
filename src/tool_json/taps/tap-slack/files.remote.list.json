@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "method": {
+      "type": "object",
+      "properties": {
+        "http": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "const": "GET"
+            },
+            "url": {
+              "type": "string",
+              "const": "files.remote.list"
+            }
+          },
+          "required": ["method", "url"]
+        },
+        "js": {
+          "type": "string",
+          "const": "app.client.files.remote.list"
+        },
+        "python": {
+          "type": "string",
+          "const": "app.client.files_remote_list"
+        },
+        "java": {
+          "type": "string",
+          "const": "app.client().filesRemoteList"
+        }
+      }
+    },
+    "scopes": {
+      "type": "object",
+      "properties": {
+        "granular_bot": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "const": "remote_files:read"
+          }
+        },
+        "user": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "const": "remote_files:read"
+          }
+        },
+        "bot": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "const": "bot"
+          }
+        }
+      }
+    },
+    "content_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "const": "application/x-www-form-urlencoded"
+      }
+    },
+    "rate_limits": {
+      "type": "string",
+      "const": "Tier 2"
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string"
+            }
+          },
+          "required": ["token"]
+        },
+        "optional": {
+          "type": "object",
+          "properties": {
+            "channel": {
+              "type": "string"
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            },
+            "ts_from": {
+              "type": "string"
+            },
+            "ts_to": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["method", "scopes", "content_types", "rate_limits", "arguments"]
+}

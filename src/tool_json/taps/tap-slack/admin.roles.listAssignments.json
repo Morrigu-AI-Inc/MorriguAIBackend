@@ -1,0 +1,52 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "role_assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role_id": {
+            "type": "string"
+          },
+          "entity_id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "date_create": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "role_id",
+          "entity_id",
+          "user_id",
+          "date_create"
+        ]
+      }
+    },
+    "response_metadata": {
+      "type": "object",
+      "properties": {
+        "next_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "next_cursor"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "role_assignments",
+    "response_metadata"
+  ]
+}

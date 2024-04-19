@@ -1,0 +1,65 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Bots Info",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "bot": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "integer"
+        },
+        "app_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "icons": {
+          "type": "object",
+          "properties": {
+            "image_36": {
+              "type": "string"
+            },
+            "image_48": {
+              "type": "string"
+            },
+            "image_72": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "image_36",
+            "image_48",
+            "image_72"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "deleted",
+        "name",
+        "updated",
+        "app_id",
+        "icons"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "bot"
+  ]
+}

@@ -1,0 +1,28 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.users.remove",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "team_id": {
+      "description": "The ID (T1234) of the workspace.",
+      "type": "string"
+    },
+    "user_id": {
+      "description": "The ID of the user to remove.",
+      "type": "string",
+      "example": "W12345678"
+    }
+  },
+  "required": [
+    "token",
+    "team_id",
+    "user_id"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,321 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Collaborators API",
+  "description": "API endpoints for managing collaborators on a GitHub repository",
+  "type": "object",
+  "properties": {
+    "listCollaborators": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to list collaborators for a repository",
+          "value": "/repos/{owner}/{repo}/collaborators"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for listing collaborators"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Media type to return"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string", 
+              "description": "The name of the repository"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "affiliation": {
+              "type": "string",
+              "description": "Filter collaborators by affiliation"
+            },
+            "permission": {
+              "type": "string",
+              "description": "Filter collaborators by permission"  
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "Results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "Page number of results to return"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "login": {
+                "type": "string",
+                "description": "The user's login"  
+              },
+              "permissions": {
+                "type": "object",
+                "description": "The user's permissions"
+              },
+              "role_name": {
+                "type": "string",
+                "description": "The user's repository role" 
+              }
+            }
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+
+    "checkCollaborator": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to check if a user is a collaborator",
+          "value": "/repos/{owner}/{repo}/collaborators/{username}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method to check collaborator status"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Media type to return"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "username": {
+              "type": "string",
+              "description": "The username to check"
+            }
+          },
+          "required": ["owner", "repo", "username"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code"
+            }
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+
+    "addCollaborator": {
+      "type": "object", 
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to add a collaborator",
+          "value": "/repos/{owner}/{repo}/collaborators/{username}"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["PUT"],
+          "description": "HTTP method for adding a collaborator"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Media type to return"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository" 
+            },
+            "username": {
+              "type": "string",
+              "description": "The user to add as a collaborator"
+            }
+          },
+          "required": ["owner", "repo", "username"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "permission": {
+              "type": "string",
+              "description": "The permission to grant the collaborator"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code"
+            }
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]  
+    },
+
+    "removeCollaborator": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to remove a collaborator",
+          "value": "/repos/{owner}/{repo}/collaborators/{username}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method for removing a collaborator" 
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string", 
+              "description": "Media type to return"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "username": {
+              "type": "string",
+              "description": "The user to remove as collaborator"
+            }
+          },
+          "required": ["owner", "repo", "username"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer", 
+              "description": "HTTP status code"
+            }
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+
+    "getCollaboratorPermissions": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to get permissions for a collaborator",
+          "value": "/repos/{owner}/{repo}/collaborators/{username}/permission"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method to get collaborator permissions"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Media type to return"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "username": {
+              "type": "string",
+              "description": "The collaborator username"
+            }
+          },
+          "required": ["owner", "repo", "username"]  
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "permission": {
+              "type": "string",
+              "description": "The highest permission for the user"
+            },
+            "role_name": {
+              "type": "string", 
+              "description": "The role name for the user's permissions"
+            }
+          },
+          "required": ["permission", "role_name"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    }
+  },
+  "required": ["listCollaborators", "checkCollaborator", "addCollaborator", "removeCollaborator", "getCollaboratorPermissions"]
+}

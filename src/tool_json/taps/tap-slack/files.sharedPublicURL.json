@@ -1,0 +1,379 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "apiDocsToggler": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "apiDocsToggler__toggle": {
+            "type": "string"
+          },
+          "apiDocsToggler__target": {
+            "type": "object",
+            "properties": {
+              "apiDocsCalloutCard": {
+                "type": "object",
+                "properties": {
+                  "c-icon": {
+                    "type": "string"
+                  },
+                  "p": {
+                    "type": "string"
+                  }
+                }
+              },
+              "apiReference__nutritionalInfo": {
+                "type": "object",
+                "properties": {
+                  "apiReference__factBlocks": {
+                    "type": "object",
+                    "properties": {
+                      "apiReference__factBlock": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "apiReference__factLabel": {
+                              "type": "string"
+                            },
+                            "apiReference__fact": {
+                              "type": "object",
+                              "properties": {
+                                "apiDocsTabber": {
+                                  "type": "object",
+                                  "properties": {
+                                    "apiDocsTabber__switches": {
+                                      "type": "object"
+                                    },
+                                    "apiDocsTabber__tabs": {
+                                      "type": "object",
+                                      "properties": {
+                                        "apiReference__accessMethod": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "apiReference__accessMethodLabel": {
+                                                "type": "string"
+                                              },
+                                              "apiReference__accessMethodInfo": {
+                                                "type": "object"
+                                              },
+                                              "apiReference__boltMethod": {
+                                                "type": "string"
+                                              },
+                                              "apiReference__accessMethodHelp": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "apiReference__tokenGrid": {
+                                  "type": "object",
+                                  "properties": {
+                                    "apiReference__tokenRow": {
+                                      "type": "object",
+                                      "properties": {
+                                        "apiReference__tokenType": {
+                                          "type": "string"
+                                        },
+                                        "apiReference__tokenRowScopes": {
+                                          "type": "object",
+                                          "properties": {
+                                            "apiReference__scope": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "apiMethodPage__rateLimit": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "apiMethodPage__contentTypes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "apiDocsToggler__toggle",
+          "apiDocsToggler__target"
+        ]
+      }
+    },
+    "apiMethodPage__argumentSection": {
+      "type": "object",
+      "properties": {
+        "apiMethodPage__argumentList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "apiMethodPage__listName": {
+                "type": "string"
+              },
+              "apiMethodPage__argumentRow": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "apiMethodPage__argumentMetadata": {
+                      "type": "object",
+                      "properties": {
+                        "apiMethodPage__argument": {
+                          "type": "string"
+                        },
+                        "apiMethodPage__argumentExtras": {
+                          "type": "object",
+                          "properties": {
+                            "apiMethodPage__argumentType": {
+                              "type": "string"
+                            },
+                            "apiMethodPage__argumentOptionality": {
+                              "type": "string"
+                            },
+                            "apiMethodPage__argumentPermalink": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "apiMethodPage__argumentDesc": {
+                      "type": "object",
+                      "properties": {
+                        "p": {
+                          "type": "string"
+                        },
+                        "apiReference__example": {
+                          "type": "object",
+                          "properties": {
+                            "strong": {
+                              "type": "string"
+                            },
+                            "apiReference__exampleCode": {
+                              "type": "object",
+                              "properties": {
+                                "code": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "apiDocsPage__markdownOutput": {
+      "type": "object",
+      "properties": {
+        "p": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pre": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "apiReference__response": {
+      "type": "object",
+      "properties": {
+        "apiReference__example": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "h3": {
+                "type": "string"
+              },
+              "p": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "pre": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "apiReference__errors": {
+      "type": "object",
+      "properties": {
+        "p": {
+          "type": "string"
+        },
+        "apiDocsTable": {
+          "type": "object",
+          "properties": {
+            "thead": {
+              "type": "object",
+              "properties": {
+                "tr": {
+                  "type": "object",
+                  "properties": {
+                    "th": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "tbody": {
+              "type": "object",
+              "properties": {
+                "tr": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "td": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "apiReference__titleCell": {
+                              "type": "object",
+                              "properties": {
+                                "code": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "p": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "apiReference__warnings": {
+      "type": "object",
+      "properties": {
+        "p": {
+          "type": "string"
+        },
+        "apiDocsTable": {
+          "type": "object",
+          "properties": {
+            "thead": {
+              "type": "object",
+              "properties": {
+                "tr": {
+                  "type": "object",
+                  "properties": {
+                    "th": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "tbody": {
+              "type": "object",
+              "properties": {
+                "tr": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "td": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "apiReference__titleCell": {
+                              "type": "object",
+                              "properties": {
+                                "code": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "p": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "apiDocsToggler",
+    "apiMethodPage__argumentSection", 
+    "apiDocsPage__markdownOutput",
+    "apiReference__response",
+    "apiReference__errors",
+    "apiReference__warnings"
+  ]
+}

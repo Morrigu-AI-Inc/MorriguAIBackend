@@ -1,0 +1,114 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Issues Comments API",
+  "description": "API endpoints for managing comments on GitHub issues and pull requests",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing issue comments for a repository",
+      "value": "/repos/{owner}/{repo}/issues/comments"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "accept": {
+          "type": "string",
+          "description": "Media type to return (e.g. application/vnd.github+json)"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "sort": {
+          "type": "string",
+          "description": "Property to sort results by (e.g. created)"
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["asc", "desc"],
+          "description": "Sort direction (asc or desc)"
+        },
+        "since": {
+          "type": "string",
+          "description": "Only include results updated after this time (ISO 8601 format)"
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "Results per page (max 100)"
+        },
+        "page": {
+          "type": "integer", 
+          "description": "Page number of results to retrieve"
+        }
+      }
+    },
+    "response": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier of the comment"
+          },
+          "node_id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL for the issue comment"
+          },
+          "html_url": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string",
+            "description": "Body of the comment"
+          },
+          "user": {
+            "type": "object",
+            "description": "User that added the comment"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "ISO 8601 timestamp when created" 
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "ISO 8601 timestamp when last updated"
+          },
+          "issue_url": {
+            "type": "string",
+            "description": "URL for the issue/PR the comment is on"
+          },
+          "author_association": {
+            "type": "string",
+            "description": "How the author is associated with the repository"
+          }
+        },
+        "required": [
+          "id",
+          "body",
+          "user", 
+          "created_at",
+          "updated_at",
+          "issue_url"
+        ]
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

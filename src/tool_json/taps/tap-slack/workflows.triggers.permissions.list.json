@@ -1,0 +1,216 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "accessMethods": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "method",
+                "url"
+              ]
+            },
+            "java": {
+              "type": "object",
+              "properties": {
+                "library": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "library",
+                "method"
+              ]
+            },
+            "python": {
+              "type": "object",
+              "properties": {
+                "library": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "library",
+                "method"
+              ]
+            },
+            "js": {
+              "type": "object",
+              "properties": {
+                "library": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "library",
+                "method"
+              ]
+            }
+          },
+          "required": [
+            "http"
+          ]
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "botTokens": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "userTokens": {
+              "type": "array",  
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "botTokens",
+            "userTokens"
+          ]
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rateLimits": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "accessMethods",
+        "scopes",
+        "contentTypes",
+        "rateLimits"
+      ]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "description"
+            ]
+          }
+        }
+      },
+      "required": [
+        "required"
+      ]
+    },
+    "usageInfo": {
+      "type": "string"
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "response": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "response"
+        ]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "description"
+        ]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "warning",
+          "description"  
+        ]
+      }
+    }
+  },
+  "required": [
+    "facts",
+    "arguments",
+    "usageInfo",
+    "examples", 
+    "errors"
+  ]
+}

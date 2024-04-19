@@ -1,0 +1,50 @@
+Here is the JSON Schema for the HTML content:
+
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "batch_presence_aware": {
+      "type": "boolean",
+      "description": "Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events.",
+      "default": false
+    },
+    "include_locale": {
+      "type": "boolean",
+      "description": "Set this to `true` to receive the locale for users and channels. Defaults to `false`"
+    },
+    "mpim_aware": {
+      "type": "boolean",
+      "description": "Returns MPIMs to the client in the API response."
+    },
+    "no_latest": {
+      "type": "boolean",
+      "description": "Exclude latest timestamps for channels, groups, mpims, and ims. Automatically sets `no_unreads` to `1`",
+      "default": 0
+    },
+    "no_unreads": {
+      "type": "boolean",
+      "description": "Skip unread counts for each channel (improves performance)."
+    },
+    "presence_sub": {
+      "type": "boolean",
+      "description": "Only deliver presence events when requested by subscription.",
+      "default": true
+    },
+    "simple_latest": {
+      "type": "boolean",
+      "description": "Return timestamp only for latest message object of each channel (improves performance)."
+    }
+  },
+  "required": [
+    "token"
+  ]
+}
+
+
+This defines an object with properties for the various arguments accepted by the `rtm.start` method. The `token` property is required, while the others are optional boolean flags to modify the behavior. Descriptions and examples are included for each property based on the documentation.

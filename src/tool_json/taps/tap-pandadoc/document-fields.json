@@ -1,0 +1,85 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        "headline-container-grid-itemGdPV-VbhShYs": {
+          "type": "object",
+          "properties": {
+            "button-containerobFfV0vf6giV": {
+              "type": "object",
+              "properties": {
+                "reference-flyout": {
+                  "type": "object",
+                  "properties": {
+                    "button": {
+                      "type": "object",
+                      "properties": {
+                        "aria-label": {
+                          "type": "string"
+                        },
+                        "class": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "aria-label",
+                        "class",
+                        "type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "button"
+                  ]
+                }
+              },
+              "required": [
+                "reference-flyout"
+              ]
+            }
+          },
+          "required": [
+            "button-containerobFfV0vf6giV"
+          ]
+        },
+        "class": {
+          "type": "string"
+        },
+        "data-raycast-oas": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class",
+        "data-raycast-oas",
+        "headline-container-grid-itemGdPV-VbhShYs"
+      ]
+    },
+    "header": {
+      "type": "object",
+      "properties": {
+        "h1": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "h1",
+        "id"
+      ]
+    }
+  },
+  "required": [
+    "headline-container21aRBSn8Bqg6",
+    "header"
+  ]
+}

@@ -1,0 +1,263 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Calendar API - Authentication/Permissions for GitHub Apps",
+  "description": "Permissions required for GitHub Apps to access various REST API endpoints.",
+  "type": "object",
+  "properties": {
+    "organizationPermissions": {
+      "type": "object",
+      "description": "Permissions required for organization-level operations",
+      "properties": {
+        "administration": {
+          "type": "object",
+          "description": "Permissions for organization administration operations"
+        },
+        "blockingUsers": {
+          "type": "object",
+          "description": "Permissions for blocking/unblocking users"
+        },
+        "customRoles": {
+          "type": "object",
+          "description": "Permissions for managing custom organization roles"
+        },
+        "customProperties": {
+          "type": "object",
+          "description": "Permissions for managing organization custom properties"
+        },
+        "events": {
+          "type": "object",
+          "description": "Permissions for accessing organization events"
+        },
+        "copilotBusiness": {
+          "type": "object",
+          "description": "Permissions for GitHub Copilot Business"
+        },
+        "members": {
+          "type": "object",
+          "description": "Permissions for managing organization members"
+        },
+        "codespacesSecrets": {
+          "type": "object",
+          "description": "Permissions for managing organization codespaces secrets"
+        },
+        "codespacesSettings": {
+          "type": "object",
+          "description": "Permissions for managing organization codespaces settings"
+        },
+        "codespaces": {
+          "type": "object",
+          "description": "Permissions for managing organization codespaces"
+        },
+        "dependabotSecrets": {
+          "type": "object",
+          "description": "Permissions for managing organization Dependabot secrets"
+        },
+        "patRequests": {
+          "type": "object",
+          "description": "Permissions for personal access token requests"
+        },
+        "pats": {
+          "type": "object",
+          "description": "Permissions for personal access tokens"
+        },
+        "projects": {
+          "type": "object",
+          "description": "Permissions for organization projects"
+        },
+        "secrets": {
+          "type": "object",
+          "description": "Permissions for managing organization secrets"
+        },
+        "selfHostedRunners": {
+          "type": "object",
+          "description": "Permissions for managing self-hosted runners"
+        },
+        "teamDiscussions": {
+          "type": "object",
+          "description": "Permissions for team discussions"
+        },
+        "variables": {
+          "type": "object",
+          "description": "Permissions for managing organization variables"
+        },
+        "webhooks": {
+          "type": "object",
+          "description": "Permissions for managing organization webhooks"
+        }
+      }
+    },
+    "repositoryPermissions": {
+      "type": "object",
+      "description": "Permissions required for repository-level operations",
+      "properties": {
+        "actions": {
+          "type": "object",
+          "description": "Permissions for repository actions"
+        },
+        "administration": {
+          "type": "object",
+          "description": "Permissions for repository administration"
+        },
+        "checks": {
+          "type": "object",
+          "description": "Permissions for repository checks"
+        },
+        "codeScanningAlerts": {
+          "type": "object",
+          "description": "Permissions for code scanning alerts"
+        },
+        "codespacesLifecycleAdmin": {
+          "type": "object",
+          "description": "Permissions for codespaces lifecycle admin"
+        },
+        "codespacesMetadata": {
+          "type": "object",
+          "description": "Permissions for accessing codespaces metadata"
+        },
+        "codespacesSecrets": {
+          "type": "object",
+          "description": "Permissions for managing codespaces secrets"
+        },
+        "codespaces": {
+          "type": "object",
+          "description": "Permissions for managing codespaces"
+        },
+        "commitStatuses": {
+          "type": "object",
+          "description": "Permissions for commit statuses"
+        },
+        "contents": {
+          "type": "object",
+          "description": "Permissions for repository contents"
+        },
+        "customProperties": {
+          "type": "object",
+          "description": "Permissions for managing custom repository properties"
+        },
+        "dependabotAlerts": {
+          "type": "object",
+          "description": "Permissions for Dependabot alerts"
+        },
+        "dependabotSecrets": {
+          "type": "object",
+          "description": "Permissions for managing Dependabot secrets"
+        },
+        "deployments": {
+          "type": "object",
+          "description": "Permissions for deployments"
+        },
+        "environments": {
+          "type": "object",
+          "description": "Permissions for environments"
+        },
+        "issues": {
+          "type": "object",
+          "description": "Permissions for issues"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Permissions for accessing metadata"
+        },
+        "pages": {
+          "type": "object",
+          "description": "Permissions for GitHub Pages"
+        },
+        "projects": {
+          "type": "object",
+          "description": "Permissions for repository projects"
+        },
+        "pullRequests": {
+          "type": "object",
+          "description": "Permissions for pull requests"
+        },
+        "securityAdvisories": {
+          "type": "object",
+          "description": "Permissions for repository security advisories"
+        },
+        "secretScanningAlerts": {
+          "type": "object",
+          "description": "Permissions for secret scanning alerts"
+        },
+        "secrets": {
+          "type": "object",
+          "description": "Permissions for managing secrets"
+        },
+        "variables": {
+          "type": "object",
+          "description": "Permissions for managing variables"
+        },
+        "webhooks": {
+          "type": "object",
+          "description": "Permissions for managing webhooks"
+        },
+        "workflows": {
+          "type": "object",
+          "description": "Permissions for workflows"
+        }
+      }
+    },
+    "userPermissions": {
+      "type": "object", 
+      "description": "Permissions related to user operations",
+      "properties": {
+        "blockUser": {
+          "type": "object",
+          "description": "Permissions for blocking another user"
+        },
+        "codespacesUserSecrets": {
+          "type": "object",
+          "description": "Permissions for managing user codespaces secrets"  
+        },
+        "emailAddresses": {
+          "type": "object",
+          "description": "Permissions for user email addresses"
+        },
+        "followers": {
+          "type": "object", 
+          "description": "Permissions for following/unfollowing users"
+        },
+        "gpgKeys": {
+          "type": "object",
+          "description": "Permissions for managing GPG keys"
+        },
+        "gists": {
+          "type": "object",
+          "description": "Permissions for gists"
+        },
+        "sshKeys": {
+          "type": "object",
+          "description": "Permissions for Git SSH keys"
+        },
+        "interactionLimits": {
+          "type": "object",
+          "description": "Permissions for interaction limits"
+        },
+        "notifications": {
+          "type": "object",
+          "description": "Permissions for notifications"
+        },
+        "plan": {
+          "type": "object",
+          "description": "Permissions for billing/plan details"
+        },
+        "profile": {
+          "type": "object",
+          "description": "Permissions for user profile"
+        },
+        "sshSigningKeys": {
+          "type": "object",
+          "description": "Permissions for SSH signing keys" 
+        },
+        "starring": {
+          "type": "object",
+          "description": "Permissions for starring repositories"
+        },
+        "watching": {
+          "type": "object",
+          "description": "Permissions for watching repositories"
+        }
+      }
+    }
+  }
+}

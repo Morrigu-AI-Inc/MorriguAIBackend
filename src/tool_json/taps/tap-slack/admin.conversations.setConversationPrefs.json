@@ -1,0 +1,35 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.conversations.setConversationPrefs",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channel_id": {
+      "description": "The channel to set the prefs for",
+      "type": "string",
+      "example": "C1234"
+    },
+    "prefs": {
+      "description": "The prefs for this channel in a stringified JSON format.",
+      "type": "string",
+      "examples": [
+        "{'who_can_post':'type:admin,user:U1234'}",
+        "{'who_can_post':'type:admin,user:U1234','can_thread':'type:user'}",
+        "{'who_can_post':'type:ra','can_thread':'type:ra'}",
+        "{'can_huddle':'false'}",
+        "{'enable_at_channel':'false', 'enable_at_here':'false'}"
+      ]
+    }
+  },
+  "required": [
+    "token",
+    "channel_id",
+    "prefs"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,97 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "notices": {
+      "type": "object",
+      "properties": {
+        "info": {
+          "type": "string",
+          "description": "Information about the API method being available only on Enterprise Grid workspaces."
+        }
+      }
+    },
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "The HTTP method to access the API."
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "The required scopes to access the API."
+          }
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "The accepted content types for the API."
+          }
+        },
+        "rateLimits": {
+          "type": "string",
+          "description": "The rate limit tier for the API."
+        }
+      }
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "The authentication token with required scopes."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the emoji to be renamed."
+        },
+        "new_name": {
+          "type": "string",
+          "description": "The new name of the emoji."
+        }
+      },
+      "required": [
+        "token",
+        "name",
+        "new_name"
+      ]
+    },
+    "examples": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "description": "Indicates a successful response."
+            }
+          }
+        }
+      }
+    },
+    "errors": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "type": "string",
+          "description": "A description of the error."
+        }
+      }
+    },
+    "warnings": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "type": "string",
+          "description": "A description of the warning."
+        }
+      }
+    }
+  }
+}

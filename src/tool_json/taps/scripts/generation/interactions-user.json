@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User Interactions API",
+  "description": "REST API endpoints for managing user interactions on public repositories.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting interaction restrictions",
+      "value": "/user/interaction-limits"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "PUT", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Media type to accept",
+          "default": "application/vnd.github+json"
+        },
+        "X-GitHub-Api-Version": {
+          "type": "string",
+          "description": "GitHub API version",
+          "default": "2022-11-28"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Accept",
+        "X-GitHub-Api-Version"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "string",
+          "description": "The type of GitHub user that can interact",
+          "enum": [
+            "existing_users",
+            "contributors_only", 
+            "collaborators_only"
+          ]
+        },
+        "expiry": {
+          "type": "string",
+          "description": "The duration of the interaction restriction",
+          "enum": [
+            "one_day",
+            "three_days",
+            "one_week",
+            "one_month",
+            "six_months"
+          ]
+        }
+      },
+      "required": [
+        "limit"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "string",
+          "description": "The interaction restriction type"
+        },
+        "origin": {
+          "type": "string",
+          "description": "Where the interaction restriction was set from"
+        },
+        "expires_at": {
+          "type": "string",
+          "description": "The expiration date and time for the interaction restriction"
+        }
+      },
+      "required": [
+        "limit",
+        "origin",
+        "expires_at"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

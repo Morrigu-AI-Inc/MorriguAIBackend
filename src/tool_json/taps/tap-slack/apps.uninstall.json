@@ -1,0 +1,26 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "apps.uninstall",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "client_id": {
+      "type": "string",
+      "description": "Issued when you created your application."
+    },
+    "client_secret": {
+      "type": "string",
+      "description": "Issued when you created your application."
+    }
+  },
+  "required": [
+    "token",
+    "client_id",
+    "client_secret"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,184 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "POST"
+                },
+                "url": {
+                  "type": "string",
+                  "const": "apps.manifest.export"
+                }
+              },
+              "required": [
+                "method",
+                "url"
+              ]
+            },
+            "js": {
+              "type": "string",
+              "const": "app.client.apps.manifest.export"
+            },
+            "python": {
+              "type": "string",
+              "const": "app.client.apps_manifest_export"
+            },
+            "java": {
+              "type": "string",
+              "const": "app.client().appsManifestExport"
+            }
+          }
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "tokenTypes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "app_config"
+                  },
+                  "scopes": {
+                    "type": "array",
+                    "items": {}
+                }
+              },
+              "required": [
+                "type",
+                "scopes"
+              ]
+            }
+          },
+          "required": [
+            "tokenTypes"
+          ]
+        },
+        "contenttypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ratelimites": {
+          "type": "string",
+          "const": "Tier 3"
+        }
+      },
+      "required": [
+        "method",
+        "scopes",
+        "contenttypes",
+        "ratelimites"
+      ]
+    },
+    "args": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "required"
+            ]
+          }
+        }
+      },
+      "required": [
+        "required"
+      ]
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "response"
+        ]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "description"
+        ]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string"  
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "warning",
+          "description"
+        ]
+      }
+    }
+  },
+  "required": [
+    "facts",
+    "args",
+    "examples", 
+    "errors",
+    "warnings"
+  ]
+}

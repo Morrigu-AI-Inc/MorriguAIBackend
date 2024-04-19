@@ -1,0 +1,464 @@
+<div class="apiDocsToggler apiDocsToggler--showOnLoad apiReference__nutritionalInfoToggler"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="facts">Facts</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__nutritionalInfo"><div class="apiReference__factBlocks"><div class="apiReference__factBlock apiReference__factBlock--accessMethods"><h3 id="method" class="apiReference__factLabel"><i class="c-icon c-icon--plug c-icon--inline"></i>Method access</h3><div class="apiReference__fact apiDocsTabber"><div class="apiDocsTabber__switches"><div class="apiDocsTabber__switch apiDocsTabber__switch--active" data-target="http">HTTP</div><div class="apiDocsTabber__switch" data-target="js"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>JavaScript</div><div class="apiDocsTabber__switch" data-target="python"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>Python</div><div class="apiDocsTabber__switch" data-target="java"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>Java</div></div><div class="apiDocsTabber__tabs"><div class="apiReference__accessMethod apiReference__accessMethod--http apiDocsTabber__tab apiDocsTabber__tab--active" data-tab="http"><span id="http_access" class="apiReference__accessMethodLabel">HTTP</span><div class="apiReference__accessMethodInfo"><code class="apiReference__methodAccessUrl"><span class="apiMethodPage__method apiMethodPage__getMethod">GET</span><span class="apiReference__methodUrlString" onclick="window.getSelection().selectAllChildren(this);"><span>https://slack.</span><span>com/api/admin.</span><span>analytics.</span><span>getFile</span></span></code></div></div><div class="apiReference__accessMethod apiReference__accessMethod--java apiDocsTabber__tab" data-tab="java"><span id="java_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for Java</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client().</span>adminAnalyticsGetFile</code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div><div class="apiReference__accessMethod apiReference__accessMethod--python apiDocsTabber__tab" data-tab="python"><span id="python_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for Python</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client.</span><span>admin_analytics_getFile</span></code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div><div class="apiReference__accessMethod apiReference__accessMethod--js apiDocsTabber__tab" data-tab="js"><span id="js_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for JavaScript</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client.</span>admin.analytics.getFile</code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div></div></div></div><div class="apiReference__factBlock apiReference__factBlock--scopes"><h3 id="scopes" class="apiReference__factLabel"><i class="c-icon c-icon--key c-icon--inline"></i>Required scopes</h3><div class="apiReference__fact"><div class="apiReference__tokenGrid"><div class="apiReference__tokenRow apiReference__tokenRow--user"><span class="apiReference__tokenType"><a class="apiReference__tokenTypePill apiReference__tokenTypePill--user" href="/docs/token-types#user">User tokens</a></span><span class="apiReference__tokenRowScopes"><a href="/scopes/admin.analytics:read" title="" class="apiReference__scope apiReference__scope--admin.analytics:read"><code>admin.analytics:read</code></a></span></div></div></div></div><div class="apiReference__factBlock apiReference__factBlock--contentTypes"><h3 id="contenttypes" class="apiReference__factLabel"><i class="c-icon c-icon--create-post c-icon--inline"></i>Content types</h3><div class="apiReference__fact apiMethodPage__contentTypes"><code>application/x-www-form-urlencoded</code></div></div><li class="apiReference__factBlock apiReference__factBlock--rateLimits"><h3 id="ratelimites" class="apiReference__factLabel"><i class="c-icon c-icon--dashboard c-icon--inline"></i>Rate limits</h3><span class="apiMethodPage__rateLimit apiReference__fact apiMethodPage__rateLimit--t2"><a href="/docs/rate-limits#tier_t2">Tier 2</a></span></li></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="args">Arguments</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__arguments"><div class="apiMethodPage__argumentSection"><div class="apiMethodPage__argumentList apiMethodPage__argumentList----required"><span class="apiMethodPage__listName apiMethodPage__listName--required">Required arguments</span><div class="apiMethodPage__argumentRow"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--token"><code>token</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType"><a href="/authentication/token-types">token</a></div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--required"><i>·</i>Required</div><a class="apiMethodPage__argumentPermalink" href="#arg_token" name="arg_token"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">xxxx-xxxxxxxxx-xxxx</code></div></div></div></div><div class="apiMethodPage__argumentRow"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--type"><code>type</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">string</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--required"><i>·</i>Required</div><a class="apiMethodPage__argumentPermalink" href="#arg_type" name="arg_type"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>The type of analytics to retrieve. The options are currently limited to <code>member</code> (for grid member analytics) and <code>public_channel</code> (for public channel analytics).</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">member</code></div></div></div></div></div><div class="apiMethodPage__argumentList apiMethodPage__argumentList----optional"><span class="apiMethodPage__listName apiMethodPage__listName--optional">Optional arguments</span><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--date"><code>date</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType"></div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_date" name="arg_date"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Date to retrieve the analytics data for, expressed as <code>YYYY-MM-DD</code> in UTC. Required unless <code>metadata_only</code> is set to true.</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">2020-09-01</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--metadata_only"><code>metadata_only</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">boolean</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_metadata_only" name="arg_metadata_only"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Retrieve metadata for the <code>type</code> of analytics indicated. Can be used only with <code>type</code> set to <code>public_channel</code> analytics. See <a href="#metadata_only">detail below</a>. Omit the <code>date</code> parameter when using this argument.</p>
+<div class="apiReference__example"><strong>Default</strong><div class="apiReference__exampleCode"><code class="json hljs">false</code></div></div><div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">true</code></div></div></div></div></div></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="markdown">Usage info</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiDocsPage__markdownOutput"><p>This method returns <a href="#member_analytics_fields">member</a> and <a href="#conversation_analytics_fields">conversation</a> analytics data presented as new-line delimited JSON files, compressed with <em>gzip</em>.</p>
+<p>Each response contains a file with analytics data for a single day.</p>
+<p>As of February 2023, analytics data is available on a rolling 13-month basis.</p>
+<p>If you recently upgraded from a Free or Pro plan, you will only have access to data starting from when you upgraded (the 13 months of historical data will not immediately apply). Once you've been on a Business+, Select/Compliance, or Grid plan for 13 months, the data will become available on a rolling 13-month basis.</p>
+<p>Historical data is not recomputed when a workspace and its accompanying member engagement data is added to or removed from an organization. Similarly, if a member is removed from a workspace, the data returned by the API will not update historical engagement data to reflect only the workspaces the member is currently a part of. This behavior <strong>differs</strong> from the <em>Analytics Dashboard</em> in Org and Team settings, which does consider historical changes in its calculation of 30 day and all time metrics.</p>
+<p>The <code>date</code> argument is <strong>required</strong> when requesting daily analytics data. It represents the date in UTC corresponding to the analytics data you're requesting. Omit this argument when setting <code>only_metadata</code> to <code>true</code>, as metadata cannot be filtered by date.</p>
+<p>When setting <code>type</code> to <code>public_channel</code>, you may also use the <code>only_metadata</code> boolean argument, which changes the response entirely to give you metadata about the public channels appearing in your conversation analytics. Omit the <code>date</code> parameter when using this mode.</p>
+<p>This method is almost completely unlike other <a href="/web">Web API</a> methods you encounter. It doesn't return <code>application/json</code> with the traditional <code>"ok": true</code> response on success, though you'll find <code>"ok": false</code> on failure.</p>
+<p>Instead, it returns a single file, often very large, containing JSON objects that are separated by newlines and then compressed with <code>application/gzip</code>.</p>
+<p>To open the successful response and utilize the data, you must first store and decompress the response. Some tools may parse new line-separated JSON for you with ease, while other tools will require that you first split each new line separated "row" into its own separate JSON object before being deserialized.</p>
+<p>After decompression, the file returned in the response will look something like the following, depending on the type of analytics requested.</p>
+<a name="member_analytics_response"></a><h4 class="headingWithAnchor" id="member_response">Member analytics response <a href="#member_response"><i class="glyphIcon fa fa-link"></i></a></h4>
+<p>Here are 3 example lines of JSON you would find after decompressing a member analytics file. Each line provides information about a different user.</p>
+<pre><code class="language-json">{"enterprise_id":"E5UBAR8CH","date":"2020-10-05","user_id":"W0POSID23ID","email_address":"rbrautigan@example.org","is_guest":false,"is_billable_seat":false,"is_active":false,"is_active_ios":false,"is_active_android":false,"is_active_desktop":false,"reactions_added_count":0,"messages_posted_count":0,"channel_messages_posted_count":0,"files_added_count":0,"is_active_apps":true,"is_active_workflows":true,"is_active_slack_connect":true,"total_calls_count":15,"slack_calls_count":12,"slack_huddles_count":3,"search_count":223,"date_claimed":1584810430}
+{"enterprise_id":"E5UBAR8CH","date":"2020-10-05","user_id":"W1ZOSID3ZI2","email_address":"gstein@example.org","is_guest":false,"is_billable_seat":true,"is_active":true,"is_active_ios":false,"is_active_android":false,"is_active_desktop":true,"reactions_added_count":23,"messages_posted_count":123,"channel_messages_posted_count":23,"files_added_count":3,"is_active_apps":false,"is_active_workflows":true,"is_active_slack_connect":false,"total_calls_count":10,"slack_calls_count":4,"slack_huddles_count":5,"search_count":1001,"date_claimed":1584810520}
+{"enterprise_id":"E5UBAR8CH","date":"2020-10-05","user_id":"W3DOSZD23IP","email_address":"obutler@example.org","is_guest":false,"is_billable_seat":true,"is_active":true,"is_active_ios":true,"is_active_android":false,"is_active_desktop":false,"reactions_added_count":521,"messages_posted_count":5,"channel_messages_posted_count":5,"files_added_count":0,"is_active_apps":true,"is_active_workflows":true,"is_active_slack_connect":false,"total_calls_count":3,"slack_calls_count":3,"slack_huddles_count":0,"search_count":32,"date_claimed":1584810510}
+</code></pre>
+<p>To be extra helpful, here's one of those lines formatted a little prettier:</p>
+<pre><code class="language-json">{
+	"enterprise_id": "E5UBAR8CH",
+	"date": "2020-10-05",
+	"user_id": "W3DOSZD23IP",
+	"email_address": "obutler@example.org",
+	"is_guest": false,
+	"is_billable_seat": true,
+	"is_active": true,
+	"is_active_ios": true,
+	"is_active_android": false,
+	"is_active_desktop": false,
+	"reactions_added_count": 521,
+	"messages_posted_count": 5,
+	"channel_messages_posted_count": 5,
+	"files_added_count": 0,
+	"is_active_apps": true,
+	"is_active_workflows": true,
+	"is_active_slack_connect": false,
+	"total_calls_count": 10,
+	"slack_calls_count": 3,
+	"slack_huddles_count": 5,
+	"search_count": 32,
+	"date_claimed": 1584810510
+}
+</code></pre>
+<a name="public_channel_analytics_response"></a><h4 class="headingWithAnchor" id="public_channel_response">Public channel analytics response <a href="#public_channel_response"><i class="glyphIcon fa fa-link"></i></a></h4>
+<p>This example shows 3 lines of decompressed public channel analytics. Each line provides information about activity in a single public channel.</p>
+<pre><code class="language-json">{"enterprise_id":"EJB3MZFLM","team_id":"EJB3MZFLM","originating_team":{"team_id":"T5J3Q04QZ","name":"postmodernity"},"channel_id":"CNGL0KGG1","date_created":1555111593,"date_last_active":1684820530,"total_members_count":7,"full_members_count":6,"guest_member_count":1,"messages_posted_count":223,"messages_posted_by_members_count":80,"members_who_viewed_count":225,"members_who_posted_count":3,"reactions_added_count":23,"visibility":"public","channel_type":"single_workspace_channel","is_shared_externally":false,"shared_with":[],"externally_shared_with_organizations":[],"date":"2020-11-14"}
+{"enterprise_id":"EJB3MZFLM","team_id":"EJB3MZFLM","originating_team":{"team_id":"T3J3A04QB","name":"modernity"},"channel_id":"CNGG2KB92","date_created":1358111593,"date_last_active":1452719593,"total_members_count":227,"full_members_count":227,"guest_member_count":0,"messages_posted_count":1138,"messages_posted_by_members_count":1137,"members_who_viewed_count":226,"members_who_posted_count":7,"reactions_added_count":7212,"visibility":"public","channel_type":"single_workspace_channel","is_shared_externally":true,"shared_with":[],"externally_shared_with_organizations":[],"date":"2020-11-14"}
+{"enterprise_id":"EJB3MZFLM","team_id":"EJB3MZFLM","originating_team":{"team_id":"EJB3MZFLM","name":"arcane-enterprise"},"channel_id":"CNGZ5K595","date_created":1355111593,"date_last_active":1452719593,"total_members_count":5,"full_members_count":4,"guest_member_count":1,"messages_posted_count":1,"messages_posted_by_members_count":1,"members_who_viewed_count":5,"members_who_posted_count":1,"reactions_added_count":1,"visibility":"public","channel_type":"multi_workspace_channel","is_shared_externally":true,"shared_with":[{"team_id":"T5J3Q04QA","name":"scifi"},{"team_id":"EJB3MZFLM","name":"arcane-enterprise"}],"externally_shared_with_organizations":[{"name":"Away Org","domain":"away.enterprise.slack.com"}],"date":"2020-11-14"}
+</code></pre>
+<p>And here's just one line of that formatted in a friendly fashion:</p>
+<pre><code class="language-json">{
+	"enterprise_id": "EJB3MZFLM",
+	"team_id": "EJB3MZFLM",
+	"originating_team": {
+		"team_id": "EJB3MZFLM",
+		"name": "arcane-enterprise"
+	},
+	"channel_id": "CNGZ5K595",
+	"date_created": 1355111593,
+	"date_last_active": 1452719593,
+	"total_members_count": 5,
+	"full_members_count": 4,
+	"guest_member_count": 1,
+	"messages_posted_count": 1,
+	"messages_posted_by_members_count": 1,
+	"members_who_viewed_count": 5,
+	"members_who_posted_count": 1,
+	"reactions_added_count": 1,
+	"visibility": "public",
+	"channel_type": "multi_workspace_channel",
+	"is_shared_externally": false,
+	"shared_with": [
+		{
+			"team_id": "T5J3Q04QA",
+			"name": "scifi"
+		},
+		{
+			"team_id": "EJB3MZFLM",
+			"name": "arcane-enterprise"
+		}
+	],
+	"externally_shared_with_organizations": [
+		{
+			"name": "Away Org",
+			"domain": "away.enterprise.slack.com"
+		}
+	],
+	"date": "2020-11-14"
+}
+</code></pre>
+<a name="public_channel_metadata_response"></a><h4 class="headingWithAnchor" id="metadata_response">Public channel metadata response <a href="#metadata_response"><i class="glyphIcon fa fa-link"></i></a></h4>
+<p>Uncompressed, you'll find each public channel's metadata on a single line like so:</p>
+<pre><code class="language-json">{"channel_id":"CNGL0K091","name":"tomorrow","topic":"I'd gladly pay you Tuesday for a hamburger today","description":"What do you want to do tomorrow?","date":"2020-11-14"}
+{"channel_id":"CNGG2KB92","name":"announcements","topic":"What's new with what you do","description":"Company announcements, edicts, and mandates","date":"2020-11-14"}
+{"channel_id":"CNGZ5K595","name":"teds","topic":"'No you meant the other ted' - @ted","description":"A channel just for teds, by teds.","date":"2020-11-14"}
+</code></pre>
+<p>And here's that last one printed pretty for you:</p>
+<pre><code class="language-json">{
+	"channel_id": "CNGZ5K595",
+	"name": "teds",
+	"topic": "'No you meant the other ted' - @ted",
+	"description": "A channel just for teds, by teds.",
+	"date": "2020-11-14"
+}
+</code></pre>
+<hr>
+<p>Follow along below to learn what all these fields mean.</p>
+<a name="field_guide"></a><h3 class="headingWithAnchor" id="field_guide">Field guide <a href="#field_guide"><i class="glyphIcon fa fa-link"></i></a></h3>
+<p>The response format changes depending on which type of analytics you're retrieving.</p>
+<ul>
+<li><a href="#member_analytics_fields">Member analytics</a></li>
+<li><a href="#conversation_analytics_fields">Public channel analytics</a>
+<ul>
+<li><a href="#metadata_only">Public channel analytics metadata</a></li>
+</ul>
+</li>
+</ul>
+<a name="member_analytics"></a><h4 class="headingWithAnchor" id="member_analytics_fields">Member analytics <a href="#member_analytics_fields"><i class="glyphIcon fa fa-link"></i></a></h4>
+<div class="apiDocsCalloutCard apiDocsCalloutCard--warning">
+  <i class="ts_icon c-icon c-icon--warning"></i>
+  <div>
+<p><strong>Inaccurate billable seat count</strong><br>
+After July 10, 2023, <code>is_billable_seat</code> will only provide an accurate count for <em>invoiced</em> customers. Customers who purchased their plan via the Slack website and pay for it by credit card or self-serve invoicing should not use <code>is_billable_seat</code> to count their billable users.</p>
+  </div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example</th>
+<th>About</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>date</code></td>
+<td><code>2020-09-13</code></td>
+<td>The date this row of data is representative of</td>
+</tr>
+<tr>
+<td><code>enterprise_id</code></td>
+<td><code>E2AB3A10F</code></td>
+<td>Unique ID of the involved Enterprise organization</td>
+</tr>
+<tr>
+<td><code>user_id</code></td>
+<td><code>W1F83A9F9</code></td>
+<td>The canonical, organization-wide user ID this row concerns</td>
+</tr>
+<tr>
+<td><code>email_address</code></td>
+<td><code>person@acme.com</code></td>
+<td>The email address of record for the same user</td>
+</tr>
+<tr>
+<td><code>enterprise_employee_number</code></td>
+<td><code>273849373</code></td>
+<td>This field is pulled from data synced via a <a href="/scim#user-attributes">SCIM API custom attribute</a></td>
+</tr>
+<tr>
+<td><code>is_guest</code></td>
+<td><code>false</code></td>
+<td>User is classified as a <em>guest</em> (not a full workspace member) on the date in the API request</td>
+</tr>
+<tr>
+<td><code>is_billable_seat</code></td>
+<td><code>true</code></td>
+<td>User is classified as a billable user (<a href="https://slack.com/help/articles/218915077-Fair-Billing-Policy">included in the bill</a>) for invoiced customers on the the date in the API request. Customers who purchased their plan via the Slack website and pay for it by <a href="https://slack.com/help/articles/360002038947-Supported-payment-methods#pay-by-invoice">credit card or self-serve invoicing</a> should not use this to count their billable users</td>
+</tr>
+<tr>
+<td><code>is_active</code></td>
+<td><code>true</code></td>
+<td>User has posted a message or read at least one channel or direct message on the date in the API request</td>
+</tr>
+<tr>
+<td><code>is_active_ios</code></td>
+<td><code>true</code></td>
+<td>User has posted a message or read at least one channel or direct message on the date in the API request via the Slack iOS App</td>
+</tr>
+<tr>
+<td><code>is_active_android</code></td>
+<td><code>false</code></td>
+<td>User has posted a message or read at least one channel or direct message on the date in the API request via the Slack Android App</td>
+</tr>
+<tr>
+<td><code>is_active_desktop</code></td>
+<td><code>true</code></td>
+<td>User has posted a message or read at least one channel or direct message on the date in the API request via the Slack Desktop App</td>
+</tr>
+<tr>
+<td><code>reactions_added_count</code></td>
+<td><code>20</code></td>
+<td>Total reactions added to any message type in any conversation type by the user on the date in the API request. Removing reactions is not included. This metric is not de-duplicated by message—if a user adds 3 different reactions to a single message, we will report <code>3</code> reactions</td>
+</tr>
+<tr>
+<td><code>messages_posted_count</code></td>
+<td><code>40</code></td>
+<td>Total messages posted by the user on the date in the API request to all message and conversation types, whether public, private, multi-person direct message, etc.</td>
+</tr>
+<tr>
+<td><code>channel_messages_posted_count</code></td>
+<td><code>30</code></td>
+<td>Total messages posted by the user in private channels and public channels on the date in the API request, not including direct messages</td>
+</tr>
+<tr>
+<td><code>files_added_count</code></td>
+<td><code>5</code></td>
+<td>Total files uploaded by the user on the date in the API request</td>
+</tr>
+<tr>
+<td><code>is_active_apps</code></td>
+<td><code>true</code></td>
+<td>Returns <code>true</code> when this member has interacted with a Slack app or custom integration on the given day, or if such an app or integration has performed an action on the user's behalf, such as updating their custom status</td>
+</tr>
+<tr>
+<td><code>is_active_workflows</code></td>
+<td><code>false</code></td>
+<td>Returns <code>true</code> when this member has interacted with at least one workflow on a given day</td>
+</tr>
+<tr>
+<td><code>is_active_slack_connect</code></td>
+<td><code>true</code></td>
+<td>Returns <code>true</code> when the member is considered active on <em>Slack Connect</em>, in that they've read or posted a message to a channel or direct message shared with at least one external workspace</td>
+</tr>
+<tr>
+<td><code>total_calls_count</code></td>
+<td>10</td>
+<td>Total number of calls made or joined on a given day, including Huddles, Slack native calls and calls made using third party software besides Slack calls</td>
+</tr>
+<tr>
+<td><code>slack_calls_count</code></td>
+<td><code>10</code></td>
+<td>Total number of Slack calls made or joined on a given day, excluding any calls using third party software besides Slack calls</td>
+</tr>
+<tr>
+<td><code>slack_huddles_count</code></td>
+<td>5</td>
+<td>Total number of Slack Huddles made or joined on a given day</td>
+</tr>
+<tr>
+<td><code>search_count</code></td>
+<td><code>3</code></td>
+<td>The number of searches this user performed in Slack on a given day</td>
+</tr>
+<tr>
+<td><code>date_claimed</code></td>
+<td><code>1584810530</code></td>
+<td>The date of the very first time the member signed in to any workspace within the grid organization, presented in seconds since the epoch (UNIX time)</td>
+</tr></tbody></table>
+<a name="conversation_analytics_fields"></a><h4 class="headingWithAnchor" id="conversation_analytics_fields">Conversation analytics fields <a href="#conversation_analytics_fields"><i class="glyphIcon fa fa-link"></i></a></h4>
+<p>At this time, these analytics are only available for <strong>public channels</strong>. Archived and deleted channels are <strong>not</strong> included.</p>
+<p>The account associated with the token making the request must have the <em><strong>Public Channel Management permission</strong></em>. By default, the only account with this permission is an organization's primary owner.</p>
+<p>If you need more metadata about these public channels, you can quickly fetch it by setting <code>metadata_only</code> to <code>true</code>. <a href="#metadata_only">Learn more about the information available</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example</th>
+<th>About</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enterprise_id</code></td>
+<td><code>EJB3MZFLM</code></td>
+<td>Immutable, unique id for the Grid Organization. When the API is called by a customer not on Grid plan, this field has value "0"</td>
+</tr>
+<tr>
+<td><code>team_id</code></td>
+<td><code>T4C3G041C</code></td>
+<td>Immutable, unique id of the team</td>
+</tr>
+<tr>
+<td><code>originating_team</code></td>
+<td><code>{"team_id":"T4C3G041C","name":"arcane"}</code></td>
+<td>A JSON object with the <code>team_id</code> and <code>name</code> of the workspace that created this public channel</td>
+</tr>
+<tr>
+<td><code>channel_id</code></td>
+<td><code>CNGL0K091</code></td>
+<td>The unique id belonging to this channel. The <a href="#metadata_only"><code>metadata_only</code> mode</a> will give you information like the channel's name</td>
+</tr>
+<tr>
+<td><code>channel_type</code></td>
+<td><code>single_workspace_channel</code></td>
+<td>Indicates which kind of public channel this is: <code>single_workspace_channel</code>, <code>multi_workspace_channel</code>, or <code>org_wide_channel</code>.</td>
+</tr>
+<tr>
+<td><code>visibility</code></td>
+<td><code>public</code></td>
+<td>Indicates whether the channel is <code>public</code> or <code>private</code>. Only public channel analytics is available at this time.</td>
+</tr>
+<tr>
+<td><code>shared_with</code></td>
+<td><code>[{"team_id":"T123456","name":"pentameter"},{"team_id":"E123457","name":"markov corp"}]</code></td>
+<td>Indicates which, if any, workspaces in the same organization this channel is shared with. Presented as an array of JSON objects containing a <code>team_id</code> and a <code>name</code>. Only works with <code>channel_type</code> set to <code>multi_channel_workspace</code>. One of the included <code>team_id</code> values corresponds to the organization itself, such as this <code>E123457</code> example.</td>
+</tr>
+<tr>
+<td><code>is_shared_externally</code></td>
+<td><code>false</code></td>
+<td>A boolean value revealing whether the channel is shared with workspaces outside of this organization when set to <code>true</code>.</td>
+</tr>
+<tr>
+<td><code>externally_shared_with_organizations</code></td>
+<td><code>[{"name":"Away Org","domain":"away.enterprise.slack.com"}]</code></td>
+<td>Indicates which, if any, external organizations this channel is shared with. Presented as an array of JSON objects containing an organization <code>name</code> and a slack <code>domain</code>. Only works with <code>is_shared_externally</code> set to <code>true</code>.</td>
+</tr>
+<tr>
+<td><code>date_created</code></td>
+<td><code>1452719593</code></td>
+<td>The date and time the channel was first created, presented in seconds since the epoch (UNIX time).</td>
+</tr>
+<tr>
+<td><code>date_last_active</code></td>
+<td><code>1584820530</code></td>
+<td>The date and time the channel last had a message posted in it, presented in seconds since the epoch (UNIX time).</td>
+</tr>
+<tr>
+<td><code>total_members_count</code></td>
+<td><code>7</code></td>
+<td>A count of total full members &amp; guests</td>
+</tr>
+<tr>
+<td><code>full_members_count</code></td>
+<td><code>6</code></td>
+<td>A count of people in this channel who have a Full Member account.</td>
+</tr>
+<tr>
+<td><code>guest_member_count</code></td>
+<td><code>1</code></td>
+<td>A count of people in this channel who have a guest account.</td>
+</tr>
+<tr>
+<td><code>messages_posted_count</code></td>
+<td><code>223</code></td>
+<td>A count of total messages posted, including messages from apps and integration on the given day</td>
+</tr>
+<tr>
+<td><code>messages_posted_by_members_count</code></td>
+<td><code>193</code></td>
+<td>A count of total messages posted from Slack Members &amp; guests (human users  only) on the given day</td>
+</tr>
+<tr>
+<td><code>members_who_posted_count</code></td>
+<td><code>3</code></td>
+<td>A count of the unique number of human users (guests &amp; full members) who posted a message on the given day</td>
+</tr>
+<tr>
+<td><code>members_who_viewed_count</code></td>
+<td><code>225</code></td>
+<td>A count of the unique human users (guests &amp; full members) who read a message on the given day</td>
+</tr>
+<tr>
+<td><code>reactions_added_count</code></td>
+<td><code>23</code></td>
+<td>A count of emoji reactions left on any message in channel on that given day by human users</td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td><code>2020-11-14</code></td>
+<td>The day in question for the query; the date requested by user for usage metrics</td>
+</tr></tbody></table>
+<a name="public_channel_metadata"></a><h4 class="headingWithAnchor" id="metadata_only">Public channel metadata <a href="#metadata_only"><i class="glyphIcon fa fa-link"></i></a></h4>
+<p>If you're retrieving conversation analytics but want to know more than just the ID of each channel, you can issue a separate request to retrieve bulk metadata about the public channels in the analytics report.</p>
+<p>The response is in line-delimited JSON, similar to all other responses in this method, with each line containing an object with these fields. The same <a href="/scopes/admin.analytics:read"><code>admin.analytics:read</code></a> scope used typically in this method is all you need to retrieve this data.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example</th>
+<th>About</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>channel_id</code></td>
+<td><code>CAGL0K091</code></td>
+<td>The channel's unique identifier—the very same used in the analytics above</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>ama</code></td>
+<td>The latest name of the channel</td>
+</tr>
+<tr>
+<td><code>topic</code></td>
+<td><code>Are Jack Kerouac's paragraphs too long?</code></td>
+<td>The latest channel topic</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>Ask our editors all about their favorite literature</code></td>
+<td>A longer description about the purpose of the channel</td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td><code>2020-11-14</code></td>
+<td>These details are current as of this date, which is also when you're making this API call</td>
+</tr></tbody></table>
+<a name="practical_usage_example"></a><h2 class="headingWithAnchor" id="usage_example">Practical usage example <a href="#usage_example"><i class="glyphIcon fa fa-link"></i></a></h2>
+<p>To quickly decompress a file and view the JSON directly, use a cURL command like:</p>
+<pre><code class="language-bash">curl "admin.analytics.getFile" -d "date=2020-11-03&amp;type=member" | gunzip -c &gt; member_analytics_2020_11_03.json
+</code></pre>
+<p>...and you'll have a <code>member_analytics_2020_11_03.json</code> file in the current operating directory. In some organizations the decompressed size can be quite large. Take care that you have the disk or memory space you need to store and process these files.</p>
+<p>Here's an example for conversation analytics:</p>
+<pre><code class="language-bash">curl "admin.analytics.getFile" -d "date=2021-01-04&amp;type=public_channel" | gunzip -c &gt; public_channel_analytics_2021_01_04.json
+</code></pre>
+<p>And another for channel metadata to accompany that conversation analytics request—note that we omit <code>date</code>.</p>
+<pre><code class="language-bash">curl "admin.analytics.getFile" -d "type=public_channel&amp;metadata_only=true" | gunzip -c &gt; public_channel_metadata_2021_01_04.json
+</code></pre>
+</div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="examples">Example responses</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__response"><div class="apiReference__example"><h3>Common successful response</h3><p class="example_description"></p><p>A gzipped new-line delimited JSON file presented with a <code>Content-type: application/gzip</code> HTTP header. An example file name is <code>Slack Corp Member Analytics 2020-08-01.json.gz</code></p>
+<p></p></div><div class="apiReference__example"><h3>Common error response</h3><p class="example_description"></p><p>Typical Web API error response is a JSON response with a <code>Content-type: application/json</code> HTTP header.</p>
+<p></p><pre><code class="json">{
+    "ok": false,
+    "error": "org_level_email_display_disabled"
+}</code></pre></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="errors">Errors</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__errors"><p> This table lists the expected errors that this method could return. However, other errors can be returned in the case where the service is down or other unexpected factors affect processing. Callers should always check the value of the <code>ok</code> params in the response. </p><table class="apiDocsTable apiDocsTable--active"><thead><tr><th>Error</th><th>Description</th></tr></thead><tbody><tr><td data-label="Error"><span class="apiReference__titleCell"><code>data_not_available</code></span></td><td data-label="Description"><p>The <code>date</code> was before the API became available.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>feature_not_available</code></span></td><td data-label="Description"><p>The user token does not belong to an Enterprise or Business+ team.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>feature_not_enabled</code></span></td><td data-label="Description"><p>This feature is not enabled on your workspace.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>file_not_found</code></span></td><td data-label="Description"><p>The analytics data for the <code>date</code> specified weren't found.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>file_not_yet_available</code></span></td><td data-label="Description"><p>The analytics data for the <code>date</code> isn't available yet.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_arguments</code></span></td><td data-label="Description"><p>The method was either called with invalid arguments or some detail about the arguments passed is invalid, which is more likely when using complex arguments like blocks or attachments.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_date</code></span></td><td data-label="Description"><p>The <code>date</code> argument was invalid.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_type</code></span></td><td data-label="Description"><p>The analytics data for the <code>type</code> specified weren't found.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>member_analytics_disabled</code></span></td><td data-label="Description"><p>Member analytics are disabled for your organization.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>metadata_not_available</code></span></td><td data-label="Description"><p>Metadata not available for the analytics <code>type</code> you provided.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>metadata_only_does_not_support_date</code></span></td><td data-label="Description"><p>The <code>metadata_only</code> field gets the latest metadata file. The <code>date</code> field is not supported.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>missing_scope</code></span></td><td data-label="Description"><p>The token used is not granted the specific scope permissions required to complete this request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_an_admin</code></span></td><td data-label="Description"><p>The user token does not have admin privileges.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>org_level_email_display_disabled</code></span></td><td data-label="Description"><p>This API is unavailable for organizations with a <em>'Hide email addresses'</em> policy.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>access_denied</code></span></td><td data-label="Description"><p>Access to a resource specified in the request is denied.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>account_inactive</code></span></td><td data-label="Description"><p>Authentication token is for a deleted user or workspace when using a <code>bot</code> token.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>deprecated_endpoint</code></span></td><td data-label="Description"><p>The endpoint has been deprecated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>ekm_access_denied</code></span></td><td data-label="Description"><p>Administrators have suspended the ability to post a message.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>enterprise_is_restricted</code></span></td><td data-label="Description"><p>The method cannot be called from an Enterprise.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_auth</code></span></td><td data-label="Description"><p>Some aspect of authentication cannot be validated. Either the provided token is invalid or the request originates from an IP address disallowed from making the request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>is_bot</code></span></td><td data-label="Description"><p>This method cannot be called by a legacy bot.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>method_deprecated</code></span></td><td data-label="Description"><p>The method has been deprecated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_allowed_token_type</code></span></td><td data-label="Description"><p>The token type used in this request is not allowed.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_authed</code></span></td><td data-label="Description"><p>No authentication token provided.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>no_permission</code></span></td><td data-label="Description"><p>The workspace token used in this request does not have the permissions necessary to complete the request. Make sure your app is a member of the conversation it's attempting to post a message to.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>org_login_required</code></span></td><td data-label="Description"><p>The workspace is undergoing an enterprise migration and will not be available until migration is complete.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>token_expired</code></span></td><td data-label="Description"><p>Authentication token has expired</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>token_revoked</code></span></td><td data-label="Description"><p>Authentication token is for a deleted user or workspace or the app has been removed when using a <code>user</code> token.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>two_factor_setup_required</code></span></td><td data-label="Description"><p>Two factor setup is required.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>accesslimited</code></span></td><td data-label="Description"><p>Access to this method is limited on the current network</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>fatal_error</code></span></td><td data-label="Description"><p>The server could not complete your operation(s) without encountering a catastrophic error. It's possible some aspect of the operation succeeded before the error was raised.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>internal_error</code></span></td><td data-label="Description"><p>The server could not complete your operation(s) without encountering an error, likely due to a transient issue on our end. It's possible some aspect of the operation succeeded before the error was raised.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_arg_name</code></span></td><td data-label="Description"><p>The method was passed an argument whose name falls outside the bounds of accepted or expected values. This includes very long names and names with non-alphanumeric characters other than <code>_</code>. If you get this error, it is typically an indication that you have made a <em>very</em> malformed API call.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_array_arg</code></span></td><td data-label="Description"><p>The method was passed an array as an argument. Please only input valid strings.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the <code>charset</code> specified in the <code>Content-Type</code> header was invalid. Valid charset names are: <code>utf-8</code> <code>iso-8859-1</code>.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_form_data</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request with <code>Content-Type</code> <code>application/x-www-form-urlencoded</code> or <code>multipart/form-data</code>, but the form data was either missing or syntactically invalid.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_post_type</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the specified <code>Content-Type</code> was invalid. Valid types are: <code>application/json</code> <code>application/x-www-form-urlencoded</code> <code>multipart/form-data</code> <code>text/plain</code>.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>missing_post_type</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request and included a data payload, but the request did not include a <code>Content-Type</code> header.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>ratelimited</code></span></td><td data-label="Description"><p>The request has been ratelimited. Refer to the <code>Retry-After</code> header for when to retry the request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>request_timeout</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the <code>POST</code> data was either missing or truncated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>service_unavailable</code></span></td><td data-label="Description"><p>The service is temporarily unavailable</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>team_added_to_org</code></span></td><td data-label="Description"><p>The workspace associated with your request is currently undergoing migration to an Enterprise Organization. Web API and other platform operations will be intermittently unavailable until the transition is complete.</p>
+</td></tr></tbody></table></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="warnings">Warnings</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__warnings"><p>This table lists the expected warnings that this method will return. However, other warnings can be returned in the case where the service is experiencing unexpected trouble. </p><table class="apiDocsTable apiDocsTable--active"><thead><tr><th>Warning</th><th>Description</th></tr></thead><tbody><tr><td data-label="Warning"><span class="apiReference__titleCell"><code>missing_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, and recommended practice for the specified <code>Content-Type</code> is to include a <code>charset</code> parameter. However, no <code>charset</code> was present. Specifically, non-form-data content types (e.g. <code>text/plain</code>) are the ones for which <code>charset</code> is recommended.</p>
+</td></tr><tr><td data-label="Warning"><span class="apiReference__titleCell"><code>superfluous_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, and the specified <code>Content-Type</code> is not defined to understand the <code>charset</code> parameter. However, <code>charset</code> was in fact present. Specifically, form-data content types (e.g. <code>multipart/form-data</code>) are the ones for which <code>charset</code> is superfluous.</p>
+</td></tr></tbody></table></div></div>

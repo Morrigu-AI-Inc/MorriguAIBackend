@@ -1,0 +1,143 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "notices": {
+      "type": "object",
+      "properties": {
+        "info": {
+          "type": "string",
+          "description": "Information about the method requiring a paid plan or joining the Developer Program."
+        }
+      }
+    },
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "The HTTP method access for the API endpoint."
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "granular_bot": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Required scopes for Bot tokens."
+            },
+            "user": {
+              "type": "string",
+              "description": "Required scopes for User tokens."
+            }
+          }
+        },
+        "contenttypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Accepted content types for the API request."
+        },
+        "ratelimits": {
+          "type": "string",
+          "description": "The rate limit tier for the API endpoint."
+        }
+      }
+    },
+    "args": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "usage": {
+      "type": "string",
+      "description": "Usage information and examples for the API endpoint."
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "response": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

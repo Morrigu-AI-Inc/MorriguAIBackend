@@ -1,0 +1,143 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Dependabot Alerts API",
+  "description": "API endpoints for Dependabot alerts for a repository",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing Dependabot alerts",
+      "value": "/repos/{owner}/{repo}/dependabot/alerts"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "A comma-separated list of states to filter alerts"
+        },
+        "severity": {
+          "type": "string",
+          "description": "A comma-separated list of severities to filter alerts"  
+        },
+        "ecosystem": {
+          "type": "string",
+          "description": "A comma-separated list of ecosystems to filter alerts"
+        },
+        "package": {
+          "type": "string",
+          "description": "A comma-separated list of package names to filter alerts"
+        },
+        "sort": {
+          "type": "string",
+          "description": "The property to sort the results by"
+        },
+        "direction": {
+          "type": "string",
+          "description": "The direction to sort the results"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "integer",
+          "description": "The number that identifies the alert"
+        },
+        "state": {
+          "type": "string",
+          "description": "The state of the alert"
+        },
+        "dependency": {
+          "type": "object",
+          "description": "The vulnerable dependency"
+        },
+        "security_advisory": {
+          "type": "object", 
+          "description": "Details of the security advisory"
+        },
+        "security_vulnerability": {
+          "type": "object",
+          "description": "Details of the security vulnerability" 
+        },
+        "url": {
+          "type": "string",
+          "description": "The API URL for the alert"
+        },
+        "html_url": {
+          "type": "string",
+          "description": "The GitHub URL for the alert"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The time the alert was created"
+        },
+        "updated_at": {
+          "type": "string", 
+          "description": "The time the alert was last updated"
+        },
+        "dismissed_at": {
+          "type": ["string", "null"],
+          "description": "The time the alert was dismissed"
+        },
+        "dismissed_by": {
+          "type": ["object", "null"],
+          "description": "The user that dismissed the alert"
+        },
+        "dismissed_reason": {
+          "type": ["string", "null"],
+          "description": "The reason for dismissing the alert"
+        },
+        "dismissed_comment": {
+          "type": ["string", "null"], 
+          "description": "A comment explaining the dismissal"
+        },
+        "fixed_at": {
+          "type": ["string", "null"],
+          "description": "The time the vulnerability was fixed"
+        }
+      },
+      "required": [
+        "number",
+        "state", 
+        "dependency",
+        "security_advisory",
+        "security_vulnerability",
+        "url",
+        "html_url",
+        "created_at", 
+        "updated_at"
+      ]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

@@ -1,0 +1,52 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "message": {
+            "type": "object"
+          },
+          "comment": {
+            "type": "object"
+          },
+          "file": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      }
+    },
+    "response_metadata": {
+      "type": "object",
+      "properties": {
+        "next_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "next_cursor"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "items",
+    "response_metadata"
+  ]
+}

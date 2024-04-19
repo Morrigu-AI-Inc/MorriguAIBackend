@@ -1,0 +1,25 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.conversations.bulkDelete",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes.",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channel_ids": {
+      "type": "array",
+      "description": "An array of channel IDs.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "token",
+    "channel_ids"
+  ],
+  "additionalProperties": false
+}

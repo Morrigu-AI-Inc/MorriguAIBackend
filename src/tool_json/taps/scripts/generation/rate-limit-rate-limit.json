@@ -1,0 +1,272 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Get rate limit status for the authenticated user",
+  "description": "Get the current rate limit status for the authenticated user",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting rate limit status",
+      "value": "/rate_limit"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Accept": {
+          "type": "string",
+          "description": "Media type to return",
+          "default": "application/vnd.github+json"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "X-GitHub-Api-Version": {
+          "type": "string",
+          "description": "GitHub API version",
+          "default": "2022-11-28"
+        }
+      },
+      "required": ["Accept", "X-GitHub-Api-Version"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "object",
+          "properties": {
+            "core": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of requests allowed"
+                },
+                "used": {
+                  "type": "integer",
+                  "description": "Number of requests already made"
+                },
+                "remaining": {
+                  "type": "integer",
+                  "description": "Number of requests remaining in the current rate limit window"
+                },
+                "reset": {
+                  "type": "integer",
+                  "description": "Time at which the current rate limit window resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            },
+            "search": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of search requests allowed"
+                },
+                "used": {
+                  "type": "integer", 
+                  "description": "Number of search requests already made"
+                },
+                "remaining": {
+                  "type": "integer",
+                  "description": "Number of search requests remaining in the current rate limit window"
+                },
+                "reset": {
+                  "type": "integer",
+                  "description": "Time at which the current rate limit window for search requests resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            },
+            "graphql": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of GraphQL requests allowed"  
+                },
+                "used": {
+                  "type": "integer",
+                  "description": "Number of GraphQL requests already made"
+                },
+                "remaining": {
+                  "type": "integer", 
+                  "description": "Number of GraphQL requests remaining in the current rate limit window"
+                },
+                "reset": {
+                  "type": "integer",
+                  "description": "Time at which the current rate limit window for GraphQL requests resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            },
+            "integration_manifest": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of GitHub App manifest requests allowed"
+                },
+                "used": {
+                  "type": "integer",
+                  "description": "Number of GitHub App manifest requests already made"
+                },
+                "remaining": {
+                  "type": "integer",
+                  "description": "Number of GitHub App manifest requests remaining in the current rate limit window"
+                },
+                "reset": {
+                  "type": "integer",
+                  "description": "Time at which the current rate limit window for GitHub App manifest requests resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            },
+            "source_import": {
+              "type": "object", 
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of source import requests allowed"
+                },
+                "used": {
+                  "type": "integer",
+                  "description": "Number of source import requests already made"
+                },
+                "remaining": {
+                  "type": "integer",
+                  "description": "Number of source import requests remaining in the current rate limit window"
+                },
+                "reset": {
+                  "type": "integer",
+                  "description": "Time at which the current rate limit window for source import requests resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            },
+            "code_scanning_upload": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of code scanning upload requests allowed"
+                },
+                "used": {
+                  "type": "integer", 
+                  "description": "Number of code scanning upload requests already made"
+                },
+                "remaining": {
+                  "type": "integer",
+                  "description": "Number of code scanning upload requests remaining in the current rate limit window"
+                },
+                "reset": {
+                  "type": "integer",
+                  "description": "Time at which the current rate limit window for code scanning upload requests resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            },
+            "actions_runner_registration": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of self-hosted runner registration requests allowed"
+                },
+                "used": {
+                  "type": "integer",
+                  "description": "Number of self-hosted runner registration requests already made"
+                },
+                "remaining": {
+                  "type": "integer",
+                  "description": "Number of self-hosted runner registration requests remaining in the current rate limit window" 
+                },
+                "reset": {
+                  "type": "integer", 
+                  "description": "Time at which the current rate limit window for self-hosted runner registration requests resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            },
+            "dependency_snapshots": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of dependency snapshot submission requests allowed"
+                },
+                "used": {
+                  "type": "integer",
+                  "description": "Number of dependency snapshot submission requests already made"
+                },
+                "remaining": {
+                  "type": "integer", 
+                  "description": "Number of dependency snapshot submission requests remaining in the current rate limit window"
+                },
+                "reset": {
+                  "type": "integer",
+                  "description": "Time at which the current rate limit window for dependency snapshot submission requests resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            },
+            "code_search": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "description": "Maximum number of code search requests allowed"
+                },
+                "used": {
+                  "type": "integer",
+                  "description": "Number of code search requests already made"
+                },
+                "remaining": {
+                  "type": "integer", 
+                  "description": "Number of code search requests remaining in the current rate limit window"
+                },
+                "reset": {
+                  "type": "integer",
+                  "description": "Time at which the current rate limit window for code search requests resets in UTC epoch seconds"
+                }
+              },
+              "required": ["limit", "used", "remaining", "reset"]
+            }
+          },
+          "required": ["core", "search", "graphql", "integration_manifest", "source_import", "code_scanning_upload", "actions_runner_registration", "dependency_snapshots", "code_search"]
+        },
+        "rate": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "Maximum number of requests allowed across all REST API resources except search"
+            },
+            "used": {
+              "type": "integer",
+              "description": "Number of requests already made across all REST API resources except search" 
+            },
+            "remaining": {
+              "type": "integer",
+              "description": "Number of requests remaining across all REST API resources except search in the current rate limit window"
+            },
+            "reset": {
+              "type": "integer",
+              "description": "Time at which the current rate limit window across all REST API resources except search resets in UTC epoch seconds"
+            }
+          },
+          "required": ["limit", "used", "remaining", "reset"]
+        }
+      },
+      "required": ["resources", "rate"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

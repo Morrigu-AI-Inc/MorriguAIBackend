@@ -1,88 +1,69 @@
+
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
-  "type": ["null", "object"],
-  "additionalProperties": true,
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
   "properties": {
-    "phones": {
-      "type": ["null", "array"],
-      "items": {
-        "type": ["null", "object"],
-        "properties": {
-          "phone_formatted": {
-            "type": ["null", "string"]
+    "header-wrapper": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
           },
-          "country": {
-            "type": ["null", "string"]
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "h1": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            }
           },
-          "type": {
-            "type": ["null", "string"]
-          },
-          "phone": {
-            "type": ["null", "string"]
-          }
+          "required": [
+            "class"
+          ]
         }
-      }
+      },
+      "required": [
+        "style",
+        "h1"
+      ]
     },
-    "organization_id": {
-      "type": ["null", "string"]
+    "hr": {
+      "type": "string"
     },
-    "title": {
-      "type": ["null", "string"]
-    },
-    "lead_id": {
-      "type": ["null", "string"]
-    },
-    "emails": {
-      "type": ["null", "array"],
-      "items": {
-        "type": ["null", "object"],
-        "properties": {
-          "type": {
-            "type": ["null", "string"]
-          },
-          "email": {
-            "type": ["null", "string"]
-          }
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
     },
-    "display_name": {
-      "type": ["null", "string"]
-    },
-    "name": {
-      "type": ["null", "string"]
-    },
-    "created_by": {
-      "type": ["null", "string"]
-    },
-    "urls": {
-      "type": ["null", "array"]
-    },
-    "updated_by": {
-      "type": ["null", "string"]
-    },
-    "date_updated": {
-      "type": ["null", "string"]
-    },
-    "id": {
-      "type": ["null", "string"]
-    },
-    "integration_links": {
-      "type": ["null", "array"],
-      "items": {
-        "type": ["null", "object"],
-        "properties": {
-          "name": {
-            "type": ["null", "string"]
-          },
-          "url": {
-            "type": ["null", "string"]
-          }
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
         }
-      }
-    },
-    "date_created": {
-      "type": ["null", "string"]
+      },
+      "required": [
+        "class"
+      ]
     }
-  }
+  },
+  "required": [
+    "header-wrapper",
+    "hr",
+    "style",
+    "div"
+  ]
 }

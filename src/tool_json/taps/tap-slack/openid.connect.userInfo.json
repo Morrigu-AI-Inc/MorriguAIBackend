@@ -1,0 +1,95 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "openid.connect.userInfo Response",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "sub": {
+      "type": "string"
+    },
+    "https://slack.com/user_id": {
+      "type": "string"
+    },
+    "https://slack.com/team_id": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "email_verified": {
+      "type": "boolean"
+    },
+    "date_email_verified": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "picture": {
+      "type": "string"
+    },
+    "given_name": {
+      "type": "string"
+    },
+    "family_name": {
+      "type": "string"
+    },
+    "locale": {
+      "type": "string"
+    },
+    "https://slack.com/team_name": {
+      "type": "string"
+    },
+    "https://slack.com/team_domain": {
+      "type": "string"
+    },
+    "https://slack.com/user_image_24": {
+      "type": "string"
+    },
+    "https://slack.com/user_image_32": {
+      "type": "string"
+    },
+    "https://slack.com/user_image_48": {
+      "type": "string"
+    },
+    "https://slack.com/user_image_72": {
+      "type": "string"
+    },
+    "https://slack.com/user_image_192": {
+      "type": "string"
+    },
+    "https://slack.com/user_image_512": {
+      "type": "string"
+    },
+    "https://slack.com/team_image_34": {
+      "type": "string"
+    },
+    "https://slack.com/team_image_44": {
+      "type": "string"
+    },
+    "https://slack.com/team_image_68": {
+      "type": "string"
+    },
+    "https://slack.com/team_image_88": {
+      "type": "string"
+    },
+    "https://slack.com/team_image_102": {
+      "type": "string"
+    },
+    "https://slack.com/team_image_132": {
+      "type": "string"
+    },
+    "https://slack.com/team_image_230": {
+      "type": "string"
+    },
+    "https://slack.com/team_image_default": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "ok"
+  ]
+}

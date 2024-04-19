@@ -1,0 +1,545 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header-wrapper": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "h1": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "#text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "class"
+          ]
+        }
+      },
+      "required": [
+        "style",
+        "h1"
+      ]
+    },
+    "hr": {
+      "type": "string"
+    },
+    "css-1yp4ln": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "style",
+        "class"
+      ]
+    },
+    "css-a181dj": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "class": {
+          "type": "string"
+        },
+        "css-1f43zf7": {
+          "type": "object",
+          "properties": {
+            "style": {
+              "type": "object",
+              "properties": {
+                "data-emotion-css": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "data-emotion-css"
+              ]
+            }
+          },
+          "required": [
+            "style"
+          ]
+        },
+        "content-wrapper": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "p": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "h2": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "style": {
+                    "type": "string"
+                  },
+                  "a": {
+                    "type": "object",
+                    "properties": {
+                      "class": {
+                        "type": "string"
+                      },
+                      "href": {
+                        "type": "string"
+                      },
+                      "#text": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "class",
+                      "href"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "style",
+                  "a"
+                ]
+              }
+            },
+            "code": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "class": {
+                    "type": "string"
+                  },
+                  "#text": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
+            },
+            "css-1yul8ea": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "class": {
+                    "type": "string"
+                  },
+                  "css-18j0rgo": {
+                    "type": "object",
+                    "properties": {
+                      "class": {
+                        "type": "string"
+                      },
+                      "css-112bfcp": {
+                        "type": "object",
+                        "properties": {
+                          "class": {
+                            "type": "string"
+                          },
+                          "button": {
+                            "type": "object",
+                            "properties": {
+                              "class": {
+                                "type": "string"
+                              },
+                              "svg": {
+                                "type": "object",
+                                "properties": {
+                                  "viewBox": {
+                                    "type": "string"
+                                  },
+                                  "class": {
+                                    "type": "string"
+                                  },
+                                  "path": {
+                                    "type": "object",
+                                    "properties": {
+                                      "fill": {
+                                        "type": "string"
+                                      },
+                                      "stroke": {
+                                        "type": "string"
+                                      },
+                                      "stroke-linecap": {
+                                        "type": "string"
+                                      },
+                                      "stroke-linejoin": {
+                                        "type": "string"
+                                      },
+                                      "stroke-width": {
+                                        "type": "string"
+                                      },
+                                      "d": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "fill",
+                                      "stroke",
+                                      "stroke-linecap",
+                                      "stroke-linejoin",
+                                      "stroke-width",
+                                      "d"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "viewBox",
+                                  "class",
+                                  "path"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "class",
+                              "svg"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "class",
+                          "button"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "class",
+                      "css-112bfcp"
+                    ]
+                  }
+                },
+                "required": [
+                  "class",
+                  "css-18j0rgo"
+                ]
+              }
+            }
+          },
+          "required": [
+            "class",
+            "p",
+            "h2",
+            "code",
+            "css-1yul8ea"
+          ]
+        }
+      },
+      "required": [
+        "style",
+        "class",
+        "css-1f43zf7",
+        "content-wrapper"
+      ]
+    },
+    "css-9ckfit": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "nav": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "a": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "class": {
+                    "type": "string"
+                  },
+                  "href": {
+                    "type": "string"
+                  },
+                  "svg": {
+                    "type": "object",
+                    "properties": {
+                      "viewBox": {
+                        "type": "string"
+                      },
+                      "class": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "object",
+                        "properties": {
+                          "fill": {
+                            "type": "string"
+                          },
+                          "fill-rule": {
+                            "type": "string"
+                          },
+                          "stroke": {
+                            "type": "string"
+                          },
+                          "stroke-linecap": {
+                            "type": "string"
+                          },
+                          "stroke-linejoin": {
+                            "type": "string"
+                          },
+                          "stroke-width": {
+                            "type": "string"
+                          },
+                          "d": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "fill",
+                          "fill-rule",
+                          "stroke",
+                          "stroke-linecap",
+                          "stroke-linejoin",
+                          "stroke-width",
+                          "d"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "viewBox",
+                      "class",
+                      "path"
+                    ]
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "data-emotion-css": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "data-emotion-css"
+                    ]
+                  },
+                  "div": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "class": {
+                          "type": "string"
+                        },
+                        "style": {
+                          "type": "object",
+                          "properties": {
+                            "data-emotion-css": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "data-emotion-css"
+                          ]
+                        },
+                        "div": {
+                          "type": "object",
+                          "properties": {
+                            "class": {
+                              "type": "string"
+                            },
+                            "#text": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "class"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "class",
+                        "style",
+                        "div"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "class",
+                  "svg",
+                  "style",
+                  "div"
+                ]
+              }
+            }
+          },
+          "required": [
+            "class",
+            "a"
+          ]
+        }
+      },
+      "required": [
+        "class",
+        "style",
+        "nav"
+      ]
+    },
+    "css-u6jpbo": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "aside": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "h4": {
+              "type": "object",
+              "properties": {
+                "class": {
+                  "type": "string"
+                },
+                "#text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "class"
+              ]
+            },
+            "ul": {
+              "type": "object",
+              "properties": {
+                "class": {
+                  "type": "string"
+                },
+                "li": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "class": {
+                        "type": "string"
+                      },
+                      "style": {
+                        "type": "string"
+                      },
+                      "a": {
+                        "type": "object",
+                        "properties": {
+                          "href": {
+                            "type": "string"
+                          },
+                          "#text": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "href"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "class",
+                      "a"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "class",
+                "li"
+              ]
+            }
+          },
+          "required": [
+            "class",
+            "h4",
+            "ul"
+          ]
+        }
+      },
+      "required": [
+        "class",
+        "style",
+        "aside"
+      ]
+    }
+  },
+  "required": [
+    "header-wrapper",
+    "hr",
+    "css-1yp4ln",
+    "css-a181dj",
+    "css-9ckfit",
+    "css-u6jpbo"
+  ]
+}

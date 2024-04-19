@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "accessMethods": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "POST"
+                },
+                "url": {
+                  "type": "string",
+                  "const": "oauth.access"
+                }
+              },
+              "required": ["method", "url"]
+            },
+            "java": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client().oauthAccess"
+                }
+              },
+              "required": ["method"]
+            },
+            "python": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client.oauth_access"
+                }
+              },
+              "required": ["method"]
+            },
+            "js": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "app.client.oauth.access"
+                }
+              },
+              "required": ["method"]
+            }
+          },
+          "required": ["http", "java", "python", "js"]
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "const": "application/x-www-form-urlencoded"
+          },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "rateLimits": {
+          "type": "string",
+          "const": "Tier 4"
+        }
+      },
+      "required": ["accessMethods", "contentTypes", "rateLimits"]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "optionalArguments": {
+          "type": "object",
+          "properties": {
+            "client_id": {
+              "type": "string",
+              "description": "Issued when you created your application. If possible, avoid sending client_id and client_secret as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme.",
+              "example": "2141029472.691202649728"
+            },
+            "client_secret": {
+              "type": "string",
+              "description": "Issued when you created your application. If possible, avoid sending client_id and client_secret as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme.",
+              "example": "e1b9e11dfcd19c1982d5de12921e17e8c"
+            },
+            "code": {
+              "type": "string",
+              "description": "The code param returned via the OAuth callback.",
+              "example": "4724469134.4644010092847.232b4e6d82c333b475fc30f5f5a341d294feb1a94392c2fd791f7ab7731a443d1a"
+            },
+            "redirect_uri": {
+              "type": "string",
+              "description": "This must match the originally submitted URI (if one was sent).",
+              "example": "http://example.com"
+            },
+            "single_channel": {
+              "type": "boolean",
+              "description": "Request the user to add your app only to a single channel. Only valid with a legacy workspace app.",
+              "default": false,
+              "example": true
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["optionalArguments"]
+    },
+    "usageInfo": {
+      "type": "string"
+    },
+    "exampleResponses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "example": {
+            "type": "object"
+          }
+        }
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["error", "description"]
+      },
+      "minItems": 20
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["warning", "description"]
+      },
+      "minItems": 2,
+      "maxItems": 2
+    }
+  },
+  "required": [
+    "facts",
+    "arguments",
+    "usageInfo",
+    "exampleResponses",
+    "errors",
+    "warnings"
+  ]
+}

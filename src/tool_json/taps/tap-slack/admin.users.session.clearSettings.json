@@ -1,0 +1,148 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "notices": {
+      "type": "object",
+      "properties": {
+        "info": {
+          "type": "string",
+          "description": "Information about the API method being for Enterprise Grid workspaces."
+        }
+      },
+      "required": [
+        "info"
+      ]
+    },
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "The HTTP method for accessing the API."
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The required scopes for the API method."
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The accepted content types for the API method."
+        },
+        "rateLimits": {
+          "type": "string",
+          "description": "The rate limit tier for the API method."
+        }
+      },
+      "required": [
+        "method",
+        "scopes",
+        "contentTypes",
+        "rateLimits"
+      ]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "The authentication token with required scopes."
+        },
+        "user_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The IDs of users to clear session settings for."
+        }
+      },
+      "required": [
+        "token",
+        "user_ids"
+      ]
+    },
+    "usage": {
+      "type": "string",
+      "description": "Information about the usage of the API method."
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the example response."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the example response."
+          },
+          "response": {
+            "type": "object",
+            "description": "The example response object."
+          }
+        },
+        "required": [
+          "response"
+        ]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the error."
+          }
+        },
+        "required": [
+          "error",
+          "description"
+        ]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string",
+            "description": "The warning code."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the warning."
+          }
+        },
+        "required": [
+          "warning",
+          "description"
+        ]
+      }
+    }
+  },
+  "required": [
+    "notices",
+    "facts",
+    "arguments",
+    "usage",
+    "examples",
+    "errors",
+    "warnings"
+  ]
+}

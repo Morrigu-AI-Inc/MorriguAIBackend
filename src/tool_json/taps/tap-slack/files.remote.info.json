@@ -1,0 +1,199 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "method",
+                "url"
+              ]
+            },
+            "java": {
+              "type": "string"
+            },
+            "python": {
+              "type": "string"
+            },
+            "js": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "http"
+          ]
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "granular_bot": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "user": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "bot": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "granular_bot",
+            "user",
+            "bot"
+          ]
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rateLimits": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "scopes",
+        "contentTypes",
+        "rateLimits"
+      ]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "description",
+              "example"
+            ]
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "description",
+              "example"  
+            ]
+          }
+        }
+      },
+      "required": [
+        "required",
+        "optional"
+      ]
+    },
+    "usage": {
+      "type": "string"
+    },
+    "examples": {
+      "type": "array",
+      "items": {}
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "description"
+        ]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "description"
+        ]
+      }
+    }
+  },
+  "required": [
+    "facts",
+    "arguments",
+    "usage", 
+    "examples",
+    "errors",
+    "warnings"
+  ]
+}

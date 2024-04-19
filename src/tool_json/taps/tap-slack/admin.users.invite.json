@@ -1,0 +1,57 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel_ids": {
+      "type": "string",
+      "description": "A comma-separated list of channel_ids for this user to join. At least one channel is required."
+    },
+    "email": {
+      "type": "string",
+      "description": "The email address of the person to invite."
+    },
+    "team_id": {
+      "type": "string",
+      "description": "The ID (T1234) of the workspace."
+    },
+    "custom_message": {
+      "type": "string",
+      "description": "An optional message to send to the user in the invite email."
+    },
+    "email_password_policy_enabled": {
+      "type": "boolean",
+      "description": "Allow invited user to sign in via email and password. Only available for Enterprise Grid teams via admin invite."
+    },
+    "guest_expiration_ts": {
+      "type": "string",
+      "description": "Timestamp when guest account should be disabled. Only include this timestamp if you are inviting a guest user and you want their account to expire on a certain date."
+    },
+    "is_restricted": {
+      "type": "boolean",
+      "description": "Is this user a multi-channel guest user? (default: false)"
+    },
+    "is_ultra_restricted": {
+      "type": "boolean",
+      "description": "Is this user a single channel guest user? (default: false)"
+    },
+    "real_name": {
+      "type": "string",
+      "description": "Full name of the user."
+    },
+    "resend": {
+      "type": "boolean",
+      "description": "Allow this invite to be resent in the future if a user has not signed up yet. Resending can only be done via the UI and has no expiration. (default: false)"
+    }
+  },
+  "required": [
+    "token",
+    "channel_ids", 
+    "email",
+    "team_id"
+  ]
+}

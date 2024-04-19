@@ -1,0 +1,57 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "permission_type": {
+      "type": "string",
+      "enum": [
+        "everyone",
+        "app_collaborators",
+        "named_entities"
+      ],
+      "description": "The type of permission that defines who can run a trigger"
+    },
+    "trigger_id": {
+      "type": "string",
+      "description": "Encoded ID of the trigger"
+    },
+    "channel_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of encoded channel IDs"
+    },
+    "org_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of encoded organization IDs"
+    },
+    "team_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of encoded workspace IDs"
+    },
+    "user_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of encoded user IDs"
+    }
+  },
+  "required": [
+    "token",
+    "permission_type",
+    "trigger_id"
+  ]
+}

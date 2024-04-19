@@ -1,0 +1,28 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "apps.auth.external.delete",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "app_id": {
+      "type": "string",
+      "description": "The id of the app whose tokens you want to delete"
+    },
+    "external_token_id": {
+      "type": "string",
+      "description": "The id of the token that you want to delete"
+    },
+    "provider_key": {
+      "type": "string",
+      "description": "The provider key of the provider whose tokens you want to delete"
+    }
+  },
+  "required": [
+    "token"
+  ],
+  "additionalProperties": false
+}

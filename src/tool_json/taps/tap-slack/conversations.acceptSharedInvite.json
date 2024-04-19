@@ -1,0 +1,40 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel_name": {
+      "type": "string",
+      "description": "Name of the channel. If the channel does not exist already in your workspace, this name is the one that the channel will take."
+    },
+    "channel_id": {
+      "type": ["string", "null"],
+      "description": "ID of the channel that you'd like to accept. Must provide either `invite_id` or `channel_id`."
+    },
+    "free_trial_accepted": {
+      "type": "boolean",
+      "description": "Whether you'd like to use your workspace's free trial to begin using Slack Connect."
+    },
+    "invite_id": {
+      "type": ["string", "null"],
+      "description": "ID of the invite that you'd like to accept. Must provide either `invite_id` or `channel_id`."
+    },
+    "is_private": {
+      "type": "boolean", 
+      "description": "Whether the channel should be private."
+    },
+    "team_id": {
+      "type": ["string", "null"],
+      "description": "The ID of the workspace to accept the channel in. If an org-level token is used to call this method, the `team_id` argument is required."
+    }
+  },
+  "required": [
+    "token", 
+    "channel_name"
+  ],
+  "additionalProperties": false
+}

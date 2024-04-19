@@ -1,0 +1,24 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "presence": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "away"
+      ],
+      "description": "Either `auto` or `away`"
+    }
+  },
+  "required": [
+    "token",
+    "presence"
+  ],
+  "additionalProperties": false
+}

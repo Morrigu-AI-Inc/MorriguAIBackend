@@ -1,0 +1,298 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Blog Comments API",
+  "description": "API for managing blog comments, including listing, creating, restoring, and deleting comments.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing blog comments",
+      "value": "/comments/v3/comments"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string",
+          "description": "The full text of the comment"
+        },
+        "contentId": {
+          "type": "integer",
+          "description": "The ID of the parent blog post"
+        },
+        "collectionId": {
+          "type": "integer",
+          "description": "The ID of the blog that the post is a part of"
+        },
+        "contentAuthorEmail": {
+          "type": "string",
+          "description": "The email address of the blog post author"
+        },
+        "contentAuthorName": {
+          "type": "string",
+          "description": "The name of the blog post author"
+        },
+        "contentPermalink": {
+          "type": "string",
+          "description": "URL to the blog post"
+        },
+        "contentTitle": {
+          "type": "string",
+          "description": "Title of the blog post"
+        },
+        "userEmail": {
+          "type": "string",
+          "description": "The email address of the comment author"
+        },
+        "userName": {
+          "type": "string",
+          "description": "The name of the comment author"
+        },
+        "userUrl": {
+          "type": "string",
+          "description": "The homepage of the comment author"
+        }
+      },
+      "required": [
+        "comment",
+        "contentId",
+        "collectionId",
+        "contentAuthorEmail",
+        "contentAuthorName",
+        "contentTitle",
+        "userEmail",
+        "userName"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "The number of items to return"
+        },
+        "offset": {
+          "type": "integer",
+          "description": "The offset set to start returning rows from"
+        },
+        "portalId": {
+          "type": "integer",
+          "description": "The portal number associated with your API key/token"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["APPROVED", "SPAM", "REJECTED", "PENDING_MODERATION"],
+          "description": "Comment state"
+        },
+        "contentId": {
+          "type": "integer",
+          "description": "Get comments for a specific blog post"
+        },
+        "reverse": {
+          "type": "boolean",
+          "description": "If true, returns comments from oldest to newest"
+        },
+        "query": {
+          "type": "string",
+          "description": "Matches arbitrary text within a comment"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The unique ID of the comment"
+              },
+              "portalId": {
+                "type": "integer",
+                "description": "The portal ID associated with the comment"
+              },
+              "contentId": {
+                "type": "integer",
+                "description": "The ID of the parent blog post"
+              },
+              "contentTitle": {
+                "type": "string",
+                "description": "The title of the blog post"
+              },
+              "contentPermalink": {
+                "type": "string",
+                "description": "The permalink URL of the blog post"
+              },
+              "collectionId": {
+                "type": "integer",
+                "description": "The ID of the blog collection"
+              },
+              "createdAt": {
+                "type": "integer",
+                "description": "The timestamp when the comment was created"
+              },
+              "deletedAt": {
+                "type": "integer",
+                "description": "The timestamp when the comment was deleted, or 0 if not deleted"
+              },
+              "userName": {
+                "type": "string",
+                "description": "The name of the comment author"
+              },
+              "firstName": {
+                "type": "string",
+                "description": "The first name of the comment author"
+              },
+              "lastName": {
+                "type": "string",
+                "description": "The last name of the comment author"
+              },
+              "userEmail": {
+                "type": "string",
+                "description": "The email address of the comment author"
+              },
+              "comment": {
+                "type": "string",
+                "description": "The full text of the comment"
+              },
+              "userUrl": {
+                "type": "string",
+                "description": "The website URL of the comment author"
+              },
+              "state": {
+                "type": "string",
+                "enum": ["APPROVED", "SPAM", "REJECTED", "PENDING_MODERATION"],
+                "description": "The state of the comment"
+              },
+              "userIp": {
+                "type": "string",
+                "description": "The IP address of the comment author"
+              },
+              "userReferrer": {
+                "type": "string",
+                "description": "The referrer URL where the comment was submitted from"
+              },
+              "userAgent": {
+                "type": "string",
+                "description": "The user agent string of the comment author's browser"
+              },
+              "contentAuthorEmail": {
+                "type": "string",
+                "description": "The email address of the blog post author"
+              },
+              "contentAuthorName": {
+                "type": "string",
+                "description": "The name of the blog post author"
+              },
+              "contentCreatedAt": {
+                "type": "integer",
+                "description": "The timestamp when the blog post was created"
+              },
+              "threadId": {
+                "type": "string",
+                "description": "The ID of the comment thread"
+              },
+              "replyingTo": {
+                "type": ["null", "integer"],
+                "description": "The ID of the comment being replied to, or null if not a reply"
+              },
+              "parentId": {
+                "type": "integer",
+                "description": "The ID of the parent comment, or 0 if not a reply"
+              },
+              "legacyId": {
+                "type": "integer",
+                "description": "The legacy ID of the comment (if applicable)"
+              },
+              "extraContext": {
+                "type": ["null", "object"],
+                "description": "Additional context data for the comment (if any)"
+              },
+              "parent": {
+                "type": ["null", "object"],
+                "description": "The parent comment object (if applicable)"
+              }
+            },
+            "required": [
+              "id",
+              "portalId",
+              "contentId",
+              "contentTitle",
+              "contentPermalink",
+              "collectionId",
+              "createdAt",
+              "deletedAt",
+              "userName",
+              "firstName",
+              "lastName",
+              "userEmail",
+              "comment",
+              "userUrl",
+              "state",
+              "userIp",
+              "userReferrer",
+              "userAgent",
+              "contentAuthorEmail",
+              "contentAuthorName",
+              "contentCreatedAt",
+              "threadId",
+              "replyingTo",
+              "parentId",
+              "legacyId",
+              "extraContext",
+              "parent"
+            ]
+          }
+        },
+        "total": {
+          "type": "integer",
+          "description": "The total number of comments"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The limit used for pagination"
+        },
+        "offset": {
+          "type": "integer",
+          "description": "The offset used for pagination"
+        }
+      },
+      "required": [
+        "objects",
+        "total",
+        "limit",
+        "offset"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Get Community Profile Metrics",
+  "description": "Returns all community profile metrics for a repository. The repository cannot be a fork. The returned metrics include an overall health score, the repository description, the presence of documentation, the detected code of conduct, the detected license, and the presence of ISSUE_TEMPLATE, PULL_REQUEST_TEMPLATE, README, and CONTRIBUTING files.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting community profile metrics",
+      "value": "/repos/{owner}/{repo}/community/profile"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "X-GitHub-Api-Version": {
+          "type": "string",
+          "description": "GitHub API version"
+        }
+      },
+      "required": ["Accept"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body is required"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "health_percentage": {
+          "type": "integer",
+          "description": "The overall health score for the repository"
+        },
+        "description": {
+          "type": "string",
+          "description": "The repository description"
+        },
+        "documentation": {
+          "type": ["string", "null"],
+          "description": "The documentation for the repository"
+        },
+        "files": {
+          "type": "object",
+          "properties": {
+            "code_of_conduct": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the code of conduct"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "The key for the code of conduct"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The API URL for the code of conduct"
+                },
+                "html_url": {
+                  "type": "string",
+                  "description": "The HTML URL for the code of conduct"
+                }
+              },
+              "required": ["name", "key", "url", "html_url"]
+            },
+            "code_of_conduct_file": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The API URL for the code of conduct file"
+                },
+                "html_url": {
+                  "type": "string",
+                  "description": "The HTML URL for the code of conduct file"
+                }
+              },
+              "required": ["url", "html_url"]
+            },
+            "contributing": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The API URL for the contributing file"
+                },
+                "html_url": {
+                  "type": "string",
+                  "description": "The HTML URL for the contributing file"
+                }
+              },
+              "required": ["url", "html_url"]
+            },
+            "issue_template": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The API URL for the issue template"
+                },
+                "html_url": {
+                  "type": "string",
+                  "description": "The HTML URL for the issue template"
+                }
+              },
+              "required": ["url", "html_url"]
+            },
+            "pull_request_template": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The API URL for the pull request template"
+                },
+                "html_url": {
+                  "type": "string",
+                  "description": "The HTML URL for the pull request template"
+                }
+              },
+              "required": ["url", "html_url"]
+            },
+            "license": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the license"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "The key for the license"
+                },
+                "spdx_id": {
+                  "type": "string",
+                  "description": "The SPDX ID for the license"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The API URL for the license"
+                },
+                "html_url": {
+                  "type": "string",
+                  "description": "The HTML URL for the license"
+                },
+                "node_id": {
+                  "type": "string",
+                  "description": "The Node ID for the license"
+                }
+              },
+              "required": ["name", "key", "spdx_id", "url", "html_url", "node_id"]
+            },
+            "readme": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The API URL for the README file"
+                },
+                "html_url": {
+                  "type": "string",
+                  "description": "The HTML URL for the README file"
+                }
+              },
+              "required": ["url", "html_url"]
+            }
+          },
+          "required": ["code_of_conduct", "code_of_conduct_file", "contributing", "issue_template", "pull_request_template", "license", "readme"]
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The time when the community profile metrics were last updated"
+        },
+        "content_reports_enabled": {
+          "type": "boolean",
+          "description": "Whether content reports are enabled for the repository (only returned for organization-owned repositories)"
+        }
+      },
+      "required": ["health_percentage", "description", "files", "updated_at"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

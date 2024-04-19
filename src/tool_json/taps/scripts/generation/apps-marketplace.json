@@ -1,0 +1,291 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Marketplace API",
+  "description": "API endpoints for interacting with GitHub Marketplace",
+  "type": "object",
+  "properties": {
+    "getSubscriptionPlanForAccount": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a subscription plan for an account",
+          "value": "/marketplace_listing/accounts/{account_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "integer",
+              "description": "The ID of the account"
+            }
+          },
+          "required": ["account_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "URL of the account"
+            },
+            "type": {
+              "type": "string",
+              "description": "Type of the account (e.g. Organization)"
+            },
+            "id": {
+              "type": "integer",
+              "description": "ID of the account"
+            },
+            "login": {
+              "type": "string",
+              "description": "Login of the account"
+            },
+            "organization_billing_email": {
+              "type": "string",
+              "description": "Billing email for the organization"
+            },
+            "marketplace_pending_change": {
+              "type": "object",
+              "description": "Pending subscription change details"
+            },
+            "marketplace_purchase": {
+              "type": "object",
+              "description": "Current subscription purchase details"
+            }
+          },
+          "required": ["url", "type", "id", "login", "organization_billing_email", "marketplace_pending_change", "marketplace_purchase"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "listPlans": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing plans",
+          "value": "/marketplace_listing/plans"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "URL of the plan"
+              },
+              "accounts_url": {
+                "type": "string",
+                "description": "URL for listing accounts on this plan"
+              },
+              "id": {
+                "type": "integer",
+                "description": "ID of the plan"
+              },
+              "number": {
+                "type": "integer",
+                "description": "Number of the plan"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the plan"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the plan"
+              },
+              "monthly_price_in_cents": {
+                "type": "integer",
+                "description": "Monthly price of the plan in cents"
+              },
+              "yearly_price_in_cents": {
+                "type": "integer",
+                "description": "Yearly price of the plan in cents"
+              },
+              "price_model": {
+                "type": "string",
+                "description": "Price model of the plan"
+              },
+              "has_free_trial": {
+                "type": "boolean",
+                "description": "Whether the plan has a free trial"
+              },
+              "unit_name": {
+                "type": "string",
+                "description": "Unit name for the plan"
+              },
+              "state": {
+                "type": "string",
+                "description": "State of the plan (e.g. published)"
+              },
+              "bullets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Bullet points describing the plan"
+              }
+            },
+            "required": ["url", "accounts_url", "id", "number", "name", "description", "monthly_price_in_cents", "yearly_price_in_cents", "price_model", "has_free_trial", "state", "bullets"]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+    },
+    "listAccountsForPlan": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing accounts for a plan",
+          "value": "/marketplace_listing/plans/{plan_id}/accounts"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "plan_id": {
+              "type": "integer",
+              "description": "The ID of the plan"
+            }
+          },
+          "required": ["plan_id"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "sort": {
+              "type": "string",
+              "description": "The property to sort the results by",
+              "enum": ["created", "updated"]
+            },
+            "direction": {
+              "type": "string",
+              "description": "The direction to sort results",
+              "enum": ["asc", "desc"]
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "URL of the account"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the account (e.g. Organization)"
+              },
+              "id": {
+                "type": "integer",
+                "description": "ID of the account"
+              },
+              "login": {
+                "type": "string",
+                "description": "Login of the account"
+              },
+              "organization_billing_email": {
+                "type": "string",
+                "description": "Billing email for the organization"
+              },
+              "marketplace_pending_change": {
+                "type": "object",
+                "description": "Pending subscription change details"
+              },
+              "marketplace_purchase": {
+                "type": "object",
+                "description": "Current subscription purchase details"
+              }
+            },
+            "required": ["url", "type", "id", "login", "organization_billing_email", "marketplace_pending_change", "marketplace_purchase"]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "queryParameters", "response"]
+    }
+  },
+  "required": ["getSubscriptionPlanForAccount", "listPlans", "listAccountsForPlan"],
+  "additionalProperties": false
+}

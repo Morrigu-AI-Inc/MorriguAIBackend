@@ -1,0 +1,65 @@
+Here is the JSON Schema extracted from the HTML content:
+
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        "headline-container-grid-itemGdPV-VbhShYs": {
+          "type": "object",
+          "properties": {
+            "button-containerobFfV0vf6giV": {
+              "type": "object",
+              "properties": {
+                "reference-flyout": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "content-head": {
+      "type": "object",
+      "properties": {
+        "h1": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "h1"
+      ]
+    },
+    "rm-Markdown": {
+      "type": "object",
+      "properties": {
+        "markdown-body": {
+          "type": "object",
+          "properties": {
+            "content-body": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "content-body"
+          ]
+        }
+      },
+      "required": [
+        "markdown-body"
+      ]
+    }
+  },
+  "required": [
+    "headline-container21aRBSn8Bqg6",
+    "content-head",
+    "rm-Markdown"
+  ]
+}
+
+
+This JSON Schema defines the structure of the HTML content, including the top-level container classes, the header element with the H1 text, and the main content body with its nested markup.

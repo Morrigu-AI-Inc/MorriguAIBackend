@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Account Activity API",
+  "description": "The account activity API allows you to retrieve login history and security activity for your HubSpot account.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving account activity",
+      "value": "/account-info/v3/activity/{endpoint}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "auditLogs": {
+          "type": "array",
+          "description": "Array of audit log objects"
+        },
+        "logins": {
+          "type": "array",
+          "description": "Array of login activity objects"
+        },
+        "securityEvents": {
+          "type": "array",
+          "description": "Array of security event objects"
+        }
+      },
+      "required": []
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

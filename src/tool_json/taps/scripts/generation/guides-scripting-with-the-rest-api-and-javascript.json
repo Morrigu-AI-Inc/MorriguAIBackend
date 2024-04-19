@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scripting with the REST API and JavaScript",
+  "description": "This schema describes the JSON format for scripting with the GitHub REST API using the Octokit.js library.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "The GitHub REST API endpoint to interact with",
+      "example": "/repos/{owner}/{repo}/issues"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+      "description": "The HTTP method to use for the request"
+    },
+    "headers": {
+      "type": "object",
+      "description": "The headers to include in the request",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "The authentication token or credentials"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "The content type of the request body"
+        },
+        "X-GitHub-Api-Version": {
+          "type": "string",
+          "description": "The GitHub API version to use"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "body": {
+      "type": "object",
+      "description": "The request body to send with the request"
+    },
+    "queryParameters": {
+      "type": "object",
+      "description": "The query parameters to include in the request URL",
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "The owner of the repository"
+        },
+        "repo": {
+          "type": "string",
+          "description": "The name of the repository"
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "The number of results to return per page for paginated requests"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "description": "The expected response from the GitHub API",
+      "properties": {
+        "data": {
+          "type": "array",
+          "description": "The data returned from the API",
+          "items": {}
+        },
+        "status": {
+          "type": "integer",
+          "description": "The HTTP status code of the response"
+        },
+        "headers": {
+          "type": "object",
+          "description": "The headers included in the response"
+        }
+      },
+      "required": ["data", "status", "headers"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

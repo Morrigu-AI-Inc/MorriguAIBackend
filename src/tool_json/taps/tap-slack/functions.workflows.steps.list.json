@@ -1,0 +1,44 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "steps_versions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "workflow_id": {
+            "type": "string"
+          },
+          "step_id": {
+            "type": "string"
+          },
+          "is_deleted": {
+            "type": "boolean"
+          },
+          "workflow_version_created": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "workflow_id",
+          "step_id",
+          "is_deleted",
+          "workflow_version_created"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "steps_versions"
+  ]
+}

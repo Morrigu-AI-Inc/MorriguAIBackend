@@ -1,0 +1,27 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "conversations.approveSharedInvite",
+  "description": "Approves an accepted invitation to a Slack Connect channel.",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "invite_id": {
+      "description": "ID of the shared channel invite to approve",
+      "type": "string"
+    },
+    "target_team": {
+      "description": "The team or enterprise id of the other party involved in the invitation you are approving",
+      "type": "string"
+    }
+  },
+  "required": [
+    "token",
+    "invite_id"
+  ],
+  "additionalProperties": false
+}

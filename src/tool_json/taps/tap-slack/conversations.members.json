@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retrieve Conversation Members",
+  "description": "Retrieves members of a specific conversation.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "Only Valid Value: 'conversations.history'"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/x-www-form-urlencoded"],
+      "description": "Content type of the request body"
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string",
+          "description": "ID of the conversation to retrieve members for"
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Pointer to set the position of the results to fetch"
+        },
+        "limit": {
+          "type": "number",
+          "description": "Maximum number of results to return per page"
+        }
+      },
+      "required": ["channel"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "description": "Indicates the success or failure of the request"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "User IDs of the members in the conversation"
+          }
+        },
+        "response_metadata": {
+          "type": "object",
+          "properties": {
+            "next_cursor": {
+              "type": "string",
+              "description": "A cursor value used for pagination"
+            }
+          }
+        }
+      },
+      "required": ["ok", "members"]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "contentType",
+    "queryParameters",
+    "response"
+  ]
+}

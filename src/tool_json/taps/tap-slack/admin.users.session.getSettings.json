@@ -1,0 +1,41 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "session_settings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "desktop_app_browser_quit": {
+            "type": "boolean"
+          },
+          "duration": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "user_id",
+          "desktop_app_browser_quit",
+          "duration"
+        ]
+      }
+    },
+    "no_settings_applied": {
+      "type": "array",
+      "items": {}
+    }
+  },
+  "required": [
+    "ok",
+    "session_settings",
+    "no_settings_applied"
+  ]
+}

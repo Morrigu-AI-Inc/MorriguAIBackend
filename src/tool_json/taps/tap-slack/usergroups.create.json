@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create a User Group",
+  "description": "Creates a new user group within a Slack workspace.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for creating a user group",
+      "example": "usergroups.create"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/x-www-form-urlencoded", "application/json"],
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization", "Content-Type"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the user group to create. Must be unique within the workspace."
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of channel IDs where the user group has access."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the user group."
+        },
+        "handle": {
+          "type": "string",
+          "description": "A short handle for the user group."
+        },
+        "is_private": {
+          "type": "boolean",
+          "description": "Whether the user group is private."
+        },
+        "team_id": {
+          "type": "string",
+          "description": "ID of the team within an enterprise grid. Relevant only when using an org-level token."
+        }
+      },
+      "required": ["token", "name"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "description": "Indicates the success or failure of the request"
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message returned when the operation fails"
+        },
+        "usergroup": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique identifier for the created user group"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the user group"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the user group"
+            },
+            "handle": {
+              "type": "string",
+              "description": "Short handle of the user group"
+            },
+            "is_private": {
+              "type": "boolean",
+              "description": "Whether the user group is private"
+            },
+            "team_id": {
+              "type": "string",
+              "description": "Team ID associated with the user group"
+            }
+          },
+          "required": ["id", "name"]
+        }
+      },
+      "required": ["ok"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "body", "response"]
+}

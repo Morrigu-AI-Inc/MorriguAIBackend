@@ -1,0 +1,565 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HubSpot CRM Commerce Discounts API",
+  "description": "Use the discounts API to create and manage discounts that can be included in quotes.",
+  "type": "object",
+  "properties": {
+    "batchArchive": {
+      "type": "object",
+      "description": "Archive a batch of discounts by ID",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for archiving a batch of discounts",
+          "value": "/crm/v3/objects/discounts/batch/archive"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id"]
+              }
+            }
+          },
+          "required": ["inputs"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code",
+              "value": 204
+            }
+          },
+          "required": ["status"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "contentType", "body", "response"]
+    },
+    "batchCreate": {
+      "type": "object",
+      "description": "Create a batch of discounts",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a batch of discounts",
+          "value": "/crm/v3/objects/discounts/batch/create"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "associations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "types": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "associationCategory": {
+                                "type": "string"
+                              },
+                              "associationTypeId": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": ["associationCategory", "associationTypeId"]
+                          }
+                        },
+                        "to": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": ["id"]
+                        }
+                      },
+                      "required": ["types", "to"]
+                    }
+                  },
+                  "properties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["associations", "properties"]
+              }
+            }
+          },
+          "required": ["inputs"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code",
+              "value": 201
+            }
+          },
+          "required": ["status"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "contentType", "body", "response"]
+    },
+    "batchRead": {
+      "type": "object",
+      "description": "Read a batch of discounts by internal ID, or unique property values",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for reading a batch of discounts",
+          "value": "/crm/v3/objects/discounts/batch/read"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "archived": {
+              "type": "boolean",
+              "description": "Whether to include archived discounts or not"
+            }
+          },
+          "required": ["archived"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "propertiesWithHistory": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "idProperty": {
+              "type": "string"
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id"]
+              }
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code",
+              "value": 200
+            }
+          },
+          "required": ["status"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "contentType", "queryParameters", "body", "response"]
+    },
+    "batchUpdate": {
+      "type": "object",
+      "description": "Update a batch of discounts",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for updating a batch of discounts",
+          "value": "/crm/v3/objects/discounts/batch/update"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "idProperty": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "properties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["idProperty", "id", "properties"]
+              }
+            }
+          },
+          "required": ["inputs"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code",
+              "value": 200
+            }
+          },
+          "required": ["status"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "contentType", "body", "response"]
+    },
+    "basicList": {
+      "type": "object",
+      "description": "Read a page of discounts",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing discounts",
+          "value": "/crm/v3/objects/discounts"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "Maximum number of results to return"
+            },
+            "archived": {
+              "type": "boolean",
+              "description": "Whether to include archived discounts or not"
+            }
+          },
+          "required": ["limit", "archived"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code",
+              "value": 200
+            }
+          },
+          "required": ["status"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+    },
+    "read": {
+      "type": "object",
+      "description": "Read an Object identified by {discountId}",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for reading a discount",
+          "value": "/crm/v3/objects/discounts/{discountId}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "archived": {
+              "type": "boolean",
+              "description": "Whether to include archived discounts or not"
+            }
+          },
+          "required": ["archived"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code",
+              "value": 200
+            }
+          },
+          "required": ["status"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+    },
+    "create": {
+      "type": "object",
+      "description": "Create a discount with the given properties and return a copy of the object, including the ID",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a discount",
+          "value": "/crm/v3/objects/discounts"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "associations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "types": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "associationCategory": {
+                          "type": "string"
+                        },
+                        "associationTypeId": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": ["associationCategory", "associationTypeId"]
+                    }
+                  },
+                  "to": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["id"]
+                  }
+                },
+                "required": ["types", "to"]
+              }
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["associations", "properties"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code",
+              "value": 201
+            }
+          },
+          "required": ["status"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "contentType", "body", "response"]
+    },
+    "update": {
+      "type": "object",
+      "description": "Perform a partial update of an Object identified by {discountId}",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for updating a discount",
+          "value": "/crm/v3/objects/discounts/{discountId}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PATCH"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "properties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["properties"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code",
+              "value": 200
+            }
+          },
+          "required": ["status"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "contentType", "body", "response"]
+    },
+    "archive": {
+      "type": "object",
+      "description": "Move an Object identified by {discountId}

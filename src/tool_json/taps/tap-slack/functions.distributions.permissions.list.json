@@ -1,0 +1,39 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "permission_type": {
+      "type": "string"
+    },
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "username",
+          "email"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "permission_type"
+  ]
+}

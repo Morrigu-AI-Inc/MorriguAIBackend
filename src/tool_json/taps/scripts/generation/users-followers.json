@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Users Followers API",
+  "description": "API endpoints for managing followers of GitHub users",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing followers",
+      "value": "/user/followers"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "PUT", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Accept": {
+          "type": "string",
+          "description": "Content type to accept, should be 'application/vnd.github+json'"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Accept", "Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "The number of results per page (max 100)"
+        },
+        "page": {
+          "type": "integer",
+          "description": "The page number of the results to fetch"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "description": "The username of the user"
+        },
+        "id": {
+          "type": "integer",
+          "description": "The unique ID of the user"
+        },
+        "node_id": {
+          "type": "string",
+          "description": "The unique node ID of the user"
+        },
+        "avatar_url": {
+          "type": "string",
+          "description": "The URL of the user's avatar image"
+        },
+        "gravatar_id": {
+          "type": "string",
+          "description": "The user's Gravatar ID"
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of the user's API resource"
+        },
+        "html_url": {
+          "type": "string",
+          "description": "The URL of the user's profile page"
+        },
+        "followers_url": {
+          "type": "string",
+          "description": "The URL of the user's followers API resource"
+        },
+        "following_url": {
+          "type": "string",
+          "description": "The URL of the user's following API resource"
+        },
+        "gists_url": {
+          "type": "string",
+          "description": "The URL of the user's gists API resource"
+        },
+        "starred_url": {
+          "type": "string",
+          "description": "The URL of the user's starred repositories API resource"
+        },
+        "subscriptions_url": {
+          "type": "string",
+          "description": "The URL of the user's subscriptions API resource"
+        },
+        "organizations_url": {
+          "type": "string",
+          "description": "The URL of the user's organizations API resource"
+        },
+        "repos_url": {
+          "type": "string",
+          "description": "The URL of the user's repositories API resource"
+        },
+        "events_url": {
+          "type": "string",
+          "description": "The URL of the user's events API resource"
+        },
+        "received_events_url": {
+          "type": "string",
+          "description": "The URL of the user's received events API resource"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the user account, e.g. 'User'"
+        },
+        "site_admin": {
+          "type": "boolean",
+          "description": "Whether the user is a site administrator"
+        }
+      },
+      "required": ["login", "id", "node_id", "avatar_url", "url", "html_url", "followers_url", "following_url", "type"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "list_sequences": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "const": "/sequence/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "create_sequence": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/sequence/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "fetch_sequence": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/sequence/[^/]+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "update_sequence": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/sequence/[^/]+/$"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "delete_sequence": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "DELETE"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/sequence/[^/]+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "list_sequence_subscriptions": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "const": "/sequence_subscription/"
+        },
+        "query_params": {
+          "type": "object",
+          "properties": {
+            "sequence_id": {
+              "type": "string"
+            },
+            "contact_id": {
+              "type": "string"
+            },
+            "lead_id": {
+              "type": "string"
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "sequence_id"
+              ]
+            },
+            {
+              "required": [
+                "contact_id"
+              ]
+            },
+            {
+              "required": [
+                "lead_id"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "query_params"
+      ]
+    },
+    "subscribe_contact_to_sequence": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "path": {
+          "type": "string",
+          "const": "/sequence_subscription/"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "fetch_sequence_subscription": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/sequence_subscription/[^/]+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    },
+    "update_sequence_subscription": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/sequence_subscription/[^/]+/$"
+        }
+      },
+      "required": [
+        "method",
+        "path"
+      ]
+    }
+  },
+  "required": [
+    "list_sequences",
+    "create_sequence",
+    "fetch_sequence", 
+    "update_sequence",
+    "delete_sequence",
+    "list_sequence_subscriptions",
+    "subscribe_contact_to_sequence",
+    "fetch_sequence_subscription",
+    "update_sequence_subscription"
+  ]
+}

@@ -1,0 +1,302 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Commerce Subscriptions API",
+  "description": "API endpoints for fetching information about an account's subscriptions in HubSpot CRM. This is a read-only API for retrieving active subscriptions.",
+  "type": "object",
+  "properties": {
+    "batchRead": {
+      "type": "object",
+      "description": "Read a batch of subscriptions by internal ID or unique property values",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for batch reading subscriptions",
+          "value": "/crm/v3/objects/subscriptions/batch/read"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            },
+            "Content-Type": {
+              "type": "string",
+              "enum": ["application/json"],
+              "description": "Content type of the request body"
+            }
+          },
+          "required": ["Authorization", "Content-Type"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "archived": {
+              "type": "boolean",
+              "description": "Whether to include archived subscriptions"  
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "propertiesWithHistory": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of property names to include property history for"
+            },
+            "idProperty": {
+              "type": "string", 
+              "description": "The name of the property that uniquely identifies the object"
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The internal ID or unique property value of the subscription"
+                  }
+                },
+                "required": ["id"]
+              },
+              "description": "List of subscription IDs or unique property values to fetch"
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of property names to include in the response"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "description": "Batch response containing requested subscriptions"
+        }
+      },
+      "required": ["endpoint", "method", "headers"]
+    },
+    "getAll": {
+      "type": "object", 
+      "description": "Read a page of subscriptions",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting all subscriptions",
+          "value": "/crm/v3/objects/subscriptions"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "The maximum number of results to return"
+            },
+            "archived": {
+              "type": "boolean", 
+              "description": "Whether to include archived subscriptions"
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of properties to include in the response"  
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "description": "Page of subscription objects"
+        }
+      },
+      "required": ["endpoint", "method", "headers"]
+    },
+    "getById": {
+      "type": "object",
+      "description": "Read a subscription by its internal ID or unique property value",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a subscription by ID",
+          "value": "/crm/v3/objects/subscriptions/{subscriptionId}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object", 
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "archived": {
+              "type": "boolean",
+              "description": "Whether to include archived subscriptions"
+            },
+            "idProperty": {
+              "type": "string",
+              "description": "The property that uniquely identifies the object"
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of properties to include in the response"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "description": "Subscription object"
+        }
+      },
+      "required": ["endpoint", "method", "headers"]
+    },
+    "search": {
+      "type": "object",
+      "description": "Search for subscriptions matching certain criteria",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for searching subscriptions",
+          "value": "/crm/v3/objects/subscriptions/search"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string", 
+              "description": "Bearer token for authentication"
+            },
+            "Content-Type": {
+              "type": "string",
+              "enum": ["application/json"],
+              "description": "Content type of the request body"  
+            }
+          },
+          "required": ["Authorization", "Content-Type"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The search query string"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "The maximum number of results to return"
+            },
+            "after": {
+              "type": "string",
+              "description": "The paging token to get the next page of results"
+            },
+            "sorts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of properties to sort results by"
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of properties to include in the response"
+            },
+            "filterGroups": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "filters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "highValue": {
+                          "type": "string",
+                          "description": "The highest value for a range filter"
+                        },
+                        "propertyName": {
+                          "type": "string",
+                          "description": "The name of the property to filter on"
+                        },
+                        "values": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "List of values to filter by"
+                        },
+                        "value": {
+                          "type": "string",
+                          "description": "The value to filter by"
+                        },
+                        "operator": {
+                          "type": "string",
+                          "enum": ["EQ", "NEQ", "LT", "LTE", "GT", "GTE", "CONTAINS", "NOT_CONT"],
+                          "description": "The operator for the filter"
+                        }
+                      },
+                      "required": ["propertyName", "operator"]
+                    }
+                  }
+                }
+              },
+              "description": "Groups of filters to apply to the search"  
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "description": "Search results containing subscriptions"
+        }
+      },
+      "required": ["endpoint", "method", "headers"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

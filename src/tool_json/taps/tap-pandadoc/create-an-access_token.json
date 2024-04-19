@@ -1,0 +1,43 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "access_token": {
+      "type": "string",
+      "description": "The access token to be used for authentication in subsequent API requests."
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "The number of seconds until the access token expires."
+    },
+    "refresh_token": {
+      "type": "string",
+      "description": "The refresh token to be used to obtain a new access token when the current one expires."
+    },
+    "token_type": {
+      "type": "string",
+      "description": "The type of the token, which is typically 'Bearer'."
+    },
+    "scope": {
+      "type": "string",
+      "description": "The scope of access granted by the access token."
+    }
+  },
+  "required": [
+    "access_token",
+    "expires_in",
+    "token_type"
+  ]
+}
+
+
+This JSON schema defines the structure of the response when creating an access token. The main properties are:
+
+1. `access_token` (required): The access token string to be used for authentication in subsequent API requests.
+2. `expires_in` (required): The number of seconds until the access token expires.
+3. `refresh_token`: The refresh token string to be used to obtain a new access token when the current one expires.
+4. `token_type` (required): The type of the token, which is typically 'Bearer'.
+5. `scope`: The scope of access granted by the access token.
+
+The `required` keyword specifies that the `access_token`, `expires_in`, and `token_type` properties are mandatory in the response.

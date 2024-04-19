@@ -1,0 +1,145 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Activity Notifications API",
+  "description": "API endpoints for managing GitHub notifications.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing notifications",
+      "value": "/notifications"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "PUT", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Accept": {
+          "type": "string",
+          "description": "Media type to specify the version of the API response"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": [
+        "Accept",
+        "Authorization"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/x-www-form-urlencoded",
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "last_read_at": {
+          "type": "string",
+          "description": "Timestamp in ISO 8601 format for the last point notifications were checked"
+        },
+        "read": {
+          "type": "boolean",
+          "description": "Whether the notification has been read"
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "all": {
+          "type": "boolean",
+          "description": "If true, show notifications marked as read"
+        },
+        "participating": {
+          "type": "boolean",
+          "description": "If true, only shows notifications in which the user is directly participating or mentioned"
+        },
+        "since": {
+          "type": "string",
+          "description": "Only show results updated after this timestamp in ISO 8601 format"
+        },
+        "before": {
+          "type": "string",
+          "description": "Only show notifications updated before this timestamp in ISO 8601 format"
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number of results to fetch"
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "Number of results per page (max 50)"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the notification thread"
+        },
+        "repository": {
+          "type": "object",
+          "description": "Repository where the notification originated"
+        },
+        "subject": {
+          "type": "object",
+          "description": "Subject information for the notification thread"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for the notification"
+        },
+        "unread": {
+          "type": "boolean",
+          "description": "Whether the notification is unread"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Timestamp in ISO 8601 format when the notification was last updated"
+        },
+        "last_read_at": {
+          "type": "string",
+          "description": "Timestamp in ISO 8601 format when the notification was last read"
+        },
+        "url": {
+          "type": "string",
+          "description": "URL for the notification thread"
+        },
+        "subscription_url": {
+          "type": "string",
+          "description": "URL for subscribing/unsubscribing to the notification thread"
+        }
+      },
+      "required": [
+        "id",
+        "repository",
+        "subject",
+        "reason",
+        "unread",
+        "updated_at",
+        "last_read_at",
+        "url",
+        "subscription_url"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

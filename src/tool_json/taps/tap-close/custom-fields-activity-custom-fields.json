@@ -1,0 +1,157 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "list_activity_custom_fields": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "const": "/custom_field/activity/"
+        },
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "description": {
+          "type": "string",
+          "const": "List all the Activity Custom Fields for your organization."
+        }
+      },
+      "required": [
+        "path",
+        "method",
+        "description"
+      ]
+    },
+    "create_activity_custom_field": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "const": "/custom_field/activity/"
+        },
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "description": {
+          "type": "string",
+          "const": "Create a new Activity Custom Field."
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "Activity Custom Fields belong to Custom Activities, and have additional attributes:",
+            "`custom_activity_type_id` – the ID of the Custom Activity Type this Field should belong to.",
+            "`required` – whether the Field will be requied to publish the activity."
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "method",
+        "description",
+        "notes"
+      ]
+    },
+    "get_activity_custom_field": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^/custom_field/activity/\\{id\\}/$"
+        },
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "description": {
+          "type": "string",
+          "const": "Fetch Activity Custom Field's details."
+        }
+      },
+      "required": [
+        "path",
+        "method",
+        "description"
+      ]
+    },
+    "update_activity_custom_field": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^/custom_field/activity/\\{custom_field_id\\}/$"
+        },
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "description": {
+          "type": "string",
+          "const": "Update an Activity Custom Field."
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "You can rename it, change whether it accepts multiple values or not, change the \"required\" flag, change whether editing its values is restricted to specific Roles, or update the options for a \"choices\" field type. The updated name will immediately appear in the Close UI and only valid values for the updated `type` will be returned by the Custom Activity API.",
+            "The `custom_activity_type_id` and `type` values cannot be changed."
+          ]
+        }
+      },
+      "required": [
+        "path", 
+        "method",
+        "description",
+        "notes"
+      ]
+    },
+    "delete_activity_custom_field": {
+      "type": "object", 
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^/custom_field/activity/\\{custom_field_id\\}/$"
+        },
+        "method": {
+          "type": "string", 
+          "const": "DELETE"
+        },
+        "description": {
+          "type": "string",
+          "const": "Delete an Activity Custom Field."
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "The field will immediately disappear from any Custom Activity API responses."
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "method", 
+        "description",
+        "notes"
+      ]
+    }
+  },
+  "required": [
+    "list_activity_custom_fields",
+    "create_activity_custom_field",
+    "get_activity_custom_field", 
+    "update_activity_custom_field",
+    "delete_activity_custom_field"
+  ]
+}

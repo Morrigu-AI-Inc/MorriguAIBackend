@@ -1,0 +1,58 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "silent": {
+      "type": "boolean",
+      "description": "Whether to suppress email notifications for sending the document."
+    },
+    "message": {
+      "type": "string",
+      "description": "Optional message to include in the email notification."
+    },
+    "selected_approvers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_id": {
+            "type": "string",
+            "description": "The ID of the approval step."
+          },
+          "approver_id": {
+            "type": "string",
+            "description": "The ID of the approver."
+          },
+          "is_selected": {
+            "type": "boolean",
+            "description": "Whether this approver is selected or not."
+          }
+        },
+        "required": [
+          "step_id",
+          "approver_id",
+          "is_selected"
+        ]
+      },
+      "description": "The approvers to select from a selectable group in the approval workflow."
+    }
+  },
+  "required": []
+}
+
+
+This JSON schema defines the structure of the request payload for sending a document via the PandaDoc API. Here's a breakdown of the properties:
+
+1. `silent` (boolean): Determines whether to suppress email notifications when sending the document. If `true`, no notifications will be sent.
+
+2. `message` (string): An optional message to include in the email notification when sending the document.
+
+3. `selected_approvers` (array): An array of objects representing the approvers to select from a selectable group in the approval workflow. Each object in the array has the following properties:
+   - `step_id` (string): The ID of the approval step.
+   - `approver_id` (string): The ID of the approver.
+   - `is_selected` (boolean): Whether this approver is selected or not.
+
+The `selected_approvers` property allows you to specify which approver(s) from a selectable group should be chosen for the approval workflow. The `step_id`, `approver_id`, and `is_selected` properties are required for each approver object in the array.
+
+Note that the `silent` and `message` properties are optional, while the `selected_approvers` property is not required in the schema.

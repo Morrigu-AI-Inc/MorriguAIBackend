@@ -1,0 +1,89 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "body": {
+      "type": "object",
+      "required": ["body"],
+      "properties": {
+        "h1": {
+          "type": "string"
+        },
+        "p": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "em": {
+                "type": "string"
+              },
+              "strong": {
+                "type": "string"
+              },
+              "a": {
+                "type": "object",
+                "properties": {
+                  "href": {
+                    "type": "string"
+                  }
+                },
+                "required": ["href"]
+              },
+              "img": {
+                "type": "object",
+                "properties": {
+                  "src": {
+                    "type": "string"
+                  },
+                  "alt": {
+                    "type": "string"
+                  }
+                },
+                "required": ["src", "alt"]
+              },
+              "span": {
+                "type": "object",
+                "properties": {
+                  "data-type": {
+                    "type": "string"
+                  },
+                  "data-id": {
+                    "type": "string"
+                  },
+                  "data-label": {
+                    "type": "string"
+                  },
+                  "class": {
+                    "type": "string"
+                  }
+                },
+                "required": ["data-type", "data-id", "data-label", "class"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "ul": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "li": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": ["li"]
+          }
+        },
+        "hr": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,52 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Reminders List",
+  "description": "This method lists all reminders created by or for a given user.",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "reminders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "creator": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "recurring": {
+            "type": "boolean"
+          },
+          "time": {
+            "type": "integer"
+          },
+          "complete_ts": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "creator",
+          "user",
+          "text",
+          "recurring"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "reminders"
+  ]
+}

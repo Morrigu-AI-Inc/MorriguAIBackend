@@ -1,0 +1,105 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.inviteRequests.denied.list",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "denied_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "invite_request": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "date_created": {
+                "type": "integer"
+              },
+              "requester_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "channel_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "is_restricted": {
+                "type": "boolean"
+              },
+              "is_ultra_restricted": {
+                "type": "boolean"
+              },
+              "real_name": {
+                "type": "string"
+              },
+              "date_expire": {
+                "type": ["null", "integer"]
+              },
+              "request_reason": {
+                "type": ["null", "string"]
+              }
+            },
+            "required": [
+              "id",
+              "email",
+              "date_created",
+              "requester_ids",
+              "channel_ids",
+              "is_restricted",
+              "is_ultra_restricted",
+              "real_name"
+            ]
+          },
+          "denied_by": {
+            "type": "object",
+            "properties": {
+              "actor_type": {
+                "type": "string"
+              },
+              "actor_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "actor_type",
+              "actor_id"
+            ]
+          }
+        },
+        "required": [
+          "invite_request",
+          "denied_by"
+        ]
+      }
+    },
+    "response_metadata": {
+      "type": "object",
+      "properties": {
+        "next_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "next_cursor"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "denied_requests",
+    "response_metadata"
+  ]
+}

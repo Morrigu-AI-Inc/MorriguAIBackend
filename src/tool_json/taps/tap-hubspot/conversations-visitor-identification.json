@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Visitor Identification Token Generation",
+  "description": "Generates a new visitor identification token to associate website visitors with a known contact in HubSpot.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for generating a visitor identification token",
+      "value": "/conversations/v3/visitor-identification/tokens/create"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization", "Content-Type"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "First name of the visitor"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the visitor"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the visitor"
+        }
+      },
+      "required": ["email"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "The generated visitor identification token"
+        },
+        "expiresAt": {
+          "type": "string",
+          "description": "The expiration timestamp for the token"
+        }
+      },
+      "required": ["token", "expiresAt"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "body", "response"],
+  "additionalProperties": false
+}

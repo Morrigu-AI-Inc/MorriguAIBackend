@@ -1,0 +1,300 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "files": {
+      "type": "object",
+      "properties": {
+        "matches": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "channels": {
+                "type": "array",
+                "items": {}
+              },
+              "comments_count": {
+                "type": "integer"
+              },
+              "created": {
+                "type": "integer"
+              },
+              "deanimate_gif": {
+                "type": "string"
+              },
+              "display_as_bot": {
+                "type": "boolean"
+              },
+              "editable": {
+                "type": "boolean"
+              },
+              "external_type": {
+                "type": "string"
+              },
+              "filetype": {
+                "type": "string"
+              },
+              "groups": {
+                "type": "array",
+                "items": {}
+              },
+              "id": {
+                "type": "string"
+              },
+              "image_exif_rotation": {
+                "type": "integer"
+              },
+              "ims": {
+                "type": "array",
+                "items": {}
+              },
+              "is_external": {
+                "type": "boolean"
+              },
+              "is_public": {
+                "type": "boolean"
+              },
+              "mimetype": {
+                "type": "string"
+              },
+              "mode": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "original_h": {
+                "type": "integer"
+              },
+              "original_w": {
+                "type": "integer"
+              },
+              "permalink": {
+                "type": "string"
+              },
+              "permalink_public": {
+                "type": "string"
+              },
+              "pretty_type": {
+                "type": "string"
+              },
+              "preview": {
+                "type": ["object", "null"]
+              },
+              "public_url_shared": {
+                "type": "boolean"
+              },
+              "reactions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "name",
+                    "users"
+                  ]
+                }
+              },
+              "score": {
+                "type": "string"
+              },
+              "size": {
+                "type": "integer"
+              },
+              "thumb_160": {
+                "type": "string"
+              },
+              "thumb_360": {
+                "type": "string"
+              },
+              "thumb_360_gif": {
+                "type": "string"
+              },
+              "thumb_360_h": {
+                "type": "integer"
+              },
+              "thumb_360_w": {
+                "type": "integer"
+              },
+              "thumb_480": {
+                "type": "string"
+              },
+              "thumb_480_gif": {
+                "type": "string"
+              },
+              "thumb_480_h": {
+                "type": "integer"
+              },
+              "thumb_480_w": {
+                "type": "integer"
+              },
+              "thumb_64": {
+                "type": "string"
+              },
+              "thumb_80": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "top_file": {
+                "type": "boolean"
+              },
+              "url_private": {
+                "type": "string"
+              },
+              "url_private_download": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "channels",
+              "comments_count",
+              "created",
+              "deanimate_gif",
+              "display_as_bot",
+              "editable",
+              "external_type",
+              "filetype",
+              "groups",
+              "id",
+              "image_exif_rotation",
+              "ims",
+              "is_external",
+              "is_public",
+              "mimetype",
+              "mode",
+              "name",
+              "original_h",
+              "original_w",
+              "permalink",
+              "permalink_public",
+              "pretty_type",
+              "public_url_shared",
+              "reactions",
+              "score",
+              "size",
+              "thumb_160",
+              "thumb_360",
+              "thumb_360_gif",
+              "thumb_360_h",
+              "thumb_360_w",
+              "thumb_480",
+              "thumb_480_gif", 
+              "thumb_480_h",
+              "thumb_480_w",
+              "thumb_64",
+              "thumb_80",
+              "timestamp",
+              "title",
+              "top_file",
+              "url_private",
+              "url_private_download",
+              "user",
+              "username"
+            ]
+          }
+        },
+        "pagination": {
+          "type": "object",
+          "properties": {
+            "first": {
+              "type": "integer"
+            },
+            "last": {
+              "type": "integer"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "page_count": {
+              "type": "integer"
+            },
+            "per_page": {
+              "type": "integer"
+            },
+            "total_count": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "first",
+            "last", 
+            "page",
+            "page_count",
+            "per_page",
+            "total_count"
+          ]
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "pages": {
+              "type": "integer"
+            },
+            "total": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "count",
+            "page",
+            "pages",
+            "total"
+          ]
+        },
+        "total": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "matches",
+        "pagination",
+        "paging",
+        "total"
+      ]
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "query": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "files",
+    "ok", 
+    "query"
+  ]
+}

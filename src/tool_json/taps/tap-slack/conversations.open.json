@@ -1,0 +1,80 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "no_op": {
+      "type": "boolean",
+      "description": "Slack did nothing when serving this request but it did not fail."
+    },
+    "already_open": {
+      "type": "boolean",
+      "description": "The conversation was already open so Slack did nothing."
+    },
+    "channel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created": {
+          "type": "integer"
+        },
+        "is_im": {
+          "type": "boolean"
+        },
+        "is_org_shared": {
+          "type": "boolean"
+        },
+        "user": {
+          "type": "string"
+        },
+        "last_read": {
+          "type": "string"
+        },
+        "latest": {
+          "type": ["string", "null"]
+        },
+        "unread_count": {
+          "type": "integer"
+        },
+        "unread_count_display": {
+          "type": "integer"
+        },
+        "is_open": {
+          "type": "boolean"
+        },
+        "priority": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  "required": [
+    "ok"
+  ],
+  "definitions": {
+    "error": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "enum": [false]
+        },
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ok",
+        "error"
+      ]
+    }
+  }
+}

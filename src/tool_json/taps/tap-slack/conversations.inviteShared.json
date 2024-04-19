@@ -1,0 +1,38 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel": {
+      "type": "string",
+      "description": "ID of the channel on your team that you'd like to share"
+    },
+    "emails": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional email to receive this invite. Either emails or user_ids must be provided. Only one email or one user ID may be invited at a time."
+    },
+    "external_limited": {
+      "type": "boolean",
+      "description": "Optional boolean on whether invite is to a external limited member. Defaults to true."
+    },
+    "user_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional user_id to receive this invite. Either emails or user_ids must be provided. Only one email or one user ID may be invited at a time."
+    }
+  },
+  "required": [
+    "token",
+    "channel"
+  ],
+  "additionalProperties": false
+}

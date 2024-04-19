@@ -1,0 +1,209 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Marketing Events API",
+  "description": "The marketing events API allows you to build a custom integration that will sync event and registration data with your HubSpot account.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing marketing events",
+      "value": "/marketing/v3/marketing-events"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "startDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Start date and time of the event"
+              },
+              "customProperties": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string"
+                    },
+                    "selectedByUser": {
+                      "type": "boolean"
+                    },
+                    "sourceLabel": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "enum": ["UNKNOWN"]
+                    },
+                    "updatedByUserId": {
+                      "type": "integer"
+                    },
+                    "persistenceTimestamp": {
+                      "type": "integer"
+                    },
+                    "sourceMetadata": {
+                      "type": "string"
+                    },
+                    "dataSensitivity": {
+                      "type": "string",
+                      "enum": ["none"]
+                    },
+                    "sourceVid": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "isEncrypted": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "useTimestampAsPersistenceTimestamp": {
+                      "type": "boolean"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "selectedByUserTimestamp": {
+                      "type": "integer"
+                    },
+                    "timestamp": {
+                      "type": "integer"
+                    },
+                    "isLargeValue": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "externalAccountId": {
+                "type": "string",
+                "description": "The external account ID associated with the event"
+              },
+              "eventCancelled": {
+                "type": "boolean",
+                "description": "Whether the event has been cancelled"
+              },
+              "eventOrganizer": {
+                "type": "string",
+                "description": "The organizer of the event"
+              },
+              "eventUrl": {
+                "type": "string",
+                "description": "The URL for the event"
+              },
+              "externalEventId": {
+                "type": "string",
+                "description": "The external ID of the event"
+              },
+              "eventDescription": {
+                "type": "string",
+                "description": "Description of the event"
+              },
+              "eventName": {
+                "type": "string",
+                "description": "Name of the event"
+              },
+              "eventType": {
+                "type": "string",
+                "description": "Type of the event"
+              },
+              "eventCompleted": {
+                "type": "boolean",
+                "description": "Whether the event has been completed"
+              },
+              "endDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "End date and time of the event"
+              }
+            },
+            "required": ["externalEventId"]
+          }
+        }
+      },
+      "required": ["inputs"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "hapikey": {
+          "type": "string",
+          "description": "Developer API key for authentication (required for some endpoints)"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "The status of the API response"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique ID of the marketing event"
+              },
+              "properties": {
+                "type": "object",
+                "description": "Properties of the marketing event"
+              }
+            }
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "string",
+                "description": "Error message"
+              },
+              "context": {
+                "type": "object",
+                "description": "Additional context about the error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

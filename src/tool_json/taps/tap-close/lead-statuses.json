@@ -1,0 +1,87 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lead Statuses",
+  "description": "Lead statuses are a customizable list of stages a Lead can be in.",
+  "type": "object",
+  "properties": {
+    "list_lead_statuses": {
+      "type": "object",
+      "description": "List lead statuses for your organization.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "url": {
+          "type": "string",
+          "const": "/status/lead/"
+        }
+      },
+      "required": [
+        "method",
+        "url"
+      ]
+    },
+    "create_new_lead_status": {
+      "type": "object",
+      "description": "Create a new status that can be applied to leads.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "POST"
+        },
+        "url": {
+          "type": "string",
+          "const": "/status/lead/"
+        }
+      },
+      "required": [
+        "method",
+        "url"
+      ]
+    },
+    "rename_lead_status": {
+      "type": "object",
+      "description": "Rename a lead status.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "url": {
+          "type": "string",
+          "const": "/status/lead/{status_id}/"
+        }
+      },
+      "required": [
+        "method",
+        "url"
+      ]
+    },
+    "delete_lead_status": {
+      "type": "object",
+      "description": "Delete a lead status.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "DELETE"
+        },
+        "url": {
+          "type": "string",
+          "const": "/status/lead/{status_id}/"
+        }
+      },
+      "required": [
+        "method",
+        "url"
+      ]
+    }
+  },
+  "required": [
+    "list_lead_statuses",
+    "create_new_lead_status",
+    "rename_lead_status",
+    "delete_lead_status"
+  ]
+}

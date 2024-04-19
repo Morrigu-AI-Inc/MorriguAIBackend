@@ -1,0 +1,170 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "approved_requests": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "invite_request": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "date_created": {
+                    "type": "integer"
+                  },
+                  "requester_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "channel_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "invite_type": {
+                    "type": "string"
+                  },
+                  "real_name": {
+                    "type": ["string", "null"]
+                  },
+                  "date_expire": {
+                    "type": ["integer", "null"]
+                  },
+                  "request_reason": {
+                    "type": ["string", "null"]
+                  }
+                },
+                "required": [
+                  "id",
+                  "email",
+                  "date_created",
+                  "requester_ids",
+                  "channel_ids",
+                  "invite_type"
+                ]
+              }
+            },
+            "required": [
+              "invite_request"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "approved_by": {
+                "type": "object",
+                "properties": {
+                  "actor_id": {
+                    "type": "string"
+                  },
+                  "actor_type": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "actor_id",
+                  "actor_type"
+                ]
+              }
+            },
+            "required": [
+              "approved_by"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "invite": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "inviter_id": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "date_created": {
+                    "type": "integer"
+                  },
+                  "date_resent": {
+                    "type": ["integer", "null"]
+                  },
+                  "is_bouncing": {
+                    "type": "boolean"
+                  },
+                  "invite_preferences": {
+                    "type": "object",
+                    "properties": {
+                      "is_restricted": {
+                        "type": "boolean"
+                      },
+                      "is_ultra_restricted": {
+                        "type": "boolean"
+                      },
+                      "date_expire": {
+                        "type": ["integer", "null"]
+                      },
+                      "channel_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "is_domain_matched": {
+                        "type": "boolean"
+                      },
+                      "real_name": {
+                        "type": ["string", "null"]
+                      }
+                    },
+                    "required": [
+                      "is_restricted",
+                      "is_ultra_restricted",
+                      "channel_ids",
+                      "is_domain_matched"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "inviter_id", 
+                  "email",
+                  "date_created",
+                  "is_bouncing",
+                  "invite_preferences"
+                ]
+              }
+            },
+            "required": [
+              "invite"  
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "approved_requests"
+  ]
+}

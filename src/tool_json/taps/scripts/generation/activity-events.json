@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Activity Events API",
+  "description": "API endpoints for interacting with GitHub events",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing activity events",
+      "value": "/events"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Accept": {
+          "type": "string",
+          "description": "Media type to return",
+          "default": "application/vnd.github+json"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Accept"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "Results per page (max 100)",
+          "default": 30
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number of results",
+          "default": 1
+        }
+      }
+    },
+    "response": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Event type"
+          },
+          "actor": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "login": {
+                "type": "string"
+              },
+              "display_login": {
+                "type": "string"
+              },
+              "gravatar_id": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "avatar_url": {
+                "type": "string"
+              }
+            }
+          },
+          "repo": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            }
+          },
+          "payload": {
+            "type": "object"
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

@@ -1,0 +1,175 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Line Items API",
+  "description": "API for managing line items in HubSpot CRM",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing line items",
+      "value": "/crm/v3/objects/line_items"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "Content type of the request body"
+        }
+      },
+      "required": [
+        "Authorization"
+      ]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "associations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "associationCategory": {
+                            "type": "string"
+                          },
+                          "associationTypeId": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "to": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "properties": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "archived": {
+          "type": "boolean",
+          "description": "Whether to include archived line items"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return"
+        },
+        "after": {
+          "type": "string",
+          "description": "Offset for pagination"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Sort order for results"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Properties to include in the response"
+        },
+        "propertiesWithHistory": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Properties to include historical values for"
+        },
+        "idProperty": {
+          "type": "string",
+          "description": "Unique property to use as the ID"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "properties": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                }
+              },
+              "associations": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "next": {
+              "type": "object",
+              "properties": {
+                "after": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

@@ -1,0 +1,30 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter."
+    },
+    "user_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The ID of the user to wipe sessions for"
+    },
+    "mobile_only": {
+      "type": "boolean",
+      "description": "Only expire mobile sessions (default: false)"
+    },
+    "web_only": {
+      "type": "boolean",
+      "description": "Only expire web sessions (default: false)"
+    }
+  },
+  "required": [
+    "token",
+    "user_ids"
+  ]
+}

@@ -1,0 +1,154 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Code Scanning API",
+  "description": "REST API endpoints for code scanning",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing code scanning alerts for an organization",
+      "value": "/orgs/{org}/code-scanning/alerts"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "tool_name": {
+          "type": "string",
+          "description": "The name of a code scanning tool. Only results by this tool will be listed."
+        },
+        "tool_guid": {
+          "type": ["string", "null"],
+          "description": "The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data."
+        },
+        "before": {
+          "type": "string",
+          "description": "A cursor, as given in the Link header. If specified, the query only searches for results before this cursor."
+        },
+        "after": {
+          "type": "string",
+          "description": "A cursor, as given in the Link header. If specified, the query only searches for results after this cursor."
+        },
+        "page": {
+          "type": "integer",
+          "description": "The page number of the results to fetch."
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "The number of results per page (max 100)."
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["asc", "desc"],
+          "description": "The direction to sort the results by."
+        },
+        "state": {
+          "type": "string",
+          "enum": ["open", "closed", "dismissed", "fixed"],
+          "description": "If specified, only code scanning alerts with this state will be returned."
+        },
+        "sort": {
+          "type": "string",
+          "enum": ["created", "updated"],
+          "description": "The property by which to sort the results."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low", "warning", "note", "error"],
+          "description": "If specified, only code scanning alerts with this severity will be returned."
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "integer",
+          "description": "The number that identifies an alert."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The time that the alert was created."
+        },
+        "url": {
+          "type": "string",
+          "description": "URL for the code scanning alert."
+        },
+        "html_url": {
+          "type": "string",
+          "description": "The GitHub URL for the code scanning alert."
+        },
+        "state": {
+          "type": "string",
+          "enum": ["open", "dismissed", "fixed"],
+          "description": "The state of the code scanning alert."
+        },
+        "dismissed_by": {
+          "type": "object",
+          "description": "The user who dismissed the code scanning alert."
+        },
+        "dismissed_at": {
+          "type": "string",
+          "description": "The time that the code scanning alert was dismissed."
+        },
+        "dismissed_reason": {
+          "type": ["string", "null"],
+          "description": "The reason for dismissing the code scanning alert."
+        },
+        "dismissed_comment": {
+          "type": ["string", "null"],
+          "description": "The dismissal comment for the code scanning alert."
+        },
+        "rule": {
+          "type": "object",
+          "description": "The coding rule that was violated."
+        },
+        "tool": {
+          "type": "object",
+          "description": "The code scanning tool that generated the alert."
+        },
+        "most_recent_instance": {
+          "type": "object",
+          "description": "Details of the most recent instance of this alert for the default branch."
+        },
+        "instances_url": {
+          "type": "string",
+          "description": "The URL for all instances of this alert."
+        },
+        "repository": {
+          "type": "object",
+          "description": "The repository where the code scanning alert was found."
+        }
+      },
+      "required": ["number", "created_at", "url", "html_url", "state", "dismissed_by", "dismissed_at", "dismissed_reason", "dismissed_comment", "rule", "tool", "most_recent_instance", "instances_url", "repository"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

@@ -1,0 +1,211 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Deployments API",
+  "description": "API endpoints for managing deployments in a GitHub repository",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing deployments",
+      "value": "/repos/{owner}/{repo}/deployments"
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET", "POST", "GET", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Media type to specify the version. Should be set to 'application/vnd.github+json'."
+        }
+      },
+      "required": [
+        "Authorization",
+        "Accept"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "type": "string",
+          "description": "The ref to deploy (branch, SHA, tag)"
+        },
+        "task": {
+          "type": "string",
+          "description": "The task to execute (e.g. deploy or deploy:migrations)"
+        },
+        "auto_merge": {
+          "type": "boolean",
+          "description": "Attempt to auto-merge the default branch into the requested ref if behind"
+        },
+        "required_contexts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The status contexts to verify against commit status checks"
+        },
+        "payload": {
+          "description": "JSON payload with extra deployment information"
+        },
+        "environment": {
+          "type": "string", 
+          "description": "The environment to deploy to (e.g. production, staging)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Short description of the deployment" 
+        },
+        "transient_environment": {
+          "type": "boolean",
+          "description": "Whether the environment is specific and transient to this deployment"
+        },
+        "production_environment": {
+          "type": "boolean", 
+          "description": "Whether the deployment is for an environment that end-users interact with"
+        }
+      },
+      "required": [
+        "ref"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "sha": {
+          "type": "string",
+          "description": "Filter by SHA recorded at creation"
+        },
+        "ref": {
+          "type": "string",
+          "description": "Filter by the ref (branch, tag, SHA)"  
+        },
+        "task": {
+          "type": "string",
+          "description": "Filter by the task to execute"
+        },
+        "environment": {
+          "type": "string",
+          "description": "Filter by the environment name"
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "Results per page (max 100)"
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number of results to fetch"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "API URL for the deployment"  
+        },
+        "id": {
+          "type": "integer", 
+          "description": "Unique identifier for the deployment"
+        },
+        "node_id": {
+          "type": "string"
+        }, 
+        "sha": {
+          "type": "string",
+          "description": "The SHA deployed"
+        },
+        "ref": {
+          "type": "string", 
+          "description": "The ref that was deployed"
+        },
+        "task": {
+          "type": "string",
+          "description": "The task that was executed"  
+        },
+        "payload": {
+          "type": "object",
+          "description": "The JSON payload supplied"
+        },
+        "original_environment": {
+          "type": "string",
+          "description": "The original environment before a migrate/swap"
+        },
+        "environment": {
+          "type": "string",
+          "description": "The environment that was deployed to"
+        },
+        "description": {
+          "type": "string",
+          "description": "The deployment description"
+        },
+        "creator": {
+          "type": "object",
+          "description": "The user that triggered the deployment"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "When the deployment was created"
+        },
+        "updated_at": {
+          "type": "string", 
+          "description": "When the deployment was last updated"
+        },
+        "statuses_url": {
+          "type": "string",
+          "description": "API URL to retrieve deployment statuses"
+        },
+        "repository_url": {
+          "type": "string",
+          "description": "API URL for the repository the deployment belongs to"
+        },
+        "transient_environment": {
+          "type": "boolean",
+          "description": "Whether the deployment environment is transient"
+        },
+        "production_environment": {
+          "type": "boolean",
+          "description": "Whether the deployment is for a production environment"
+        }
+      },
+      "required": [
+        "url",
+        "id",
+        "sha", 
+        "ref",
+        "task",
+        "environment",
+        "creator",
+        "created_at",
+        "updated_at", 
+        "statuses_url",
+        "repository_url"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "contentType",
+    "response"
+  ],
+  "additionalProperties": false
+}

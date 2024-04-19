@@ -1,0 +1,399 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Actions Workflows API",
+  "description": "API endpoints for interacting with GitHub Actions workflows",
+  "type": "object",
+  "properties": {
+    "listRepositoryWorkflows": {
+      "type": "object",
+      "description": "Lists the workflows in a repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing repository workflows",
+          "value": "/repos/{owner}/{repo}/actions/workflows"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            }
+          },
+          "required": ["accept"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "Total number of workflows"
+            },
+            "workflows": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the workflow"
+                  },
+                  "node_id": {
+                    "type": "string",
+                    "description": "The node ID of the workflow"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the workflow"
+                  },
+                  "path": {
+                    "type": "string",
+                    "description": "The file path of the workflow"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "The state of the workflow"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "description": "The date and time the workflow was created"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "description": "The date and time the workflow was last updated"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "The API URL of the workflow"
+                  },
+                  "html_url": {
+                    "type": "string",
+                    "description": "The GitHub URL of the workflow"
+                  },
+                  "badge_url": {
+                    "type": "string",
+                    "description": "The URL of the workflow badge"
+                  }
+                },
+                "required": [
+                  "id",
+                  "node_id",
+                  "name",
+                  "path",
+                  "state",
+                  "created_at",
+                  "updated_at",
+                  "url",
+                  "html_url",
+                  "badge_url"
+                ]
+              }
+            }
+          },
+          "required": [
+            "total_count",
+            "workflows"
+          ]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers",
+        "response"
+      ]
+    },
+    "getWorkflow": {
+      "type": "object",
+      "description": "Gets a specific workflow",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a workflow",
+          "value": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            }
+          },
+          "required": ["accept"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the workflow"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The node ID of the workflow"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the workflow"
+            },
+            "path": {
+              "type": "string",
+              "description": "The file path of the workflow"
+            },
+            "state": {
+              "type": "string",
+              "description": "The state of the workflow"
+            },
+            "created_at": {
+              "type": "string",
+              "description": "The date and time the workflow was created"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "The date and time the workflow was last updated"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL of the workflow"
+            },
+            "html_url": {
+              "type": "string",
+              "description": "The GitHub URL of the workflow" 
+            },
+            "badge_url": {
+              "type": "string", 
+              "description": "The URL of the workflow badge"
+            }
+          },
+          "required": [
+            "id",
+            "node_id", 
+            "name",
+            "path",
+            "state",
+            "created_at",
+            "updated_at",
+            "url",
+            "html_url",
+            "badge_url"
+          ]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method", 
+        "headers",
+        "response"
+      ]
+    },
+    "disableWorkflow": {
+      "type": "object",
+      "description": "Disables a workflow",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for disabling a workflow",
+          "value": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["PUT"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            }
+          },
+          "required": ["accept"]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers"
+      ]
+    },
+    "createWorkflowDispatchEvent": {
+      "type": "object", 
+      "description": "Manually triggers a GitHub Actions workflow run",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a workflow dispatch event",
+          "value": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"  
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            }
+          },
+          "required": ["accept"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "ref": {
+              "type": "string",
+              "description": "The git reference for the workflow"
+            },
+            "inputs": {
+              "type": "object",
+              "description": "Input keys and values configured in the workflow file"
+            }
+          },
+          "required": ["ref"]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers",
+        "body"  
+      ]
+    },
+    "enableWorkflow": {
+      "type": "object",
+      "description": "Enables a workflow",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for enabling a workflow",
+          "value": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PUT"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string", 
+              "description": "Setting to application/vnd.github+json is recommended"
+            }
+          },
+          "required": ["accept"]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers"
+      ]
+    },
+    "getWorkflowUsage": {
+      "type": "object",
+      "description": "Gets the billable minutes used by a specific workflow",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting workflow usage",
+          "value": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            }
+          },
+          "required": ["accept"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "billable": {
+              "type": "object",
+              "properties": {
+                "UBUNTU": {
+                  "type": "object",
+                  "properties": {
+                    "total_ms": {
+                      "type": "integer",
+                      "description": "Total billable milliseconds on Ubuntu runners"
+                    }
+                  },
+                  "required": ["total_ms"]
+                },
+                "MACOS": {
+                  "type": "object",
+                  "properties": {
+                    "total_ms": {
+                      "type": "integer",
+                      "description": "Total billable milliseconds on macOS runners"
+                    }
+                  },
+                  "required": ["total_ms"]
+                },
+                "WINDOWS": {
+                  "type": "object",
+                  "properties": {
+                    "total_ms": {
+                      "type": "integer",
+                      "description": "Total billable milliseconds on Windows runners"
+                    }
+                  },
+                  "required": ["total_ms"]
+                }
+              },
+              "required": ["UBUNTU", "MACOS", "WINDOWS"]
+            }
+          },
+          "required": ["billable"]
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "headers",
+        "response"
+      ]
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

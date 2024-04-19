@@ -1,0 +1,73 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Social Accounts",
+  "description": "API endpoints for managing social accounts of authenticated users on GitHub",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing social accounts for the authenticated user",
+      "value": "/user/social_accounts"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        }
+      },
+      "required": ["Authorization", "accept"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "The number of results per page (max 100)"
+        },
+        "page": {
+          "type": "integer",
+          "description": "The page number of the results to fetch"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "The name of the social media provider"
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of the social media account"
+        }
+      },
+      "required": ["provider", "url"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

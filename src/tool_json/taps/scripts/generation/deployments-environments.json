@@ -1,0 +1,500 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Deployments Environments API",
+  "description": "API endpoints for managing deployment environments in a repository",
+  "type": "object",
+  "properties": {
+    "listEnvironments": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing deployment environments",
+          "value": "/repos/{owner}/{repo}/environments"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "enum": ["application/vnd.github+json"],
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "The total number of environments"
+            },
+            "environments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the environment"
+                  },
+                  "node_id": {
+                    "type": "string",
+                    "description": "The node ID of the environment"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the environment"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "The API URL of the environment"
+                  },
+                  "html_url": {
+                    "type": "string",
+                    "description": "The HTML URL of the environment"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "description": "The date and time the environment was created"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "description": "The date and time the environment was last updated"
+                  },
+                  "protection_rules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "The ID of the protection rule"
+                        },
+                        "node_id": {
+                          "type": "string",
+                          "description": "The node ID of the protection rule"
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "The type of protection rule"
+                        },
+                        "wait_timer": {
+                          "type": "integer",
+                          "description": "The amount of time to delay a job after it is initially triggered (in minutes)"
+                        },
+                        "prevent_self_review": {
+                          "type": "boolean",
+                          "description": "Whether or not a user who created the job is prevented from approving their own job"
+                        },
+                        "reviewers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": ["User", "Team"],
+                                "description": "The type of reviewer"
+                              },
+                              "reviewer": {
+                                "type": "object",
+                                "description": "The user or team who can review the deployment"
+                              }
+                            },
+                            "required": ["type", "reviewer"]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "deployment_branch_policy": {
+                    "type": "object",
+                    "properties": {
+                      "protected_branches": {
+                        "type": "boolean",
+                        "description": "Whether only branches with branch protection rules can deploy to this environment"
+                      },
+                      "custom_branch_policies": {
+                        "type": "boolean",
+                        "description": "Whether only branches that match the specified name patterns can deploy to this environment"
+                      }
+                    },
+                    "required": ["protected_branches", "custom_branch_policies"]
+                  }
+                }
+              }
+            }
+          },
+          "required": ["total_count", "environments"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "getEnvironment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a deployment environment",
+          "value": "/repos/{owner}/{repo}/environments/{environment_name}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "enum": ["application/vnd.github+json"],
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            },
+            "environment_name": {
+              "type": "string",
+              "description": "The name of the environment"
+            }
+          },
+          "required": ["owner", "repo", "environment_name"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the environment"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The node ID of the environment"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the environment"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL of the environment"
+            },
+            "html_url": {
+              "type": "string",
+              "description": "The HTML URL of the environment"
+            },
+            "created_at": {
+              "type": "string",
+              "description": "The date and time the environment was created"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "The date and time the environment was last updated"
+            },
+            "protection_rules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the protection rule"
+                  },
+                  "node_id": {
+                    "type": "string",
+                    "description": "The node ID of the protection rule"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "The type of protection rule"
+                  },
+                  "wait_timer": {
+                    "type": "integer",
+                    "description": "The amount of time to delay a job after it is initially triggered (in minutes)"
+                  },
+                  "prevent_self_review": {
+                    "type": "boolean",
+                    "description": "Whether or not a user who created the job is prevented from approving their own job"
+                  },
+                  "reviewers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": ["User", "Team"],
+                          "description": "The type of reviewer"
+                        },
+                        "reviewer": {
+                          "type": "object",
+                          "description": "The user or team who can review the deployment"
+                        }
+                      },
+                      "required": ["type", "reviewer"]
+                    }
+                  }
+                }
+              }
+            },
+            "deployment_branch_policy": {
+              "type": "object",
+              "properties": {
+                "protected_branches": {
+                  "type": "boolean",
+                  "description": "Whether only branches with branch protection rules can deploy to this environment"
+                },
+                "custom_branch_policies": {
+                  "type": "boolean",
+                  "description": "Whether only branches that match the specified name patterns can deploy to this environment"
+                }
+              },
+              "required": ["protected_branches", "custom_branch_policies"]
+            }
+          },
+          "required": [
+            "id",
+            "node_id",
+            "name",
+            "url",
+            "html_url",
+            "created_at",
+            "updated_at",
+            "protection_rules",
+            "deployment_branch_policy"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "createOrUpdateEnvironment": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating or updating a deployment environment",
+          "value": "/repos/{owner}/{repo}/environments/{environment_name}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PUT"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "enum": ["application/vnd.github+json"],
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            },
+            "environment_name": {
+              "type": "string",
+              "description": "The name of the environment"
+            }
+          },
+          "required": ["owner", "repo", "environment_name"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "wait_timer": {
+              "type": "integer",
+              "description": "The amount of time to delay a job after the job is initially triggered (in minutes)"
+            },
+            "prevent_self_review": {
+              "type": "boolean",
+              "description": "Whether or not a user who created the job is prevented from approving their own job"
+            },
+            "reviewers": {
+              "type": ["array", "null"],
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["User", "Team"],
+                    "description": "The type of reviewer"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the user or team who can review the deployment"
+                  }
+                },
+                "required": ["type", "id"]
+              }
+            },
+            "deployment_branch_policy": {
+              "type": ["object", "null"],
+              "properties": {
+                "protected_branches": {
+                  "type": "boolean",
+                  "description": "Whether only branches with branch protection rules can deploy to this environment"
+                },
+                "custom_branch_policies": {
+                  "type": "boolean",
+                  "description": "Whether only branches that match the specified name patterns can deploy to this environment"
+                }
+              },
+              "required": ["protected_branches", "custom_branch_policies"]
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the environment"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The node ID of the environment"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the environment"
+            },
+            "url": {
+              "type": "string",
+              "description": "The API URL of the environment"
+            },
+            "html_url": {
+              "type": "string",
+              "description": "The HTML URL of the environment"
+            },
+            "created_at": {
+              "type": "string",
+              "description": "The date and time the environment was created"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "The date and time the environment was last updated"
+            },
+            "protection_rules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the protection rule"
+                  },
+                  "node_id": {
+                    "type": "string",
+                    "description": "The node ID of the protection rule"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "The type of protection rule"
+                  },
+                  "wait_timer": {
+                    "type": "integer",
+                    "description": "The amount of time to delay a job after it is initially triggered (in minutes)"
+                  },
+                  "prevent_self_review": {
+                    "type": "boolean",
+                    "description": "Whether or not a user who created the job is prevented from approving their own job"
+                  },
+                  "reviewers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": ["User", "Team"],
+                          "description": "The type of reviewer"
+                        },
+                        "reviewer": {
+                          "type": "object",
+                          "description": "The user or team who can review the deployment"
+                        }
+                      },
+                      "required": ["type", "reviewer"]
+                    }
+                  }
+                }
+              }
+            },
+            "deployment_branch_policy": {
+              "type": "object",
+              "properties": {
+                "protected_branches": {
+                  "type": "boolean",
+                  "description": "Whether only branches with branch protection rules can deploy to this environment"
+                },
+                "custom_branch_policies

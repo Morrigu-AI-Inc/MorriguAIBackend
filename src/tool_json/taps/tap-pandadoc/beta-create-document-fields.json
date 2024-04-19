@@ -1,0 +1,57 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the document field."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of the document field.",
+      "enum": [
+        "text",
+        "date",
+        "number"
+      ]
+    },
+    "required": {
+      "type": "boolean",
+      "description": "Whether the document field is required or not."
+    },
+    "tooltip": {
+      "type": "string",
+      "description": "The tooltip text for the document field."
+    },
+    "x": {
+      "type": "number",
+      "description": "The x-coordinate position of the document field on the document page."
+    },
+    "y": {
+      "type": "number", 
+      "description": "The y-coordinate position of the document field on the document page."
+    },
+    "width": {
+      "type": "number",
+      "description": "The width of the document field box."
+    },
+    "height": {
+      "type": "number",
+      "description": "The height of the document field box."
+    },
+    "page": {
+      "type": "integer",
+      "description": "The page number where the document field is located."
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "x",
+    "y",
+    "width",
+    "height", 
+    "page"
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Commerce Payments API",
+  "description": "Use the payments API to fetch information about an account's payments. This is a read-only API, so it cannot be used for creating new or managing existing payments. Note that the account must be set up to collect payments through either HubSpot payments or Stripe payment processing.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for fetching commerce payments",
+      "value": "/crm/v3/objects/commerce_payments"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "The search query for the commerce payments"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The maximum number of results to return"
+        },
+        "after": {
+          "type": "string",
+          "description": "The paging cursor token of the last successfully read resource object"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of sort keys for the search results"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of properties to return for the commerce payments"
+        },
+        "filterGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "highValue": {
+                      "type": "string",
+                      "description": "The highest value of the range filter"
+                    },
+                    "propertyName": {
+                      "type": "string",
+                      "description": "The name of the property to filter on"
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "The list of values to filter on"
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "The value to filter on"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": ["EQ", "NEQ", "LT", "LTE", "GT", "GTE", "CONTAINS", "NOT_CONTAINS"],
+                      "description": "The operator to use for filtering"
+                    }
+                  },
+                  "required": ["propertyName", "operator"]
+                }
+              }
+            }
+          },
+          "description": "The list of filter groups for the search query"
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "archived": {
+          "type": "boolean",
+          "description": "Whether to include archived commerce payments in the response"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique identifier for the commerce payment"
+              },
+              "properties": {
+                "type": "object",
+                "description": "The properties of the commerce payment"
+              }
+            },
+            "required": ["id", "properties"]
+          }
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "next": {
+              "type": "object",
+              "properties": {
+                "after": {
+                  "type": "string",
+                  "description": "The paging cursor token of the next page of results"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["results"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

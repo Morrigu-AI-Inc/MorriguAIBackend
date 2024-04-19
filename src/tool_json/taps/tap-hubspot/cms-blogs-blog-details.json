@@ -1,0 +1,148 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMS Blogs Blog details API",
+  "description": "Use the blogs API to retrieve information about the blogs in a HubSpot account.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing blogs or getting a specific blog",
+      "value": "/content/api/v2/blogs OR /content/api/v2/blogs/:blog_id"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The number of items to return. Defaults to 20"
+        },
+        "created": {
+          "type": "integer",
+          "description": "When the post was first created, in milliseconds since the epoch"
+        },
+        "archived_at": {
+          "type": "integer", 
+          "description": "When the post was deleted, in milliseconds since the epoch. Zero if the blog post was never deleted."
+        },
+        "topic_id": {
+          "type": "integer",
+          "description": "The id of a topic you wish to filter blog posts by"
+        },
+        "offset": {
+          "type": "integer", 
+          "description": "The offset set to start returning rows from. Defaults to 0."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The number of items to return. Defaults to 20."
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "absolute_url": {
+                "type": "string",
+                "description": "The full URL with domain and scheme to the blog post"
+              },
+              "allow_comments": {
+                "type": "boolean",
+                "description": "Are comments enabled for the blog"
+              },
+              "archived_at": {
+                "type": "integer",
+                "description": "When the post was deleted, in milliseconds since the epoch. Zero if the blog post was never deleted."
+              },
+              "created": {
+                "type": "integer",
+                "description": "When the post was first created, in milliseconds since the epoch"
+              },
+              "html_title": {
+                "type": "string",
+                "description": "The title in the <title> attribute of the page, shows up in the browsers title bar and as the title in Google search results"
+              },
+              "name": {
+                "type": "string",
+                "description": "The internal name of the blog"
+              },
+              "public_title": {
+                "type": "string",
+                "description": "The header of the blog"
+              },
+              "root_url": {
+                "type": "string",
+                "description": "The full URL with domain and scheme to the blog post"
+              },
+              "slug": {
+                "type": "string",
+                "description": "The path of the URL on which the post will live. Changing this will change the URL."
+              },
+              "updated": {
+                "type": "integer", 
+                "description": "When the post was last updated, in milliseconds since the epoch"
+              }
+            },
+            "required": [
+              "absolute_url",
+              "allow_comments", 
+              "archived_at",
+              "created",
+              "html_title",
+              "name",
+              "public_title",
+              "root_url", 
+              "slug",
+              "updated"
+            ]
+          }
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "integer"  
+        },
+        "total": {
+          "type": "integer"
+        },
+        "total_count": {
+          "type": "integer"
+        }
+      },
+      "required": ["objects", "limit", "offset", "total", "total_count"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

@@ -1,0 +1,573 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-raycast-oas": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class",
+        "data-raycast-oas"
+      ]
+    },
+    "headline-container-grid-itemGdPV-VbhShYs": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "button-containerobFfV0vf6giV": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "class",
+        "button-containerobFfV0vf6giV"
+      ]
+    },
+    "reference-flyout": {
+      "type": "object"
+    },
+    "icon-menu": {
+      "type": "object",
+      "properties": {
+        "reference-sidebar-mobile-button26mqim6Chewq": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "aria-label": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "class",
+            "aria-label",
+            "type"
+          ]
+        }
+      },
+      "required": [
+        "reference-sidebar-mobile-button26mqim6Chewq"
+      ]
+    },
+    "Flyout95xhYIIoTKtc": {
+      "type": "object",
+      "properties": {
+        "undefined": {
+          "type": "string"
+        },
+        "rm-Flyout": {
+          "type": "object",
+          "properties": {
+            "data-testid": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-testid"
+          ]
+        }
+      },
+      "required": [
+        "undefined",
+        "rm-Flyout"
+      ]
+    },
+    "Nav3C5f8FcjkaHj": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "type": "string"
+        },
+        "rm-Sidebar": {
+          "type": "object",
+          "properties": {
+            "reference-redesign": {
+              "type": "string"
+            },
+            "hub-sidebar": {
+              "type": "string"
+            },
+            "aria-label": {
+              "type": "string"
+            },
+            "class": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "reference-redesign",
+            "hub-sidebar",
+            "aria-label",
+            "class",
+            "id"
+          ]
+        }
+      },
+      "required": [
+        "mobile",
+        "rm-Sidebar"
+      ]
+    },
+    "ref-QuickNav-mobile-containerARtvyEDVpRhW": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "QuickNav1q-OoMjiX_Yr": {
+      "type": "object",
+      "properties": {
+        "QuickNav-button2KzlQbz5Pm2Y": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "aria-keyshortcuts": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "class",
+            "aria-keyshortcuts"
+          ]
+        }
+      },
+      "required": [
+        "QuickNav-button2KzlQbz5Pm2Y"
+      ]
+    },
+    "Sidebar1t2G1ZJq-vU1": {
+      "type": "object",
+      "properties": {
+        "rm-Sidebar": {
+          "type": "object",
+          "properties": {
+            "hub-sidebar-content": {
+              "type": "string"
+            },
+            "class": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "hub-sidebar-content",
+            "class"
+          ]
+        }
+      },
+      "required": [
+        "rm-Sidebar"
+      ]
+    },
+    "Sidebar-listWrapper6Q9_yUrG906C": {
+      "type": "object",
+      "properties": {
+        "rm-Sidebar-section": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rm-Sidebar-section",
+        "class"
+      ]
+    },
+    "Sidebar-headingTRQyOa2pk0gh": {
+      "type": "object",
+      "properties": {
+        "rm-Sidebar-heading": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rm-Sidebar-heading",
+        "class"
+      ]
+    },
+    "Sidebar-list3cZWQLaBf9k8": {
+      "type": "object",
+      "properties": {
+        "rm-Sidebar-list": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rm-Sidebar-list",
+        "class"
+      ]
+    },
+    "Sidebar-item23D-2Kd61_k3": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "Sidebar-link2Dsha-r-GKh2": {
+      "type": "object",
+      "properties": {
+        "childless": {
+          "type": "string"
+        },
+        "text-wrap": {
+          "type": "string"
+        },
+        "rm-Sidebar-link": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "childless",
+        "text-wrap",
+        "rm-Sidebar-link",
+        "target",
+        "href",
+        "class"
+      ]
+    },
+    "Sidebar-link-textLuTE1ySm4Kqn": {
+      "type": "object",
+      "properties": {
+        "span": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "span"
+      ]
+    },
+    "Sidebar-link_parent3OBrzjAJRSfq": {
+      "type": "object",
+      "properties": {
+        "text-wrap": {
+          "type": "string"
+        },
+        "rm-Sidebar-link": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text-wrap",
+        "rm-Sidebar-link",
+        "target",
+        "href",
+        "class"
+      ]
+    },
+    "Sidebar-link-buttonWrapper3hnFHNku8_BJ": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "Sidebar-link-expandIcon2yVH6SarI6NW": {
+      "type": "object",
+      "properties": {
+        "icon-chevron-rightward": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "icon-chevron-rightward",
+        "class"
+      ]
+    },
+    "subpages": {
+      "type": "object",
+      "properties": {
+        "Sidebar-list3cZWQLaBf9k8": {
+          "type": "object",
+          "properties": {
+            "rm-Sidebar-list": {
+              "type": "string"
+            },
+            "class": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "rm-Sidebar-list",
+            "class"
+          ]
+        }
+      },
+      "required": [
+        "Sidebar-list3cZWQLaBf9k8"
+      ]
+    },
+    "childless": {
+      "type": "object",
+      "properties": {
+        "subpage": {
+          "type": "string"
+        },
+        "text-wrap": {
+          "type": "string"
+        },
+        "rm-Sidebar-link": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "subpage",
+        "text-wrap",
+        "rm-Sidebar-link",
+        "target",
+        "href",
+        "class"
+      ]
+    },
+    "APIMethod": {
+      "type": "object",
+      "properties": {
+        "APIMethod_fixedWidth": {
+          "type": "string"
+        },
+        "APIMethod_post": {
+          "type": "string"
+        },
+        "APIMethod_patch": {
+          "type": "string"
+        },
+        "APIMethod_get": {
+          "type": "string"
+        },
+        "APIMethod_delete": {
+          "type": "string"
+        },
+        "Sidebar-methodfUM3m6FEWm6w": {
+          "type": "object",
+          "properties": {
+            "data-testid": {
+              "type": "string"
+            },
+            "class": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-testid",
+            "class"
+          ]
+        }
+      },
+      "required": [
+        "APIMethod_fixedWidth",
+        "APIMethod_post",
+        "APIMethod_patch",
+        "APIMethod_get",
+        "APIMethod_delete",
+        "Sidebar-methodfUM3m6FEWm6w"
+      ]
+    },
+    "Sidebar-link-externalIcon1RcnjKm-3Ft8": {
+      "type": "object",
+      "properties": {
+        "icon-arrow-up-right": {
+          "type": "string"
+        },
+        "aria-hidden": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "icon-arrow-up-right",
+        "aria-hidden",
+        "class"
+      ]
+    },
+    "headline-container-article-info2GaOf2jMpV0r": {
+      "type": "object"
+    },
+    "headline-container-api-method1Hc-Fm7uaccR": {
+      "type": "object",
+      "properties": {
+        "APIMethod_fixedWidth": {
+          "type": "string"
+        },
+        "APIMethod_get": {
+          "type": "string"
+        },
+        "data-testid": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "APIMethod_fixedWidth",
+        "APIMethod_get",
+        "data-testid",
+        "class"
+      ]
+    },
+    "headline-container-article-info-url2nV_XrjpFuVQ": {
+      "type": "object",
+      "properties": {
+        "data-testid": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-testid",
+        "title",
+        "class"
+      ]
+    },
+    "APIHeader-url-parameterFHIqVFeNEd7b": {
+      "type": "object",
+      "properties": {
+        "for": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "for",
+        "class"
+      ]
+    },
+    "rm-Markdown": {
+      "type": "object",
+      "properties": {
+        "markdown-body": {
+          "type": "string"
+        },
+        "undefined": {
+          "type": "string"
+        },
+        "excerptT2m-MzSJGRK7": {
+          "type": "object",
+          "properties": {
+            "data-testid": {
+              "type": "string"
+            },
+            "class": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-testid",
+            "class"
+          ]
+        },
+        "role": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "markdown-body",
+        "undefined",
+        "excerptT2m-MzSJGRK7",
+        "role"
+      ]
+    }
+  },
+  "required": [
+    "headline-container21aRBSn8Bqg6",
+    "headline-container-grid-itemGdPV-VbhShYs",
+    "reference-flyout",
+    "icon-menu",
+    "Flyout95xhYIIoTKtc",
+    "Nav3C5f8FcjkaHj", 
+    "ref-QuickNav-mobile-containerARtvyEDVpRhW",
+    "QuickNav1q-OoMjiX_Yr",
+    "Sidebar1t2G1ZJq-vU1",
+    "Sidebar-listWrapper6Q9_yUrG906C",
+    "Sidebar-headingTRQyOa2pk0gh",
+    "Sidebar-list3cZWQLaBf9k8",
+    "Sidebar-item23D-2Kd61_k3",
+    "Sidebar-link2Dsha-r-GKh2",
+    "Sidebar-link-textLuTE1ySm4Kqn",
+    "Sidebar-link_parent3OBrzjAJRSfq",
+    "Sidebar-link-buttonWrapper3hnFHNku8_BJ",
+    "Sidebar-link-expandIcon2yVH6SarI6NW",
+    "subpages",
+    "childless",
+    "APIMethod",
+    "Sidebar-link-externalIcon1RcnjKm-3Ft8",
+    "headline-container-article-info2GaOf2jMpV0r",
+    "headline-container-api-method1Hc-Fm7uaccR",
+    "headline-container-article-info

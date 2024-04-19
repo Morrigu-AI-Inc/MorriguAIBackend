@@ -1,0 +1,13 @@
+
+{
+  "type": "object",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "description": "The unique identifier of the webhooks subscription to be deleted."
+    }
+  },
+  "required": [
+    "uuid"
+  ]
+}

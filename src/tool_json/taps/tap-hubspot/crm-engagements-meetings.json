@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Engagements Meetings API",
+  "description": "The meetings engagements API allows you to log and manage meetings on the corresponding CRM records, such as contacts or companies. You can include notes from the meeting and its outcome, along with other important data from the meeting to share with the rest of your team.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for the CRM Engagements Meetings API",
+      "value": "/crm/v3/objects/meetings"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "ID of the meeting"
+              },
+              "associations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "associationCategory": {
+                            "type": "string"
+                          },
+                          "associationTypeId": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "to": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "properties": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "archived": {
+          "type": "boolean",
+          "description": "Whether to include archived meetings"
+        },
+        "idProperty": {
+          "type": "string",
+          "description": "The property to use as the ID for the meeting"
+        },
+        "propertiesWithHistory": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of properties to include historical values for"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of properties to include in the response"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The maximum number of results to return"
+        },
+        "after": {
+          "type": "string",
+          "description": "The paging token to get the next page of results"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of properties to sort the results by"
+        },
+        "query": {
+          "type": "string",
+          "description": "The search query"
+        },
+        "filterGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "highValue": {
+                      "type": "string"
+                    },
+                    "propertyName": {
+                      "type": "string"
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": ["EQ", "NEQ", "GT", "GTE", "LT", "LTE", "CONTAINS", "NOT_CONTAINS"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": "Groups of filters to apply to the search"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "associations": {
+                "type": "object"
+              },
+              "properties": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "next": {
+              "type": "object",
+              "properties": {
+                "after": {
+                  "type": "string"
+                },
+                "link": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers"]
+}

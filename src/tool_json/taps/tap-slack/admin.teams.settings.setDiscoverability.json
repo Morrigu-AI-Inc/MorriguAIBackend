@@ -1,0 +1,24 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "discoverability": {
+      "type": "string",
+      "description": "This workspace's discovery setting. It must be set to one of `open`, `invite_only`, `closed`, or `unlisted`."
+    },
+    "team_id": {
+      "description": "The ID of the workspace to set discoverability on."
+    }
+  },
+  "required": [
+    "token",
+    "discoverability",
+    "team_id"
+  ],
+  "additionalProperties": false
+}

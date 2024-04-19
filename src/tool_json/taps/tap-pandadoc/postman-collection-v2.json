@@ -1,0 +1,171 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PandaDoc API Reference Postman Collection",
+  "type": "object",
+  "properties": {
+    "info": {
+      "type": "object",
+      "properties": {
+        "_postman_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "_postman_id",
+        "name",
+        "schema"
+      ]
+    },
+    "item": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "item": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "request": {
+                  "type": "object",
+                  "properties": {
+                    "method": {
+                      "type": "string"
+                    },
+                    "header": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "value"
+                        ]
+                      }
+                    },
+                    "body": {
+                      "type": "object"
+                    },
+                    "url": {
+                      "type": "object",
+                      "properties": {
+                        "raw": {
+                          "type": "string"
+                        },
+                        "host": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "path": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "raw",
+                        "host",
+                        "path"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "method",
+                    "header",
+                    "body",
+                    "url"
+                  ]
+                },
+                "response": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "originalRequest": {
+                        "type": "object"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "code": {
+                        "type": "integer"
+                      },
+                      "_postman_previewlanguage": {
+                        "type": "string"
+                      },
+                      "header": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      },
+                      "cookie": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      },
+                      "body": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "originalRequest",
+                      "status",
+                      "code",
+                      "_postman_previewlanguage",
+                      "header",
+                      "cookie",
+                      "body"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "name",
+                "request",
+                "response"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "item"  
+        ]
+      }
+    }
+  },
+  "required": [
+    "info",
+    "item"
+  ]
+}

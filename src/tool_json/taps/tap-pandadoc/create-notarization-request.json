@@ -1,0 +1,44 @@
+Here is the JSON Schema for the HTML content from the file 'create-notarization-request.html':
+
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "description": "The ID of the document to be notarized."
+    },
+    "invitees": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The email address of the invitee (signer)."
+          },
+          "first_name": {
+            "type": "string",
+            "description": "The first name of the invitee."
+          },
+          "last_name": {
+            "type": "string",
+            "description": "The last name of the invitee."
+          }
+        },
+        "required": ["email", "first_name", "last_name"]
+      },
+      "minItems": 1,
+      "description": "A list of invitees (signers) for the notarization request."
+    },
+    "message": {
+      "type": "string",
+      "description": "An optional message for the invitees."
+    }
+  },
+  "required": ["document_id", "invitees"]
+}
+
+
+This schema defines the structure of the request body for creating a notarization request. The required properties are `document_id` (the ID of the document to be notarized) and `invitees` (an array of objects containing the email, first name, and last name of each invitee/signer). The `message` property is optional and can be used to include a message for the invitees.

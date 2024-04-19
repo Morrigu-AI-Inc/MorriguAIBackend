@@ -1,0 +1,73 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Actions Cache API",
+  "description": "API endpoints for interacting with the cache for repositories in GitHub Actions",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting GitHub Actions cache usage for an organization",
+      "value": "/orgs/{org}/actions/cache/usage"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        }
+      },
+      "required": [
+        "Authorization",
+        "accept"
+      ]
+    },
+    "pathParameters": {
+      "type": "object",
+      "properties": {
+        "org": {
+          "type": "string",
+          "description": "The organization name. The name is not case sensitive."
+        }
+      },
+      "required": [
+        "org"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "total_active_caches_size_in_bytes": {
+          "type": "integer",
+          "description": "The total size in bytes of active caches for the organization"
+        },
+        "total_active_caches_count": {
+          "type": "integer",
+          "description": "The total count of active caches for the organization"
+        }
+      },
+      "required": [
+        "total_active_caches_size_in_bytes",
+        "total_active_caches_count"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "pathParameters", 
+    "response"
+  ],
+  "additionalProperties": false
+}

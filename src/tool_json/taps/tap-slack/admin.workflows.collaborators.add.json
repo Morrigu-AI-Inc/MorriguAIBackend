@@ -1,0 +1,32 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "collaborator_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of collaborators (encoded user IDs) to add; max 50",
+      "maxItems": 50
+    },
+    "workflow_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of workflow IDs to edit; max 50",
+      "maxItems": 50
+    }
+  },
+  "required": [
+    "token",
+    "collaborator_ids",
+    "workflow_ids"
+  ]
+}

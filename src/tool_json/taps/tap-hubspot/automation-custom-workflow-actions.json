@@ -1,0 +1,524 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Automation Custom Workflow Actions API",
+  "description": "Use the automation API to define custom actions in the HubSpot workflows tool, which allows users in your account to integrate with external services as they build out a HubSpot workflow.",
+  "type": "object",
+  "properties": {
+    "callbacks": {
+      "type": "object",
+      "description": "Endpoints for managing callbacks for custom workflow actions.",
+      "properties": {
+        "completeCallbacks": {
+          "type": "object",
+          "description": "Completes a batch of callbacks",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for completing a batch of callbacks",
+              "value": "/automation/v4/actions/callbacks/complete"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["POST"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "description": "Bearer token for authentication"
+                }
+              },
+              "required": ["Authorization"]
+            },
+            "contentType": {
+              "type": "string",
+              "enum": ["application/json"],
+              "description": "Content type of the request body"
+            },
+            "body": {
+              "type": "object",
+              "properties": {
+                "inputs": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "outputFields": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "callbackId": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["outputFields", "callbackId"]
+                  }
+                }
+              },
+              "required": ["inputs"]
+            }
+          },
+          "required": ["endpoint", "method", "headers", "contentType", "body"]
+        },
+        "completeSingleCallback": {
+          "type": "object",
+          "description": "Completes a single callback",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for completing a single callback",
+              "value": "/automation/v4/actions/callbacks/{callbackId}/complete"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["POST"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "description": "Bearer token for authentication"
+                }
+              },
+              "required": ["Authorization"]
+            },
+            "contentType": {
+              "type": "string",
+              "enum": ["application/json"],
+              "description": "Content type of the request body"
+            },
+            "body": {
+              "type": "object",
+              "properties": {
+                "outputFields": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": ["outputFields"]
+            }
+          },
+          "required": ["endpoint", "method", "headers", "contentType", "body"]
+        }
+      }
+    },
+    "definitions": {
+      "type": "object",
+      "description": "Endpoints for managing custom workflow action definitions.",
+      "properties": {
+        "getDefinitionById": {
+          "type": "object",
+          "description": "Get extension definition by Id",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for getting extension definition by Id",
+              "value": "/automation/v4/actions/{appId}/{definitionId}"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["GET"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "hapikey": {
+                  "type": "string",
+                  "description": "Developer account API key"
+                }
+              },
+              "required": ["hapikey"]
+            },
+            "queryParameters": {
+              "type": "object",
+              "properties": {
+                "archived": {
+                  "type": "boolean",
+                  "description": "Whether to include archived definitions"
+                }
+              }
+            }
+          },
+          "required": ["endpoint", "method", "headers"]
+        },
+        "getPagedDefinitions": {
+          "type": "object",
+          "description": "Get paged extension definitions",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for getting paged extension definitions",
+              "value": "/automation/v4/actions/{appId}"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["GET"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "hapikey": {
+                  "type": "string",
+                  "description": "Developer account API key"
+                }
+              },
+              "required": ["hapikey"]
+            },
+            "queryParameters": {
+              "type": "object",
+              "properties": {
+                "archived": {
+                  "type": "boolean",
+                  "description": "Whether to include archived definitions"
+                }
+              }
+            }
+          },
+          "required": ["endpoint", "method", "headers"]
+        },
+        "createDefinition": {
+          "type": "object",
+          "description": "Create a new extension definition",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for creating a new extension definition",
+              "value": "/automation/v4/actions/{appId}"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["POST"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "hapikey": {
+                  "type": "string",
+                  "description": "Developer account API key"
+                },
+                "Content-Type": {
+                  "type": "string",
+                  "enum": ["application/json"]
+                }
+              },
+              "required": ["hapikey", "Content-Type"]
+            },
+            "body": {
+              "type": "object",
+              "properties": {
+                "inputFields": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "isRequired": {
+                        "type": "boolean"
+                      },
+                      "automationFieldType": {
+                        "type": "string"
+                      },
+                      "typeDefinition": {
+                        "type": "object",
+                        "properties": {
+                          "helpText": {
+                            "type": "string"
+                          },
+                          "referencedObjectType": {
+                            "type": "string",
+                            "enum": ["CONTACT"]
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "hidden": {
+                                  "type": "boolean"
+                                },
+                                "displayOrder": {
+                                  "type": "integer"
+                                },
+                                "doubleData": {
+                                  "type": "number"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "readOnly": {
+                                  "type": "boolean"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": ["hidden", "displayOrder", "doubleData", "description", "readOnly", "label", "value"]
+                            }
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "externalOptionsReferenceType": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "fieldType": {
+                            "type": "string",
+                            "enum": ["booleancheckbox"]
+                          },
+                          "optionsUrl": {
+                            "type": "string"
+                          },
+                          "externalOptions": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": ["helpText", "referencedObjectType", "name", "description", "label", "type"]
+                      },
+                      "supportedValueTypes": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": ["STATIC_VALUE"]
+                        }
+                      }
+                    },
+                    "required": ["isRequired", "automationFieldType", "typeDefinition", "supportedValueTypes"]
+                  }
+                },
+                "outputFields": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "typeDefinition": {
+                        "type": "object",
+                        "properties": {
+                          "helpText": {
+                            "type": "string"
+                          },
+                          "referencedObjectType": {
+                            "type": "string",
+                            "enum": ["CONTACT"]
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "hidden": {
+                                  "type": "boolean"
+                                },
+                                "displayOrder": {
+                                  "type": "integer"
+                                },
+                                "doubleData": {
+                                  "type": "number"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "readOnly": {
+                                  "type": "boolean"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": ["hidden", "displayOrder", "doubleData", "description", "readOnly", "label", "value"]
+                            }
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "externalOptionsReferenceType": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "fieldType": {
+                            "type": "string",
+                            "enum": ["booleancheckbox"]
+                          },
+                          "optionsUrl": {
+                            "type": "string"
+                          },
+                          "externalOptions": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": ["helpText", "referencedObjectType", "name", "description", "label", "type"]
+                      }
+                    },
+                    "required": ["typeDefinition"]
+                  }
+                },
+                "archivedAt": {
+                  "type": "integer"
+                },
+                "functions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "functionSource": {
+                        "type": "string"
+                      },
+                      "functionType": {
+                        "type": "string",
+                        "enum": ["PRE_ACTION_EXECUTION"]
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["functionSource", "functionType", "id"]
+                  }
+                },
+                "actionUrl": {
+                  "type": "string"
+                },
+                "published": {
+                  "type": "boolean"
+                },
+                "executionRules": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "labelName": {
+                        "type": "string"
+                      },
+                      "conditions": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "required": ["labelName", "conditions"]
+                  }
+                },
+                "objectTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "objectRequestOptions": {
+                  "type": "object",
+                  "properties": {
+                    "properties": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["properties"]
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "inputFieldDescriptions": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "appDisplayName": {
+                        "type": "string"
+                      },
+                      "outputFieldLabels": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "inputFieldOptionLabels": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "actionDescription": {
+                        "type": "string"
+                      },
+                      "executionRules": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "inputFieldLabels": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "actionName": {
+                        "type": "string"
+                      },
+                      "actionCardContent": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["inputFieldDescriptions", "appDisplayName", "outputFieldLabels", "inputFieldOptionLabels", "actionDescription", "executionRules", "inputFieldLabels", "actionName", "actionCardContent"]
+                  }
+                }
+              },
+              "required": ["inputFields", "outputFields", "functions", "actionUrl", "executionRules", "objectTypes", "objectRequestOptions", "labels"]
+            }
+          },
+          "required": ["endpoint", "method", "headers", "body"]
+        },
+        "patchDefinition": {
+          "type": "object",
+          "description": "Patch an existing extension definition",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for patching an existing extension definition",
+              "value": "/automation/v4/actions/{appId}/{definitionId}"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["PATCH"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object

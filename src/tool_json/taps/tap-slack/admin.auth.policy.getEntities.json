@@ -1,0 +1,40 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_type": {
+            "type": "string"
+          },
+          "entity_id": {
+            "type": "string"
+          },
+          "date_added": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity_type",
+          "entity_id",
+          "date_added"
+        ]
+      }
+    },
+    "entity_total_count": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "ok",
+    "entities",
+    "entity_total_count"
+  ]
+}

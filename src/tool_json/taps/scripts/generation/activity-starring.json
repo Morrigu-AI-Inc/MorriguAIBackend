@@ -1,0 +1,392 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Star Repository API",
+  "description": "API endpoints for starring a repository on GitHub",
+  "type": "object",
+  "properties": {
+    "listStargazers": {
+      "type": "object",
+      "description": "Lists the people that have starred the repository",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing stargazers",
+          "value": "/repos/{owner}/{repo}/stargazers"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "login": {
+                "type": "string",
+                "description": "The user's login name"
+              },
+              "id": {
+                "type": "integer",
+                "description": "The user's ID"
+              },
+              // ... other user object properties
+            }
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "listStarredReposByAuthenticatedUser": {
+      "type": "object",
+      "description": "Lists repositories the authenticated user has starred",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing starred repositories",
+          "value": "/user/starred"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "sort": {
+              "type": "string",
+              "description": "The property to sort the results by",
+              "enum": ["created", "updated"]
+            },
+            "direction": {
+              "type": "string",
+              "description": "The direction to sort the results by",
+              "enum": ["asc", "desc"]
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The repository ID"
+              },
+              "name": {
+                "type": "string",
+                "description": "The repository name"
+              },
+              "full_name": {
+                "type": "string",
+                "description": "The full name of the repository"
+              },
+              // ... other repository object properties
+            }
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+    },
+    "checkIfRepoIsStarredByAuthenticatedUser": {
+      "type": "object",
+      "description": "Check if a repository is starred by the authenticated user",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for checking if repo is starred",
+          "value": "/user/starred/{owner}/{repo}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "response": {
+          "type": "string",
+          "description": "204 No Content if repo is starred, 404 Not Found if not starred"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "starRepoForAuthenticatedUser": {
+      "type": "object",
+      "description": "Star a repository for the authenticated user",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for starring a repository",
+          "value": "/user/starred/{owner}/{repo}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PUT"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "response": {
+          "type": "string",
+          "description": "204 No Content if successful"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "unstarRepoForAuthenticatedUser": {
+      "type": "object",
+      "description": "Unstar a repository for the authenticated user",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for unstarring a repository",
+          "value": "/user/starred/{owner}/{repo}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository without the .git extension"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "response": {
+          "type": "string",
+          "description": "204 No Content if successful"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "listStarredReposByUser": {
+      "type": "object",
+      "description": "Lists repositories a user has starred",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing starred repositories by user",
+          "value": "/users/{username}/starred"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "The handle for the GitHub user account"
+            }
+          },
+          "required": ["username"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "sort": {
+              "type": "string",
+              "description": "The property to sort the results by",
+              "enum": ["created", "updated"]
+            },
+            "direction": {
+              "type": "string",
+              "description": "The direction to sort the results by",
+              "enum": ["asc", "desc"]
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The repository ID"
+              },
+              "name": {
+                "type": "string",
+                "description": "The repository name"
+              },
+              "full_name": {
+                "type": "string",
+                "description": "The full name of the repository"
+              },
+              // ... other repository object properties
+            }
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "queryParameters", "response"]
+    }
+  },
+  "required": ["listStargazers", "listStarredReposByAuthenticatedUser", "checkIfRepoIsStarredByAuthenticatedUser", "starRepoForAuthenticatedUser", "unstarRepoForAuthenticatedUser", "listStarredReposByUser"]
+}

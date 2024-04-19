@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMS URL Redirects API",
+  "description": "Use the URL redirects API to redirect traffic from a HubSpot-hosted page or blog post to any URL. You can redirect pages to specific URLs or use flexible pattern redirects to redirect multiple pages using variables.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for CMS URL redirects",
+      "value": "/cms/v3/url-redirects"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "Content type of the request body, application/json"
+        }
+      },
+      "required": [
+        "Authorization"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "isTrailingSlashOptional": {
+          "type": "boolean",
+          "description": "Whether the trailing slash in the URL is optional"
+        },
+        "isMatchQueryString": {
+          "type": "boolean",
+          "description": "Whether to match the query string in the URL"
+        },
+        "redirectStyle": {
+          "type": "integer",
+          "description": "The type of redirect (301, 302, etc.)"
+        },
+        "routePrefix": {
+          "type": "string",
+          "description": "The route prefix for the redirect"
+        },
+        "isMatchFullUrl": {
+          "type": "boolean",
+          "description": "Whether to match the full URL"
+        },
+        "isProtocolAgnostic": {
+          "type": "boolean",
+          "description": "Whether the redirect is protocol agnostic"
+        },
+        "destination": {
+          "type": "string",
+          "description": "The destination URL for the redirect"
+        },
+        "isOnlyAfterNotFound": {
+          "type": "boolean",
+          "description": "Whether the redirect should only happen after a 404 Not Found error"
+        },
+        "isPattern": {
+          "type": "boolean",
+          "description": "Whether the redirect uses a pattern"
+        },
+        "precedence": {
+          "type": "integer",
+          "description": "The precedence of the redirect rule"
+        }
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the redirect"
+        },
+        "created": {
+          "type": "string",
+          "description": "The date and time the redirect was created"
+        },
+        "updated": {
+          "type": "string",
+          "description": "The date and time the redirect was last updated"
+        }
+      },
+      "required": []
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,134 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Git Trees API",
+  "description": "Interact with Git tree objects in a repository on GitHub", 
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for creating or getting a Git tree",
+      "value": "/repos/{owner}/{repo}/git/trees"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST", "GET"],
+      "description": "HTTP method for creating or getting a tree"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        }
+      },
+      "required": ["Authorization", "Accept"]
+    },
+    "contentType": {
+      "type": "string", 
+      "enum": ["application/json"],
+      "description": "Content type for request body when creating a tree"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "base_tree": {
+          "type": "string",
+          "description": "The SHA1 of an existing Git tree as base"
+        },
+        "tree": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path of the file"
+              },
+              "mode": {
+                "type": "string",
+                "enum": ["100644", "100755", "040000", "160000", "120000"],
+                "description": "The file mode"
+              },
+              "type": {
+                "type": "string", 
+                "enum": ["blob", "tree", "commit"],
+                "description": "The object type"
+              },
+              "sha": {
+                "type": ["string", "null"],
+                "description": "The SHA1 checksum ID of the object"
+              },
+              "content": {
+                "type": "string",
+                "description": "The content for the file"
+              }
+            },
+            "required": ["path", "mode", "type"]
+          }
+        }
+      },
+      "required": ["tree"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "recursive": {
+          "type": "string",
+          "description": "Setting to any value returns objects/subtrees recursively"
+        }
+      }
+    },
+    "response": {
+      "type": "object", 
+      "properties": {
+        "sha": {
+          "type": "string",
+          "description": "The SHA1 of the created/returned tree"
+        },
+        "url": {
+          "type": "string",
+          "description": "The API URL for the tree"  
+        },
+        "tree": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "mode": {
+                "type": "string"  
+              },
+              "type": {
+                "type": "string"
+              },
+              "size": {
+                "type": "integer"
+              },
+              "sha": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": ["path", "mode", "type", "sha", "url"]
+          }
+        },
+        "truncated": {
+          "type": "boolean",
+          "description": "Whether the tree array was truncated due to max limit"
+        }
+      },
+      "required": ["sha", "url", "tree", "truncated"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

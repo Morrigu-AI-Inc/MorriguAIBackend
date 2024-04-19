@@ -48,6 +48,7 @@ import { QuickbooksUpdateModule } from './quickbooks_update/quickbooks_update.mo
 import { GithubApiIntegrationModule } from './github_api_integration/github_api_integration.module';
 import { ZendeskSupportIntegrationModule } from './zendesk_support_integration/zendesk_support_integration.module';
 import { SlackApiIntegrationModule } from './slack_api_integration/slack_api_integration.module';
+import { HubspotApiIntegrationModule } from './hubspot_api_integration/hubspot_api_integration.module';
 
 @Module({
   providers: [
@@ -105,6 +106,7 @@ import { SlackApiIntegrationModule } from './slack_api_integration/slack_api_int
     GithubApiIntegrationModule,
     ZendeskSupportIntegrationModule,
     SlackApiIntegrationModule,
+    HubspotApiIntegrationModule,
   ],
   exports: [
     MongooseModule.forFeature([

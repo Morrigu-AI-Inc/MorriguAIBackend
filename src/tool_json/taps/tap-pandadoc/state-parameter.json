@@ -1,0 +1,67 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "csrf-attacks": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "There is the opportunity with an OAuth2.0 authorization flow for a Cross-Site Request Forgery (CSRF) attack. This is where an attacker compromises the redirect URL and gains access to the user-protected data."
+        },
+        "mitigating-csrf": {
+          "type": "string",
+          "description": "A CSRF attack is easily mitigated with the state parameter, a client-provided value such as an encoded session id. It is provided with the initial Authorization URI and returned via the redirect URI and Authorization code."
+        },
+        "verify-state": {
+          "type": "string",
+          "description": "This client-provided value can then be compared to ensure it was the original request and a CSRF attack is not being attempted. If the values don't match the Client should reject the client."
+        },
+        "using-state-recommended": {
+          "type": "string",
+          "description": "Use of the state parameter is not required. Although it is highly recommended to maintain a high level of security"
+        }
+      },
+      "required": [
+        "description",
+        "mitigating-csrf",
+        "verify-state",
+        "using-state-recommended"
+      ]
+    },
+    "using-state-parameter": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "step",
+              "description"
+            ]
+          }
+        }
+      },
+      "required": [
+        "steps"
+      ]
+    }
+  },
+  "required": [
+    "csrf-attacks",
+    "using-state-parameter"
+  ]
+}

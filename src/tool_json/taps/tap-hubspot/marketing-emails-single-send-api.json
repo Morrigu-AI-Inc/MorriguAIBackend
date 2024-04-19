@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Single Send API",
+  "description": "The single-send API allows you to send template emails created in the HubSpot marketing email tool using a JSON-formatted POST request.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for sending a single marketing email",
+      "value": "/marketing/v4/email/single-send"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization", "Content-Type"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "integer",
+          "description": "The ID of the marketing email template to send"
+        },
+        "message": {
+          "type": "object",
+          "properties": {
+            "cc": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "A list of email addresses to carbon copy"
+            },
+            "sendId": {
+              "type": "string",
+              "description": "A unique ID for this email send"
+            },
+            "bcc": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "A list of email addresses to blind carbon copy"
+            },
+            "replyTo": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "A list of email addresses to use for the reply-to field"
+            },
+            "from": {
+              "type": "string",
+              "description": "The email address to use for the from field"
+            },
+            "to": {
+              "type": "string",
+              "description": "The email address to send the email to"
+            }
+          },
+          "required": ["to", "from"]
+        },
+        "contactProperties": {
+          "type": "object",
+          "description": "Contact properties to associate with the recipient",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["emailId", "message"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the email send"
+        },
+        "emailId": {
+          "type": "integer",
+          "description": "The ID of the marketing email template sent"
+        },
+        "created": {
+          "type": "string",
+          "description": "The timestamp when the email send was created"
+        },
+        "sendId": {
+          "type": "string",
+          "description": "The unique ID for this email send"
+        },
+        "from": {
+          "type": "string",
+          "description": "The email address used for the from field"
+        },
+        "to": {
+          "type": "string",
+          "description": "The email address the email was sent to"
+        }
+      },
+      "required": ["id", "emailId", "created", "sendId", "from", "to"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

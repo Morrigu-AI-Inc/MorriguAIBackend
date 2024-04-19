@@ -1,0 +1,132 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Analytics and Events Reporting API",
+  "description": "API for retrieving analytics and event data from HubSpot",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving analytics and events data",
+      "value": "/analytics/v2/reports/{breakdown_by}/{time_period}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "breakdown_by": {
+          "type": "string",
+          "description": "The category used to break down the analytics data",
+          "enum": ["totals", "sessions", "sources", "geolocation", "utm-{utm_type}"]
+        },
+        "time_period": {
+          "type": "string",
+          "description": "The time period used to group the data",
+          "enum": ["total", "daily", "weekly", "monthly", "summarize/daily", "summarize/weekly", "summarize/monthly"]
+        },
+        "start": {
+          "type": "string",
+          "description": "The start date for the data in YYYYMMDD format"
+        },
+        "end": {
+          "type": "string",
+          "description": "The end date for the data in YYYYMMDD format"
+        },
+        "d1": {
+          "type": "string",
+          "description": "Used to drilldown into the data"
+        },
+        "d2": {
+          "type": "string",
+          "description": "Used to further drill down into the data"
+        },
+        "f": {
+          "type": "array",
+          "description": "Filter the returned data to include only the specified breakdown",
+          "items": {
+            "type": "string"
+          }
+        },
+        "e": {
+          "type": "array",
+          "description": "Exclude data for the specified breakdown",
+          "items": {
+            "type": "string"
+          }
+        },
+        "filterId": {
+          "type": "integer",
+          "description": "The ID of an Analytics view to filter the data"
+        },
+        "sort": {
+          "type": "string",
+          "description": "Field to sort the results by"
+        },
+        "sortDir": {
+          "type": "string",
+          "enum": ["ASC", "DESC"],
+          "description": "Direction to sort the results"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Limit the number of results per request"
+        },
+        "offset": {
+          "type": "integer",
+          "description": "Used to get the next page of results"
+        }
+      },
+      "required": ["breakdown_by", "time_period", "start", "end"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "description": "Offset value for pagination"
+        },
+        "total": {
+          "type": "integer",
+          "description": "Total number of results"
+        },
+        "totals": {
+          "type": "object",
+          "description": "Rolled up totals for the requested metrics"
+        },
+        "breakdowns": {
+          "type": "array",
+          "description": "Breakdown of the data by the specified category",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": ["offset", "total", "totals", "breakdowns"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+}

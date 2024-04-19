@@ -1,0 +1,40 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "upload": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "The URL to make the S3 upload request to."
+        },
+        "fields": {
+          "type": "object",
+          "description": "The fields to include in the form data of the S3 upload request."
+        }
+      },
+      "required": [
+        "url",
+        "fields"
+      ]
+    },
+    "download": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "The URL to use when referencing this file in other API endpoints."
+        }
+      },
+      "required": [
+        "url"
+      ]
+    }
+  },
+  "required": [
+    "upload",
+    "download"
+  ]
+}

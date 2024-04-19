@@ -1,0 +1,132 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User Migrations API",
+  "description": "APIs for managing user migrations on GitHub",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing user migrations",
+      "value": "/user/migrations"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Media type to accept",
+          "default": "application/vnd.github+json"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Accept"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "Number of results per page (max 100)"
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number of results to fetch"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The unique identifier of the migration"
+        },
+        "owner": {
+          "type": "object",
+          "description": "The owner of the migration"
+        },
+        "guid": {
+          "type": "string",
+          "description": "The unique GUID for this migration"
+        },
+        "state": {
+          "type": "string",
+          "description": "The current state of the migration",
+          "enum": [
+            "pending",
+            "exporting",
+            "exported",
+            "failed"
+          ]
+        },
+        "lock_repositories": {
+          "type": "boolean",
+          "description": "Whether to lock the repositories during migration"
+        },
+        "exclude_attachments": {
+          "type": "boolean",
+          "description": "Whether to exclude attachments from the migration"
+        },
+        "exclude_releases": {
+          "type": "boolean",
+          "description": "Whether to exclude releases from the migration"
+        },
+        "exclude_owner_projects": {
+          "type": "boolean",
+          "description": "Whether to exclude owner projects from the migration"
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Details of a repository included in the migration"
+          }
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL for accessing this migration"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The time that the migration was created"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The time that the migration was last updated"
+        }
+      },
+      "required": [
+        "id",
+        "owner",
+        "guid", 
+        "state",
+        "lock_repositories",
+        "exclude_attachments",
+        "exclude_releases",
+        "exclude_owner_projects",
+        "repositories",
+        "url",
+        "created_at",
+        "updated_at"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "response"
+  ]
+}

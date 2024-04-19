@@ -1,0 +1,89 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "barriers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "enterprise_id": {
+            "type": "string"
+          },
+          "primary_usergroup": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ]
+          },
+          "barriered_from_usergroups": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            }
+          },
+          "restricted_subjects": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "date_update": {
+            "type": "integer"
+          },
+          "response_metadata": {
+            "type": "object",
+            "properties": {
+              "next_cursor": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "next_cursor"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "enterprise_id",
+          "primary_usergroup",
+          "barriered_from_usergroups",
+          "restricted_subjects",
+          "date_update"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "barriers"
+  ]
+}

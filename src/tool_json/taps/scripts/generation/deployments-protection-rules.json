@@ -1,0 +1,427 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Deployments Protection Rules API",
+  "description": "API endpoints for managing deployment protection rules for repositories",
+  "type": "object",
+  "properties": {
+    "getDeploymentProtectionRules": {
+      "type": "object",
+      "description": "Gets all custom deployment protection rules that are enabled for an environment",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting deployment protection rules",
+          "value": "/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Accept": {
+              "type": "string",
+              "description": "Recommended value: application/vnd.github+json"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"  
+            }
+          },
+          "required": ["Accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "environment_name": {
+              "type": "string",
+              "description": "The name of the environment"
+            }
+          },
+          "required": ["owner", "repo", "environment_name"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer"
+            },
+            "custom_deployment_protection_rules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "node_id": {
+                    "type": "string"  
+                  },
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "app": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "node_id": {
+                        "type": "string"
+                      },
+                      "slug": {
+                        "type": "string"  
+                      },
+                      "integration_url": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": ["total_count", "custom_deployment_protection_rules"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "createDeploymentProtectionRule": {
+      "type": "object",
+      "description": "Enable a custom deployment protection rule for an environment",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a deployment protection rule",
+          "value": "/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules" 
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Accept": {
+              "type": "string",
+              "description": "Recommended value: application/vnd.github+json"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"  
+            },
+            "environment_name": {
+              "type": "string",
+              "description": "The name of the environment"
+            }
+          },
+          "required": ["owner", "repo", "environment_name"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "integration_id": {
+              "type": "integer",
+              "description": "The ID of the custom app to enable on the environment"
+            }
+          },
+          "required": ["integration_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "app": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "node_id": {
+                  "type": "string"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "integration_url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "required": ["id", "node_id", "enabled", "app"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "body", "response"]
+    },
+    "listCustomDeploymentRuleIntegrations": {
+      "type": "object",
+      "description": "List custom deployment rule integrations available for an environment",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing integrations",
+          "value": "/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/apps"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Accept": {
+              "type": "string",
+              "description": "Recommended value: application/vnd.github+json"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "environment_name": {
+              "type": "string",
+              "description": "The name of the environment"  
+            }
+          },
+          "required": ["owner", "repo", "environment_name"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "description": "Page number of results"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "Number of results per page, max 100"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "total_count": {
+                "type": "integer"
+              },
+              "available_custom_deployment_protection_rule_integrations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"  
+                    },
+                    "node_id": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "integration_url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"] 
+    },
+    "getDeploymentProtectionRule": {
+      "type": "object",
+      "description": "Get a specific enabled custom deployment protection rule",
+      "properties": {
+        "endpoint": {
+          "type": "string", 
+          "description": "API endpoint for getting a rule",
+          "value": "/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/{protection_rule_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Accept": {
+              "type": "string",
+              "description": "Recommended value: application/vnd.github+json"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "environment_name": {
+              "type": "string", 
+              "description": "The name of the environment"
+            },
+            "protection_rule_id": {
+              "type": "integer",
+              "description": "The unique ID of the protection rule"
+            }
+          },
+          "required": ["owner", "repo", "environment_name", "protection_rule_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "app": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "node_id": {
+                  "type": "string"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "integration_url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "required": ["id", "node_id", "enabled", "app"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "disableDeploymentProtectionRule": {
+      "type": "object",
+      "description": "Disable a custom deployment protection rule",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for disabling a rule", 
+          "value": "/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/{protection_rule_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Accept": {
+              "type": "string",
+              "description": "Recommended value: application/vnd.github+json"  
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string", 
+              "description": "The name of the repository"
+            },
+            "environment_name": {
+              "type": "string",
+              "description": "The name of the environment"
+            },
+            "protection_rule_id": {
+              "type": "integer",
+              "description": "The unique ID of the protection rule"
+            }
+          },
+          "required": ["owner", "repo", "environment_name", "protection_rule_id"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters"]
+    }
+  },
+  "required": ["getDeploymentProtectionRules", "createDeploymentProtectionRule", "listCustomDeploymentRuleIntegrations", "getDeploymentProtectionRule", "disableDeploymentProtectionRule"]
+}

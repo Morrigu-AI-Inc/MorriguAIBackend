@@ -1,0 +1,173 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "apiDocsToggler__toggle": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "apiDocsToggler__toggle": {
+            "type": "string"
+          },
+          "apiInPageNav__linkableHeader": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiDocsToggler__toggle",
+          "apiInPageNav__linkableHeader",
+          "id"
+        ]
+      }
+    },
+    "apiReference__factBlocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "apiReference__factBlock": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "apiReference__factLabel": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "apiReference__factLabel",
+                "id"
+              ]
+            }
+          }
+        },
+        "required": [
+          "apiReference__factBlock"
+        ]
+      }
+    },
+    "apiMethodPage__argumentSection": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "apiMethodPage__argumentList": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "apiMethodPage__listName": {
+                  "type": "string"
+                },
+                "apiMethodPage__argumentRow": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "apiMethodPage__argumentMetadata": {
+                        "type": "object",
+                        "properties": {
+                          "apiMethodPage__argument": {
+                            "type": "string"
+                          },
+                          "apiMethodPage__argumentExtras": {
+                            "type": "object",
+                            "properties": {
+                              "apiMethodPage__argumentType": {
+                                "type": "string"
+                              },
+                              "apiMethodPage__argumentOptionality": {
+                                "type": "string"
+                              },
+                              "apiMethodPage__argumentPermalink": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "apiMethodPage__argumentType",
+                              "apiMethodPage__argumentOptionality",
+                              "apiMethodPage__argumentPermalink"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "apiMethodPage__argument",
+                          "apiMethodPage__argumentExtras"
+                        ]
+                      },
+                      "apiMethodPage__argumentDesc": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "apiMethodPage__argumentMetadata",
+                      "apiMethodPage__argumentDesc"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "apiMethodPage__listName",
+                "apiMethodPage__argumentRow"
+              ]
+            }
+          }
+        },
+        "required": [
+          "apiMethodPage__argumentList"
+        ]
+      }
+    },
+    "apiDocsPage__markdownOutput": {
+      "type": "string"
+    },
+    "apiReference__response": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "apiReference__example": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "example_description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "example_description"
+              ]
+            }
+          }
+        },
+        "required": [
+          "apiReference__example"
+        ]
+      }
+    },
+    "apiReference__errors": {
+      "type": "object"
+    },
+    "apiReference__warnings": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "apiDocsToggler__toggle",
+    "apiReference__factBlocks",
+    "apiMethodPage__argumentSection", 
+    "apiDocsPage__markdownOutput",
+    "apiReference__response",
+    "apiReference__errors",
+    "apiReference__warnings"
+  ]
+}

@@ -1,0 +1,27 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "An event dictionary, using the format outlined in 'Event format'"
+      }
+    },
+    "cursor_next": {
+      "type": ["string", "null"],
+      "description": "Cursor string to retrieve the next page of events, or null if no more objects are available."
+    },
+    "cursor_previous": {
+      "type": ["string", "null"],
+      "description": "Cursor string to retrieve the previous page of events, or null if no more objects are available."
+    }
+  },
+  "required": [
+    "data",
+    "cursor_next",
+    "cursor_previous"
+  ]
+}

@@ -1,0 +1,44 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "enum": [
+        "MANUAL",
+        "THIRD_PARTY",
+        "CALENDLY"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "A name for the scheduling link, displayed in the Close application."
+    },
+    "url": {
+      "type": "string",
+      "description": "The external URL to the scheduling link."
+    },
+    "description": {
+      "type": "string",
+      "description": "A description for the scheduling link, displayed in the Close application."
+    },
+    "source_id": {
+      "type": "string",
+      "description": "The ID at the source. I.e., the integrating application's identifier for the scheduling link."
+    },
+    "source_type": {
+      "type": "string",
+      "description": "A short descriptor identifying the type of scheduling link (displayed in the Close application)."
+    },
+    "duration_in_minutes": {
+      "type": "integer",
+      "description": "The length of meetings scheduled with this link, in minutes (displayed in the Close application)."
+    }
+  },
+  "required": [
+    "source",
+    "name",
+    "url"
+  ]
+}

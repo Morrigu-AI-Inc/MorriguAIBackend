@@ -1,0 +1,387 @@
+<div class="apiDocsToggler apiDocsToggler--showOnLoad apiReference__nutritionalInfoToggler"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="facts">Facts</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__nutritionalInfo"><div class="apiReference__factBlocks"><div class="apiReference__factBlock apiReference__factBlock--accessMethods"><h3 id="method" class="apiReference__factLabel"><i class="c-icon c-icon--plug c-icon--inline"></i>Method access</h3><div class="apiReference__fact apiDocsTabber"><div class="apiDocsTabber__switches"><div class="apiDocsTabber__switch apiDocsTabber__switch--active" data-target="http">HTTP</div><div class="apiDocsTabber__switch" data-target="js"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>JavaScript</div><div class="apiDocsTabber__switch" data-target="python"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>Python</div><div class="apiDocsTabber__switch" data-target="java"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="apiBoltIcon"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M16,32A16,16,0,0,0,32,16H16Z"></path><path class="cls-2" d="M32,16A16,16,0,0,0,16,0V16Z"></path><path class="cls-3" d="M16,0A16,16,0,0,0,0,16H16Z"></path><path class="cls-4" d="M0,16A16,16,0,0,0,16,32V16Z"></path><polygon class="cls-5" points="16 16 8.84 16 16 5.68 16 16"></polygon><polygon class="cls-5" points="16 16 16 26.32 23.16 16 16 16"></polygon></g></g></svg>Java</div></div><div class="apiDocsTabber__tabs"><div class="apiReference__accessMethod apiReference__accessMethod--http apiDocsTabber__tab apiDocsTabber__tab--active" data-tab="http"><span id="http_access" class="apiReference__accessMethodLabel">HTTP</span><div class="apiReference__accessMethodInfo"><code class="apiReference__methodAccessUrl"><span class="apiMethodPage__method apiMethodPage__postMethod">POST</span><span class="apiReference__methodUrlString" onclick="window.getSelection().selectAllChildren(this);"><span>https://slack.</span><span>com/api/users.</span><span>profile.</span><span>set</span></span></code></div></div><div class="apiReference__accessMethod apiReference__accessMethod--java apiDocsTabber__tab" data-tab="java"><span id="java_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for Java</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client().</span>usersProfileSet</code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div><div class="apiReference__accessMethod apiReference__accessMethod--python apiDocsTabber__tab" data-tab="python"><span id="python_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for Python</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client.</span><span>users_profile_set</span></code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div><div class="apiReference__accessMethod apiReference__accessMethod--js apiDocsTabber__tab" data-tab="js"><span id="js_access" class="apiReference__accessMethodLabel"><a href="/tools/bolt">Bolt for JavaScript</a></span><div class="apiReference__accessMethodInfo"><code class="apiReference__boltMethod" onclick="window.getSelection().selectAllChildren(this);"><span class="apiReference__boltMethodPrefix">app.client.</span>users.profile.set</code></div><span class="apiReference__accessMethodHelp"><a href="/tools/bolt">Powered by Bolt</a></span></div></div></div></div><div class="apiReference__factBlock apiReference__factBlock--scopes"><h3 id="scopes" class="apiReference__factLabel"><i class="c-icon c-icon--key c-icon--inline"></i>Required scopes</h3><div class="apiReference__fact"><div class="apiReference__tokenGrid"><div class="apiReference__tokenRow apiReference__tokenRow--user"><span class="apiReference__tokenType"><a class="apiReference__tokenTypePill apiReference__tokenTypePill--user" href="/docs/token-types#user">User tokens</a></span><span class="apiReference__tokenRowScopes"><a href="/scopes/users.profile:write" title="" class="apiReference__scope apiReference__scope--users.profile:write"><code>users.profile:write</code></a></span></div></div></div></div><div class="apiReference__factBlock apiReference__factBlock--contentTypes"><h3 id="contenttypes" class="apiReference__factLabel"><i class="c-icon c-icon--create-post c-icon--inline"></i>Content types</h3><div class="apiReference__fact apiMethodPage__contentTypes"><code>application/x-www-form-urlencoded</code><a title="Learn more about sending HTTP POST with JSON" href="/web#posting_json"><code>application/json</code></a></div></div><li class="apiReference__factBlock apiReference__factBlock--rateLimits"><h3 id="ratelimites" class="apiReference__factLabel"><i class="c-icon c-icon--dashboard c-icon--inline"></i>Rate limits</h3><span class="apiMethodPage__rateLimit apiReference__fact apiMethodPage__rateLimit--t3"><a href="/docs/rate-limits#tier_t3">Tier 3</a></span></li></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="args">Arguments</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__arguments"><div class="apiMethodPage__argumentSection"><div class="apiMethodPage__argumentList apiMethodPage__argumentList----required"><span class="apiMethodPage__listName apiMethodPage__listName--required">Required arguments</span><div class="apiMethodPage__argumentRow"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--token"><code>token</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType"><a href="/authentication/token-types">token</a></div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--required"><i>·</i>Required</div><a class="apiMethodPage__argumentPermalink" href="#arg_token" name="arg_token"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">xxxx-xxxxxxxxx-xxxx</code></div></div></div></div></div><div class="apiMethodPage__argumentList apiMethodPage__argumentList----optional"><span class="apiMethodPage__listName apiMethodPage__listName--optional">Optional arguments</span><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--name"><code>name</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">string</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_name" name="arg_name"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Name of a single key to set. Usable only if <code>profile</code> is not passed.</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">first_name</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--profile"><code>profile</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">string</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_profile" name="arg_profile"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Collection of key:value pairs presented as a URL-encoded JSON hash. At most 50 fields may be set. Each field name is limited to 255 characters.</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">{ first_name: "John", ... }</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--user"><code>user</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">string</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_user" name="arg_user"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>ID of user to change. This argument may only be specified by admins on paid teams.</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">W1234567890</code></div></div></div></div><div class="apiMethodPage__argumentRow apiMethodPage__argumentRow--optional apiDocsToggler"><div class="apiMethodPage__argumentMetadata apiDocsToggler__toggle"><div class="apiMethodPage__argument"><span class="apiReference__methodName--value"><code>value</code></span></div><div class="apiMethodPage__argumentExtras"><div class="apiMethodPage__argumentType">string</div><div class="apiMethodPage__argumentOptionality apiMethodPage__argumentOptionality--optional"><i>·</i>Optional</div><a class="apiMethodPage__argumentPermalink" href="#arg_value" name="arg_value"><i class="c-icon c-icon--inherit c-icon--inline c-icon--link"></i></a></div></div><div class="apiMethodPage__argumentDesc apiDocsToggler__target"><p>Value to set a single key to. Usable only if <code>profile</code> is not passed.</p>
+<div class="apiReference__example"><strong>Example</strong><div class="apiReference__exampleCode"><code class="json hljs">John</code></div></div></div></div></div></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="markdown">Usage info</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiDocsPage__markdownOutput"><div class="apiDocsCalloutCard apiDocsCalloutCard--info">
+  <i class="ts_icon c-icon c-icon--info-circle"></i>
+  Is this the API Method for you? Here are some things to keep in mind while using the users.profile.set API Method.
+  <div>
+  </div>
+</div>
+<ul>
+<li>Your workspace must be on a paid plan to use the <a href="/methods/users.profile.set"><code>users.profile.set</code></a> API method in order to change the profile for other users.</li>
+<li>You must select <strong>API</strong> as the <strong>Data source</strong> within the <a href="https://slack.com/help/articles/212281478-Customize-member-profiles#Manage-profile-fields">Configure Profiles</a> admin tool in order to call this method.</li>
+<li>The <code>users.profile.set</code> API method requires you to use a user access token (starts with <code>xoxp-</code>).</li>
+<li>The role level for the token is determined by the user who installed the app.</li>
+<li>Org users cannot change their own profile details.</li>
+<li>You cannot change the profile details for another user unless you use a token that was generated by an Owner or Admin (For Enterprise Grid, this must be an Org Owner or Org Admin). You also cannot change the profile details for a user unless your role level is higher than theirs. Role levels from highest to lowest are: <code>Primary Owner</code> &gt; <code>Owner</code> &gt; <code>Admin</code> &gt; <code>Member</code> &gt; <code>Guest</code>. More information about roles can be found <a href="https://get.slack.help/hc/en-us/articles/360018112273-roles-in-slack">here</a>. Therefore:
+<ul>
+<li>To change the profile of Admins, you must be using a token that was minimally generated by an Owner.</li>
+<li>To change the profile of Owners, you must be using a token that was generated by a Primary Owner.</li>
+</ul>
+</li>
+</ul>
+<a name="profile_fields"></a><h3 class="headingWithAnchor" id="profile-fields">Profile fields <a href="#profile-fields"><i class="glyphIcon fa fa-link"></i></a></h3>
+<p>There are two ways to update non-custom profile fields with this method:</p>
+<ul>
+<li>Update one field at a time by passing the pair of arguments <code>name</code> and <code>value</code>.</li>
+<li>Update multiple fields by passing the argument <code>profile</code>.</li>
+</ul>
+<p>You can update any of the following non-custom fields from the <code>profile</code> object within a Slack <a href="/types/user"><code>user</code></a> object:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>display_name</code></td>
+<td>The display name the user has chosen to identify themselves by in their workspace profile. Maximum of 80 characters.</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>A valid email address. It cannot have spaces, or be in use by another member of the same team. It must have an <code>@</code> and a domain. Changing a user's email address will send an email to both the old and new addresses, and also post a slackbot message to the user informing them of the change. You cannot update your own email using this method. This field can only be changed <em>by admins</em> for users on <strong>paid</strong> teams.</td>
+</tr>
+<tr>
+<td><code>first_name</code></td>
+<td>The user's first name. The name <code>slackbot</code> cannot be used. Updating <code>first_name</code> will update the first name within <code>real_name</code>.</td>
+</tr>
+<tr>
+<td><code>last_name</code></td>
+<td>The user's last name. The name <code>slackbot</code> cannot be used. Updating <code>last_name</code> will update the second name within <code>real_name</code>.</td>
+</tr>
+<tr>
+<td><code>phone</code></td>
+<td>The user's phone number, in any format.</td>
+</tr>
+<tr>
+<td><code>pronouns</code></td>
+<td>The user's pronouns.</td>
+</tr>
+<tr>
+<td><code>real_name</code></td>
+<td>The user's first and last name. Updating this field will update <code>first_name</code> and <code>last_name</code>. If only one name is provided, the value of <code>last_name</code> will be cleared. Maximum of 80 characters.</td>
+</tr>
+<tr>
+<td><a href="#start-dates"><code>start_date</code></a></td>
+<td>The date the person joined the organization (Business+ or Enterprise customers only).</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>The user's title.</td>
+</tr></tbody></table>
+<div class="apiDocsCalloutCard">
+  <i class="ts_icon c-icon c-icon--info-circle"></i>
+  <div>
+<p>The <code>skype</code> field will always be an empty string and cannot be set otherwise. For more details, please read <a href="/changelog/2017-02-minor-field-changes">this changelog</a> entry.</p>
+  </div>
+</div>
+<p>While profile image fields are present in the <code>profile</code> object, they cannot be set using the <a href="/methods/users.profile.set"><code>users.profile.set</code></a> method. Use <a href="/methods/users.setPhoto"><code>users.setPhoto</code></a> and <a href="/methods/users.deletePhoto"><code>users.deletePhoto</code></a> to update a user's profile image.</p>
+<p>The following example payload updates the values of <code>first_name</code>, <code>last_name</code>, <code>pronoun</code>, and <code>email</code> for a user:</p>
+<pre><code class="language-json">{
+	"profile": {
+		"first_name": "John",
+		"last_name": "Smith",
+		"pronouns": "they/them",
+		"email": "john@smith.com"
+	}
+}
+</code></pre>
+<a name="custom_profile_fields"></a><h3 class="headingWithAnchor" id="custom-profile">Custom profile fields <a href="#custom-profile"><i class="glyphIcon fa fa-link"></i></a></h3>
+<p>Custom fields are created within the <a href="https://slack.com/help/articles/115005594006-Guide-to-the-Enterprise-Grid-admin-dashboard">organization admin tools</a>. Once a field is created, you can update it for users with this API method.</p>
+<p>Each custom profile field has a unique per-team ID. You can update a custom profile field by providing a key:value pair where the key is the relevant ID. Use <a href="/methods/team.profile.get"><code>team.profile.get</code></a> to retrieve the profile fields and their IDs used by a team.</p>
+<p>You can update a profile field by using the ID in the <code>name</code> field. To update <em>custom</em> profile fields, use the <code>fields</code> object instead. The <code>fields</code> object is an array of custom profile fields' key:value pairs.</p>
+<p>If you update fields within the <code>fields</code> array, you can also choose to set the <code>alt</code> field. While the <code>value</code> of a field is what is usually displayed, the <code>alt</code> key will be displayed instead if it is set. The <code>alt</code> field can be up to 256 characters for all field types.</p>
+<p>A field within the <code>fields</code> array needs a <code>type</code>. This determines the <code>type</code> of information <code>value</code> contains.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>date</code></td>
+<td>the <code>value</code> must be a valid date.</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td>the <code>value</code> can be any valid link that's not more than 256 characters. The link text will be the <code>alt</code> value if set, or the data element name if <code>alt</code> is not set.</td>
+</tr>
+<tr>
+<td><code>long_text</code></td>
+<td>the <code>value</code> can be up to 5,000 characters of <a href="https://api.slack.com/reference/surfaces/formatting#basics">basic formatted</a> <code>mrkdown</code>. See the <code>long_text</code> section <a href="#long-text">below</a>.</td>
+</tr>
+<tr>
+<td><code>options_list</code></td>
+<td>the <code>value</code> must be one of the <code>possible_values</code> in the field definition.</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>the <code>value</code> contains distinct elements known as multi-value tags. Individual tags can hold up to 50 characters. Any number of tags can be created by admins, but end-users can only add 75 tags to their profiles. See the <code>tags</code> section <a href="#tags">below</a>.</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>the <code>value</code> can be up to 256 characters of plain text.</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>the <code>value</code> can be up to 25 user IDs, seperated by commas.</td>
+</tr></tbody></table>
+<p>The following example sets the <code>value</code> of three fields; one with plain text, one with a date, and another with a link.</p>
+<pre><code class="language-json">{
+	"profile": {
+		"fields": {
+			"Xf0111111": {
+				"value": "Barista",
+				"alt": ""
+			},
+			"Xf0222222": {
+				"value": "2022-04-11",
+				"alt": ""
+			},
+			"Xf0333333": {
+				"value": "https://example.com",
+				"alt": ""
+			}
+		}
+	}
+}
+</code></pre>
+<a name="long_text__flexible_text_"></a><h4 class="headingWithAnchor" id="long-text">Long_text (Flexible Text) <a href="#long-text"><i class="glyphIcon fa fa-link"></i></a></h4>
+<p>The <code>value</code> of a <code>long_text</code> field can be up to 5,000 characters of <a href="https://api.slack.com/reference/surfaces/formatting#basics">basic formatted</a> <code>mrkdown</code>.</p>
+<p>While you should use <a href="/methods/team.profile.get"><code>team.profile.get</code></a> to get the ID for any field, including long-text fields, you should <em>not</em> copy the received schema. Below is a properly formatted payload for updating the <code>long_text</code> field with <code>user.profile.set</code>.</p>
+<pre><code class="language-json">{
+	"profile": {
+		"fields": {
+			"Xf0222222": {
+				"value": "​​I make absolutely the best coffee you will *_ever_* taste. Learn more about where I studied &lt;http://www.example.com|how to pull an espresso shot&gt;. :coffee:",
+				"alt": ""
+			}
+		}
+	}
+}
+</code></pre>
+<a name="tags__smart_tags_"></a><h4 class="headingWithAnchor" id="tags">Tags (Smart Tags) <a href="#tags"><i class="glyphIcon fa fa-link"></i></a></h4>
+<p>The <code>value</code> of a <code>tags</code> field contains distinct elements known as multi-value tags. Individual tags can hold up to 50 characters. Any number of tags can be created by admins, but end-users can only add 75 tags to each smart tag element on their profiles.</p>
+<p>While you should use <a href="/methods/team.profile.get"><code>team.profile.get</code></a> to get the ID for any field, including smart tag fields, you should <em>not</em> copy the received schema. Below is a properly formatted payload for updating the <code>tags</code> field with <code>user.profile.set</code>.</p>
+<pre><code class="language-json">{
+	"fields": {
+		"Xf0333333": {
+			"value": [
+				"Mocha", "Latte", "Americano"
+			], 
+			"alt": ""
+		}
+	}
+}
+</code></pre>
+<a name="name_pronunciation"></a><h4 class="headingWithAnchor" id="name-pronunciation">Name Pronunciation <a href="#name-pronunciation"><i class="glyphIcon fa fa-link"></i></a></h4>
+<p>The Name Pronunciation field lets a user provide a text description of how their name is pronounced. This text is displayed under their job title.</p>
+<p>Use <code>team.profile.get</code> to obtain the field ID. Below is an example payload for updating the field once you have that ID:</p>
+<pre><code class="language-json">{
+	"profile": {
+		"fields": {
+			"Xf0444444": {
+				"value": "Zoë is pronounced zo-ee",
+				"alt": ""
+			}
+		}
+	}
+}
+</code></pre>
+<div class="apiDocsCalloutCard apiDocsCalloutCard--info">
+  <i class="ts_icon c-icon c-icon--info-circle"></i>
+  <div>
+<p><strong>Name Recordings</strong><br>
+A user can also record an audio file of how their name is pronounced. This name recording will appear on their profile as a speaker icon. A Name Recording cannot be updated via API.</p>
+  </div>
+</div>
+<a name="status_updates"></a><h3 class="headingWithAnchor" id="status">Status updates <a href="#status"><i class="glyphIcon fa fa-link"></i></a></h3>
+<p>This method is also used to set a user's <a href="/docs/presence-and-status#custom_status">current status</a>.</p>
+<p>Place the following status fields within the <code>profile</code> object when calling <a href="/methods/users.profile.set"><code>users.profile.set</code></a>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status_emoji</code></td>
+<td>string</td>
+<td>The displayed emoji that is enabled for the Slack team, such as <code>:train:</code>.</td>
+</tr>
+<tr>
+<td><code>status_expiration</code></td>
+<td>integer</td>
+<td>the Unix timestamp of when the status will expire. Providing <code>0</code> or omitting this field results in a custom status that will not expire.</td>
+</tr>
+<tr>
+<td><code>status_text</code></td>
+<td>string</td>
+<td>The displayed text of up to 100 characters. We strongly encourage brevity.</td>
+</tr></tbody></table>
+<p>For example, the following payload sets a custom status of <code>🚆 riding a train</code> and has it expire on July 26th, 2018 at 17:51:46 UTC:</p>
+<pre><code class="language-json">{
+	"profile": {
+		"status_text": "riding a train",
+		"status_emoji": ":train:",
+		"status_expiration": 1532627506
+	}
+}
+</code></pre>
+<p>To manually unset a user's custom status, provide empty strings to both the <code>status_text</code> and <code>status_emoji</code> attributes: <code>""</code>.</p>
+<a name="start_dates"></a><h3 class="headingWithAnchor" id="start-dates">Start dates <a href="#start-dates"><i class="glyphIcon fa fa-link"></i></a></h3>
+<p>A user's start date can be found in the <code>start_date</code> <a href="#profile-fields">non-custom profile field</a>. You can update this field like any other non-custom profile field.</p>
+<pre><code class="language-json">{
+	"profile": {
+		"start_date": "2022-10-22"
+	},
+	"user": "U123ABC456"
+}
+</code></pre>
+<p>When you update a user's start date, both the <code>start_date</code> field and a <a href="#custom-profile">custom profile field</a> with its own unique field ID is updated.</p>
+<p>While it's perfectly fine to just update <code>start_date</code>, you could also choose to update this custom field instead, after obtaining the custom field ID with <a href="/methods/team.profile.get"><code>team.profile.get</code></a>. Updating one of these fields will update the other field accordingly.</p>
+<pre><code class="language-json">{
+    "profile": {
+        "fields": {
+            "Xf0123ABC456": {
+                "value": "2022-10-22",
+            }
+    },
+    "user": "U123ABC456",
+}
+</code></pre>
+<a name="building_your_http_request"></a><h3 class="headingWithAnchor" id="http-request">Building your HTTP request <a href="#http-request"><i class="glyphIcon fa fa-link"></i></a></h3>
+<p>We <strong>strongly recommend</strong> using <code>application/json</code> POSTs when using this method. If you choose to use <code>application/x-www-form-urlencoded</code>, you must URL-encode the JSON provided to the <code>profile</code> field.</p>
+<p>In general, you need to set your content type and authorization credentials to make an HTTP request. If you're using a workspace token, you need to provide an <code>x-slack-user</code> header indicating the user you're <a href="/docs/working-for-users">acting on behalf of</a>.</p>
+<p>You can send a JSON payload to <code>users.profile.set</code> with such an HTTP request:</p>
+<pre><code class="language-http">POST /users/profile.set
+Host: slack.com
+Authorization: Bearer xoxp-secret-token
+Content-type: application/json; charset=utf-8
+{
+    "profile": {
+        "first_name": "John",
+        "last_name": "Smith",
+        "pronouns": "they/them",
+        "email": "john@smith.com",
+        "fields": {
+            "Xf0111111": {
+                "value": "Barista",
+                "alt": ""
+            },
+            "Xf0222222": {
+                "value": "2022-04-11",
+                "alt": ""
+            },
+            "Xf0333333": {
+                "value": "https://example.com",
+                "alt": ""
+            }
+        }
+    }
+}
+</code></pre>
+<p>This method will generate a <a href="/events/user_change"><code>user_change</code></a> event on success, containing the complete user.</p>
+<a name="profile_update_rate_limits"></a><a name="profile_update_rate_limits"></a><h2 class="headingWithAnchor" id="profile_updates">Profile update rate limits <a href="#profile_updates"><i class="glyphIcon fa fa-link"></i></a></h2>
+<p>Update a user's profile, including custom status, sparingly. Special <a href="/docs/rate-limits">rate limit</a> rules apply when updating profile data with <a href="/methods/users.profile.set"><code>users.profile.set</code></a>. A token may update a single user's profile no more than <strong>10</strong> times per minute. And a single token may only set <strong>30</strong> user profiles per minute. Some burst behavior is allowed.</p></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="examples">Example responses</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__response"><div class="apiReference__example"><h3>Common successful response</h3><p class="example_description"></p><p>The complete user's profile will be returned.</p>
+<p></p><pre><code class="json">{
+    "ok": true,
+    "profile": {
+        "title": "Head of Coffee Production",
+        "phone": "",
+        "skype": "",
+        "real_name": "John Smith",
+        "real_name_normalized": "John Smith",
+        "display_name": "john",
+        "display_name_normalized": "john",
+        "fields": {
+            "Xf0111111": {
+                "value": "Barista",
+                "alt": ""
+            },
+            "Xf0222222": {
+                "value": "2022-04-11",
+                "alt": ""
+            },
+            "Xf0333333": {
+                "value": "https://example.com",
+                "alt": ""
+            }
+        },
+        "status_text": "Watching cold brew steep",
+        "status_emoji": ":coffee:",
+        "status_emoji_display_info": [],
+        "status_expiration": 0,
+        "avatar_hash": "123xyz",
+        "start_date": "2022-03-21",
+        "email": "johnsmith@example.com",
+        "pronouns": "they/them/theirs",
+        "huddle_state": "default_unset",
+        "huddle_state_expiration_ts": 0,
+        "first_name": "john",
+        "last_name": "smith",
+        "image_24": "https://.../...-24.png",
+        "image_32": "https://.../...-32.png",
+        "image_48": "https://.../...-48.png",
+        "image_72": "https://.../...-72.png",
+        "image_192": "https://.../....-192png",
+        "image_512": "https://.../...-512.png"
+    }
+}</code></pre></div><div class="apiReference__example"><h3>Common error response</h3><p class="example_description"></p><p>Typical error response</p>
+<p></p><pre><code class="json">{
+    "ok": false,
+    "error": "invalid_profile"
+}</code></pre></div></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="errors">Errors</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__errors"><p> This table lists the expected errors that this method could return. However, other errors can be returned in the case where the service is down or other unexpected factors affect processing. Callers should always check the value of the <code>ok</code> params in the response. </p><table class="apiDocsTable apiDocsTable--active"><thead><tr><th>Error</th><th>Description</th></tr></thead><tbody><tr><td data-label="Error"><span class="apiReference__titleCell"><code>cannot_update_admin_user</code></span></td><td data-label="Description"><p>Only a primary owner can update the profile of an admin.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>email_taken</code></span></td><td data-label="Description"><p>email taken</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_profile</code></span></td><td data-label="Description"><p>Profile object passed in is not valid JSON (make sure it is URL encoded!).</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>must_clear_both_status_text_and_status_emoji</code></span></td><td data-label="Description"><p>Clearing the status requires setting both <code>status_text</code> and <code>status_emoji</code> to ''.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>name_not_allowed</code></span></td><td data-label="Description"><p>name cannot contain URL.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_admin</code></span></td><td data-label="Description"><p>Only admins can update the profile of another user. Some fields, like <code>email</code> may only be updated by an admin.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_app_admin</code></span></td><td data-label="Description"><p>Only team owners and selected members can update the profile of a bot user.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>partial_profile_set_failed</code></span></td><td data-label="Description"><p>Failed to set user profile.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>profile_set_failed</code></span></td><td data-label="Description"><p>Failed to set user profile.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>reserved_name</code></span></td><td data-label="Description"><p>First or last name are reserved.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>sudo_required</code></span></td><td data-label="Description"><p>Request requires sudo session.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>too_long</code></span></td><td data-label="Description"><p>You attempted to set a custom status but it was longer than the maximum allowed, 100.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>access_denied</code></span></td><td data-label="Description"><p>Access to a resource specified in the request is denied.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>account_inactive</code></span></td><td data-label="Description"><p>Authentication token is for a deleted user or workspace when using a <code>bot</code> token.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>deprecated_endpoint</code></span></td><td data-label="Description"><p>The endpoint has been deprecated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>ekm_access_denied</code></span></td><td data-label="Description"><p>Administrators have suspended the ability to post a message.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>enterprise_is_restricted</code></span></td><td data-label="Description"><p>The method cannot be called from an Enterprise.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_auth</code></span></td><td data-label="Description"><p>Some aspect of authentication cannot be validated. Either the provided token is invalid or the request originates from an IP address disallowed from making the request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>is_bot</code></span></td><td data-label="Description"><p>This method cannot be called by a legacy bot.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>method_deprecated</code></span></td><td data-label="Description"><p>The method has been deprecated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>missing_scope</code></span></td><td data-label="Description"><p>The token used is not granted the specific scope permissions required to complete this request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_allowed_token_type</code></span></td><td data-label="Description"><p>The token type used in this request is not allowed.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>not_authed</code></span></td><td data-label="Description"><p>No authentication token provided.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>no_permission</code></span></td><td data-label="Description"><p>The workspace token used in this request does not have the permissions necessary to complete the request. Make sure your app is a member of the conversation it's attempting to post a message to.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>org_login_required</code></span></td><td data-label="Description"><p>The workspace is undergoing an enterprise migration and will not be available until migration is complete.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>token_expired</code></span></td><td data-label="Description"><p>Authentication token has expired</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>token_revoked</code></span></td><td data-label="Description"><p>Authentication token is for a deleted user or workspace or the app has been removed when using a <code>user</code> token.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>two_factor_setup_required</code></span></td><td data-label="Description"><p>Two factor setup is required.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>accesslimited</code></span></td><td data-label="Description"><p>Access to this method is limited on the current network</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>fatal_error</code></span></td><td data-label="Description"><p>The server could not complete your operation(s) without encountering a catastrophic error. It's possible some aspect of the operation succeeded before the error was raised.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>internal_error</code></span></td><td data-label="Description"><p>The server could not complete your operation(s) without encountering an error, likely due to a transient issue on our end. It's possible some aspect of the operation succeeded before the error was raised.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_arg_name</code></span></td><td data-label="Description"><p>The method was passed an argument whose name falls outside the bounds of accepted or expected values. This includes very long names and names with non-alphanumeric characters other than <code>_</code>. If you get this error, it is typically an indication that you have made a <em>very</em> malformed API call.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_arguments</code></span></td><td data-label="Description"><p>The method was either called with invalid arguments or some detail about the arguments passed is invalid, which is more likely when using complex arguments like blocks or attachments.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_array_arg</code></span></td><td data-label="Description"><p>The method was passed an array as an argument. Please only input valid strings.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the <code>charset</code> specified in the <code>Content-Type</code> header was invalid. Valid charset names are: <code>utf-8</code> <code>iso-8859-1</code>.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_form_data</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request with <code>Content-Type</code> <code>application/x-www-form-urlencoded</code> or <code>multipart/form-data</code>, but the form data was either missing or syntactically invalid.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>invalid_post_type</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the specified <code>Content-Type</code> was invalid. Valid types are: <code>application/json</code> <code>application/x-www-form-urlencoded</code> <code>multipart/form-data</code> <code>text/plain</code>.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>missing_post_type</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request and included a data payload, but the request did not include a <code>Content-Type</code> header.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>ratelimited</code></span></td><td data-label="Description"><p>The request has been ratelimited. Refer to the <code>Retry-After</code> header for when to retry the request.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>request_timeout</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, but the <code>POST</code> data was either missing or truncated.</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>service_unavailable</code></span></td><td data-label="Description"><p>The service is temporarily unavailable</p>
+</td></tr><tr><td data-label="Error"><span class="apiReference__titleCell"><code>team_added_to_org</code></span></td><td data-label="Description"><p>The workspace associated with your request is currently undergoing migration to an Enterprise Organization. Web API and other platform operations will be intermittently unavailable until the transition is complete.</p>
+</td></tr></tbody></table></div></div><div class="apiDocsToggler apiDocsToggler--showOnLoad"><h2 class="apiDocsToggler__toggle apiDocsToggler__toggle--toggled apiInPageNav__linkableHeader" id="warnings">Warnings</h2><div class="apiDocsToggler__target apiDocsToggler__target--toggled apiReference__warnings"><p>This table lists the expected warnings that this method will return. However, other warnings can be returned in the case where the service is experiencing unexpected trouble. </p><table class="apiDocsTable apiDocsTable--active"><thead><tr><th>Warning</th><th>Description</th></tr></thead><tbody><tr><td data-label="Warning"><span class="apiReference__titleCell"><code>missing_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, and recommended practice for the specified <code>Content-Type</code> is to include a <code>charset</code> parameter. However, no <code>charset</code> was present. Specifically, non-form-data content types (e.g. <code>text/plain</code>) are the ones for which <code>charset</code> is recommended.</p>
+</td></tr><tr><td data-label="Warning"><span class="apiReference__titleCell"><code>superfluous_charset</code></span></td><td data-label="Description"><p>The method was called via a <code>POST</code> request, and the specified <code>Content-Type</code> is not defined to understand the <code>charset</code> parameter. However, <code>charset</code> was in fact present. Specifically, form-data content types (e.g. <code>multipart/form-data</code>) are the ones for which <code>charset</code> is superfluous.</p>
+</td></tr></tbody></table></div></div>

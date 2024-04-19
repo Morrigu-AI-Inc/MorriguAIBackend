@@ -1,0 +1,75 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Document name"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Document metadata"
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Field name"
+          },
+          "value": {
+            "type": ["string", "number", "boolean", "null"],
+            "description": "Field value"
+          }
+        },
+        "required": ["name", "value"]
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "Document status"
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "navigation": {
+          "type": "object",
+          "properties": {
+            "allowNavigationBreaks": {
+              "type": "boolean"
+            }
+          }
+        },
+        "watermark": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "allPages": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "folder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Folder ID"
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

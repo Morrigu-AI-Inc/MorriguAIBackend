@@ -1,97 +1,58 @@
+
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
-  "type": ["null", "object"],
-  "additionalProperties": true,
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
   "properties": {
-    "integration_links": {
-      "type": ["null", "array"]
+    "total_results": {
+      "type": "integer",
+      "description": "The total number of objects"
     },
-    "contact_id": {
-      "type": ["null", "string"]
+    "count_by_value_period": {
+      "type": "object",
+      "description": "A dictionary containing the number of opportunities by value period",
+      "properties": {
+        "one_time": {
+          "type": "integer"
+        },
+        "annual": {
+          "type": "integer"
+        },
+        "monthly": {
+          "type": "integer"
+        }
+      }
     },
-    "organization_id": {
-      "type": ["null", "string"]
+    "total_value_one_time": {
+      "type": "number",
+      "description": "The sum of the values of all one time opportunities"
     },
-    "value_currency": {
-      "type": ["null", "string"]
+    "total_value_monthly": {
+      "type": "number",
+      "description": "The sum of the values of all monthly opportunities"
     },
-    "user_id": {
-      "type": ["null", "string"]
+    "total_value_annual": {
+      "type": "number",
+      "description": "The sum of the values of all annual opportunities"
     },
-    "annualized_value": {
-      "type": ["null", "number"]
+    "total_value_annualized": {
+      "type": "number",
+      "description": "The sum of the values of all opportunities where monthly opportunity values are multiplied by 12"
     },
-    "id": {
-      "type": ["null", "string"]
+    "expected_value_one_time": {
+      "type": "number",
+      "description": "The sum of the values of all one time opportunities multiplied by their confidence"
     },
-    "updated_by_name": {
-      "type": ["null", "string"]
+    "expected_value_monthly": {
+      "type": "number",
+      "description": "The sum of the values of all monthly opportunities multiplied by their confidence"
     },
-    "created_by": {
-      "type": ["null", "string"]
+    "expected_value_annual": {
+      "type": "number",
+      "description": "The sum of the values of all annual opportunities multiplied by their confidence"
     },
-    "status_type": {
-      "type": ["null", "string"]
-    },
-    "created_by_name": {
-      "type": ["null", "string"]
-    },
-    "expected_value": {
-      "type": ["null", "number"]
-    },
-    "date_updated": {
-      "type": ["null", "string"]
-    },
-    "lead_name": {
-      "type": ["null", "string"]
-    },
-    "date_lost": {
-      "type": ["null", "string"]
-    },
-    "status_id": {
-      "type": ["null", "string"]
-    },
-    "note": {
-      "type": ["null", "string"]
-    },
-    "user_name": {
-      "type": ["null", "string"]
-    },
-    "confidence": {
-      "type": ["null", "number"]
-    },
-    "value_period": {
-      "type": ["null", "string"]
-    },
-    "status_display_name": {
-      "type": ["null", "string"]
-    },
-    "updated_by": {
-      "type": ["null", "string"]
-    },
-    "value": {
-      "type": ["null", "number"]
-    },
-    "status_label": {
-      "type": ["null", "string"]
-    },
-    "date_won": {
-      "type": ["null", "string"]
-    },
-    "contact_name": {
-      "type": ["null", "string"]
-    },
-    "annualized_expected_value": {
-      "type": ["null", "number"]
-    },
-    "date_created": {
-      "type": ["null", "string"]
-    },
-    "lead_id": {
-      "type": ["null", "string"]
-    },
-    "value_formatted": {
-      "type": ["null", "string"]
+    "expected_value_annualized": {
+      "type": "number",
+      "description": "The sum of the values of all opportunities multiplied by their confidence where monthly opportunity values are multiplied by 12"
     }
   }
 }

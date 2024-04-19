@@ -1,0 +1,32 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "filename": {
+      "type": "string",
+      "description": "Name of the file being uploaded."
+    },
+    "length": {
+      "type": "integer",
+      "description": "Size in bytes of the file being uploaded."
+    },
+    "alt_txt": {
+      "type": "string",
+      "description": "Description of image for screen-reader."
+    },
+    "snippet_type": {
+      "type": "string",
+      "description": "Syntax type of the snippet being uploaded."
+    }
+  },
+  "required": [
+    "token",
+    "filename",
+    "length"
+  ]
+}

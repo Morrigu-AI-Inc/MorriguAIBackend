@@ -1,40 +1,75 @@
+
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
-  "type": ["null", "object"],
-  "additionalProperties": true,
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Users",
+  "description": "Users represent Close user accounts, usually your co-workers / sales reps inside your company/organization.",
+  "type": "object",
   "properties": {
-    "email": {
-      "type": ["null", "string"]
+    "me": {
+      "description": "Fetch information about yourself.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Your user ID."
+        },
+        "organization_id": {
+          "type": "string",
+          "description": "The ID of the organization you are in."
+        }
+      }
     },
-    "organizations": {
-      "type": ["null", "array"]
+    "user": {
+      "description": "Fetch a single user.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The user ID."
+        }
+      }
     },
-    "id": {
-      "type": ["null", "string"]
+    "users": {
+      "description": "List all the users who are members of the same organizations as you are.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The user ID."
+          }
+        }
+      }
     },
-    "date_updated": {
-      "type": ["null", "string"]
-    },
-    "image": {
-      "type": ["null", "string"]
-    },
-    "date_created": {
-      "type": ["null", "string"]
-    },
-    "first_name": {
-      "type": ["null", "string"]
-    },
-    "email_verification_token_generated_at": {
-      "type": ["null", "string"]
-    },
-    "email_verified_at": {
-      "type": ["null", "string"]
-    },
-    "last_name": {
-      "type": ["null", "string"]
-    },
-    "last_used_timezone": {
-      "type": ["null", "string"]
+    "availability": {
+      "description": "Fetch the availability statuses of all users within an organization.",
+      "type": "object",
+      "properties": {
+        "organization_id": {
+          "type": "string",
+          "description": "The organization ID."
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The user ID."
+              },
+              "active_calls": {
+                "type": "array",
+                "description": "Array of call metadata for calls that the user is currently participating in.",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -1,0 +1,519 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Actions Self-Hosted Runners API",
+  "description": "REST API endpoints for self-hosted runners in GitHub Actions",
+  "type": "object",
+  "properties": {
+    "listOrgRunners": {
+      "type": "object",
+      "description": "List self-hosted runners for an organization",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing self-hosted runners for an organization",
+          "value": "/orgs/{org}/actions/runners"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "org": {
+              "type": "string",
+              "description": "The organization name. The name is not case sensitive."
+            }
+          },
+          "required": ["org"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of a self-hosted runner."
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)."
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch."
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "The total number of runners."
+            },
+            "runners": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the runner."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the runner."
+                  },
+                  "os": {
+                    "type": "string",
+                    "description": "The operating system of the runner."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "The status of the runner."
+                  },
+                  "busy": {
+                    "type": "boolean",
+                    "description": "Whether the runner is currently busy."
+                  },
+                  "labels": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "The unique identifier of the label."
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the label."
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "The type of the label (read-only or custom)."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": ["total_count", "runners"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "listOrgRunnerApplications": {
+      "type": "object",
+      "description": "List runner applications for an organization",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing runner applications for an organization",
+          "value": "/orgs/{org}/actions/runners/downloads"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "org": {
+              "type": "string",
+              "description": "The organization name. The name is not case sensitive."
+            }
+          },
+          "required": ["org"]
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "os": {
+                "type": "string",
+                "description": "The operating system of the runner application."
+              },
+              "architecture": {
+                "type": "string",
+                "description": "The architecture of the runner application."
+              },
+              "download_url": {
+                "type": "string",
+                "description": "The URL to download the runner application."
+              },
+              "filename": {
+                "type": "string",
+                "description": "The filename of the runner application."
+              }
+            },
+            "required": ["os", "architecture", "download_url", "filename"]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "createOrgJitRunnerConfig": {
+      "type": "object",
+      "description": "Create configuration for a just-in-time runner for an organization",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a just-in-time runner configuration for an organization",
+          "value": "/orgs/{org}/actions/runners/generate-jitconfig"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "org": {
+              "type": "string",
+              "description": "The organization name. The name is not case sensitive."
+            }
+          },
+          "required": ["org"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the new runner."
+            },
+            "runner_group_id": {
+              "type": "integer",
+              "description": "The ID of the runner group to register the runner to."
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The names of the custom labels to add to the runner."
+            },
+            "work_folder": {
+              "type": "string",
+              "description": "The working directory to be used for job execution, relative to the runner install directory."
+            }
+          },
+          "required": ["name", "runner_group_id", "labels"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "runner": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The unique identifier of the runner."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the runner."
+                },
+                "os": {
+                  "type": "string",
+                  "description": "The operating system of the runner."
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The status of the runner."
+                },
+                "busy": {
+                  "type": "boolean",
+                  "description": "Whether the runner is currently busy."
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "The unique identifier of the label."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the label."
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the label (read-only or custom)."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "encoded_jit_config": {
+              "type": "string",
+              "description": "The encoded configuration for the just-in-time runner."
+            }
+          },
+          "required": ["runner", "encoded_jit_config"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "body", "response"]
+    },
+    "createOrgRegistrationToken": {
+      "type": "object",
+      "description": "Create a registration token for an organization",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a registration token for an organization",
+          "value": "/orgs/{org}/actions/runners/registration-token"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "org": {
+              "type": "string",
+              "description": "The organization name. The name is not case sensitive."
+            }
+          },
+          "required": ["org"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "The registration token for the runner."
+            },
+            "expires_at": {
+              "type": "string",
+              "description": "The expiration date and time for the token."
+            }
+          },
+          "required": ["token", "expires_at"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "createOrgRemoveToken": {
+      "type": "object",
+      "description": "Create a remove token for an organization",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a remove token for an organization",
+          "value": "/orgs/{org}/actions/runners/remove-token"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "org": {
+              "type": "string",
+              "description": "The organization name. The name is not case sensitive."
+            }
+          },
+          "required": ["org"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "The remove token for the runner."
+            },
+            "expires_at": {
+              "type": "string",
+              "description": "The expiration date and time for the token."
+            }
+          },
+          "required": ["token", "expires_at"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "getOrgRunner": {
+      "type": "object",
+      "description": "Get a self-hosted runner for an organization",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a self-hosted runner for an organization",
+          "value": "/orgs/{org}/actions/runners/{runner_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["accept", "Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "org": {
+              "type": "string",
+              "description": "The organization name. The name is not case sensitive."
+            },
+            "runner_id": {
+              "type": "integer",
+              "description": "Unique identifier of the self-hosted runner."
+            }
+          },
+          "required": ["org", "runner_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the runner."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the runner."
+            },
+            "os": {
+              "type": "string",
+              "description": "The operating system of the runner."
+            },
+            "status": {
+              "type": "string",
+              "description": "The status of the runner."
+            },
+            "busy": {
+              "type": "boolean",
+              "description": "Whether the runner is currently busy."
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the label."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the label."
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "The type of the label (read-only or custom)."
+                  }
+                }
+              }
+            }
+          },
+          "required": ["id", "name", "os", "status", "busy", "labels"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "deleteOrgRunner": {
+      "type": "object",
+      "description": "Delete a self-hosted runner from an organization",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for deleting a self-hosted runner from an organization",
+          "value": "/orgs/{org}/actions/runners/{runner_

@@ -1,0 +1,20 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status_type": {
+      "type": "string",
+      "enum": ["active", "won", "lost"]
+    },
+    "pipeline_id": {
+      "type": "string",
+      "description": "To create an Opportunity Status in a specific Pipeline, include a pipeline_id in your payload."
+    }
+  },
+  "required": ["status_type"],
+  "additionalProperties": false
+}
+
+
+This JSON Schema defines the structure for creating an Opportunity Status. The required property is `status_type`, which must be one of `"active"`, `"won"`, or `"lost"`. Optionally, a `pipeline_id` string can be provided to associate the status with a specific Pipeline.

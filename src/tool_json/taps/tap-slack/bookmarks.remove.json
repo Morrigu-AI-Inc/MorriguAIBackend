@@ -1,0 +1,29 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "bookmark_id": {
+      "type": "string",
+      "description": "Bookmark to remove."
+    },
+    "channel_id": {
+      "type": "string",
+      "description": "Channel to remove bookmark."
+    },
+    "quip_section_id": {
+      "type": "string",
+      "description": "Quip section ID to unbookmark."
+    }
+  },
+  "required": [
+    "token",
+    "bookmark_id",
+    "channel_id"
+  ],
+  "additionalProperties": false
+}

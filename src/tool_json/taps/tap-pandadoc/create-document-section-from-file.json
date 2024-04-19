@@ -1,0 +1,173 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the document section"
+    },
+    "recipients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address of the recipient"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "First name of the recipient"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Last name of the recipient"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role of the recipient (e.g. signer, approver)"
+          },
+          "signing_order": {
+            "type": "integer",
+            "description": "Signing order for the recipient"
+          }
+        },
+        "required": [
+          "email",
+          "first_name",
+          "last_name",
+          "role"
+        ]
+      }
+    },
+    "fields": {
+      "type": "object",
+      "description": "Fields in the document section",
+      "properties": {
+        "textfield": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "role"
+          ]
+        },
+        "dropdown": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "value",
+            "role",
+            "options"
+          ]
+        },
+        "checkbox": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "boolean"
+            },
+            "role": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "role"
+          ]
+        },
+        "date": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string",
+              "format": "date"
+            },
+            "role": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "role"
+          ]
+        },
+        "signature": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "role"
+          ]
+        }
+      }
+    },
+    "parse_form_fields": {
+      "type": "boolean",
+      "description": "Whether to parse form fields in the PDF document"
+    },
+    "file": {
+      "type": "string",
+      "format": "binary"
+    }
+  },
+  "required": [
+    "recipients",
+    "file"
+  ]
+}
+
+
+This is a JSON schema that defines the structure of the request body for creating a document section from a file in the PandaDoc API. Here's a breakdown of the schema:
+
+1. The root object has the following properties:
+   - `name` (string): Name of the document section.
+   - `recipients` (array): An array of recipient objects.
+   - `fields` (object): An object containing field data for the document section.
+   - `parse_form_fields` (boolean): Whether to parse form fields in the PDF document.
+   - `file` (string, binary format): The file to be uploaded as the document section.
+
+2. The `recipients` array contains objects with the following properties:
+   - `email` (string): Email address of the recipient.
+   - `first_name` (string): First name of the recipient.
+   - `last_name` (string): Last name of the recipient.
+   - `role` (string): Role of the recipient (e.g., signer, approver).
+   - `signing_order` (integer): Signing order for the recipient.
+
+3. The `fields` object contains properties for different field types, such as `textfield`, `dropdown`, `checkbox`, `date`, and `signature`. Each field type has its own set of properties, including `value`, `role`, and `options` (for dropdown fields).
+
+4. The `parse_form_fields` property is a boolean that determines whether to parse form fields in the PDF document.
+
+5. The `file` property is a string in binary format, representing the file to be uploaded as the document section.
+
+6. The `recipients` and `file` properties are marked as required.
+
+This schema can be used to validate the structure of the request body when creating a document section from a file in the PandaDoc API.

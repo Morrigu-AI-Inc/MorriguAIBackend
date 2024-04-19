@@ -1,0 +1,24 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "invite_request_id": {
+      "type": "string",
+      "description": "ID of the request to invite."
+    },
+    "team_id": {
+      "type": "string",
+      "description": "ID for the workspace where the invite request was made."
+    }
+  },
+  "required": [
+    "token",
+    "invite_request_id"
+  ],
+  "additionalProperties": false
+}

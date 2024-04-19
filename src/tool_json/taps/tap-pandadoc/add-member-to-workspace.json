@@ -1,0 +1,39 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "member": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "The ID of the user being added to the workspace."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the member in the workspace.",
+          "enum": [
+            "workspace_admin",
+            "member"
+          ]
+        }
+      },
+      "required": [
+        "user_id",
+        "role"
+      ]
+    }
+  },
+  "required": [
+    "member"
+  ]
+}
+
+
+This JSON schema describes the request body for adding a member to a workspace. The schema has one required property `member`, which is an object with the following properties:
+
+1. `user_id` (required, string): The ID of the user being added to the workspace.
+2. `role` (required, string): The role of the member in the workspace. It can be either `"workspace_admin"` or `"member"`.
+
+Both `user_id` and `role` are required properties within the `member` object.

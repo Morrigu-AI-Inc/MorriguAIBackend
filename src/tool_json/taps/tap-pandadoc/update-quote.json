@@ -1,0 +1,108 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline": {
+      "type": "string",
+      "description": "Headline of the quote"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency of the quote"
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the section"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the item"
+                },
+                "quantity": {
+                  "type": "number",
+                  "description": "Quantity of the item"
+                },
+                "price": {
+                  "type": "number",
+                  "description": "Price of the item"
+                }
+              },
+              "required": [
+                "name",
+                "quantity",
+                "price"
+              ]
+            }
+          },
+          "optional": {
+            "type": "boolean",
+            "description": "Whether the section is optional or required"
+          }
+        },
+        "required": [
+          "title",
+          "items"
+        ]
+      }
+    },
+    "fees": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the fee"
+          },
+          "price": {
+            "type": "number",
+            "description": "Price of the fee"
+          }
+        },
+        "required": [
+          "name",
+          "price"
+        ]
+      }
+    },
+    "discounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the discount"
+          },
+          "price": {
+            "type": "number",
+            "description": "Price of the discount"
+          }
+        },
+        "required": [
+          "name",
+          "price"
+        ]
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes about the quote"
+    }
+  },
+  "required": [
+    "headline",
+    "currency"
+  ]
+}

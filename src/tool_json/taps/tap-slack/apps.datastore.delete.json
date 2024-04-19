@@ -1,0 +1,141 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "datastore": {
+      "type": "string",
+      "description": "Name of the datastore."
+    },
+    "id": {
+      "type": "string",
+      "description": "Item id."
+    },
+    "app_id": {
+      "type": "string",
+      "description": "The app ID."
+    }
+  },
+  "required": [
+    "token",
+    "datastore",
+    "id"
+  ],
+  "notices": {
+    "type": "object",
+    "description": "Notices related to the API method."
+  },
+  "facts": {
+    "type": "object",
+    "properties": {
+      "method": {
+        "type": "string",
+        "description": "The HTTP method for accessing the API."
+      },
+      "scopes": {
+        "type": "object",
+        "description": "Required scopes for different token types."
+      },
+      "contentTypes": {
+        "type": "array",
+        "description": "Accepted content types for the request."
+      },
+      "rateLimits": {
+        "type": "string",
+        "description": "Rate limits for the API method."
+      }
+    }
+  },
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "required": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "optional": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "usageInfo": {
+    "type": "string",
+    "description": "Usage information for the API method."
+  },
+  "examples": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "response": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "errors": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "warnings": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

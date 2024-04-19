@@ -1,0 +1,34 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "team_domain": {
+      "type": "string",
+      "description": "Team domain (for example, slacksoftballteam). Domains are limited to 21 characters.",
+      "maxLength": 21
+    },
+    "team_name": {
+      "type": "string",
+      "description": "Team name (for example, Slack Softball Team)."
+    },
+    "team_description": {
+      "type": "string",
+      "description": "Description for the team."
+    },
+    "team_discoverability": {
+      "type": "string",
+      "description": "Who can join the team. A team's discoverability can be 'open', 'closed', 'invite_only', or 'unlisted'.",
+      "enum": ["open", "closed", "invite_only", "unlisted"]
+    }
+  },
+  "required": [
+    "token",
+    "team_domain",
+    "team_name"
+  ]
+}

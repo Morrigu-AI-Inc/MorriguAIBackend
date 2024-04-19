@@ -1,0 +1,25 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "date_end_of_support": {
+      "type": "integer",
+      "description": "Unix timestamp of the date of past or upcoming end of support cycles.",
+      "default": 0
+    },
+    "date_sessions_started": {
+      "type": "integer",
+      "description": "Unix timestamp of a date to start looking for user sessions.",
+      "default": 0
+    }
+  },
+  "required": [
+    "token"
+  ],
+  "additionalProperties": false
+}

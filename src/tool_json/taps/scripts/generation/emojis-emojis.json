@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "List of emojis available on GitHub",
+  "description": "A list of all the emojis available to use on GitHub, including their Unicode representation and URL.",
+  "type": "object",
+  "properties": {
+    "100": {
+      "type": "string",
+      "description": "Emoji representing the number 100",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f4af.png?v8"
+    },
+    "1234": {
+      "type": "string",
+      "description": "Emoji representing the number 1234",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f522.png?v8"
+    },
+    "+1": {
+      "type": "string",
+      "description": "Emoji representing a thumbs up",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png?v8"
+    },
+    "-1": {
+      "type": "string",
+      "description": "Emoji representing a thumbs down",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png?v8"
+    },
+    "1st_place_medal": {
+      "type": "string",
+      "description": "Emoji representing a 1st place medal",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f947.png?v8"
+    },
+    "2nd_place_medal": {
+      "type": "string",
+      "description": "Emoji representing a 2nd place medal",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f948.png?v8"
+    },
+    "3rd_place_medal": {
+      "type": "string",
+      "description": "Emoji representing a 3rd place medal",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f949.png?v8"
+    },
+    "8ball": {
+      "type": "string",
+      "description": "Emoji representing an 8 ball",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f3b1.png?v8"
+    },
+    "a": {
+      "type": "string",
+      "description": "Emoji representing the letter A",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f170.png?v8"
+    },
+    "ab": {
+      "type": "string",
+      "description": "Emoji representing the AB blood type",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f18e.png?v8"
+    },
+    "abacus": {
+      "type": "string",
+      "description": "Emoji representing an abacus",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f9ee.png?v8"
+    },
+    "abc": {
+      "type": "string",
+      "description": "Emoji representing the letters ABC",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f524.png?v8"
+    },
+    "abcd": {
+      "type": "string",
+      "description": "Emoji representing the letters ABCD",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f521.png?v8"
+    },
+    "accept": {
+      "type": "string",
+      "description": "Emoji representing acceptance",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f251.png?v8"
+    },
+    "accessibility": {
+      "type": "string",
+      "description": "Emoji representing accessibility",
+      "value": "https://github.githubassets.com/images/icons/emoji/accessibility.png?v8"
+    },
+    "accordion": {
+      "type": "string",
+      "description": "Emoji representing an accordion",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1fa97.png?v8"
+    },
+    "adhesive_bandage": {
+      "type": "string",
+      "description": "Emoji representing an adhesive bandage",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1fa79.png?v8"
+    },
+    "adult": {
+      "type": "string",
+      "description": "Emoji representing an adult person",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f9d1.png?v8"
+    },
+    "aerial_tramway": {
+      "type": "string",
+      "description": "Emoji representing an aerial tramway",
+      "value": "https://github.githubassets.com/images/icons/emoji/unicode/1f6a1.png?v8"
+    }
+  },
+  "additionalProperties": false
+}

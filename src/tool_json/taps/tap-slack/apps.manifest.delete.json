@@ -1,0 +1,86 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Apps Manifest Delete",
+  "description": "This schema defines the request and response for deleting an app manifest on Slack.",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "app_id": {
+      "description": "The ID of the app you want to delete.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "token",
+    "app_id"
+  ],
+  "additionalProperties": false,
+  "responses": {
+    "200": {
+      "description": "Successful response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "type": "boolean",
+                "description": "True if the request succeeded.",
+                "example": true
+              }
+            },
+            "required": [
+              "ok"
+            ],
+            "additionalProperties": false
+          },
+          "examples": {
+            "Common successful response": {
+              "value": {
+                "ok": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "default": {
+      "description": "Error response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "type": "boolean",
+                "description": "False if the request failed.",
+                "example": false
+              },
+              "error": {
+                "type": "string",
+                "description": "The error code explaining the failure."
+              }
+            },
+            "required": [
+              "ok"
+            ],
+            "additionalProperties": false
+          },
+          "examples": {
+            "Common error response": {
+              "value": {
+                "ok": false,
+                "error": "invalid_app_id"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

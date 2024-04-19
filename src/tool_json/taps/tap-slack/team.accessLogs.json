@@ -1,0 +1,88 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "logins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "date_first": {
+            "type": "integer"
+          },
+          "date_last": {
+            "type": "integer"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "ip": {
+            "type": "string"
+          },
+          "user_agent": {
+            "type": "string"
+          },
+          "isp": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "username",
+          "date_first",
+          "date_last",
+          "count",
+          "ip",
+          "user_agent",
+          "isp",
+          "country",
+          "region"
+        ]
+      }
+    },
+    "paging": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "page": {
+          "type": "integer"
+        },
+        "pages": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "count",
+        "total", 
+        "page",
+        "pages"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "logins",
+    "paging"
+  ]
+}

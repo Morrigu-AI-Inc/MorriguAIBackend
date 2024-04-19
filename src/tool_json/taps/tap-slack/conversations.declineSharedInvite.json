@@ -1,0 +1,24 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "invite_id": {
+      "type": "string",
+      "description": "ID of the Slack Connect invite to decline."
+    },
+    "target_team": {
+      "type": "string",
+      "description": "The team or enterprise id of the other party involved in the invitation you are declining"
+    }
+  },
+  "required": [
+    "token",
+    "invite_id"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,65 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Actions Workflow Runs API",
+  "description": "REST API endpoints for interacting with workflow runs in GitHub Actions",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for re-running a job from a workflow run",
+      "value": "/repos/{owner}/{repo}/actions/jobs/{job_id}/rerun"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "enable_debug_logging": {
+          "type": "boolean",
+          "description": "Whether to enable debug logging for the re-run"
+        }
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The unique identifier of the job that was re-run"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the re-run request" 
+        }
+      },
+      "required": ["id", "status"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

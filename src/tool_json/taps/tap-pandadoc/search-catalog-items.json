@@ -1,0 +1,51 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "Search query string"
+    },
+    "category_id": {
+      "type": "string",
+      "description": "UUID of the category to search within"
+    },
+    "item_type": {
+      "type": "string",
+      "description": "Type of item to search for (product, service, etc.)"
+    },
+    "billing_type": {
+      "type": "string",
+      "description": "Billing type of item to search for (one_time, recurring, etc.)"
+    },
+    "order_by": {
+      "type": "string",
+      "description": "Property to order results by (sku, name, price, modification_date)"
+    },
+    "order": {
+      "type": "string",
+      "description": "Order direction (asc or desc)"
+    },
+    "exclude_uuids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "UUIDs of items to exclude from search results"
+    }
+  }
+}
+
+
+This JSON schema defines the structure of the query parameters for the Search Catalog Items API endpoint. The main properties are:
+
+- `query` (string) - The search query string
+- `category_id` (string) - UUID of a category to scope the search
+- `item_type` (string) - Type of item to search for
+- `billing_type` (string) - Billing type to filter by  
+- `order_by` (string) - Property to order results by
+- `order` (string) - Order direction (ascending or descending)
+- `exclude_uuids` (array of strings) - UUIDs of items to exclude
+
+The schema specifies the data types and descriptions for each query parameter property. This can be used for validation and documentation purposes.

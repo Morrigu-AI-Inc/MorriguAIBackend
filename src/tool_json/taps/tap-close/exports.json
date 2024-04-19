@@ -1,0 +1,412 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header-wrapper": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string"
+        },
+        "h1": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "style",
+        "h1"
+      ]
+    },
+    "css-1yp4ln": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string"
+        },
+        "div": {
+          "type": "object",
+          "properties": {
+            "css-a181dj": {
+              "type": "object",
+              "properties": {
+                "style": {
+                  "type": "string"
+                },
+                "div": {
+                  "type": "object",
+                  "properties": {
+                    "css-1f43zf7": {
+                      "type": "object",
+                      "properties": {
+                        "style": {
+                          "type": "string"
+                        },
+                        "content-wrapper": {
+                          "type": "object",
+                          "properties": {
+                            "p": {
+                              "type": "string"
+                            },
+                            "h2": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "a": {
+                                    "type": "string"
+                                  },
+                                  "position": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "a",
+                                  "position"
+                                ]
+                              }
+                            },
+                            "ul": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "li": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "code": {
+                                          "type": "string"
+                                        },
+                                        "a": {
+                                          "type": "string"
+                                        },
+                                        "ul": {
+                                          "type": "object",
+                                          "properties": {
+                                            "li": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "code": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "code"
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          "required": [
+                                            "li"
+                                          ]
+                                        }
+                                      },
+                                      "required": [
+                                        "code",
+                                        "a",
+                                        "ul"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "li"
+                                ]
+                              }
+                            },
+                            "div": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "style": {
+                                    "type": "string"
+                                  },
+                                  "div": {
+                                    "type": "object",
+                                    "properties": {
+                                      "style": {
+                                        "type": "string"
+                                      },
+                                      "button": {
+                                        "type": "object",
+                                        "properties": {
+                                          "style": {
+                                            "type": "string"
+                                          },
+                                          "svg": {
+                                            "type": "object",
+                                            "properties": {
+                                              "viewBox": {
+                                                "type": "string"
+                                              },
+                                              "path": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "fill": {
+                                                    "type": "string"
+                                                  },
+                                                  "stroke": {
+                                                    "type": "string"
+                                                  },
+                                                  "stroke-linecap": {
+                                                    "type": "string"
+                                                  },
+                                                  "stroke-linejoin": {
+                                                    "type": "string"
+                                                  },
+                                                  "stroke-width": {
+                                                    "type": "string"
+                                                  },
+                                                  "d": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "fill",
+                                                  "stroke",
+                                                  "stroke-linecap",
+                                                  "stroke-linejoin",
+                                                  "stroke-width",
+                                                  "d"
+                                                ]
+                                              }
+                                            },
+                                            "required": [
+                                              "viewBox",
+                                              "path"
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "style",
+                                          "svg"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "style",
+                                      "button"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "style",
+                                  "div"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "p",
+                            "h2",
+                            "ul",
+                            "div"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "style",
+                        "content-wrapper"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "css-1f43zf7"
+                  ]
+                }
+              },
+              "required": [
+                "style",
+                "div"
+              ]
+            }
+          },
+          "required": [
+            "css-a181dj"
+          ]
+        }
+      },
+      "required": [
+        "style",
+        "div"
+      ]
+    },
+    "css-9ckfit": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string"
+        },
+        "nav": {
+          "type": "object",
+          "properties": {
+            "a": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "style": {
+                    "type": "string"
+                  },
+                  "svg": {
+                    "type": "object",
+                    "properties": {
+                      "viewBox": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "object",
+                        "properties": {
+                          "fill": {
+                            "type": "string"
+                          },
+                          "fill-rule": {
+                            "type": "string"
+                          },
+                          "stroke": {
+                            "type": "string"
+                          },
+                          "stroke-linecap": {
+                            "type": "string"
+                          },
+                          "stroke-linejoin": {
+                            "type": "string"
+                          },
+                          "stroke-width": {
+                            "type": "string"
+                          },
+                          "d": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "fill",
+                          "fill-rule",
+                          "stroke",
+                          "stroke-linecap",
+                          "stroke-linejoin",
+                          "stroke-width",
+                          "d"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "viewBox",
+                      "path"
+                    ]
+                  },
+                  "div": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "style": {
+                          "type": "string"
+                        },
+                        "div": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "style",
+                        "div"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "style",
+                  "svg",
+                  "div"
+                ]
+              }
+            }
+          },
+          "required": [
+            "a"
+          ]
+        }
+      },
+      "required": [
+        "style",
+        "nav"
+      ]
+    },
+    "css-u6jpbo": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string"
+        },
+        "aside": {
+          "type": "object",
+          "properties": {
+            "h4": {
+              "type": "object",
+              "properties": {
+                "style": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "style"
+              ]
+            },
+            "ul": {
+              "type": "object",
+              "properties": {
+                "style": {
+                  "type": "string"
+                },
+                "li": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "style": {
+                        "type": "string"
+                      },
+                      "a": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "style",
+                      "a"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "style",
+                "li"
+              ]
+            }
+          },
+          "required": [
+            "h4",
+            "ul"
+          ]
+        }
+      },
+      "required": [
+        "style",
+        "aside"
+      ]
+    }
+  },
+  "required": [
+    "header-wrapper",
+    "css-1yp4ln",
+    "css-9ckfit", 
+    "css-u6jpbo"
+  ]
+}

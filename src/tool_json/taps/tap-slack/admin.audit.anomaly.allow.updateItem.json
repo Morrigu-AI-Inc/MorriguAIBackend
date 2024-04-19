@@ -1,0 +1,23 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "trusted_asns": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "allow list of Autonomous System Numbers (ASN) in the enterprise grid configuarion"
+    },
+    "trusted_cidr": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "allow list of IPv4 addressses using cidr notation in the enterprise grid configuarion"
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

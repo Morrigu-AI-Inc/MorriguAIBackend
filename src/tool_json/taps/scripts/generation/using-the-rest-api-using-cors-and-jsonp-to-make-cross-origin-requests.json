@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Cross-Origin Requests API",
+  "description": "This API endpoint allows making cross-origin requests using CORS and JSONP callbacks.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for making cross-origin requests",
+      "value": "/cors-jsonp"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "OPTIONS"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Origin": {
+          "type": "string",
+          "description": "Origin of the request"
+        },
+        "Access-Control-Request-Method": {
+          "type": "string",
+          "description": "HTTP method for the actual request (required for OPTIONS preflight request)"
+        },
+        "Access-Control-Request-Headers": {
+          "type": "string",
+          "description": "Headers for the actual request (required for OPTIONS preflight request)"
+        }
+      },
+      "required": ["Origin"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "callback": {
+          "type": "string",
+          "description": "Function name for JSONP callback"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "description": "HTTP status code"
+            },
+            "x-ratelimit-limit": {
+              "type": "string",
+              "description": "Rate limit limit"
+            },
+            "x-ratelimit-remaining": {
+              "type": "string",
+              "description": "Rate limit remaining"
+            },
+            "x-ratelimit-reset": {
+              "type": "string",
+              "description": "Rate limit reset time"
+            },
+            "Link": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              },
+              "description": "Pagination links"
+            }
+          },
+          "required": ["status"]
+        },
+        "data": {
+          "type": "object",
+          "description": "Response data"
+        }
+      },
+      "required": ["meta", "data"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

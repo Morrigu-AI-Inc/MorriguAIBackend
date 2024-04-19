@@ -1,0 +1,40 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "external_id": {
+      "type": "string",
+      "description": "Creator defined GUID for the file."
+    },
+    "external_url": {
+      "type": "string",
+      "description": "URL of the remote file."
+    },
+    "file": {
+      "type": "string",
+      "description": "Specify a file by providing its ID."
+    },
+    "filetype": {
+      "type": "string",
+      "description": "type of file"
+    },
+    "indexable_file_contents": {
+      "description": "File containing contents that can be used to improve searchability for the remote file."
+    },
+    "preview_image": {
+      "description": "Preview of the document via `multipart/form-data`."
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the file being shared."
+    }
+  },
+  "required": [
+    "token"
+  ]
+}

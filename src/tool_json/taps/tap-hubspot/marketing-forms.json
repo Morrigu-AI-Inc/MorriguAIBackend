@@ -1,0 +1,420 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HubSpot Marketing Forms API",
+  "description": "API for creating and managing forms in your HubSpot account to collect form submissions from website visitors.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing HubSpot forms",
+      "value": "/marketing/v3/forms/"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "Content type of the request body",
+          "enum": ["application/json"]
+        }
+      },
+      "required": [
+        "Authorization"
+      ]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "formType": {
+          "type": "string",
+          "description": "Type of the form",
+          "enum": ["hubspot"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the form"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation date of the form",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last updated date of the form",
+          "format": "date-time"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether the form is archived or not"
+        },
+        "archivedAt": {
+          "type": "string",
+          "description": "Date when the form was archived",
+          "format": "date-time"
+        },
+        "fieldGroups": {
+          "type": "array",
+          "description": "Groups of fields in the form",
+          "items": {
+            "type": "object",
+            "properties": {
+              "groupType": {
+                "type": "string",
+                "description": "Type of the field group",
+                "enum": ["default_group"]
+              },
+              "richTextType": {
+                "type": "string",
+                "description": "Type of the rich text content",
+                "enum": ["text"]
+              },
+              "richText": {
+                "type": "string",
+                "description": "Rich text content"
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields in the group"
+              }
+            },
+            "required": [
+              "groupType",
+              "richTextType",
+              "richText",
+              "fields"
+            ]
+          }
+        },
+        "configuration": {
+          "type": "object",
+          "description": "Configuration options for the form",
+          "properties": {
+            "createNewContactForNewEmail": {
+              "type": "boolean",
+              "description": "Whether to create a new contact for a new email address"
+            },
+            "editable": {
+              "type": "boolean",
+              "description": "Whether the form is editable or not"
+            },
+            "allowLinkToResetKnownValues": {
+              "type": "boolean",
+              "description": "Whether to allow resetting known values"
+            },
+            "lifecycleStages": {
+              "type": "array",
+              "description": "Lifecycle stages associated with the form",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "objectTypeId": {
+                    "type": "string",
+                    "description": "ID of the object type"
+                  },
+                  "value": {
+                    "type": "string",
+                    "description": "Value of the lifecycle stage"
+                  }
+                },
+                "required": [
+                  "objectTypeId",
+                  "value"
+                ]
+              }
+            },
+            "postSubmitAction": {
+              "type": "object",
+              "description": "Action to perform after form submission",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Type of the post submit action",
+                  "enum": ["thank_you"]
+                },
+                "value": {
+                  "type": "string",
+                  "description": "Value of the post submit action"
+                }
+              },
+              "required": [
+                "type",
+                "value"
+              ]
+            },
+            "language": {
+              "type": "string",
+              "description": "Language code for the form",
+              "enum": ["af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "my", "ca", "zh-HK", "zh-CN", "zh-TW", "cv", "hr", "cs", "da", "nl", "en", "eo", "et", "fj", "fi", "fr", "gl", "ka", "de", "el", "gu", "ht", "ha", "he", "hi", "hu", "is", "io", "id", "ia", "ie", "iu", "ik", "ga", "it", "ja", "jv", "kn", "kk", "km", "ki", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mn", "na", "nv", "nb", "nd", "ne", "ng", "ny", "nn", "no", "ii", "nr", "oc", "oj", "cu", "om", "or", "os", "pa", "fa", "pl", "pt", "ps", "qu", "rm", "ro", "ru", "sm", "sg", "sa", "sc", "gd", "sr", "st", "sn", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "ss", "sv", "ta", "te", "tg", "th", "bo", "ti", "to", "ts", "tn", "tr", "tk", "tw", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa", "cy", "wo", "fy", "xh", "yi", "yo", "za", "zu"]
+            },
+            "prePopulateKnownValues": {
+              "type": "boolean",
+              "description": "Whether to pre-populate known values in the form"
+            },
+            "cloneable": {
+              "type": "boolean",
+              "description": "Whether the form is cloneable or not"
+            },
+            "notifyContactOwner": {
+              "type": "boolean",
+              "description": "Whether to notify the contact owner on form submission"
+            },
+            "recaptchaEnabled": {
+              "type": "boolean",
+              "description": "Whether reCAPTCHA is enabled for the form"
+            },
+            "archivable": {
+              "type": "boolean",
+              "description": "Whether the form is archivable or not"
+            },
+            "notifyRecipients": {
+              "type": "array",
+              "description": "Recipients to notify on form submission",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "createNewContactForNewEmail",
+            "editable",
+            "allowLinkToResetKnownValues",
+            "lifecycleStages",
+            "postSubmitAction",
+            "language",
+            "prePopulateKnownValues",
+            "cloneable",
+            "notifyContactOwner",
+            "recaptchaEnabled",
+            "archivable",
+            "notifyRecipients"
+          ]
+        },
+        "displayOptions": {
+          "type": "object",
+          "description": "Display options for the form",
+          "properties": {
+            "renderRawHtml": {
+              "type": "boolean",
+              "description": "Whether to render raw HTML for the form"
+            },
+            "cssClass": {
+              "type": "string",
+              "description": "CSS class for the form"
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme for the form",
+              "enum": ["default_style"]
+            },
+            "submitButtonText": {
+              "type": "string",
+              "description": "Text for the submit button"
+            },
+            "style": {
+              "type": "object",
+              "description": "Styling options for the form",
+              "properties": {
+                "labelTextSize": {
+                  "type": "string",
+                  "description": "Size of the label text"
+                },
+                "legalConsentTextColor": {
+                  "type": "string",
+                  "description": "Color of the legal consent text"
+                },
+                "fontFamily": {
+                  "type": "string",
+                  "description": "Font family for the form"
+                },
+                "legalConsentTextSize": {
+                  "type": "string",
+                  "description": "Size of the legal consent text"
+                },
+                "backgroundWidth": {
+                  "type": "string",
+                  "description": "Width of the background"
+                },
+                "helpTextSize": {
+                  "type": "string",
+                  "description": "Size of the help text"
+                },
+                "submitFontColor": {
+                  "type": "string",
+                  "description": "Font color of the submit button"
+                },
+                "labelTextColor": {
+                  "type": "string",
+                  "description": "Color of the label text"
+                },
+                "submitAlignment": {
+                  "type": "string",
+                  "description": "Alignment of the submit button",
+                  "enum": ["left", "right", "center"]
+                },
+                "submitSize": {
+                  "type": "string",
+                  "description": "Size of the submit button"
+                },
+                "helpTextColor": {
+                  "type": "string",
+                  "description": "Color of the help text"
+                },
+                "submitColor": {
+                  "type": "string",
+                  "description": "Color of the submit button"
+                }
+              },
+              "required": [
+                "labelTextSize",
+                "legalConsentTextColor",
+                "fontFamily",
+                "legalConsentTextSize",
+                "backgroundWidth",
+                "helpTextSize",
+                "submitFontColor",
+                "labelTextColor",
+                "submitAlignment",
+                "submitSize",
+                "helpTextColor",
+                "submitColor"
+              ]
+            }
+          },
+          "required": [
+            "renderRawHtml",
+            "cssClass",
+            "theme",
+            "submitButtonText",
+            "style"
+          ]
+        },
+        "legalConsentOptions": {
+          "type": "object",
+          "description": "Legal consent options for the form",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Type of legal consent",
+              "enum": ["none"]
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      },
+      "required": [
+        "formType"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the form"
+        },
+        "formType": {
+          "type": "string",
+          "description": "Type of the form"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the form"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation date of the form",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last updated date of the form",
+          "format": "date-time"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether the form is archived or not"
+        },
+        "archivedAt": {
+          "type": "string",
+          "description": "Date when the form was archived",
+          "format": "date-time"
+        },
+        "fieldGroups": {
+          "type": "array",
+          "description": "Groups of fields in the form",
+          "items": {
+            "type": "object",
+            "properties": {
+              "groupType": {
+                "type": "string",
+                "description": "Type of the field group"
+              },
+              "richTextType": {
+                "type": "string",
+                "description": "Type of the rich text content"
+              },
+              "richText": {
+                "type": "string",
+                "description": "Rich text content"
+              },
+              "fields": {
+                "type": "array",
+                "description": "Fields in the group"
+              }
+            },
+            "required": [
+              "groupType",
+              "richTextType",
+              "richText",
+              "fields"
+            ]
+          }
+        },
+        "configuration": {
+          "type": "object",
+          "description": "Configuration options for the form"
+        },
+        "displayOptions": {
+          "type": "object",
+          "description": "Display options for the form"
+        },
+        "legalConsentOptions": {
+          "type": "object",
+          "description": "Legal consent options for the form"
+        }
+      },
+      "required": [
+        "id",
+        "formType",
+        "name",
+        "createdAt",
+        "updatedAt",
+        "archived",
+        "archivedAt",
+        "fieldGroups",
+        "configuration",
+        "displayOptions",
+        "legalConsentOptions"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "response"
+  ],
+  "additionalProperties": false
+}

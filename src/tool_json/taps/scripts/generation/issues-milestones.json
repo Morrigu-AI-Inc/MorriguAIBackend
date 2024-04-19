@@ -1,0 +1,515 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Issues Milestones API",
+  "description": "REST API endpoints for managing milestones in a GitHub repository",
+  "type": "object",
+  "properties": {
+    "listMilestones": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to list milestones",
+          "value": "/repos/{owner}/{repo}/milestones"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for listing milestones"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Media type to request"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string", 
+              "description": "The name of the repository"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "description": "The state of the milestone",
+              "enum": ["open", "closed", "all"]
+            },
+            "sort": {
+              "type": "string",
+              "description": "What to sort results by",
+              "enum": ["due_on", "completeness"]
+            },
+            "direction": {
+              "type": "string",
+              "description": "The direction to sort results",
+              "enum": ["asc", "desc"]
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "The API URL of the milestone"
+              },
+              "html_url": {
+                "type": "string",
+                "description": "The HTML URL of the milestone"  
+              },
+              "labels_url": {
+                "type": "string",
+                "description": "The API URL to list labels for the milestone"
+              },
+              "id": {
+                "type": "integer",
+                "description": "The unique identifier of the milestone"
+              },
+              "node_id": {
+                "type": "string",
+                "description": "The Node ID of the milestone"
+              },
+              "number": {
+                "type": "integer",
+                "description": "The milestone number"
+              },
+              "state": {
+                "type": "string",
+                "description": "The state of the milestone",
+                "enum": ["open", "closed"]
+              },
+              "title": {
+                "type": "string",
+                "description": "The title of the milestone"
+              },
+              "description": {
+                "type": "string",
+                "description": "The description of the milestone"
+              },
+              "creator": {
+                "type": "object",
+                "description": "The user that created the milestone"
+              },
+              "open_issues": {
+                "type": "integer",
+                "description": "The number of open issues associated with the milestone"
+              },
+              "closed_issues": {
+                "type": "integer",
+                "description": "The number of closed issues associated with the milestone"
+              },
+              "created_at": {
+                "type": "string",
+                "description": "The time the milestone was created"
+              },
+              "updated_at": {
+                "type": "string",
+                "description": "The time the milestone was last updated"
+              },
+              "closed_at": {
+                "type": "string",
+                "description": "The time the milestone was closed"
+              },
+              "due_on": {
+                "type": "string",
+                "description": "The due date of the milestone"
+              }
+            },
+            "required": ["url", "html_url", "id", "number", "state", "title", "description", "creator", "open_issues", "closed_issues", "created_at", "updated_at"]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "createMilestone": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to create a milestone",
+          "value": "/repos/{owner}/{repo}/milestones"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method for creating a milestone"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Media type to request"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object", 
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            }
+          },
+          "required": ["owner", "repo"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "The title of the new milestone"
+            },
+            "state": {
+              "type": "string",
+              "description": "The state of the new milestone",
+              "enum": ["open", "closed"],
+              "default": "open"
+            },
+            "description": {
+              "type": "string", 
+              "description": "A description of the new milestone"
+            },
+            "due_on": {
+              "type": "string",
+              "description": "The due date of the new milestone"
+            }
+          },
+          "required": ["title"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The API URL of the new milestone"
+            },
+            "html_url": {
+              "type": "string", 
+              "description": "The HTML URL of the new milestone"
+            },
+            "labels_url": {
+              "type": "string",
+              "description": "The API URL to list labels for the new milestone"  
+            },
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the new milestone"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The Node ID of the new milestone"
+            },
+            "number": {
+              "type": "integer",
+              "description": "The number of the new milestone"
+            },
+            "state": {
+              "type": "string",
+              "description": "The state of the new milestone",
+              "enum": ["open", "closed"]
+            },
+            "title": {
+              "type": "string",
+              "description": "The title of the new milestone"
+            },
+            "description": {
+              "type": "string",
+              "description": "The description of the new milestone"
+            },
+            "creator": {
+              "type": "object",
+              "description": "The user that created the new milestone"
+            },
+            "open_issues": {
+              "type": "integer",
+              "description": "The number of open issues for the new milestone"
+            },
+            "closed_issues": {
+              "type": "integer",
+              "description": "The number of closed issues for the new milestone"  
+            },
+            "created_at": {
+              "type": "string",
+              "description": "The time the new milestone was created"
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "The time the new milestone was last updated"
+            },
+            "closed_at": {
+              "type": "string",
+              "description": "The time the new milestone was closed"
+            },
+            "due_on": {
+              "type": "string",
+              "description": "The due date of the new milestone"
+            }
+          },
+          "required": ["url", "html_url", "id", "number", "state", "title", "description", "creator", "open_issues", "closed_issues", "created_at", "updated_at"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "body", "response"]
+    },
+    "getMilestone": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to get a milestone",
+          "value": "/repos/{owner}/{repo}/milestones/{milestone_number}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for getting a milestone"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Media type to request"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository"
+            },
+            "milestone_number": {
+              "type": "integer",
+              "description": "The unique number of the milestone"
+            }
+          },
+          "required": ["owner", "repo", "milestone_number"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The API URL of the milestone"
+            },
+            "html_url": {
+              "type": "string",
+              "description": "The HTML URL of the milestone"
+            },
+            "labels_url": {
+              "type": "string", 
+              "description": "The API URL to list labels for the milestone"
+            },
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the milestone"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The Node ID of the milestone"
+            },
+            "number": {
+              "type": "integer",
+              "description": "The milestone number"
+            },
+            "state": {
+              "type": "string",
+              "description": "The state of the milestone",
+              "enum": ["open", "closed"]
+            },
+            "title": {
+              "type": "string",
+              "description": "The title of the milestone"
+            },
+            "description": {
+              "type": "string",
+              "description": "The description of the milestone"
+            },
+            "creator": {
+              "type": "object",
+              "description": "The user that created the milestone"
+            },
+            "open_issues": {
+              "type": "integer",
+              "description": "The number of open issues for the milestone"
+            },
+            "closed_issues": {
+              "type": "integer",
+              "description": "The number of closed issues for the milestone"
+            },
+            "created_at": {
+              "type": "string",
+              "description": "The time the milestone was created"  
+            },
+            "updated_at": {
+              "type": "string",
+              "description": "The time the milestone was last updated"
+            },
+            "closed_at": {
+              "type": "string",
+              "description": "The time the milestone was closed"
+            },
+            "due_on": {
+              "type": "string", 
+              "description": "The due date of the milestone"
+            }
+          },
+          "required": ["url", "html_url", "id", "number", "state", "title", "description", "creator", "open_issues", "closed_issues", "created_at", "updated_at"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "updateMilestone": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to update a milestone",
+          "value": "/repos/{owner}/{repo}/milestones/{milestone_number}"  
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["PATCH"],
+          "description": "HTTP method for updating a milestone"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Media type to request"
+            }
+          },
+          "required": ["accept"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "The account owner of the repository"
+            },
+            "repo": {
+              "type": "string",
+              "description": "The name of the repository" 
+            },
+            "milestone_number": {
+              "type": "integer",
+              "description": "The unique number of the milestone"
+            }
+          },
+          "required": ["owner", "repo", "milestone_number"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "The new title of the milestone"
+            },
+            "state": {
+              "type": "string",
+              "description": "The new state of the milestone",
+              "enum": ["open", "closed"],
+              "default": "open"
+            },
+            "description": {
+              "type": "string",
+              "description": "The new description of the milestone"
+            },
+            "due_on": {
+              "type": "string",
+              "description": "The new due date of the milestone"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The API URL of the updated milestone"
+            },
+            "html_url": {
+              "type": "string",
+              "description": "The HTML URL of the updated milestone"
+            },
+            "labels_url": {
+              "type": "string",
+              "description": "The API URL to list labels for the updated milestone"
+            },
+            "id": {
+              "type": "integer",
+              "description": "The unique identifier of the updated milestone"
+            },
+            "node_id": {
+              "type": "string",
+              "description": "The Node ID of the updated milestone"
+            },
+            "number": {
+              "type": "integer",
+              "description": "The number of the updated milestone"
+            },
+            "state": {
+              "type": "string",
+              "description": "The updated state of the milestone",
+              "enum": ["open", "closed"]
+            },
+            "title": {
+              "type": "string",
+              "description": "The updated title of the milestone"
+            },
+            "description": {
+              "type": "string",
+              "description": "The updated description of the milestone"
+            },
+            "creator": {
+              "type": "object",
+              "description": "The user that created the milestone"
+            },
+            "open_issues": {
+              "type": "integer",
+              "description": "The number of open issues for the updated milestone"
+            },
+            "closed_issues": {
+              "type": "integer",
+              "description": "The number of closed issues for the updated milestone"
+            },

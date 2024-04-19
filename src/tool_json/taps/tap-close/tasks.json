@@ -1,0 +1,129 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "_type": {
+      "type": "string",
+      "enum": [
+        "lead",
+        "incoming_email",
+        "email_followup",
+        "missed_call",
+        "answered_detached_call",
+        "voicemail",
+        "opportunity_due",
+        "incoming_sms",
+        "all"
+      ]
+    },
+    "lead_id": {
+      "type": "integer"
+    },
+    "is_complete": {
+      "type": "boolean"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "date_created": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "assigned_to": {
+      "type": "integer"
+    },
+    "text": {
+      "type": "string"
+    },
+    "object_id": {
+      "type": "integer"
+    },
+    "object_type": {
+      "type": "string",
+      "enum": [
+        "emailthread",
+        "call",
+        "sms",
+        "opportunity"
+      ]
+    },
+    "emails": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "subject": {
+      "type": "string"
+    },
+    "body_preview": {
+      "type": "string"
+    },
+    "email_id": {
+      "type": "integer"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "local_phone": {
+      "type": "string"
+    },
+    "voicemail_duration": {
+      "type": "integer"
+    },
+    "voicemail_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "remote_phone": {
+      "type": "string"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "content_type",
+          "size",
+          "url"
+        ]
+      }
+    },
+    "x-tz-offset": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "_type",
+    "date"
+  ]
+}

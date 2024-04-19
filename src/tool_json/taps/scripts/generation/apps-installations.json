@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub App Installation API",
+  "description": "API endpoints for GitHub App installations to get information about installations and perform actions within those installations.",
+  "type": "object",
+  "properties": {
+    "listRepositoriesAccessibleToAppInstallation": {
+      "type": "object",
+      "description": "List repositories that an app installation can access",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to list repositories accessible to the app installation",
+          "value": "/installation/repositories"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page (max 100)"
+            },
+            "page": {
+              "type": "integer",
+              "description": "The page number of the results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "Total number of repositories accessible to the app installation"
+            },
+            "repositories": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the repository"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the repository"
+                  },
+                  "full_name": {
+                    "type": "string",
+                    "description": "The full name of the repository"
+                  },
+                  // Add more properties as needed
+                }
+              }
+            }
+          },
+          "required": ["total_count", "repositories"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "revokeInstallationAccessToken": {
+      "type": "object",
+      "description": "Revoke the installation token used for authentication",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to revoke the installation access token",
+          "value": "/installation/token"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "accept": {
+              "type": "string",
+              "description": "Setting to application/vnd.github+json is recommended"
+            },
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    // Add more endpoint schemas as needed
+  },
+  "required": ["listRepositoriesAccessibleToAppInstallation", "revokeInstallationAccessToken"],
+  "additionalProperties": false
+}

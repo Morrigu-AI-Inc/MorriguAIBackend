@@ -1,0 +1,36 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.usergroups.addTeams",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "team_ids": {
+      "description": "A comma separated list of encoded team (workspace) IDs.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": ["T12345678", "T98765432"]
+    },
+    "usergroup_id": {
+      "description": "An encoded usergroup (IDP Group) ID.",
+      "type": "string",
+      "example": "S12345678"
+    },
+    "auto_provision": {
+      "description": "When true, this method automatically creates new workspace accounts for the IDP group members.",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "token",
+    "team_ids", 
+    "usergroup_id"
+  ]
+}

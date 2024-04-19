@@ -1,0 +1,53 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "team": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "email_domain": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "array"
+        },
+        "enterprise_id": {
+          "type": "string"
+        },
+        "enterprise_name": {
+          "type": "string"
+        },
+        "default_channels": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "domain",
+        "email_domain",
+        "icon",
+        "enterprise_id",
+        "enterprise_name",
+        "default_channels"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "team"
+  ]
+}

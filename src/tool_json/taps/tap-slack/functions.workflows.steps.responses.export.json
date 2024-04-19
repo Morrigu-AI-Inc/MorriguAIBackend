@@ -1,0 +1,32 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "step_id": {
+      "type": "string",
+      "description": "The ID of the OpenForm step to export."
+    },
+    "workflow": {
+      "type": "string",
+      "description": "The workflow encoded ID or workflow reference"
+    },
+    "workflow_app_id": {
+      "type": "string",
+      "description": "The app tied to the workflow reference."
+    },
+    "workflow_id": {
+      "type": "string",
+      "description": "The workflow ID, starts with Wf*"
+    }
+  },
+  "required": [
+    "token",
+    "step_id"
+  ],
+  "additionalProperties": false
+}

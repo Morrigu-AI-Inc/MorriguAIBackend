@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-raycast-oas": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class",
+        "data-raycast-oas"
+      ]
+    },
+    "headline-container-grid-itemGdPV-VbhShYs": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "button-containerobFfV0vf6giV": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    }
+  },
+  "required": [
+    "headline-container21aRBSn8Bqg6",
+    "headline-container-grid-itemGdPV-VbhShYs",
+    "button-containerobFfV0vf6giV"
+  ]
+}

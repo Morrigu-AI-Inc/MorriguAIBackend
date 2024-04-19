@@ -1,0 +1,28 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "usergroups.users.list",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "usergroup": {
+      "type": "string",
+      "description": "The encoded ID of the User Group to list users for."
+    },
+    "include_disabled": {
+      "type": "boolean",
+      "description": "Allow results that involve disabled User Groups."
+    },
+    "team_id": {
+      "type": "string",
+      "description": "encoded team id where the user group exists, required if org token is used"
+    }
+  },
+  "required": [
+    "token",
+    "usergroup"
+  ]
+}

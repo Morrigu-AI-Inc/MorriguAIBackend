@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "methodAccess": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "POST"
+                },
+                "url": {
+                  "type": "string",
+                  "const": "apps.manifest.update"
+                }
+              },
+              "required": ["method", "url"]
+            },
+            "javascript": {
+              "type": "string",
+              "const": "app.client.apps.manifest.update"
+            },
+            "python": {
+              "type": "string",
+              "const": "app.client.apps_manifest_update"
+            },
+            "java": {
+              "type": "string",
+              "const": "app.client().appsManifestUpdate"
+            }
+          }
+        },
+        "requiredScopes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "const": "App configuration token"
+          }
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["application/x-www-form-urlencoded", "application/json"]
+          }
+        },
+        "rateLimits": {
+          "type": "string",
+          "const": "Tier 1"
+        }
+      },
+      "required": [
+        "methodAccess",
+        "requiredScopes",
+        "contentTypes",
+        "rateLimits"
+      ]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            },
+            "required": ["name", "type", "description", "required"]
+          }
+        }
+      },
+      "required": ["required"]
+    },
+    "exampleResponses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "example": {
+            "type": "object"
+          }
+        },
+        "required": ["example"]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["error", "description"]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["warning", "description"]
+      }
+    }
+  },
+  "required": ["facts", "arguments", "exampleResponses", "errors", "warnings"]
+}

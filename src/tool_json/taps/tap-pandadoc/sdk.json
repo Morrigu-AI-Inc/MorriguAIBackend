@@ -1,0 +1,130 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "data-raycast-oas": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class",
+        "data-raycast-oas"
+      ]
+    },
+    "nav": {
+      "type": "object",
+      "properties": {
+        "aria-label": {
+          "type": "string"
+        },
+        "class": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "aria-label",
+        "class",
+        "id"
+      ]
+    },
+    "h1": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "$ref": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "data-testid": {
+          "type": "string"
+        },
+        "class": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "data-testid",
+        "class"
+      ]
+    },
+    "p": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ul": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "li": {
+            "type": "object",
+            "properties": {
+              "a": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string"
+                  },
+                  "href": {
+                    "type": "string"
+                  },
+                  "$ref": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "target",
+                  "href"
+                ]
+              }
+            },
+            "required": [
+              "a"
+            ]
+          }
+        },
+        "required": [
+          "li"
+        ]
+      }
+    }
+  },
+  "required": [
+    "header",
+    "nav",
+    "h1",
+    "div",
+    "p",
+    "ul"
+  ]
+}

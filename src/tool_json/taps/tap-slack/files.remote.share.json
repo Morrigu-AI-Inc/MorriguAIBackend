@@ -1,0 +1,40 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "files.remote.share",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channels": {
+      "type": "string",
+      "description": "Comma-separated list of channel IDs where the file will be shared."
+    },
+    "external_id": {
+      "type": "string",
+      "description": "The globally unique identifier (GUID) for the file, as set by the app registering the file with Slack."
+    },
+    "file": {
+      "type": "string",
+      "description": "Specify a file registered with Slack by providing its ID."
+    }
+  },
+  "required": [
+    "token",
+    "channels"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "external_id"
+      ]
+    },
+    {
+      "required": [
+        "file"
+      ]
+    }
+  ]
+}

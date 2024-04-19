@@ -1,0 +1,296 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Repository Statistics API",
+  "description": "API endpoints for fetching statistics about a GitHub repository",
+  "type": "object",
+  "properties": {
+    "weeklyCommitActivity": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting weekly commit activity",
+          "value": "/repos/{owner}/{repo}/stats/code_frequency"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            },
+            "Accept": {
+              "type": "string",
+              "description": "Media type to specify the version of the API response",
+              "default": "application/vnd.github+json"
+            }
+          },
+          "required": ["Authorization", "Accept"]
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": [
+              {
+                "type": "integer",
+                "description": "Timestamp for the start of the week"
+              },
+              {
+                "type": "integer",
+                "description": "Number of additions in the week"
+              },
+              {
+                "type": "integer",
+                "description": "Number of deletions in the week" 
+              }
+            ]
+          },
+          "description": "Array of weekly commit activity data"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "lastYearCommitActivity": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting last year's commit activity",
+          "value": "/repos/{owner}/{repo}/stats/commit_activity"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            },
+            "Accept": {
+              "type": "string",
+              "description": "Media type to specify the version of the API response",
+              "default": "application/vnd.github+json"
+            }
+          },
+          "required": ["Authorization", "Accept"]
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "days": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "Array of commit counts per day in the week"
+              },
+              "total": {
+                "type": "integer",
+                "description": "Total commit count for the week"
+              },
+              "week": {
+                "type": "integer",
+                "description": "Timestamp for the start of the week"
+              }
+            },
+            "required": ["days", "total", "week"]
+          },
+          "description": "Array of weekly commit activity data for the last year"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "contributorCommitActivity": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting contributor commit activity",
+          "value": "/repos/{owner}/{repo}/stats/contributors"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            },
+            "Accept": {
+              "type": "string",
+              "description": "Media type to specify the version of the API response", 
+              "default": "application/vnd.github+json"
+            }
+          },
+          "required": ["Authorization", "Accept"]
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "author": {
+                "type": "object",
+                "description": "Author object containing details about the contributor"
+              },
+              "total": {
+                "type": "integer",
+                "description": "Total number of commits by the contributor"
+              },
+              "weeks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "w": {
+                      "type": "integer",
+                      "description": "Timestamp for the start of the week"
+                    },
+                    "a": {
+                      "type": "integer", 
+                      "description": "Number of additions in the week"
+                    },
+                    "d": {
+                      "type": "integer",
+                      "description": "Number of deletions in the week"
+                    },
+                    "c": {
+                      "type": "integer",
+                      "description": "Number of commits in the week"
+                    }
+                  },
+                  "required": ["w", "a", "d", "c"]
+                },
+                "description": "Array of weekly contribution data"
+              }
+            },
+            "required": ["author", "total", "weeks"]
+          },
+          "description": "Array of contributor commit activity data"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "weeklyCommitCount": {
+      "type": "object", 
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting weekly commit counts",
+          "value": "/repos/{owner}/{repo}/stats/participation"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            },
+            "Accept": {
+              "type": "string",
+              "description": "Media type to specify the version of the API response",
+              "default": "application/vnd.github+json"
+            }
+          },
+          "required": ["Authorization", "Accept"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "all": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "Array of commit counts for all contributors per week"
+            },
+            "owner": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "Array of commit counts for the repository owner per week"
+            }
+          },
+          "required": ["all", "owner"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "hourlyCommitCount": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting hourly commit counts per day",
+          "value": "/repos/{owner}/{repo}/stats/punch_card"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            },
+            "Accept": {
+              "type": "string",
+              "description": "Media type to specify the version of the API response",
+              "default": "application/vnd.github+json"
+            }
+          },
+          "required": ["Authorization", "Accept"]
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": [
+              {
+                "type": "integer",
+                "description": "Day of the week (0-6, Sunday - Saturday)"
+              },
+              {
+                "type": "integer",
+                "description": "Hour of the day (0-23)"
+              },
+              {
+                "type": "integer",
+                "description": "Number of commits in that hour"
+              }
+            ]
+          },
+          "description": "Array of hourly commit count data for each day"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    }
+  },
+  "required": ["weeklyCommitActivity", "lastYearCommitActivity", "contributorCommitActivity", "weeklyCommitCount", "hourlyCommitCount"],
+  "additionalProperties": false
+}

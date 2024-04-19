@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create a Conversation",
+  "description": "Initiates a public or private channel-based conversation.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "URL of the endpoint to send the request to",
+      "enum": ["conversations.create"]
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/x-www-form-urlencoded", "application/json"],
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization", "Content-Type"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the public or private channel to create"
+        },
+        "is_private": {
+          "type": "boolean",
+          "description": "If true, creates a private channel"
+        },
+        "team_id": {
+          "type": "string",
+          "description": "ID of the team where the channel is created, relevant for org-level tokens"
+        }
+      },
+      "required": ["name"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "description": "Indicates the success or failure of the request"
+        },
+        "channel": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique identifier for the channel"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the channel"
+            },
+            "is_channel": {
+              "type": "boolean",
+              "description": "True if the channel is a channel"
+            },
+            "is_private": {
+              "type": "boolean",
+              "description": "True if the channel is private"
+            },
+            "created": {
+              "type": "integer",
+              "description": "Unix timestamp for when the channel was created"
+            },
+            "creator": {
+              "type": "string",
+              "description": "User ID of the creator of the channel"
+            },
+            "is_archived": {
+              "type": "boolean",
+              "description": "True if the channel is archived"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "is_channel",
+            "is_private",
+            "created",
+            "creator",
+            "is_archived"
+          ]
+        }
+      },
+      "required": ["ok", "channel"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "body", "response"]
+}

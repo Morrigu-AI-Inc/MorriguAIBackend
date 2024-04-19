@@ -1,0 +1,530 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Actions Variables API",
+  "description": "API endpoints for managing variables in GitHub Actions workflows",
+  "type": "object",
+  "properties": {
+    "org_variables": {
+      "type": "object",
+      "description": "Endpoints for managing organization variables",
+      "properties": {
+        "list": {
+          "$ref": "#/definitions/list_org_variables"
+        },
+        "create": {
+          "$ref": "#/definitions/create_org_variable"
+        },
+        "get": {
+          "$ref": "#/definitions/get_org_variable"
+        },
+        "update": {
+          "$ref": "#/definitions/update_org_variable"
+        },
+        "delete": {
+          "$ref": "#/definitions/delete_org_variable"
+        },
+        "list_selected_repos": {
+          "$ref": "#/definitions/list_selected_repos_for_org_variable"
+        },
+        "set_selected_repos": {
+          "$ref": "#/definitions/set_selected_repos_for_org_variable"
+        },
+        "add_selected_repo": {
+          "$ref": "#/definitions/add_selected_repo_to_org_variable"
+        },
+        "remove_selected_repo": {
+          "$ref": "#/definitions/remove_selected_repo_from_org_variable"
+        }
+      }
+    },
+    "repo_variables": {
+      "type": "object",
+      "description": "Endpoints for managing repository variables",
+      "properties": {
+        "list_org_variables": {
+          "$ref": "#/definitions/list_repo_org_variables"
+        },
+        "list": {
+          "$ref": "#/definitions/list_repo_variables"
+        },
+        "create": {
+          "$ref": "#/definitions/create_repo_variable"
+        },
+        "get": {
+          "$ref": "#/definitions/get_repo_variable"
+        },
+        "update": {
+          "$ref": "#/definitions/update_repo_variable"
+        },
+        "delete": {
+          "$ref": "#/definitions/delete_repo_variable"
+        }
+      }
+    },
+    "environment_variables": {
+      "type": "object",
+      "description": "Endpoints for managing environment variables",
+      "properties": {
+        "list": {
+          "$ref": "#/definitions/list_environment_variables"
+        },
+        "create": {
+          "$ref": "#/definitions/create_environment_variable"
+        },
+        "get": {
+          "$ref": "#/definitions/get_environment_variable"
+        },
+        "update": {
+          "$ref": "#/definitions/update_environment_variable"
+        },
+        "delete": {
+          "$ref": "#/definitions/delete_environment_variable"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "list_org_variables": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing organization variables",
+          "value": "/orgs/{org}/actions/variables"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page"
+            },
+            "page": {
+              "type": "integer", 
+              "description": "The page number of results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "The total number of variables"
+            },
+            "variables": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/variable"
+              }
+            }
+          },
+          "required": ["total_count", "variables"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "create_org_variable": {
+      "type": "object", 
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating an organization variable",
+          "value": "/orgs/{org}/actions/variables"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the variable"
+            },
+            "value": {
+              "type": "string",
+              "description": "The value of the variable"  
+            },
+            "visibility": {
+              "type": "string",
+              "description": "Visibility of the variable in organization repositories",
+              "enum": ["all", "private", "selected"]
+            },
+            "selected_repository_ids": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "List of repository IDs the variable is available for when visibility is 'selected'"
+            }
+          },
+          "required": ["name", "value", "visibility"]
+        },
+        "response": {
+          "$ref": "#/definitions/variable"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "body", "response"]
+    },
+    "get_org_variable": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting an organization variable",
+          "value": "/orgs/{org}/actions/variables/{name}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "response": {
+          "$ref": "#/definitions/variable"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "update_org_variable": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for updating an organization variable",
+          "value": "/orgs/{org}/actions/variables/{name}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PATCH"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The new name of the variable"
+            },
+            "value": {
+              "type": "string",
+              "description": "The new value of the variable"
+            },
+            "visibility": {
+              "type": "string", 
+              "description": "New visibility level for the variable",
+              "enum": ["all", "private", "selected"]
+            },
+            "selected_repository_ids": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "List of repos the variable is available for if visibility is 'selected'"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["endpoint", "method", "headers"]
+    },
+    "delete_org_variable": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for deleting an organization variable",
+          "value": "/orgs/{org}/actions/variables/{name}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["DELETE"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "response": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "list_selected_repos_for_org_variable": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing selected repos for an org variable",
+          "value": "/orgs/{org}/actions/variables/{name}/repositories"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "description": "Page number of results"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "Results per page"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer", 
+              "description": "Total number of selected repositories"
+            },
+            "repositories": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/repo"
+              }
+            }
+          },
+          "required": ["total_count", "repositories"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "set_selected_repos_for_org_variable": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for setting selected repos for an org variable",
+          "value": "/orgs/{org}/actions/variables/{name}/repositories"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PUT"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"  
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "selected_repository_ids": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "List of repository IDs to set"
+            }
+          },
+          "required": ["selected_repository_ids"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["endpoint", "method", "headers", "body", "response"]
+    },
+    "add_selected_repo_to_org_variable": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for adding a selected repo to an org variable", 
+          "value": "/orgs/{org}/actions/variables/{name}/repositories/{repository_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PUT"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "response": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "remove_selected_repo_from_org_variable": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for removing a selected repo from an org variable",
+          "value": "/orgs/{org}/actions/variables/{name}/repositories/{repository_id}"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["DELETE"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "response": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "list_repo_org_variables": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing org variables for a repo",
+          "value": "/repos/{owner}/{repo}/actions/organization-variables"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "Results per page" 
+            },
+            "page": {
+              "type": "integer",
+              "description": "Page number of results"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "Total number of org variables"
+            },
+            "variables": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/variable"
+              }
+            }
+          },
+          "required": ["total_count", "variables"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "list_repo_variables": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing repository variables",
+          "value": "/repos/{owner}/{repo}/actions/variables"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"  
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "Results per page"
+            },
+            "page": {
+              "type": "integer",
+              "description": "Page number of results"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "Total number of repository variables"
+            },
+            "variables": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/variable"
+              }
+            }
+          },
+          "required": ["total_count", "variables"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "create_repo_variable": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string", 
+          "description": "API endpoint for creating a repository variable",
+          "value": "/repos/{owner}/{repo}/actions/variables"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "$ref": "#/definitions/headers"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the variable"
+            },
+            "value": {

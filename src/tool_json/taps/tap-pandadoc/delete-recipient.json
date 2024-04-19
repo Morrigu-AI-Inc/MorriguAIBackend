@@ -1,0 +1,27 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "document_uuid": {
+      "type": "string",
+      "description": "The unique identifier of the document."
+    },
+    "recipient_uuid": {
+      "type": "string", 
+      "description": "The unique identifier of the recipient to be removed."
+    }
+  },
+  "required": [
+    "document_uuid",
+    "recipient_uuid"
+  ]
+}
+
+
+This JSON schema defines the structure of the URL path parameters required for the `DELETE /documents/{document_uuid}/recipients/{recipient_uuid}` endpoint. It has two required properties:
+
+1. `document_uuid` (string): The unique identifier of the document from which the recipient should be removed.
+2. `recipient_uuid` (string): The unique identifier of the recipient to be removed from the document.
+
+Both of these properties are required for the request to be valid.

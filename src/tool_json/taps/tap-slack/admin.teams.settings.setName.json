@@ -1,0 +1,25 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "name": {
+      "type": "string",
+      "description": "The new name of the workspace."
+    },
+    "team_id": {
+      "type": "string",
+      "description": "ID for the workspace to set the name for."
+    }
+  },
+  "required": [
+    "token",
+    "name",
+    "team_id"
+  ],
+  "additionalProperties": false
+}

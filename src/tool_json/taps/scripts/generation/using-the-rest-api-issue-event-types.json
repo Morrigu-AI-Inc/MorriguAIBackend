@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Issue Events API",
+  "description": "The GitHub Issue Events API provides information about events that occur in issues and pull requests.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for fetching issue events",
+      "value": "/repos/{owner}/{repo}/issues/events"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Content type to return, e.g. application/vnd.github+json"
+        }
+      },
+      "required": ["Authorization", "Accept"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "Results per page (max 100)"
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number of the results to fetch."
+        }
+      }
+    },
+    "response": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The unique identifier of the event."
+          },
+          "node_id": {
+            "type": "string",
+            "description": "The Global Node ID of the event."
+          },
+          "url": {
+            "type": "string", 
+            "description": "The REST API URL for fetching the event."
+          },
+          "actor": {
+            "type": "object",
+            "description": "The person who generated the event."
+          },
+          "event": {
+            "type": "string",
+            "description": "Identifies the actual type of event that occurred."
+          },
+          "commit_id": {
+            "type": "string",
+            "description": "The SHA of the commit that referenced this issue."
+          },
+          "commit_url": {
+            "type": "string",
+            "description": "The GitHub REST API link to the commit that referenced this issue."
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The timestamp indicating when the event occurred."
+          }
+        },
+        "required": ["id", "node_id", "url", "actor", "event", "created_at"]
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

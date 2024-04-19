@@ -1,0 +1,219 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "List Conversations",
+  "description": "Lists all channels in a Slack team, including options to filter and paginate results.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing conversations",
+      "example": "conversations.list"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/x-www-form-urlencoded"],
+      "description": "Content type of the request body"
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string",
+          "description": "Pointer to set the position of the results to fetch"
+        },
+        "exclude_archived": {
+          "type": "boolean",
+          "description": "Set to true to exclude archived channels from the list"
+        },
+        "limit": {
+          "type": "number",
+          "description": "Maximum number of results to return per page"
+        },
+        "team_id": {
+          "type": "string",
+          "description": "Workspace or organization ID to filter the channels"
+        },
+        "types": {
+          "type": "string",
+          "description": "Types of conversations to list, such as public_channel, private_channel, mpim, im"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "description": "Indicates the success or failure of the request"
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for this conversation"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the channel"
+              },
+              "is_channel": {
+                "type": "boolean",
+                "description": "True if the conversation is a channel"
+              },
+              "is_group": {
+                "type": "boolean",
+                "description": "True if the conversation is a private channel (group)"
+              },
+              "is_im": {
+                "type": "boolean",
+                "description": "True if the conversation is a direct message"
+              },
+              "created": {
+                "type": "number",
+                "description": "Creation time of the channel"
+              },
+              "creator": {
+                "type": "string",
+                "description": "User ID of the creator of the channel"
+              },
+              "is_archived": {
+                "type": "boolean",
+                "description": "Indicates if the channel is archived"
+              },
+              "is_general": {
+                "type": "boolean",
+                "description": "Indicates if this is the general channel for the workspace"
+              },
+              "unlinked": {
+                "type": "number",
+                "description": "Unlinked time if the channel is unlinked from shared channels"
+              },
+              "name_normalized": {
+                "type": "string",
+                "description": "Normalized name of the channel"
+              },
+              "is_shared": {
+                "type": "boolean",
+                "description": "Indicates if the channel is shared with other workspaces"
+              },
+              "is_ext_shared": {
+                "type": "boolean",
+                "description": "Indicates if the channel is shared externally"
+              },
+              "is_org_shared": {
+                "type": "boolean",
+                "description": "Indicates if the channel is shared across an enterprise organization"
+              },
+              "pending_shared": {
+                "type": "array",
+                "description": "List of workspaces with which the channel is pending to be shared",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "is_pending_ext_shared": {
+                "type": "boolean",
+                "description": "Indicates if the channel has pending shared invites to external workspaces"
+              },
+              "is_member": {
+                "type": "boolean",
+                "description": "Indicates if the authenticated user is a member of the channel"
+              },
+              "is_private": {
+                "type": "boolean",
+                "description": "Indicates if the channel is private"
+              },
+              "is_mpim": {
+                "type": "boolean",
+                "description": "Indicates if the channel is a multi-party IM"
+              },
+              "topic": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "Current topic of the channel"
+                  },
+                  "creator": {
+                    "type": "string",
+                    "description": "User ID of the person who set the topic"
+                  },
+                  "last_set": {
+                    "type": "number",
+                    "description": "Timestamp when the topic was last set"
+                  }
+                }
+              },
+              "purpose": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "Purpose of the channel"
+                  },
+                  "creator": {
+                    "type": "string",
+                    "description": "User ID of the person who set the purpose"
+                  },
+                  "last_set": {
+                    "type": "number",
+                    "description": "Timestamp when the purpose was last set"
+                  }
+                }
+              },
+              "previous_names": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "List of previous names of the channel"
+                }
+              },
+              "num_members": {
+                "type": "number",
+                "description": "Number of members in the channel"
+              }
+            },
+            "required": ["id", "name", "is_channel", "created"]
+          }
+        },
+        "response_metadata": {
+          "type": "object",
+          "properties": {
+            "next_cursor": {
+              "type": "string",
+              "description": "A cursor value used for pagination"
+            }
+          }
+        }
+      },
+      "required": ["ok", "channels"]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "contentType",
+    "queryParameters",
+    "response"
+  ]
+}

@@ -1,0 +1,15 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The new name for the documents folder."
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "additionalProperties": false
+}

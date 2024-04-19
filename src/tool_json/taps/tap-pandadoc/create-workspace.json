@@ -1,0 +1,55 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the workspace"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the workspace",
+      "enum": [
+        "trial",
+        "paid"
+      ]
+    },
+    "billingInfo": {
+      "type": "object",
+      "description": "Billing information for the workspace",
+      "properties": {
+        "creditCardToken": {
+          "type": "string",
+          "description": "Credit card token"
+        },
+        "billingContactEmail": {
+          "type": "string",
+          "description": "Billing contact email address"
+        }
+      },
+      "required": [
+        "creditCardToken",
+        "billingContactEmail"
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "type"
+  ],
+  "additionalProperties": false
+}
+
+
+This JSON schema defines the structure of the request body for creating a new workspace. Here's a breakdown of the schema:
+
+- `name` (required string): The name of the workspace.
+- `type` (required string): The type of the workspace, either "trial" or "paid".
+- `billingInfo` (required object):
+  - `creditCardToken` (required string): The token representing the credit card information for billing.
+  - `billingContactEmail` (required string): The email address of the billing contact.
+
+The schema enforces that the `name` and `type` properties are required, and the `billingInfo` object is required if the workspace type is "paid". Additionally, the `billingInfo` object must contain both `creditCardToken` and `billingContactEmail` properties.
+
+Note that the schema does not allow any additional properties other than the ones defined.

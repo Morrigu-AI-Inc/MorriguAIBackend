@@ -1,0 +1,25 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel": {
+      "type": "string",
+      "description": "ID of conversation to rename"
+    },
+    "name": {
+      "type": "string",
+      "description": "New name for conversation."
+    }
+  },
+  "required": [
+    "token",
+    "channel",
+    "name"
+  ],
+  "additionalProperties": false
+}

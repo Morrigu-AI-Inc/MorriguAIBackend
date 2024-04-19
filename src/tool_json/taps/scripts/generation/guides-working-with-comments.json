@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Working with Comments API",
+  "description": "API for accessing and managing comments on GitHub pull requests, issues, or commits",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for working with comments",
+      "value": "/repos/{owner}/{repo}/issues/{issue_number}/comments"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The comment body"
+        }
+      },
+      "required": ["body"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "per_page": {
+          "type": "integer",
+          "description": "Results per page (max 100)"
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number of the results to fetch"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The comment id"
+        },
+        "body": {
+          "type": "string",
+          "description": "The comment body"
+        },
+        "user": {
+          "type": "object",
+          "description": "The user that made the comment"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The comment creation time"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The comment update time"
+        }
+      },
+      "required": ["id", "body", "user", "created_at", "updated_at"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

@@ -1,0 +1,37 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "apps.datastore.bulkGet",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "datastore": {
+      "description": "Name of the datastore",
+      "type": "string"
+    },
+    "ids": {
+      "description": "Items' ids",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "7c6dd137",
+        "c7d6d731"
+      ]
+    },
+    "app_id": {
+      "description": "App ID",
+      "type": "string"
+    }
+  },
+  "required": [
+    "token",
+    "datastore",
+    "ids"
+  ]
+}

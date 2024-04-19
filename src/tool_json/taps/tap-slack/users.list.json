@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "List Users in a Slack Team",
+  "description": "API for listing all users in a Slack team, including active and deactivated users.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing users",
+      "example": "users.list"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string",
+          "description": "Cursor for pagination to retrieve next set of users"
+        },
+        "include_locale": {
+          "type": "boolean",
+          "description": "Whether to include locale information for users"
+        },
+        "limit": {
+          "type": "number",
+          "description": "Limit for how many users to retrieve per API call"
+        },
+        "team_id": {
+          "type": "string",
+          "description": "ID of the team to limit the list of users (only relevant with org-level token)"
+        }
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "description": "Indicates success or failure of the request"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "User ID"
+              },
+              "team_id": {
+                "type": "string",
+                "description": "Team ID of the user"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name"
+              },
+              "deleted": {
+                "type": "boolean",
+                "description": "Whether the user is deleted"
+              },
+              "real_name": {
+                "type": "string",
+                "description": "Real name of the user"
+              },
+              "tz": {
+                "type": "string",
+                "description": "Time zone of the user"
+              },
+              "tz_label": {
+                "type": "string",
+                "description": "Label of the user's time zone"
+              },
+              "tz_offset": {
+                "type": "integer",
+                "description": "Time zone offset in seconds"
+              },
+              "profile": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address"
+                  },
+                  "image_24": {
+                    "type": "string",
+                    "description": "URL to 24x24 image of the user"
+                  },
+                  "image_512": {
+                    "type": "string",
+                    "description": "URL to 512x512 image of the user"
+                  }
+                },
+                "required": ["email"]
+              },
+              "is_admin": {
+                "type": "boolean",
+                "description": "Indicates if the user is an admin"
+              }
+            },
+            "required": ["id", "team_id", "name"]
+          },
+          "description": "List of user objects"
+        },
+        "response_metadata": {
+          "type": "object",
+          "properties": {
+            "next_cursor": {
+              "type": "string",
+              "description": "Cursor to fetch the next page of users"
+            }
+          }
+        }
+      },
+      "required": ["ok", "members"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+}

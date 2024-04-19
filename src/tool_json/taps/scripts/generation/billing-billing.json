@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Billing API",
+  "description": "REST API endpoints for getting billing information for enterprises and user accounts",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting billing information",
+      "value": "/orgs/{org}/settings/billing"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "accept": {
+          "type": "string",
+          "description": "Setting to application/vnd.github+json is recommended"
+        }
+      },
+      "required": ["Authorization", "accept"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body required"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "org": {
+          "type": "string",
+          "description": "The organization name"
+        },
+        "username": {
+          "type": "string",
+          "description": "The handle for the GitHub user account"
+        }
+      },
+      "required": ["org"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "total_minutes_used": {
+          "type": "integer",
+          "description": "Total GitHub Actions minutes used"
+        },
+        "total_paid_minutes_used": {
+          "type": "integer",
+          "description": "Total paid GitHub Actions minutes used"
+        },
+        "included_minutes": {
+          "type": "integer",
+          "description": "Included free GitHub Actions minutes"
+        },
+        "minutes_used_breakdown": {
+          "type": "object",
+          "description": "Breakdown of GitHub Actions minutes used by OS"
+        },
+        "total_gigabytes_bandwidth_used": {
+          "type": "number",
+          "description": "Total GitHub Packages bandwidth used in gigabytes"
+        },
+        "total_paid_gigabytes_bandwidth_used": {
+          "type": "number", 
+          "description": "Total paid GitHub Packages bandwidth used in gigabytes"
+        },
+        "included_gigabytes_bandwidth": {
+          "type": "number",
+          "description": "Included free GitHub Packages bandwidth in gigabytes"
+        },
+        "days_left_in_billing_cycle": {
+          "type": "integer",
+          "description": "Days left in the current billing cycle"
+        },
+        "estimated_paid_storage_for_month": {
+          "type": "number",
+          "description": "Estimated paid storage used for the month in gigabytes"
+        },
+        "estimated_storage_for_month": {
+          "type": "number",
+          "description": "Estimated total storage used for the month in gigabytes"
+        }
+      },
+      "required": []
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

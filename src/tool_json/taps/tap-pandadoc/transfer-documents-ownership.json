@@ -1,0 +1,137 @@
+Here is the JSON Schema for the HTML content:
+
+
+{
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "data-raycast-oas": {
+          "type": "string"
+        },
+        "div": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "div": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "class": {
+                      "type": "string"
+                    },
+                    "div": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "class": {
+                            "type": "string"
+                        },
+                          "data-testid": {
+                            "type": "string"
+                          },
+                          "nav": {
+                            "type": "object",
+                            "properties": {
+                              "aria-label": {
+                                "type": "string"
+                              },
+                              "class": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "div": {
+                                "type": "array",
+                                "items": {}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "h1": {
+          "type": "string"
+        }
+      }
+    },
+    "div": {
+      "type": "object", 
+      "properties": {
+        "span": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "data-testid": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "span": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "data-testid": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        },
+        "data-testid": {
+          "type": "string"
+        },
+        "p": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+
+
+This schema defines the structure of the HTML elements and their attributes present in the given content.

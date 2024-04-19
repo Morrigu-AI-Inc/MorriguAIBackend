@@ -1,0 +1,40 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "apps.datastore.bulkPut",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "datastore": {
+      "description": "Name of the datastore",
+      "type": "string"
+    },
+    "items": {
+      "description": "Attribute names and values of the items; limit of 25",
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "example": [
+        {
+          "id": "7c6dd137",
+          "favourite_meal": "Shawarma",
+          "reason": "Who doesn't like Shawarma?"
+        }
+      ]
+    },
+    "app_id": {
+      "description": "Optional app ID parameter",
+      "type": ["string", "null"]
+    }
+  },
+  "required": [
+    "token",
+    "datastore", 
+    "items"
+  ]
+}

@@ -1,0 +1,62 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "description": "The unique identifier for the folder."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the folder."
+          },
+          "parent_uuid": {
+            "type": "string",
+            "description": "The unique identifier for the parent folder."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the folder was created."
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the folder was last updated."
+          }
+        },
+        "required": [
+          "uuid",
+          "name",
+          "parent_uuid",
+          "created_at",
+          "updated_at"
+        ]
+      }
+    },
+    "count": {
+      "type": "integer",
+      "description": "The total number of folders returned."
+    },
+    "page": {
+      "type": "integer",
+      "description": "The current page number."
+    },
+    "total": {
+      "type": "integer",
+      "description": "The total number of folders available."
+    }
+  },
+  "required": [
+    "data",
+    "count",
+    "page",
+    "total"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Git Database API", 
+  "description": "Use the REST API to read and write raw Git objects to your Git database on GitHub and to list and update your references (branch heads and tags).",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for interacting with the Git database",
+      "value": "/repos/{owner}/{repo}/git"
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET", "POST", "PUT"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        // Properties for creating/updating Git objects and references
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        // Query parameters for filtering Git objects and references
+      },
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        // Properties describing the Git objects and references
+      },
+      "required": []
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

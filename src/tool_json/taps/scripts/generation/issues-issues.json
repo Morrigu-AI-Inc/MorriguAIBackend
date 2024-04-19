@@ -1,0 +1,196 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "List issues assigned to the authenticated user",
+  "description": "List issues assigned to the authenticated user across all visible repositories including owned repositories, member repositories, and organization repositories.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing issues assigned to the authenticated user",
+      "value": "/issues"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "queryParameters": {
+      "type": "object", 
+      "properties": {
+        "filter": {
+          "type": "string",
+          "description": "Indicates which sorts of issues to return",
+          "enum": ["assigned", "created", "mentioned", "subscribed", "repos", "all"],
+          "default": "assigned"
+        },
+        "state": {
+          "type": "string", 
+          "description": "Indicates the state of the issues to return",
+          "enum": ["open", "closed", "all"],
+          "default": "open"
+        },
+        "labels": {
+          "type": "string",
+          "description": "A list of comma separated label names"
+        },
+        "sort": {
+          "type": "string",
+          "description": "What to sort results by",
+          "enum": ["created", "updated", "comments"],
+          "default": "created"
+        },
+        "direction": {
+          "type": "string",
+          "description": "The direction to sort the results by", 
+          "enum": ["asc", "desc"],
+          "default": "desc"
+        },
+        "since": {
+          "type": "string",
+          "description": "Only show results updated after the given time in ISO 8601 format"
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "The number of results per page (max 100)",
+          "default": 30
+        },
+        "page": {
+          "type": "integer",  
+          "description": "The page number of results to fetch",
+          "default": 1
+        }
+      }
+    },
+    "response": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "node_id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "repository_url": {
+            "type": "string"  
+          },
+          "labels_url": {
+            "type": "string"
+          },
+          "comments_url": {
+            "type": "string"
+          },
+          "events_url": {
+            "type": "string"
+          },
+          "html_url": {
+            "type": "string"
+          },
+          "number": {
+            "type": "integer"
+          },
+          "state": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object"
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "assignee": {
+            "type": "object"
+          },
+          "assignees": {
+            "type": "array",
+            "items": {
+              "type": "object"  
+            }
+          },
+          "milestone": {
+            "type": "object"
+          },
+          "locked": {
+            "type": "boolean"
+          },
+          "active_lock_reason": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "integer"
+          },
+          "pull_request": {
+            "type": "object"
+          },
+          "closed_at": {
+            "type": ["string", "null"]
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "repository": {
+            "type": "object"
+          },
+          "author_association": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "node_id",
+          "url",
+          "repository_url",
+          "labels_url",
+          "comments_url", 
+          "events_url",
+          "html_url",
+          "number",
+          "state",
+          "title",
+          "body",
+          "user",
+          "labels",
+          "assignee",
+          "assignees",
+          "milestone",
+          "locked",
+          "active_lock_reason",
+          "comments",
+          "pull_request",
+          "closed_at",
+          "created_at", 
+          "updated_at",
+          "repository",
+          "author_association"
+        ]
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

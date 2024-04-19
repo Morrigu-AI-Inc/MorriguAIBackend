@@ -1,0 +1,355 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMS Modules",
+  "description": "API endpoints for managing CMS modules in HubSpot",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for getting details of a module by ID",
+      "value": "/content/api/v4/custom_widgets/:id"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the module to fetch the details for"
+        }
+      },
+      "required": ["id"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "authorAt": {
+          "type": "integer",
+          "description": "Timestamp of when the module was last authored"
+        },
+        "categories": {
+          "type": "array",
+          "description": "Categories associated with the module"
+        },
+        "contentTags": {
+          "type": "array",
+          "description": "Content tags associated with the module"
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Content types the module can be used with"
+        },
+        "created": {
+          "type": "integer",
+          "description": "Timestamp of when the module was created"
+        },
+        "createdById": {
+          "type": "string",
+          "description": "ID of the user who created the module"
+        },
+        "css": {
+          "type": "string",
+          "description": "CSS code for the module"
+        },
+        "cssAssets": {
+          "type": "array",
+          "description": "CSS assets associated with the module"
+        },
+        "cssCdnUri": {
+          "type": "string",
+          "description": "CDN URI for the module's CSS"
+        },
+        "cssRenderOptions": {
+          "type": "object",
+          "properties": {
+            "async": {
+              "type": "boolean",
+              "description": "Whether to render the CSS asynchronously"
+            }
+          }
+        },
+        "default": {
+          "type": "boolean",
+          "description": "Whether the module is a default module"
+        },
+        "deleted": {
+          "type": "boolean",
+          "description": "Whether the module has been deleted"
+        },
+        "deletedAt": {
+          "type": "integer",
+          "description": "Timestamp of when the module was deleted"
+        },
+        "externalJs": {
+          "type": "array",
+          "description": "External JavaScript files associated with the module"
+        },
+        "externalJsRenderOptions": {
+          "type": "object",
+          "description": "Render options for external JavaScript files"
+        },
+        "extraClasses": {
+          "type": "string",
+          "description": "Extra CSS classes for the module"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "allow_new_line": {
+                "type": "boolean",
+                "description": "Whether new lines are allowed in the field"
+              },
+              "default": {
+                "type": "string",
+                "description": "Default value for the field"
+              },
+              "display_width": {
+                "type": ["string", "null"],
+                "description": "Display width for the field"
+              },
+              "help_text": {
+                "type": "string",
+                "description": "Help text for the field"
+              },
+              "id": {
+                "type": "string",
+                "description": "ID of the field"
+              },
+              "label": {
+                "type": "string",
+                "description": "Label for the field"
+              },
+              "locked": {
+                "type": "boolean",
+                "description": "Whether the field is locked"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the field"
+              },
+              "required": {
+                "type": "boolean",
+                "description": "Whether the field is required"
+              },
+              "show_emoji_picker": {
+                "type": "boolean",
+                "description": "Whether to show an emoji picker for the field"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the field"
+              },
+              "validation_regex": {
+                "type": "string",
+                "description": "Validation regular expression for the field"
+              }
+            }
+          },
+          "description": "Fields for the module"
+        },
+        "filename": {
+          "type": "string",
+          "description": "File name of the module"
+        },
+        "folderId": {
+          "type": "integer",
+          "description": "ID of the folder the module is in"
+        },
+        "folderPath": {
+          "type": "string",
+          "description": "Path to the folder the module is in"
+        },
+        "global": {
+          "type": "boolean",
+          "description": "Whether the module is a global module"
+        },
+        "hostTemplateTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Host template types the module can be used with"
+        },
+        "id": {
+          "type": "integer",
+          "description": "ID of the module"
+        },
+        "inheritedAsset": {
+          "type": "boolean",
+          "description": "Whether the module is an inherited asset"
+        },
+        "inlineHelpText": {
+          "type": "string",
+          "description": "Inline help text for the module"
+        },
+        "isAvailableForNewContent": {
+          "type": "boolean",
+          "description": "Whether the module is available for new content"
+        },
+        "isJsModule": {
+          "type": "boolean",
+          "description": "Whether the module is a JavaScript module"
+        },
+        "jsAssets": {
+          "type": "array",
+          "description": "JavaScript assets associated with the module"
+        },
+        "jsRenderOptions": {
+          "type": ["object", "null"],
+          "description": "Render options for JavaScript"
+        },
+        "messages": {
+          "type": "object",
+          "description": "Messages associated with the module"
+        },
+        "minifiedCssCdnUri": {
+          "type": "string",
+          "description": "CDN URI for the minified CSS of the module"
+        },
+        "moduleId": {
+          "type": "integer",
+          "description": "ID of the module"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the module"
+        },
+        "otherAssets": {
+          "type": "array",
+          "description": "Other assets associated with the module"
+        },
+        "path": {
+          "type": "string",
+          "description": "Path to the module"
+        },
+        "placeholder": {
+          "type": ["string", "null"],
+          "description": "Placeholder for the module"
+        },
+        "portalId": {
+          "type": "integer",
+          "description": "ID of the portal the module belongs to"
+        },
+        "previewKey": {
+          "type": "string",
+          "description": "Preview key for the module"
+        },
+        "purchased": {
+          "type": "boolean",
+          "description": "Whether the module is a purchased module"
+        },
+        "schemaVersion": {
+          "type": "integer",
+          "description": "Schema version of the module"
+        },
+        "smartObjects": {
+          "type": "array",
+          "description": "Smart objects associated with the module"
+        },
+        "smartType": {
+          "type": "string",
+          "description": "Smart type of the module"
+        },
+        "source": {
+          "type": "string",
+          "description": "HTML source code of the module"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags associated with the module"
+        },
+        "updated": {
+          "type": "integer",
+          "description": "Timestamp of when the module was last updated"
+        },
+        "updatedById": {
+          "type": "string",
+          "description": "ID of the user who last updated the module"
+        },
+        "writeable": {
+          "type": "boolean",
+          "description": "Whether the module is writeable"
+        }
+      },
+      "required": [
+        "authorAt",
+        "categories",
+        "contentTags",
+        "contentTypes",
+        "created",
+        "createdById",
+        "css",
+        "cssAssets",
+        "cssCdnUri",
+        "cssRenderOptions",
+        "default",
+        "deleted",
+        "deletedAt",
+        "externalJs",
+        "externalJsRenderOptions",
+        "extraClasses",
+        "fields",
+        "filename",
+        "folderId",
+        "folderPath",
+        "global",
+        "hostTemplateTypes",
+        "id",
+        "inheritedAsset",
+        "inlineHelpText",
+        "isAvailableForNewContent",
+        "isJsModule",
+        "jsAssets",
+        "jsRenderOptions",
+        "messages",
+        "minifiedCssCdnUri",
+        "moduleId",
+        "name",
+        "otherAssets",
+        "path",
+        "placeholder",
+        "portalId",
+        "previewKey",
+        "purchased",
+        "schemaVersion",
+        "smartObjects",
+        "smartType",
+        "source",
+        "tags",
+        "updated",
+        "updatedById",
+        "writeable"
+      ]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "contentType", "queryParameters", "response"]
+}

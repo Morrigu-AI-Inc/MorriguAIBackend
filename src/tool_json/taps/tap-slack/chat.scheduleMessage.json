@@ -1,0 +1,75 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "channel": {
+      "type": "string",
+      "description": "Channel, private group, or DM channel to send message to."
+    },
+    "post_at": {
+      "type": "integer",
+      "description": "Unix timestamp representing the future time the message should post to Slack."
+    },
+    "attachments": {
+      "type": "string",
+      "description": "A JSON-based array of structured attachments, presented as a URL-encoded string."
+    },
+    "blocks": {
+      "type": "string",
+      "description": "A JSON-based array of structured blocks, presented as a URL-encoded string."
+    },
+    "text": {
+      "type": "string",
+      "description": "Main body text of the message or fallback text for notifications."
+    },
+    "as_user": {
+      "type": "boolean",
+      "description": "Set to true to post the message as the authed user, instead of as a bot."
+    },
+    "link_names": {
+      "type": "boolean",
+      "description": "Find and link user groups."
+    },
+    "metadata": {
+      "type": "string",
+      "description": "JSON object with event_type and event_payload fields, presented as a URL-encoded string."
+    },
+    "parse": {
+      "type": "string",
+      "enum": ["none", "full"],
+      "description": "Change how messages are treated."
+    },
+    "reply_broadcast": {
+      "type": "boolean",
+      "description": "Used with thread_ts, indicates whether reply should be visible to everyone."
+    },
+    "thread_ts": {
+      "type": "string",
+      "description": "Provide another message's ts value to make this message a reply."
+    },
+    "unfurl_links": {
+      "type": "boolean", 
+      "description": "Pass true to enable unfurling of primarily text-based content."
+    },
+    "unfurl_media": {
+      "type": "boolean",
+      "description": "Pass false to disable unfurling of media content."
+    }
+  },
+  "required": [
+    "token",
+    "channel", 
+    "post_at"
+  ],
+  "anyOf": [
+    {"required": ["attachments"]},
+    {"required": ["blocks"]},
+    {"required": ["text"]}
+  ],
+  "additionalProperties": false
+}

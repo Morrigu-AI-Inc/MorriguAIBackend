@@ -1,0 +1,55 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique ID of the document."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the document."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the document.",
+      "enum": [
+        "document.uploaded",
+        "document.draft", 
+        "document.sent",
+        "document.viewed",
+        "document.waiting_approval",
+        "document.rejected",
+        "document.approved",
+        "document.waiting_pay",
+        "document.paid",
+        "document.completed",
+        "document.voided",
+        "document.declined"
+      ]
+    },
+    "created_by": {
+      "type": "string",
+      "description": "The ID of the user who created the document."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the document was created."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the document was last updated."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "status",
+    "created_by",
+    "created_at",
+    "updated_at"
+  ]
+}

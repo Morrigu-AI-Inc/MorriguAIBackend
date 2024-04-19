@@ -1,0 +1,25 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "alias_for": {
+      "type": "string",
+      "description": "Name of the emoji for which the alias is being made. Any wrapping whitespace or colons will be automatically trimmed."
+    },
+    "name": {
+      "type": "string",
+      "description": "The new alias for the specified emoji. Any wrapping whitespace or colons will be automatically trimmed."
+    }
+  },
+  "required": [
+    "token",
+    "alias_for",
+    "name"
+  ],
+  "additionalProperties": false
+}

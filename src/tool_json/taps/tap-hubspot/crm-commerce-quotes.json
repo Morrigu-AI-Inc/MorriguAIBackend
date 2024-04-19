@@ -1,0 +1,162 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quotes API", 
+  "description": "Use the quotes API to create and manage sales quotes for sharing pricing information with potential buyers.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing quotes",
+      "value": "/crm/v3/objects/quotes"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PATCH", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string", 
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "associations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "types": {
+                "type": "array", 
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "associationCategory": {
+                      "type": "string"
+                    },
+                    "associationTypeId": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "to": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"  
+                  }
+                }
+              }
+            }
+          }
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }  
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "archived": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "after": {
+          "type": "string"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }  
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "filterGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "highValue": {
+                      "type": "string"
+                    },
+                    "propertyName": {
+                      "type": "string"
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": ["EQ"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "associations": {
+                "type": "object"
+              },
+              "properties": {
+                "type": "object", 
+                "additionalProperties": {
+                  "type": ["string", "number", "boolean"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

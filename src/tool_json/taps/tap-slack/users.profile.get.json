@@ -1,0 +1,143 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "skype": {
+          "type": "string"
+        },
+        "real_name": {
+          "type": "string"
+        },
+        "real_name_normalized": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "display_name_normalized": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "object",
+          "patternProperties": {
+            "^X\\w+$": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "alt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "alt"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "status_text": {
+          "type": "string"
+        },
+        "status_emoji": {
+          "type": "string"
+        },
+        "status_emoji_display_info": {
+          "type": "array"
+        },
+        "status_expiration": {
+          "type": "integer"
+        },
+        "avatar_hash": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "pronouns": {
+          "type": "string"
+        },
+        "huddle_state": {
+          "type": "string"
+        },
+        "huddle_state_expiration_ts": {
+          "type": "integer"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "image_24": {
+          "type": "string"
+        },
+        "image_32": {
+          "type": "string"
+        },
+        "image_48": {
+          "type": "string"
+        },
+        "image_72": {
+          "type": "string"
+        },
+        "image_192": {
+          "type": "string"
+        },
+        "image_512": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "phone",
+        "skype",
+        "real_name",
+        "real_name_normalized",
+        "display_name",
+        "display_name_normalized",
+        "fields",
+        "status_text",
+        "status_emoji",
+        "status_emoji_display_info",
+        "status_expiration",
+        "avatar_hash",
+        "start_date",
+        "email",
+        "pronouns",
+        "huddle_state",
+        "huddle_state_expiration_ts",
+        "first_name",
+        "last_name",
+        "image_24",
+        "image_32",
+        "image_48", 
+        "image_72",
+        "image_192",
+        "image_512"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "profile"
+  ]
+}

@@ -1,0 +1,154 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "accessMethods": {
+          "type": "object",
+          "properties": {
+            "http": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"]
+                }
+              },
+              "required": ["url", "method"]
+            },
+            "java": {
+              "type": "string"
+            },
+            "python": {
+              "type": "string"
+            },
+            "js": {
+              "type": "string"
+            }
+          },
+          "required": ["http"]
+        },
+        "scopes": {
+          "type": "object",
+          "properties": {
+            "granular_bot": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "user": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["granular_bot", "user"]
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "rateLimits": {
+          "type": "string"
+        }
+      },
+      "required": ["accessMethods", "scopes", "contentTypes", "rateLimits"]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string"
+            },
+            "usergroup": {
+              "type": "string"
+            }
+          },
+          "required": ["token", "usergroup"]
+        },
+        "optional": {
+          "type": "object",
+          "properties": {
+            "include_count": {
+              "type": "boolean"
+            },
+            "team_id": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": ["required", "optional"]
+    },
+    "usageInfo": {
+      "type": "string"
+    },
+    "exampleResponses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "example": {
+            "type": "object"
+          }
+        },
+        "required": ["title", "example"]
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"  
+          }
+        },
+        "required": ["error", "description"]
+      }
+    },
+    "warnings": {
+      "type": "array", 
+      "items": {
+        "type": "object",
+        "properties": {
+          "warning": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["warning", "description"]
+      }
+    }
+  },
+  "required": ["facts", "arguments", "usageInfo", "exampleResponses", "errors", "warnings"]
+}

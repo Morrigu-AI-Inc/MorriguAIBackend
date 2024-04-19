@@ -1,0 +1,79 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "customObjectTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "customFields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "type"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "customFields"
+        ]
+      }
+    },
+    "customObjectInstances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "customObjectTypeId": {
+            "type": "string"
+          },
+          "leadId": {
+            "type": "string"
+          },
+          "customFieldValues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "fieldId": {
+                  "type": "string"
+                },
+                "value": {}
+              },
+              "required": [
+                "fieldId",
+                "value"
+              ]
+            }
+          }
+        },
+        "required": [
+          "customObjectTypeId",
+          "leadId",
+          "customFieldValues"
+        ]
+      }
+    }
+  },
+  "required": [
+    "customObjectTypes",
+    "customObjectInstances"
+  ]
+}

@@ -1,0 +1,42 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "user": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["staff", "admin", "member"]
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "workspaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["email", "first_name", "last_name", "role"]
+    }
+  },
+  "required": ["user"]
+}

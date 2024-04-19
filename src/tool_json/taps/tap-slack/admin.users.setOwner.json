@@ -1,0 +1,25 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "team_id": {
+      "type": "string",
+      "description": "The ID (T1234) of the workspace."
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Id of the user to promote to owner."
+    }
+  },
+  "required": [
+    "token",
+    "team_id",
+    "user_id"
+  ],
+  "additionalProperties": false
+}

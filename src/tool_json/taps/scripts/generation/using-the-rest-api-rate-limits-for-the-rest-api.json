@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Rate Limits for the REST API",
+  "description": "Learn about REST API rate limits, how to avoid exceeding them, and what to do if you do exceed them.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for checking rate limits",
+      "value": "/rate_limit"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication (optional)"
+        }
+      },
+      "required": []
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body for this endpoint"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "x-ratelimit-limit": {
+          "type": "integer",
+          "description": "The maximum number of requests that you can make per hour"
+        },
+        "x-ratelimit-remaining": {
+          "type": "integer",
+          "description": "The number of requests remaining in the current rate limit window"
+        },
+        "x-ratelimit-used": {
+          "type": "integer",
+          "description": "The number of requests you have made in the current rate limit window"
+        },
+        "x-ratelimit-reset": {
+          "type": "integer",
+          "description": "The time at which the current rate limit window resets, in UTC epoch seconds"
+        },
+        "x-ratelimit-resource": {
+          "type": "string",
+          "description": "The rate limit resource that the request counted against"
+        }
+      },
+      "required": [
+        "x-ratelimit-limit",
+        "x-ratelimit-remaining", 
+        "x-ratelimit-used",
+        "x-ratelimit-reset",
+        "x-ratelimit-resource"
+      ]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

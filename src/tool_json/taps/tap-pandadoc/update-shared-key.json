@@ -1,0 +1,73 @@
+Here is the JSON Schema for the HTML content provided:
+
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "headline-container21aRBSn8Bqg6": {
+      "type": "object",
+      "properties": {
+        "headline-container-grid-itemGdPV-VbhShYs": {
+          "type": "object",
+          "properties": {
+            "button-containerobFfV0vf6giV": {
+              "type": "object",
+              "properties": {
+                "reference-flyout": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "content-head": {
+      "type": "object",
+      "properties": {
+        "h1": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "h1"
+      ]
+    },
+    "headline-container-article-info2GaOf2jMpV0r": {
+      "type": "object",
+      "properties": {
+        "APIMethod": {
+          "type": "string"
+        },
+        "headline-container-api-method1Hc-Fm7uaccR": {
+          "type": "string"
+        },
+        "headline-container-article-info-url2nV_XrjpFuVQ": {
+          "type": "string"
+        },
+        "APIHeader-url-parameterFHIqVFeNEd7b": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "APIMethod",
+        "headline-container-api-method1Hc-Fm7uaccR",
+        "headline-container-article-info-url2nV_XrjpFuVQ",
+        "APIHeader-url-parameterFHIqVFeNEd7b"
+      ]
+    },
+    "ModalWrapper": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "headline-container21aRBSn8Bqg6",
+    "content-head", 
+    "headline-container-article-info2GaOf2jMpV0r",
+    "ModalWrapper"
+  ]
+}
+
+
+This JSON Schema defines the structure of the HTML content, including the different sections and their properties. Note that some of the property names are quite long and specific to the HTML, resulting in a verbose schema.

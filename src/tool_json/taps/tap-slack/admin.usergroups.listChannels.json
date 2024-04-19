@@ -1,0 +1,42 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "team_id": {
+            "type": "string"
+          },
+          "num_members": {
+            "type": "integer"
+          },
+          "is_redacted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "team_id"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ok",
+    "channels"
+  ]
+}

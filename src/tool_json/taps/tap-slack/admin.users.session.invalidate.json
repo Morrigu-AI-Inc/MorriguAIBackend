@@ -1,0 +1,30 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.users.session.invalidate",
+  "description": "Invalidates a single session for a user on a workspace.",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "session_id": {
+      "description": "ID of the session to invalidate.",
+      "type": "integer",
+      "example": 12345
+    },
+    "team_id": {
+      "description": "ID of the workspace that the session belongs to.",
+      "type": "string",
+      "example": "T1234"
+    }
+  },
+  "required": [
+    "token",
+    "session_id",
+    "team_id"
+  ],
+  "additionalProperties": false
+}

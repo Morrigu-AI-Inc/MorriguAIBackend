@@ -1,0 +1,141 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Method access"
+        },
+        "scopes": {
+          "type": "array",
+          "description": "Required scopes"
+        },
+        "contentTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Content types"
+        },
+        "rateLimits": {
+          "type": "string",
+          "description": "Rate limits"
+        }
+      },
+      "required": [
+        "method",
+        "contentTypes",
+        "rateLimits"
+      ]
+    },
+    "arguments": {
+      "type": "object",
+      "properties": {
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "example": {
+                "type": ["string", "null"]
+              },
+              "enumValues": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "description"
+            ]
+          }
+        }
+      },
+      "required": [
+        "optional"
+      ]
+    },
+    "usageInfo": {
+      "type": "string"
+    },
+    "exampleResponses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "exampleResponse": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "exampleResponse"
+        ]
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      }
+    }
+  },
+  "required": [
+    "facts",
+    "arguments",
+    "errors",
+    "warnings"
+  ]
+}

@@ -1,0 +1,20 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "description": "Set to 'contact' to specify an individual contact."
+    },
+    "id": {
+      "type": "string",
+      "description": "The ID of the desired contact."
+    }
+  },
+  "required": [
+    "kind",
+    "id"
+  ],
+  "additionalProperties": false
+}

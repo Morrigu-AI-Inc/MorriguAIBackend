@@ -1,0 +1,35 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "reactions.add",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channel": {
+      "description": "Channel where the message to add reaction to was posted.",
+      "type": "string",
+      "example": "C1234567890"
+    },
+    "name": {
+      "description": "Reaction (emoji) name",
+      "type": "string",
+      "example": "thumbsup"
+    },
+    "timestamp": {
+      "description": "Timestamp of the message to add reaction to.",
+      "type": "string",
+      "example": "1234567890.123456"
+    }
+  },
+  "required": [
+    "token",
+    "channel",
+    "name",
+    "timestamp"
+  ],
+  "additionalProperties": false
+}

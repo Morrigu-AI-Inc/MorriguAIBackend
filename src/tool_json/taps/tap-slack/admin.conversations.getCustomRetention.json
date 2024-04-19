@@ -1,0 +1,22 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "is_policy_enabled": {
+      "type": "boolean"
+    },
+    "duration_days": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "ok",
+    "is_policy_enabled",
+    "duration_days"
+  ],
+  "additionalProperties": false
+}

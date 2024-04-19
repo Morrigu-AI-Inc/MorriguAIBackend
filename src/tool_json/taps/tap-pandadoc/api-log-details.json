@@ -1,0 +1,65 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The ID of the API log event."
+    },
+    "userId": {
+      "type": "string",
+      "description": "The ID of the user who performed the API request."
+    },
+    "apiKey": {
+      "type": "string",
+      "description": "The API key used for authentication."
+    },
+    "userIp": {
+      "type": "string",
+      "description": "The IP address of the user who performed the API request."
+    },
+    "httpMethod": {
+      "type": "string",
+      "description": "The HTTP method of the API request (GET, POST, PUT, DELETE, etc.)."
+    },
+    "url": {
+      "type": "string",
+      "description": "The URL of the API endpoint that was called."
+    },
+    "requestBody": {
+      "type": "object",
+      "description": "The request body sent with the API request."
+    },
+    "responseBody": {
+      "type": "object",
+      "description": "The response body received from the API."
+    },
+    "statusCode": {
+      "type": "integer",
+      "description": "The HTTP status code of the API response."
+    },
+    "requestHeaders": {
+      "type": "object",
+      "description": "The headers sent with the API request."
+    },
+    "responseHeaders": {
+      "type": "object",
+      "description": "The headers received in the API response."
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "The timestamp when the API request was made."
+    }
+  },
+  "required": [
+    "id",
+    "userId",
+    "apiKey",
+    "userIp",
+    "httpMethod",
+    "url",
+    "statusCode",
+    "createdAt"
+  ]
+}

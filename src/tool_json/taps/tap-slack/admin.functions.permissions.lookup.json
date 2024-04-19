@@ -1,0 +1,25 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lookup Function Permissions",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "function_ids": {
+      "description": "An array of function IDs to get permissions for",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "token",
+    "function_ids"
+  ],
+  "additionalProperties": false
+}

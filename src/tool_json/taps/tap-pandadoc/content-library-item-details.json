@@ -1,0 +1,199 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the content library item."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the content library item."
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the author (user)."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the author."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the author."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email"
+      ]
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the role."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the role."
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the field."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the field."
+          },
+          "value": {
+            "type": ["string", "number", "boolean", "null"],
+            "description": "The value of the field."
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "value"
+        ]
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the token."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the token."
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "properties": {
+        "pricing_tables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique identifier for the pricing table."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the pricing table."
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ]
+          }
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique identifier for the product."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the product."
+              },
+              "description": {
+                "type": "string",
+                "description": "The description of the product."
+              },
+              "price": {
+                "type": "number",
+                "description": "The price of the product."
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "description",
+              "price"
+            ]
+          }
+        }
+      },
+      "required": [
+        "pricing_tables",
+        "products"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata associated with the content library item."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags associated with the content library item."
+    },
+    "date_created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the content library item was created."
+    },
+    "date_modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the content library item was last modified."
+    },
+    "content_date_modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the content of the content library item was last modified."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "author",
+    "roles",
+    "fields",
+    "tokens",
+    "pricing",
+    "date_created",
+    "date_modified",
+    "content_date_modified"
+  ]
+}

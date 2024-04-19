@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CRM Associations API",
+  "description": "API for managing associations between CRM objects in HubSpot.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for managing associations between CRM objects",
+      "value": "/crm/v4/associations/{fromObjectType}/{toObjectType}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST", "GET", "PUT", "DELETE"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "types": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "associationCategory": {
+                      "type": "string",
+                      "enum": ["HUBSPOT_DEFINED"]
+                    },
+                    "associationTypeId": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["associationCategory", "associationTypeId"]
+                }
+              },
+              "from": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id"]
+              },
+              "to": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id"]
+              }
+            },
+            "required": ["from", "to"]
+          }
+        }
+      },
+      "required": ["inputs"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return"
+        },
+        "after": {
+          "type": "string",
+          "description": "Paging token to retrieve the next page of results"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "to": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "metadata": {
+                "type": "object",
+                "properties": {
+                  "labels": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "associationCategory": {
+                          "type": "string"
+                        },
+                        "associationTypeId": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "paging": {
+          "type": "object",
+          "properties": {
+            "next": {
+              "type": "object",
+              "properties": {
+                "after": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

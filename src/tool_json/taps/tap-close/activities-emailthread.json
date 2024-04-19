@@ -1,0 +1,75 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EmailThread",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The unique identifier for the EmailThread activity."
+    },
+    "lead_id": {
+      "type": "integer",
+      "description": "The ID of the lead associated with the EmailThread."
+    },
+    "user_id": {
+      "type": "integer",
+      "description": "The ID of the user associated with the EmailThread."
+    },
+    "date_created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the EmailThread was created."
+    },
+    "emails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The unique identifier for the Email activity."
+          },
+          "subject": {
+            "type": "string",
+            "description": "The subject of the Email."
+          },
+          "body": {
+            "type": "string",
+            "description": "The body content of the Email."
+          },
+          "from": {
+            "type": "string",
+            "description": "The email address of the sender."
+          },
+          "to": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of email addresses of the recipients."
+          },
+          "date_created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the Email was created."
+          }
+        },
+        "required": [
+          "id",
+          "subject",
+          "from",
+          "to",
+          "date_created"
+        ]
+      },
+      "description": "The list of Email activities belonging to this EmailThread."
+    }
+  },
+  "required": [
+    "id",
+    "lead_id",
+    "date_created",
+    "emails"
+  ]
+}

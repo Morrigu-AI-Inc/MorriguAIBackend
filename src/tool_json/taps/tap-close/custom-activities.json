@@ -1,0 +1,421 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header-wrapper": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "object",
+          "properties": {
+            "data-emotion-css": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data-emotion-css"
+          ]
+        },
+        "h1": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "class"
+          ]
+        }
+      },
+      "required": [
+        "style",
+        "h1"
+      ]
+    },
+    "hr": {
+      "type": "string"
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "nav": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "a": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class",
+        "href"
+      ]
+    },
+    "svg": {
+      "type": "object",
+      "properties": {
+        "viewBox": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "viewBox",
+        "class"
+      ]
+    },
+    "path": {
+      "type": "object",
+      "properties": {
+        "fill": {
+          "type": "string"
+        },
+        "fill-rule": {
+          "type": "string"
+        },
+        "stroke": {
+          "type": "string"
+        },
+        "stroke-linecap": {
+          "type": "string" 
+        },
+        "stroke-linejoin": {
+          "type": "string"
+        },
+        "stroke-width": {
+          "type": "string"
+        },
+        "d": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fill",
+        "fill-rule",
+        "stroke",
+        "stroke-linecap",
+        "stroke-linejoin", 
+        "stroke-width",
+        "d"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "style": {
+      "type": "object", 
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "a": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "style",
+        "class",
+        "href"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]  
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "div": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string"
+        }  
+      },
+      "required": [
+        "class"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "data-emotion-css": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data-emotion-css"
+      ]
+    },
+    "div": {
+      "type": "object", 
+      "properties": {
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "class" 
+      ]
+    },
+    "svg": {
+      "type": "object",
+      "properties": {
+        "viewBox": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "viewBox",
+        "class"
+      ]
+    },
+    "path": {
+      "type": "object",
+      "properties": {
+        "fill": {
+          "type": "string"
+        },
+        "stroke": {
+          "type": "string"
+        },
+        "stroke-linecap": {
+          "type": "string"
+        },
+        "stroke-linejoin": {
+          "type": "string" 
+        },
+        "stroke-width": {
+          "type": "string"
+        },
+        "d": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fill",
+        "stroke",
+        "stroke-linecap", 
+        "stroke-linejoin",
+        "stroke-width",
+        "d"
+      ]
+    }
+  },
+  "required": [
+    "header-wrapper",
+    "hr",
+    "style",
+    "div",
+    "style", 
+    "div",
+    "style",
+    "div",
+    "style",
+    "nav",
+    "style",
+    "a",
+    "svg",
+    "path",
+    "style",
+    "div",
+    "style",
+    "div", 
+    "style",
+    "div",
+    "a",
+    "style",
+    "div",
+    "div",
+    "style", 
+    "div",
+    "svg",
+    "path"
+  ]
+}

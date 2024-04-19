@@ -1,0 +1,33 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "entity_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Encoded IDs of the entities you'd like to remove from the policy."
+    },
+    "entity_type": {
+      "type": "string",
+      "description": "The type of entity to assign to the policy. Currently, 'USER' is supported."
+    },
+    "policy_name": {
+      "type": "string",
+      "description": "The name of the policy to remove entities from. Currently, 'email_password' is the only policy that may be used with this method."
+    }
+  },
+  "required": [
+    "token",
+    "entity_ids",
+    "entity_type",
+    "policy_name"
+  ],
+  "additionalProperties": false
+}

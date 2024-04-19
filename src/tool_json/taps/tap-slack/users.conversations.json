@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "List Accessible Conversations",
+  "description": "Fetches a list of all channel-like conversations accessible to the calling user or app.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for listing conversations",
+      "example": "users.conversations"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "enum": ["application/x-www-form-urlencoded"],
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Authentication token bearing required scopes."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Paginate through collections of data by setting the cursor parameter to a next_cursor attribute returned by a previous request's response_metadata."
+        },
+        "exclude_archived": {
+          "type": "boolean",
+          "description": "Filter out archived channels from the list."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The maximum number of items to return. The maximum is 1000 and recommended is 200."
+        },
+        "team_id": {
+          "type": "string",
+          "description": "Team ID for listing conversations from another workspace."
+        },
+        "types": {
+          "type": "string",
+          "description": "Filter the list of conversations to specific types (public_channel, private_channel, mpim, im)."
+        },
+        "user": {
+          "type": "string",
+          "description": "Filter the list to include only conversations with this user ID."
+        }
+      },
+      "required": ["token"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "description": "Indicates success or failure of the request."
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for a channel-like conversation."
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the conversation."
+              },
+              "is_channel": {
+                "type": "boolean",
+                "description": "True if the conversation is a channel."
+              },
+              "created": {
+                "type": "integer",
+                "description": "Timestamp when the conversation was created."
+              },
+              "is_archived": {
+                "type": "boolean",
+                "description": "Indicates if the conversation is archived."
+              },
+              "is_private": {
+                "type": "boolean",
+                "description": "Indicates if the conversation is private."
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "is_channel",
+              "created",
+              "is_archived",
+              "is_private"
+            ]
+          }
+        },
+        "response_metadata": {
+          "type": "object",
+          "properties": {
+            "next_cursor": {
+              "type": "string",
+              "description": "A cursor value used for pagination of large result sets."
+            }
+          }
+        }
+      },
+      "required": ["ok", "channels"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "queryParameters", "response"]
+}

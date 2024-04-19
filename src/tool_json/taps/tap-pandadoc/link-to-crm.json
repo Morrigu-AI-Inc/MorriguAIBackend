@@ -1,0 +1,48 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The ID of the newly created linked object."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of the linked object."
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the linked object."
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of the linked object."
+        }
+      },
+      "required": [
+        "name",
+        "url"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "attributes"
+  ]
+}
+
+
+This JSON schema defines the structure of the response when creating a linked object for a document using the PandaDoc API. The response is an object with the following properties:
+
+1. `id` (string): The unique identifier of the newly created linked object.
+2. `type` (string): The type of the linked object.
+3. `attributes` (object): An object containing additional attributes of the linked object, which must include:
+   - `name` (string, required): The name of the linked object.
+   - `url` (string, required): The URL of the linked object.
+
+Note that the `id`, `type`, and `attributes` properties are required in the response object.

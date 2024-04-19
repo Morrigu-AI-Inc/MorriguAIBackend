@@ -1,0 +1,33 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Authentication token bearing required scopes."
+    },
+    "invite_request_id": {
+      "type": "string",
+      "description": "ID of the request to invite."
+    },
+    "team_id": {
+      "type": "string",
+      "description": "ID for the workspace where the invite request was made."
+    }
+  },
+  "required": [
+    "token",
+    "invite_request_id"
+  ],
+  "additionalProperties": false
+}
+
+
+This JSON Schema defines the structure of the input arguments for the `admin.inviteRequests.approve` API method. It has the following properties:
+
+- `token` (required, string): Authentication token with required scopes.
+- `invite_request_id` (required, string): ID of the invite request to approve.
+- `team_id` (optional, string): ID of the workspace where the invite request was made. Required if the Enterprise Grid org contains more than one workspace.
+
+The `required` array specifies that `token` and `invite_request_id` are mandatory properties. The `additionalProperties` field is set to `false` to disallow any properties other than the ones defined in the schema.

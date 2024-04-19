@@ -1,0 +1,339 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User Provisioning API",
+  "description": "Use the user provisioning API to create and manage users in your HubSpot account, along with their associated teams and roles.",
+  "type": "object",
+  "properties": {
+    "teams": {
+      "type": "object",
+      "description": "Teams",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for retrieving teams",
+          "value": "/settings/v3/users/teams"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "response": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "roles": {
+      "type": "object",
+      "description": "Roles",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for retrieving roles",
+          "value": "/settings/v3/users/roles"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "response": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "users": {
+      "type": "object",
+      "description": "Users",
+      "properties": {
+        "list": {
+          "type": "object",
+          "description": "Retrieves a list of users",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for retrieving users",
+              "value": "/settings/v3/users/"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["GET"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "description": "Bearer token for authentication"
+                }
+              },
+              "required": ["Authorization"]
+            },
+            "queryParameters": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            },
+            "response": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "required": ["endpoint", "method", "headers", "response"]
+        },
+        "get": {
+          "type": "object",
+          "description": "Retrieves a user",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for retrieving a user",
+              "value": "/settings/v3/users/{userId}"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["GET"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "description": "Bearer token for authentication"
+                }
+              },
+              "required": ["Authorization"]
+            },
+            "queryParameters": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            },
+            "response": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "required": ["endpoint", "method", "headers", "response"]
+        },
+        "create": {
+          "type": "object",
+          "description": "Adds a user",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for adding a user",
+              "value": "/settings/v3/users/"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["POST"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "description": "Bearer token for authentication"
+                },
+                "Content-Type": {
+                  "type": "string",
+                  "enum": ["application/json"],
+                  "description": "Content type of the request body"
+                }
+              },
+              "required": ["Authorization", "Content-Type"]
+            },
+            "body": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "primaryTeamId": {
+                  "type": "string"
+                },
+                "sendWelcomeEmail": {
+                  "type": "boolean"
+                },
+                "roleId": {
+                  "type": "string"
+                },
+                "secondaryTeamIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "email": {
+                  "type": "string"
+                }
+              },
+              "required": ["firstName", "lastName", "primaryTeamId", "sendWelcomeEmail", "roleId", "email"]
+            },
+            "queryParameters": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            },
+            "response": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "required": ["endpoint", "method", "headers", "body", "response"]
+        },
+        "update": {
+          "type": "object",
+          "description": "Modifies a user",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for modifying a user",
+              "value": "/settings/v3/users/{userId}"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["PUT"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "description": "Bearer token for authentication"
+                },
+                "Content-Type": {
+                  "type": "string",
+                  "enum": ["application/json"],
+                  "description": "Content type of the request body"
+                }
+              },
+              "required": ["Authorization", "Content-Type"]
+            },
+            "body": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "primaryTeamId": {
+                  "type": "string"
+                },
+                "roleId": {
+                  "type": "string"
+                },
+                "secondaryTeamIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": ["firstName", "lastName", "primaryTeamId", "roleId"]
+            },
+            "queryParameters": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            },
+            "response": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "required": ["endpoint", "method", "headers", "body", "response"]
+        },
+        "delete": {
+          "type": "object",
+          "description": "Removes a user",
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "API endpoint for removing a user",
+              "value": "/settings/v3/users/{userId}"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["DELETE"],
+              "description": "HTTP method used for the request"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "Authorization": {
+                  "type": "string",
+                  "description": "Bearer token for authentication"
+                }
+              },
+              "required": ["Authorization"]
+            },
+            "queryParameters": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            },
+            "response": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "required": ["endpoint", "method", "headers", "response"]
+        }
+      },
+      "required": ["list", "get", "create", "update", "delete"]
+    }
+  },
+  "required": ["teams", "roles", "users"]
+}

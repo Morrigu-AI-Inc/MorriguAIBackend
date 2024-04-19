@@ -1,0 +1,617 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Gists API",
+  "description": "REST API endpoints for managing GitHub gists",
+  "type": "object",
+  "properties": {
+    "listAuthenticatedUserGists": {
+      "type": "object",
+      "description": "Lists the authenticated user's gists or if called anonymously, returns all public gists",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing gists",
+          "value": "/gists"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "since": {
+              "type": "string",
+              "description": "Only show results updated after the given timestamp"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "Number of results per page"
+            },
+            "page": {
+              "type": "integer", 
+              "description": "Page number of results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "API URL of the gist"  
+              },
+              "forks_url": {
+                "type": "string"
+              },
+              "commits_url": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "git_pull_url": {
+                "type": "string"
+              },
+              "git_push_url": {
+                "type": "string"
+              },
+              "html_url": {
+                "type": "string"
+              },
+              "files": {
+                "type": "object"
+              },
+              "public": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"  
+              },
+              "description": {
+                "type": "string"
+              },
+              "comments": {
+                "type": "integer"
+              },
+              "user": {
+                "type": "null"
+              },
+              "comments_url": {
+                "type": "string"
+              },
+              "owner": {
+                "type": "object"
+              },
+              "truncated": {
+                "type": "boolean"  
+              }
+            },
+            "required": [
+              "url",
+              "id",
+              "html_url",
+              "public",
+              "created_at",
+              "updated_at",
+              "comments",
+              "truncated"
+            ]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "createGist": {
+      "type": "object",
+      "description": "Allows creating a new gist with one or more files",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for creating a gist",
+          "value": "/gists"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "contentType": {
+          "type": "string",
+          "enum": ["application/json"],
+          "description": "Content type of the request body"
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "Description of the gist"
+            },
+            "files": {
+              "type": "object",
+              "description": "The gist files",
+              "patternProperties": {
+                "^.+$": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                      "description": "Content of the file"
+                    }
+                  },
+                  "required": ["content"]
+                }
+              },
+              "required": []
+            },
+            "public": {
+              "type": ["boolean", "string"],
+              "description": "Flag indicating whether the gist is public"
+            }
+          },
+          "required": ["files"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "forks_url": {
+              "type": "string"  
+            },
+            "commits_url": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "git_pull_url": {
+              "type": "string"
+            },
+            "git_push_url": {
+              "type": "string"
+            },
+            "html_url": {
+              "type": "string"
+            },
+            "files": {
+              "type": "object"
+            },
+            "public": {
+              "type": "boolean"  
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "comments": {
+              "type": "integer"
+            },
+            "user": {
+              "type": "null"
+            },
+            "comments_url": {
+              "type": "string"
+            },
+            "owner": {
+              "type": "object"
+            },
+            "forks": {
+              "type": "array"
+            },
+            "history": {
+              "type": "array"
+            },
+            "truncated": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "url",
+            "id",
+            "html_url",  
+            "public",
+            "created_at",
+            "updated_at",
+            "description",
+            "comments",
+            "truncated"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "contentType", "body", "response"]
+    },
+    "listPublicGists": {
+      "type": "object",
+      "description": "Lists public gists sorted by most recently updated",
+      "properties": {
+        "endpoint": {
+          "type": "string", 
+          "description": "API endpoint for listing public gists",
+          "value": "/gists/public"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "since": {
+              "type": "string",
+              "description": "Only show results updated after the given timestamp"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "Number of results per page"
+            },
+            "page": {
+              "type": "integer",
+              "description": "Page number of results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "API URL of the gist"
+              },
+              "forks_url": {
+                "type": "string"
+              },
+              "commits_url": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "git_pull_url": {
+                "type": "string"
+              },
+              "git_push_url": {
+                "type": "string"
+              },
+              "html_url": {
+                "type": "string"
+              },
+              "files": {
+                "type": "object"
+              },
+              "public": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "comments": {
+                "type": "integer"
+              },
+              "user": {
+                "type": "null"
+              },
+              "comments_url": {
+                "type": "string"
+              },
+              "owner": {
+                "type": "object"
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "url",
+              "id",
+              "html_url",
+              "public", 
+              "created_at",
+              "updated_at",
+              "comments",
+              "truncated"
+            ]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "listStarredGists": {
+      "type": "object", 
+      "description": "Lists the authenticated user's starred gists",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for listing starred gists",
+          "value": "/gists/starred"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]  
+        },
+        "queryParameters": {
+          "type": "object",
+          "properties": {
+            "since": {
+              "type": "string",
+              "description": "Only show results updated after the given timestamp"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "Number of results per page"
+            },
+            "page": {
+              "type": "integer",
+              "description": "Page number of results to fetch"
+            }
+          }
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "API URL of the gist"
+              },
+              "forks_url": {
+                "type": "string"
+              },
+              "commits_url": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "git_pull_url": {
+                "type": "string"
+              },
+              "git_push_url": {
+                "type": "string"
+              },
+              "html_url": {
+                "type": "string"
+              },
+              "files": {
+                "type": "object"
+              },
+              "public": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "comments": {
+                "type": "integer"
+              },
+              "user": {
+                "type": "null"
+              },
+              "comments_url": {
+                "type": "string"
+              },
+              "owner": {
+                "type": "object"
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "url",
+              "id", 
+              "html_url",
+              "public",
+              "created_at", 
+              "updated_at",
+              "comments",
+              "truncated"
+            ]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "getGist": {
+      "type": "object",
+      "description": "Gets a specified gist",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint for getting a gist",
+          "value": "/gists/{gist_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method used for the request"
+        },
+        "headers": {
+          "type": "object", 
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "gist_id": {
+              "type": "string",
+              "description": "The unique identifier of the gist"
+            }
+          },
+          "required": ["gist_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "forks_url": {
+              "type": "string"
+            },
+            "commits_url": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "git_pull_url": {
+              "type": "string"
+            },
+            "git_push_url": {
+              "type": "string"
+            },
+            "html_url": {
+              "type": "string"
+            },
+            "files": {
+              "type": "object"
+            },
+            "public": {
+              "type": "boolean"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "comments": {
+              "type": "integer"
+            },
+            "user": {
+              "type": "null"
+            },
+            "comments_url": {
+              "type": "string"
+            },
+            "owner": {
+              "type": "object"
+            },
+            "forks": {
+              "type": "array"
+            },
+            "history": {
+              "type": "array"
+            },
+            "truncated": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "url",
+            "id",
+            "html_url",
+            "public",
+            "created_at",
+            "updated_at", 
+            "description",
+            "comments",
+            "truncated"
+          ]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "updateGist": {
+      "type": "object",
+      "description": "Allows updating a gist's description and contents",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "

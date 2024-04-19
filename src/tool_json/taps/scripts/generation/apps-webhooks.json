@@ -1,0 +1,347 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitHub Apps Webhooks API",
+  "description": "A set of endpoints for interacting with webhooks for GitHub Apps",
+  "type": "object",
+  "properties": {
+    "getWebhookConfig": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to get the webhook configuration for a GitHub App",
+          "value": "/app/hook/config"
+        },
+        "method": {
+          "type": "string", 
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "content_type": {
+              "type": "string"
+            },
+            "insecure_ssl": {
+              "type": "string"
+            },
+            "secret": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": ["content_type", "insecure_ssl", "secret", "url"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "updateWebhookConfig": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to update the webhook configuration for a GitHub App",
+          "value": "/app/hook/config"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["PATCH"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The URL to which the payloads will be delivered"
+            },
+            "content_type": {
+              "type": "string", 
+              "description": "The media type used to serialize the payloads"
+            },
+            "secret": {
+              "type": "string",
+              "description": "The secret key used to generate the HMAC hex digest for delivery signatures"
+            },
+            "insecure_ssl": {
+              "type": ["string", "number"],
+              "description": "Determines if the SSL certificate should be verified when delivering payloads"
+            }
+          },
+          "required": []
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "content_type": {
+              "type": "string"
+            },
+            "insecure_ssl": {
+              "type": "string"  
+            },
+            "secret": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": ["content_type", "insecure_ssl", "secret", "url"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "listWebhookDeliveries": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to list webhook deliveries for a GitHub App",
+          "value": "/app/hook/deliveries"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "queryParameters": {
+          "type": "object", 
+          "properties": {
+            "per_page": {
+              "type": "integer",
+              "description": "The number of results per page"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Used for pagination to specify the starting delivery"
+            },
+            "redelivery": {
+              "type": "boolean"
+            }
+          },
+          "required": []
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "guid": {
+                "type": "string"
+              },
+              "delivered_at": {
+                "type": "string"
+              },
+              "redelivery": {
+                "type": "boolean"
+              },
+              "duration": {
+                "type": "number"
+              },
+              "status": {
+                "type": "string"
+              },
+              "status_code": {
+                "type": "integer"
+              },
+              "event": {
+                "type": "string"  
+              },
+              "action": {
+                "type": "string"
+              },
+              "installation_id": {
+                "type": "integer"
+              },
+              "repository_id": {
+                "type": "integer"
+              }
+            },
+            "required": ["id", "guid", "delivered_at", "redelivery", "duration", "status", "status_code", "event", "action", "installation_id", "repository_id"]
+          }
+        }
+      },
+      "required": ["endpoint", "method", "headers", "response"]
+    },
+    "getWebhookDelivery": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to get a webhook delivery for a GitHub App",
+          "value": "/app/hook/deliveries/{delivery_id}"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "delivery_id": {
+              "type": "integer",
+              "description": "The ID of the delivery to retrieve"
+            }
+          },
+          "required": ["delivery_id"]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "guid": {
+              "type": "string"
+            },
+            "delivered_at": {
+              "type": "string"
+            },
+            "redelivery": {
+              "type": "boolean"
+            },
+            "duration": {
+              "type": "number"
+            },
+            "status": {
+              "type": "string"
+            },
+            "status_code": {
+              "type": "integer"
+            },
+            "event": {
+              "type": "string"
+            },
+            "action": {
+              "type": "string"
+            },
+            "installation_id": {
+              "type": "integer"
+            },
+            "repository_id": {
+              "type": "integer"
+            },
+            "url": {
+              "type": "string"
+            },
+            "request": {
+              "type": "object",
+              "properties": {
+                "headers": {
+                  "type": "object"
+                },
+                "payload": {
+                  "type": "object"
+                }
+              },
+              "required": ["headers", "payload"]
+            },
+            "response": {
+              "type": "object",
+              "properties": {
+                "headers": {
+                  "type": "object"
+                },
+                "payload": {
+                  "type": ["string", "object"]
+                }
+              },
+              "required": ["headers"]
+            }
+          },
+          "required": ["id", "guid", "delivered_at", "redelivery", "duration", "status", "status_code", "event", "action", "installation_id", "repository_id", "request", "response"]
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters", "response"]
+    },
+    "redeliverWebhookDelivery": {
+      "type": "object", 
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "API endpoint to redeliver a webhook delivery for a GitHub App",
+          "value": "/app/hook/deliveries/{delivery_id}/attempts"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST"],
+          "description": "HTTP method for the request"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Authorization": {
+              "type": "string",
+              "description": "Bearer token for authentication"
+            }
+          },
+          "required": ["Authorization"]
+        },
+        "pathParameters": {
+          "type": "object",
+          "properties": {
+            "delivery_id": {
+              "type": "integer",
+              "description": "The ID of the delivery to redeliver"
+            }
+          },
+          "required": ["delivery_id"]
+        },
+        "response": {
+          "type": "null"
+        }
+      },
+      "required": ["endpoint", "method", "headers", "pathParameters"]
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

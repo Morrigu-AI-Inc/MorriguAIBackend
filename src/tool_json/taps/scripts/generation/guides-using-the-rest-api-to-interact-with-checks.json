@@ -1,0 +1,182 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Checks API",
+  "description": "The Checks API allows you to build GitHub Apps that run powerful checks against code changes in a repository. You can create apps that perform continuous integration, code linting, or code scanning services and provide detailed feedback on commits.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for interacting with checks",
+      "value": "/repos/{owner}/{repo}/check-suites"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Accept": {
+          "type": "string",
+          "description": "Media type to specify the version of the API to use",
+          "default": "application/vnd.github.v3+json"
+        }
+      },
+      "required": ["Authorization", "Accept"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "head_sha": {
+          "type": "string",
+          "description": "The SHA of the commit to certify."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["queued", "in_progress", "completed"],
+          "description": "The status of the check suite."
+        },
+        "conclusion": {
+          "type": "string",
+          "enum": ["action_required", "cancelled", "timed_out", "failure", "neutral", "success"],
+          "description": "The conclusion of the check suite."
+        }
+      },
+      "required": ["head_sha"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "app_id": {
+          "type": "integer",
+          "description": "The ID of the GitHub App associated with the check suite."
+        },
+        "check_run_id": {
+          "type": "integer",
+          "description": "The ID of the check run."
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The ID of the check suite."
+        },
+        "head_branch": {
+          "type": "string",
+          "description": "The head branch name."
+        },
+        "head_sha": {
+          "type": "string",
+          "description": "The SHA of the head commit."
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the check suite."
+        },
+        "conclusion": {
+          "type": "string",
+          "description": "The conclusion of the check suite."
+        },
+        "check_runs": {
+          "type": "array",
+          "description": "The check runs associated with the check suite.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The ID of the check run."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the check run."
+              },
+              "status": {
+                "type": "string",
+                "description": "The status of the check run."
+              },
+              "conclusion": {
+                "type": "string",
+                "description": "The conclusion of the check run."
+              },
+              "output": {
+                "type": "object",
+                "description": "The output of the check run."
+              },
+              "annotations": {
+                "type": "array",
+                "description": "The annotations associated with the check run.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "description": "The path to the file to which the annotation refers."
+                    },
+                    "start_line": {
+                      "type": "integer",
+                      "description": "The start line of the annotation."
+                    },
+                    "end_line": {
+                      "type": "integer",
+                      "description": "The end line of the annotation."
+                    },
+                    "annotation_level": {
+                      "type": "string",
+                      "enum": ["notice", "warning", "failure"],
+                      "description": "The level of the annotation."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "The message of the annotation."
+                    }
+                  },
+                  "required": ["path", "start_line", "end_line", "annotation_level", "message"]
+                }
+              },
+              "actions": {
+                "type": "array",
+                "description": "The actions associated with the check run.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "description": "The label of the action."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "The description of the action."
+                    },
+                    "identifier": {
+                      "type": "string",
+                      "description": "The identifier of the action."
+                    }
+                  },
+                  "required": ["label", "description", "identifier"]
+                }
+              }
+            },
+            "required": ["id", "name", "status", "conclusion"]
+          }
+        }
+      },
+      "required": ["id", "head_branch", "head_sha", "status", "conclusion", "check_runs"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"]
+}

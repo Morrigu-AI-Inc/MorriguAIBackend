@@ -1,0 +1,24 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "conversations.close",
+  "description": "This Conversations API method closes direct messages, multi-person or 1:1 or otherwise.",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes. Tokens should be passed as an HTTP Authorization header or alternatively, as a POST parameter.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channel": {
+      "description": "Conversation to close.",
+      "type": "string",
+      "example": "G1234567890"
+    }
+  },
+  "required": [
+    "token",
+    "channel"
+  ],
+  "additionalProperties": false
+}

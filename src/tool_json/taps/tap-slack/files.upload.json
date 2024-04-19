@@ -1,0 +1,67 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "files.upload",
+  "description": "This method allows you to create or upload an existing file.",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "channels": {
+      "description": "Comma-separated list of channel names or IDs where the file will be shared.",
+      "type": "string",
+      "example": "C1234567890,C2345678901,C3456789012"
+    },
+    "content": {
+      "description": "File contents via a POST variable. If omitting this parameter, you must provide a `file`.",
+      "type": "string",
+      "example": "..."
+    },
+    "file": {
+      "description": "File contents via `multipart/form-data`. If omitting this parameter, you must submit `content`."
+    },
+    "filename": {
+      "description": "Filename of file.",
+      "type": "string",
+      "example": "foo.txt"
+    },
+    "filetype": {
+      "description": "A file type identifier.",
+      "type": "string",
+      "example": "php"
+    },
+    "initial_comment": {
+      "description": "The message text introducing the file in specified `channels`.",
+      "type": "string",
+      "example": "Best!"
+    },
+    "thread_ts": {
+      "description": "Provide another message's `ts` value to upload this file as a reply. Never use a reply's `ts` value; use its parent instead.",
+      "type": "string",
+      "example": "1234567890.123456"
+    },
+    "title": {
+      "description": "Title of file.",
+      "type": "string", 
+      "example": "My File"
+    }
+  },
+  "required": [
+    "token"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "content"
+      ]
+    },
+    {
+      "required": [
+        "file"
+      ]
+    }
+  ]
+}

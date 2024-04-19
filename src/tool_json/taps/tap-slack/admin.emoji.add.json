@@ -1,0 +1,26 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "admin.emoji.add",
+  "type": "object",
+  "properties": {
+    "token": {
+      "description": "Authentication token bearing required scopes.",
+      "type": "string",
+      "example": "xxxx-xxxxxxxxx-xxxx"
+    },
+    "name": {
+      "description": "The name of the emoji to be added (using lower-case letters only). Colons (`:myemoji:`) around the value are not required, although they may be included.",
+      "type": "string"
+    },
+    "url": {
+      "description": "The URL of a file to use as an image for the emoji. Square images under 128KB and with transparent backgrounds work best.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "token",
+    "name",
+    "url"
+  ]
+}

@@ -1,0 +1,67 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "image_24": {
+          "type": "string",
+          "format": "uri"
+        },
+        "image_32": {
+          "type": "string",
+          "format": "uri"
+        },
+        "image_48": {
+          "type": "string",
+          "format": "uri"
+        },
+        "image_72": {
+          "type": "string",
+          "format": "uri"
+        },
+        "image_192": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "name",
+        "id"
+      ]
+    },
+    "team": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  "required": [
+    "ok",
+    "user",
+    "team"
+  ]
+}

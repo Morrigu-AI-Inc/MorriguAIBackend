@@ -1,0 +1,39 @@
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "grant_type": {
+      "type": "string",
+      "description": "The grant type for refreshing the access token. Must be 'refresh_token'."
+    },
+    "refresh_token": {
+      "type": "string",
+      "description": "The refresh token obtained from the initial token request."
+    },
+    "client_id": {
+      "type": "string",
+      "description": "The client ID of your application."
+    },
+    "client_secret": {
+      "type": "string",
+      "description": "The client secret of your application."
+    }
+  },
+  "required": [
+    "grant_type",
+    "refresh_token", 
+    "client_id",
+    "client_secret"
+  ]
+}
+
+
+This JSON schema defines the request body for refreshing an access token in PandaDoc's OAuth 2.0 authentication flow. The key properties are:
+
+- `grant_type` (required, string): Must be set to the value "refresh_token".
+- `refresh_token` (required, string): The refresh token obtained from the initial token request.
+- `client_id` (required, string): The client ID of your application registered with PandaDoc.
+- `client_secret` (required, string): The client secret of your application.
+
+All four properties are marked as required for a valid refresh token request.
