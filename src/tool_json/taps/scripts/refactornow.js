@@ -15,7 +15,7 @@ const mkdir = promisify(fs.mkdir);
 // AWS_ACCESS_KEY_ID=AKIA2XAEOTXPJZVDOTQQ
 // AWS_SECRET_ACCESS_KEY=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
 const bedrock = new BedrockRuntimeClient({
-  region: 'us-east-1',
+  region: 'us-west-2',
   credentials: {
     accessKeyId: 'AKIA2XAEOTXPJZVDOTQQ',
     secretAccessKey: '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',
@@ -37,26 +37,54 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
       anthropic_version: 'bedrock-2023-05-31',
       max_tokens: 4096,
       system: `
-      You are you goin to perform a series of changes to the codebase.
-      You are writing directly to disk so please be careful.
-      Follow the pattern in the codebase and make the edits accordingly. 
-      The post-processed code will be saved to the file '${read_file_path}'.
+      You are writing directly to disk so please be careful. Do not output anything other than code changes.
+    
+      If you would like to replace a line of code, please provide the exact search term and the replacement code.
+      This only works for single line not multi-line code changes. You can stack multiple search and replace pairs but only one per filename block.
+      Example: 
 
-      User Request:
-      - I need to finish off the OnboardingFlow component.
-      - Add the necessary changes to the OnboardingFlow component.
+      ===filename:src/components/ChatInput.js===
+      ===search:const ExampleCodeBlock = () => {===
+      ===replace:const NewReplacedCodeBlock = ({}) => {===
+      ===end===
+
+      If you are writing a brand new file:
+
+      ===filename:src/pages/Example.tsx===
+      import React from 'react';
+      ... more code ...
+      export default ...;
+      ===end===
 
 
-
-      Assistant Response:
-       Only output CODE to the file '${write_file_path}'.
-       Only include changes or new pages and components in the output.
-       The output will be parsed into the codebase.
+      Finally --- You are only to write code and nothing else.
+      All code goes in the pages directory.
+      
       `,
       messages: [
         {
           role: 'user',
-          content: html,
+          content: [
+            {
+              type: 'text',
+              text: 'Create an operations dashboard with demo visuals.',
+            },
+            {
+              type: 'text',
+              text: `
+              For each section in the dashboard in sales make sure they have a visual representation of the data.
+              Come up with Dummy Data for the dashboard.
+              `,
+            },
+            {
+              type: 'text',
+              text: html,
+            },
+          ],
+        },
+        {
+          role: 'assistant',
+          content: 'Making the changes you requested now...\n===filename:',
         },
       ],
     }),

@@ -1,430 +1,478 @@
-Here is the output for the refactored code with the requested changes and additions:
-
-===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/app/index.tsx===
-import { ReactElement } from 'react';
-import { Stack, Typography } from '@mui/material';
-import Layout from 'layout';
+===filename: src/pages/administration/assistants/index.tsx===
+tsx
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import Page from 'components/Page';
+import Layout from 'layout';
+import { ReactElement, useState } from 'react';
+import BasicTable from 'sections/tables/react-table/BasicTable';
 import MainCard from 'components/MainCard';
-import AuthGuard from 'utils/route-guard/AuthGuard';
-import ChatThread from './chat-thread';
+import CreateAssistantDialog from 'components/administration/assistants/CreateAssistantDialog';
 
-const App = () => {
+type Assistant = {
+  id: number;
+  name: string;
+  description: string;
+  status: 'active' | 'inactive' | 'draft';
+  createdAt: string;
+  updatedAt: string;
+  lastActiveAt: string;
+  tools: {
+    integrations: ReactElement;
+    analytics: ReactElement;
+    logs: ReactElement;
+    billing: ReactElement;
+    settings: ReactElement;
+    documentation: ReactElement;
+    content: ReactElement;
+  };
+  schema: ReactElement;
+};
+
+const Assistants = () => {
+  const [open, setOpen] = useState(false);
+  const [assistants, setAssistants] = useState<Assistant[]>([]);
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
+  const handleCreateAssistant = (assistant: Assistant) => {
+    setAssistants([...assistants, assistant]);
+    handleCloseDialog();
+  };
+
+  const columns = [
+    {
+      Header: 'Name',
+      accessor: 'name'
+    },
+    {
+      Header: 'Description',
+      accessor: 'description'
+    },
+    {
+      Header: 'Status',
+      accessor: 'status',
+      Cell: ({ value }: { value: 'active' | 'inactive' | 'draft' }) => {
+        return (
+          <Typography
+            color={
+              value === 'active'
+                ? 'success.main'
+                : value === 'inactive'
+                ? 'error.main'
+                : 'warning.main'
+            }
+          >
+            {value}
+          </Typography>
+        );
+      }
+    },
+    {
+      Header: 'Created At',
+      accessor: 'createdAt'
+    },
+    {
+      Header: 'Updated At',
+      accessor: 'updatedAt'
+    },
+    {
+      Header: 'Last Active At',
+      accessor: 'lastActiveAt'
+    },
+    {
+      Header: 'Tools',
+      accessor: 'tools',
+      Cell: ({ value }: { value: typeof Assistant.prototype.tools }) => {
+        return (
+          <Stack direction="row" spacing={1}>
+            {value.integrations}
+            {value.analytics}
+            {value.logs}
+            {value.billing}
+            {value.settings}
+            {value.documentation}
+            {value.content}
+          </Stack>
+        );
+      }
+    },
+    {
+      Header: 'Schema',
+      accessor: 'schema'
+    }
+  ];
+
   return (
-    <Page title="Morrigu AI">
-      <Stack spacing={3}>
-        <Typography variant="h3">Welcome to Morrigu AI</Typography>
-        <MainCard>
-          <ChatThread />
-        </MainCard>
-      </Stack>
+    <Page title="Assistants">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h4">Assistants</Typography>
+            <Button variant="contained" onClick={handleOpenDialog}>
+              Create Assistant
+            </Button>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <MainCard>
+            <BasicTable columns={columns} data={assistants} />
+          </MainCard>
+        </Grid>
+      </Grid>
+      <CreateAssistantDialog
+        open={open}
+        onClose={handleCloseDialog}
+        onCreateAssistant={handleCreateAssistant}
+      />
     </Page>
   );
 };
 
-App.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <AuthGuard>
-      <Layout>{page}</Layout>
-    </AuthGuard>
-  );
+Assistants.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
-export default App;
+export default Assistants;
+```
+
 ===end===
 
-===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/app/chat-thread/index.tsx===
-import { ReactElement, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import { Stack, TextField, Grid, FormControl, IconButton, Avatar, Typography } from '@mui/material';
-import { SendOutlined, PaperClipOutlined, PhotoOutlined } from '@ant-design/icons';
-import Dropzone from 'components/Dropzone';
-import Markdown from 'react-markdown';
-import { useFormik } from 'formik';
-import ChatVizMessage, { ChartVizMessageDataType } from './ChatVizMessage';
-import ChatStatusIndicator from './ChatStatusIndicator';
+===filename: src/pages/administration/integrations/index.tsx===
+```tsx
+import { Button, Grid, Stack, Typography } from '@mui/material';
+import Page from 'components/Page';
+import Layout from 'layout';
+import { ReactElement, useEffect, useState } from 'react';
+import BasicTable from 'sections/tables/react-table/BasicTable';
+import MainCard from 'components/MainCard';
+import { useGetIntegrationsQuery } from 'store/api/integrations';
+import useConfig from 'hooks/useConfig';
+import { paragon } from '@useparagon/connect';
+import Image from 'next/image';
+import { IIntegrationMetadata } from '@useparagon/connect/dist/src/entities/integration.interface';
+import { sleep } from 'openai/core';
 
-type ThreadMessage = {
-  id: string;
-  object: string;
-  created_at: number;
-  assistant_id: string;
-  thread_id: string;
-  run_id: string;
-  role: string;
-  content: Content[];
-  file_ids: string[];
-  metadata: Record<string, unknown>;
+type Integration = {
+  id: number;
+  slug: string;
+  name: ReactElement;
+  description: string;
+  logo?: ReactElement;
+  action: () => void;
 };
 
-type Content = {
-  type: string;
-  text: TextContent;
+const integration_descriptions = {
+  quickbooks:
+    'Integrate QuickBooks to manage customer relationships, automate sales processes, and drive revenue growth. Benefit from advanced lead management, sales automation, and analytics features, driving growth and success in your business.',
+  hubspot:
+    'Integrate HubSpot to see a complete view of your customers, automate marketing, sales, and service processes, and drive growth.',
+  stripe: 'Integrate Stripe to accept payments, manage subscriptions, and handle billing for your business.',
+  mailchimp: 'Integrate Mailchimp to create targeted email campaigns, automate marketing processes, and drive customer engagement.',
+  slack: 'Integrate Slack to communicate with your team, share files, and collaborate on projects in real time.',
+  zapier:
+    'Integrate Zapier to connect your favorite apps and automate workflows without writing any code. Set up triggers and actions to automate repetitive tasks and save time.'
 };
 
-type TextContent = {
-  value: string;
-  annotations: any[];
-};
-
-const ChatThread = () => {
-  const scrollRef = useRef(null);
-  const [loading, setLoading] = useState(true);
-  const [response, setResponse] = useState<string>('');
-  const [files, setFiles] = useState<File[]>([]);
-  const [processedFiles, setProcessedFiles] = useState<unknown[]>([]);
-  const [messages, setMessages] = useState<ThreadMessage[]>([]);
-  const [actionRequired, setActionRequired] = useState<Record<string, unknown>>({});
-  const [chartData, setChartData] = useState<ChartVizMessageDataType | undefined>(undefined);
-  const [status, setStatus] = useState<string>('loading');
-
-  const router = useRouter();
-  const { threadId } = router.query;
-
+const Integrations = () => {
+  const config = useConfig();
+  const { data, refetch } = useGetIntegrationsQuery(config.currentOrganization?._id);
+  const [selectedIntegration, setSelectedIntegration] = useState<Integration>();
+  const [open, setOpen] = useState(false);
+  const [integrationsData, setIntegrationsData] = useState<Integration[]>([]);
+  const [intMeta, setIntMeta] = useState<IIntegrationMetadata[]>([]);
   useEffect(() => {
-    const fetchRun = async () => {
-      if (!threadId) return;
-
-      const thread = await fetch(`/api/openai/assistant/thread/${threadId}/messages`);
-      const data = await thread.json();
-
-      for (const message of data) {
-        if (message.metadata) {
-          if (message.metadata?.tool_outputs?.[0]?.output) {
-            const metadata = message.metadata;
-            const output = JSON.parse(metadata?.tool_outputs?.[0]?.output);
-            metadata.tool_outputs[0].output = output;
-
-            if (output?.chartData) {
-              output.chartData = JSON.parse(output?.chartData);
-            }
-          }
-        }
+    const init = async () => {
+      while (paragon.getIntegrationMetadata().length === 0) {
+        await sleep(1000);
       }
 
-      setMessages(data.reverse());
-      setLoading(false);
+      const temp = paragon.getIntegrationMetadata();
+
+      console.log('temp', temp);
+      setIntMeta(temp);
     };
 
-    fetchRun();
-  }, [threadId]);
+    init();
+    // const intList = intMeta.map((integ) => {
+    //   return integ.name.toLowerCase();
+    // });
+  }, []);
 
   useEffect(() => {
-    fetch(`/api/openai/assistant/thread/${threadId}/required_actions`)
-      .then(async (res) => {
-        const data = await res.json();
+    const integrations = intMeta.map((integ: { type: string; name: string; icon: string }) => {
+      console.log('integ', integ);
+      return {
+        id: integ.type,
+        slug: integ.type,
+        name: <Typography variant="h6">{integ.name}</Typography>,
+        logo: <Image src={integ.icon} alt={''} width={26} height={26} />,
+        description:
+          'Integrate QuickBooks to manage customer relationships, automate sales processes, and drive revenue growth. Benefit from advanced lead management, sales automation, and analytics features, driving growth and success in your business.',
+        action: () =>
+          paragon.connect(integ.type, {
+            onSuccess(event, user) {
+              console.log(`${integ.name} connected`, user);
+            },
+            onError(error) {
+              console.error(`${integ.name} error`, error);
+            }
+          })
+      };
+    });
 
-        if (data.status === 'requires_action') {
-          const func = data.required_action?.submit_tool_outputs?.tool_calls[0].function;
-          const name = func.name;
-          const args = JSON.parse(func.arguments);
-
-          if (name === 'display_chart') {
-            const runId = data.id;
-            setChartData(args);
-            fetch(`/api/openai/assistant/thread/${threadId}/${runId}/tool_output`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify([
-                {
-                  id: data.required_action?.submit_tool_outputs?.tool_calls[0].id,
-                  out: {
-                    type: 'success',
-                    message: 'Chart displayed successfully'
-                  }
-                }
-              ])
-            });
-          }
-        }
-      })
-      .catch((err) => {
-        console.error('Error fetching required actions', err);
-      });
-  }, [threadId]);
-
-  const formik = useFormik({
-    initialValues: {
-      message: ''
-    },
-    onSubmit: (values) => {
-      handleSend(values);
-    }
-  });
-
-  const handleUpdateMessages = async () => {
-    if (!threadId) return;
-
-    const thread = await fetch(`/api/openai/assistant/thread/${threadId}/messages`);
-    const data = await thread.json();
-
-    for (const message of data) {
-      if (message.metadata) {
-        if (message.metadata?.tool_outputs?.[0]?.output) {
-          const metadata = message.metadata;
-          const output = JSON.parse(metadata?.tool_outputs?.[0]?.output);
-          metadata.tool_outputs[0].output = output;
-
-          if (output?.chartData) {
-            output.chartData = JSON.parse(output?.chartData);
-          }
-        }
-      }
-    }
-
-    setMessages(data.reverse());
-    setResponse('');
-  };
-
-  const handleSend = async (values: { message: string }) => {
-    setResponse('');
-    setChartData(undefined);
-
-    if (!threadId) return;
-
-    await fetch(`/api/openai/assistant/thread/${threadId}/message`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        role: 'user',
-        content: values.message
-      })
-    })
-      .then(() => {
-        handleUpdateMessages();
-      })
-      .then(async (res) => {
-        formik.resetForm();
-        const tokenResp = await fetch('/api/jwt');
-        const { token } = await tokenResp.json();
-
-        const es = new EventSource(
-          `/api/openai/assistant/thread/${threadId}?token=${token}`
-        );
-
-        es.addEventListener('closeStream', (event) => {
-          es.close();
-        });
-
-        es.addEventListener('messageDelta', (event) => {
-          const content = JSON.parse(event.data).content[0];
-          setResponse((prev) => (prev += content.text.value));
-        });
-
-        es.addEventListener('update_status', (event) => {
-          setStatus(JSON.parse(event.data).status);
-        });
-
-        es.addEventListener('refresh', (event) => {
-          handleUpdateMessages();
-          setResponse('');
-          setChartData(undefined);
-        });
-
-        es.addEventListener('streamEnd', (event) => {
-          handleUpdateMessages();
-        });
-
-        es.addEventListener('frontend_tool_call', (event) => {
-          const eventData = JSON.parse(event.data);
-
-          const func = eventData.calls[0].function;
-          const data = JSON.parse(func.arguments);
-
-          if (func.name === 'display_chart') {
-            setChartData(data);
-          }
-        });
-      });
-  };
-
-  const scrollTOBottom = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  };
+    setIntegrationsData(integrations);
+  }, [intMeta]);
 
   useEffect(() => {
-    scrollTOBottom();
-  }, [messages, response]);
+    if (open == false) {
+      refetch();
+    }
+  }, [open, refetch]);
 
   return (
-    <Grid container padding={0}>
-      <Grid
-        component={'div'}
-        item
-        xs={12}
-        gap={2}
-        sx={{
-          overflowY: 'auto',
-          minHeight: 'calc(100vh - 245px)',
-          maxHeight: 'calc(100vh - 245px)',
-          paddingX: 0
-        }}
-        ref={scrollRef}
-      >
-        {messages.map((m, i) => {
-          return (
-            <Stack
-              key={i}
-              flexGrow={0}
-              sx={{
-                alignItems: m.role === 'assistant' ? 'flex-start' : 'flex-end'
-              }}
-              justifyContent={m.role === 'assistant' ? 'flex-start' : 'flex-end'}
-            >
-              {(
-                m?.metadata?.tool_outputs as {
-                  id: string;
-                  type: 'function';
-                  function: { name: string; arguments: ChartVizMessageDataType };
-                }[]
-              )
-                ?.filter((toolOutput) => {
-                  return toolOutput.function.arguments ? true : false;
-                })
-                .map((toolOutput) => {
+    <Page title={'Integrations'}>
+      <Grid container spacing={2}>
+        <Grid item xs={9}>
+          <BasicTable
+            columns={[
+              {
+                Header: 'Logo',
+                accessor: 'logo'
+              },
+
+              {
+                Header: 'Description',
+                accessor: 'description',
+                Cell: ({ value }: { value: string }) => {
                   return (
-                    <>
-                      <ChatVizMessage data={toolOutput.function.arguments} key={toolOutput.id} />
-                    </>
+                    <Typography color={'GrayText'} variant={'body2'}>
+                      {value}
+                    </Typography>
                   );
-                })}
+                }
+              },
 
-              {m.content[0]?.text.value && (
-                <Stack
-                  direction={'row'}
-                  gap={2}
-                  justifyContent={m.role === 'assistant' ? 'flex-start' : 'flex-end'}
-                  maxWidth={'80%'}
-                  marginY={2}
-                >
-                  {m.role === 'assistant' && <Avatar sx={{ color: 'white' }} src={'/assets/images/icons/LogoIcon.svg'} />}
-                  <MainCard
-                    sx={{
-                      backgroundColor: m.role === 'assistant' ? '#F5F5F5' : 'primary.main',
-                      color: m.role === 'assistant' ? 'black' : 'white',
-                      padding: 0
-                    }}
-                  >
-                    <Markdown>{m.content[0]?.text.value}</Markdown>
-                  </MainCard>
-                  {m.role === 'user' && (
-                    <Avatar sx={{ backgroundColor: 'primary.main', color: 'white' }} icon>
-                      U
-                    </Avatar>
-                  )}
-                </Stack>
-              )}
-            </Stack>
-          );
-        })}
-        {chartData && <ChatVizMessage data={chartData} />}
-
-        {response && (
-          <Stack direction={'row'} gap={2} justifyContent={'flex-start'} maxWidth={'80%'} marginY={2}>
-            <Avatar sx={{ color: 'white' }} src={'/assets/images/icons/LogoIcon.svg'} />
-            <MainCard
-              sx={{
-                backgroundColor: '#F5F5F5',
-                color: 'text.primary',
-                paddingX: 1,
-                borderRadius: 1
-              }}
-            >
-              <Markdown>{response}</Markdown>
-            </MainCard>
-          </Stack>
-        )}
-
-        {status !== 'finished' && (
-          <Stack direction={'row'} gap={1} justifyContent={'flex-start'} alignItems={'flex-end'} maxWidth={'80%'} marginY={2}>
-            {status !== 'finished' && <ChatStatusIndicator status={status as any} />}
-            {status !== 'finished' && <Typography>{status}</Typography>}
-          </Stack>
-        )}
-      </Grid>
-
-      <Grid item xs={12}>
-        <Stack direction={'row'} flexGrow={1} gap={2}>
-          <Stack flexGrow={1}>
-            <FormControl>
-              <Stack gap={2}>
-                <TextField
-                  id="message"
-                  name="message"
-                  value={formik.values.message}
-                  onChange={formik.handleChange}
-                  error={formik.touched.message && Boolean(formik.errors.message)}
-                  helperText={formik.touched.message && formik.errors.message}
-                  maxRows={15}
-                  multiline
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSend({
-                        message: formik.values.message
-                      });
-                    }
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <IconButton
+              {
+                accessor: 'actions',
+                Cell: ({ cell }) => {
+                  console.log(cell.row.original);
+                  return (
+                    <Stack direction={'row'} justifyContent={'flex-end'}>
+                      <Button
                         onClick={() =>
-                          handleSend({
-                            message: formik.values.message
-                          })
+                          paragon.connect(cell.row.original.slug, { onSuccess: () => console.log(`${cell.row.original.name} connected`) })
                         }
                       >
-                        <SendOutlined />
-                      </IconButton>
-                    ),
-                    startAdornment: (
-                      <Stack direction={'row'} spacing={0} gap={0} mr={2}>
-                        <Stack>
-                          <Stack direction={'row'}>
-                            {processedFiles && processedFiles.length > 0 && (
-                              <Stack gap={2}>
-                                {processedFiles.map((file) => (
-                                  <Stack key={file.name} direction={'row'} alignItems={'center'} gap={1}>
-                                    <Avatar>
-                                      <img src={file.url} alt={file.name} />
-                                    </Avatar>
-                                  </Stack>
-                                ))}
-                              </Stack>
-                            )}
-                          </Stack>
-                          <Dropzone onDrop={(files) => setFiles(files)}>
-                            <Stack direction={'row'}>
-                              <IconButton>
-                                <PaperClipOutlined />
-                              </IconButton>
-                              <IconButton>
-                                <PhotoOutlined />
-                              </IconButton>
-                            </Stack>
-                          </Dropzone>
-                        </Stack>
-                      </Stack>
-                    )
-                  }}
-                />
-              </Stack>
-            </FormControl>
-          </Stack>
-        </Stack>
+                        Manage
+                      </Button>
+                    </Stack>
+                  );
+                }
+              }
+            ]}
+            data={integrationsData}
+          />
+        </Grid>
+        <Grid item xs={12} lg={3}>
+          <MainCard title={'Recommended Integrations'}>
+            <Stack spacing={1}>
+              <Typography variant={'h6'}>QuickBooks</Typography>
+              <Typography variant={'body2'}>
+                Integrate QuickBooks to manage customer relationships, automate sales processes, and drive revenue growth. Benefit from
+                advanced lead management, sales automation, and analytics features, driving growth and success in your business.
+              </Typography>
+              <Button
+                onClick={() => paragon.connect('quickbooks', { onSuccess: () => console.log('HubSpot connected') })}
+                variant={'contained'}
+              >
+                Manage
+              </Button>
+            </Stack>
+          </MainCard>
+        </Grid>
       </Grid>
-    </Grid>
+    </Page>
   );
 };
 
-ChatThread.getLayout = function getLayout(page: ReactElement) {
-  return <AuthGuard>{page}</AuthGuard>;
+Integrations.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
-export default ChatThread;
+export default Integrations;
+```
+
 ===end===
+
+===filename: src/pages/administration/profile/account/[tab].tsx===
+```tsx
+import { useState, ReactElement } from 'react';
+
+// next
+import { useRouter } from 'next/router';
+
+// material-ui
+import { Box, Tab, Tabs } from '@mui/material';
+
+// project import
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+import TabAccount from 'sections/apps/profiles/account/TabAccount';
+import TabPassword from 'sections/apps/profiles/account/TabPassword';
+import TabRole from 'sections/apps/profiles/account/TabRole';
+import TabSettings from 'sections/apps/profiles/account/TabSettings';
+
+// assets
+import { ContainerOutlined, LockOutlined, SettingOutlined, TeamOutlined } from '@ant-design/icons';
+
+// ==============================|| PROFILE - ACCOUNT ||============================== //
+
+const AccountProfile = () => {
+  const router = useRouter();
+  const { tab } = router.query;
+
+  const [value, setValue] = useState(tab);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+    router.push(`/administration/profile/account/${newValue}`);
+  };
+
+  return (
+    <Page title="Account Profile">
+      <MainCard border={false} boxShadow>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
+          <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto" aria-label="account profile tab">
+            <Tab label="My Account" icon={<ContainerOutlined />} value="my-account" iconPosition="start" />
+            <Tab label="Change Password" icon={<LockOutlined />} value="password" iconPosition="start" />
+            <Tab label="Role" icon={<TeamOutlined />} value="role" iconPosition="start" />
+            <Tab label="Settings" icon={<SettingOutlined />} value="settings" iconPosition="start" />
+          </Tabs>
+        </Box>
+        <Box sx={{ mt: 2.5 }}>
+          {/* {tab === 'basic' && <TabProfile />} */}
+          {/* {tab === 'personal' && <TabPersonal />} */}
+          {tab === 'general' && <TabAccount />}
+          {tab === 'password' && <TabPassword />}
+          {tab === 'role' && <TabRole />}
+          {tab === 'settings' && <TabSettings />}
+        </Box>
+      </MainCard>
+    </Page>
+  );
+};
+
+AccountProfile.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default AccountProfile;
+```
+
+===end===
+
+===filename: src/pages/administration/profile/user/[tab].tsx===
+```tsx
+import { useRef, ReactElement } from 'react';
+
+// next
+import { useRouter } from 'next/router';
+
+// material-ui
+import { Grid } from '@mui/material';
+
+// project import
+import Layout from 'layout';
+import Page from 'components/Page';
+import ProfileCard from 'sections/apps/profiles/user/ProfileCard';
+import ProfileTabs from 'sections/apps/profiles/user/ProfileTabs';
+import TabPersonal from 'sections/apps/profiles/user/TabPersonal';
+import TabPayment from 'sections/apps/profiles/user/TabPayment';
+import TabPassword from 'sections/apps/profiles/user/TabPassword';
+import TabSettings from 'sections/apps/profiles/user/TabSettings';
+
+// ==============================|| PROFILE - USER ||============================== //
+
+const UserProfile = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+
+  const router = useRouter();
+  const { tab } = router.query;
+
+  return (
+    <Page title="User Profile">
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <ProfileCard focusInput={focusInput} />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <ProfileTabs focusInput={focusInput} />
+        </Grid>
+        <Grid item xs={12} md={9}>
+          {tab === 'general' && <TabPersonal />}
+          {tab === 'payment' && <TabPayment />}
+          {tab === 'password' && <TabPassword />}
+          {tab === 'settings' && <TabSettings />}
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+UserProfile.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default UserProfile;
+```
+
+===end===
+
+===filename: src/pages/administration/users/index.tsx===
+```tsx
+import React, { ReactElement, useState } from 'react';
+import { Button, Grid, Stack, Typography } from '@mui/material';
+import Page from 'components/Page';
+import Layout from 'layout';
+import MainCard from 'components/MainCard';
+import UserTable from 'components/administration/users/UserTable';
+import CreateUserDialog from 'components/administration/users/CreateUserDialog';
+
+const Users = () => {
+  const [open, setOpen] = useState(false);
+  const [users, setUsers] = useState([]);
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
+  const handleCreateUser = (user) => {
+    setUsers([...users, user]);
+    handleCloseDialog();
+  };
+
+  return (
+    <Page title="Users">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h4">Users</Typography>
+            <Button variant="contained" onClick={handleOpenDialog}>
+              Create User
+            </Button>
+          </

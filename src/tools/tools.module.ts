@@ -49,6 +49,7 @@ import { GithubApiIntegrationModule } from './github_api_integration/github_api_
 import { ZendeskSupportIntegrationModule } from './zendesk_support_integration/zendesk_support_integration.module';
 import { SlackApiIntegrationModule } from './slack_api_integration/slack_api_integration.module';
 import { HubspotApiIntegrationModule } from './hubspot_api_integration/hubspot_api_integration.module';
+import { NotionApiIntegrationModule } from './notion_api_integration/notion_api_integration.module';
 
 @Module({
   providers: [
@@ -107,6 +108,7 @@ import { HubspotApiIntegrationModule } from './hubspot_api_integration/hubspot_a
     ZendeskSupportIntegrationModule,
     SlackApiIntegrationModule,
     HubspotApiIntegrationModule,
+    NotionApiIntegrationModule,
   ],
   exports: [
     MongooseModule.forFeature([

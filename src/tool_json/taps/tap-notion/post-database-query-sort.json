@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sort Database Entries",
+  "description": "API endpoint to sort database entries based on specified criteria.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for sorting database entries",
+      "value": "/v1/databases/{database_id}/query"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Notion-Version": {
+          "type": "string",
+          "description": "Notion API version"
+        }
+      },
+      "required": ["Authorization", "Notion-Version"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "sorts": {
+          "type": "array",
+          "description": "Array of sort objects specifying how to sort the database entries",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "property": {
+                    "type": "string",
+                    "description": "The name of the property to sort against"
+                  },
+                  "direction": {
+                    "type": "string",
+                    "enum": ["ascending", "descending"],
+                    "description": "The direction to sort"
+                  }
+                },
+                "required": ["property", "direction"]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "timestamp": {
+                    "type": "string",
+                    "enum": ["created_time", "last_edited_time"],
+                    "description": "The name of the timestamp to sort against"
+                  },
+                  "direction": {
+                    "type": "string",
+                    "enum": ["ascending", "descending"],
+                    "description": "The direction to sort"
+                  }
+                },
+                "required": ["timestamp", "direction"]
+              }
+            ]
+          }
+        }
+      },
+      "required": ["sorts"]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "database_id": {
+          "type": "string",
+          "description": "The ID of the database to query"
+        }
+      },
+      "required": ["database_id"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "The type of object returned"
+        },
+        "results": {
+          "type": "array",
+          "description": "An array of database page objects sorted according to the specified criteria",
+          "items": {
+            "type": "object"
+          }
+        },
+        "next_cursor": {
+          "type": "string",
+          "description": "A token to use in order to retrieve the next set of results"
+        },
+        "has_more": {
+          "type": "boolean",
+          "description": "A boolean indicating if there are more results available"
+        }
+      },
+      "required": ["object", "results"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "contentType", "body", "queryParameters", "response"],
+  "additionalProperties": false
+}

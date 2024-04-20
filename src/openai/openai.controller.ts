@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { OpenaiService } from './openai.service';
 import { Observable } from 'rxjs';
+import * as jwt from 'jsonwebtoken';
 
 @Controller('openai')
 export class OpenaiController {
@@ -113,6 +114,7 @@ export class OpenaiController {
     @Req() req,
     @Query('token') token,
   ) {
+    
     //add message to thread
     console.log('req', token);
     try {

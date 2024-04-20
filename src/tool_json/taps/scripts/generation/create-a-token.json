@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create an Access Token",
+  "description": "Creates an access token that a third-party service can use to authenticate with Notion",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for creating an access token",
+      "value": "/v1/oauth/token"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Content-Type": {
+          "type": "string",
+          "description": "Content type of the request body"
+        }
+      },
+      "required": ["Authorization", "Content-Type"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "grant_type": {
+          "type": "string",
+          "description": "The grant type for the request, should be 'authorization_code'"
+        },
+        "code": {
+          "type": "string",
+          "description": "The authorization code received from the initial request"
+        },
+        "redirect_uri": {
+          "type": "string",
+          "description": "The redirect URI specified in the initial request, required in most cases"
+        }
+      },
+      "required": ["grant_type", "code"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string",
+          "description": "The access token for authenticating with the Notion API"
+        },
+        "token_type": {
+          "type": "string",
+          "description": "The type of token, e.g. 'bearer'"
+        },
+        "bot_id": {
+          "type": "string",
+          "description": "The ID of the bot user associated with the access token"
+        },
+        "workspace_id": {
+          "type": "string",
+          "description": "The ID of the workspace associated with the access token"
+        },
+        "workspace_name": {
+          "type": "string",
+          "description": "The name of the workspace associated with the access token"
+        },
+        "workspace_icon": {
+          "type": "string",
+          "description": "The URL of the workspace icon associated with the access token"
+        },
+        "workspace_bot_owner": {
+          "type": "object",
+          "description": "Information about the owner of the bot associated with the access token"
+        }
+      },
+      "required": ["access_token", "token_type", "bot_id", "workspace_id", "workspace_name"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "contentType", "body", "response"],
+  "additionalProperties": false
+}

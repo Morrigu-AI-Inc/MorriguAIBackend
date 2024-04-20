@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Query a Database",
+  "description": "Gets a list of Pages and/or Databases contained in the database, filtered and ordered according to the filter conditions and sort criteria provided in the request.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for querying a database",
+      "value": "/v1/databases/{database_id}/query"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Notion-Version": {
+          "type": "string",
+          "description": "Version of the API to use"
+        }
+      },
+      "required": ["Authorization", "Notion-Version"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "filter": {
+          "type": "object",
+          "description": "Filter conditions for the query"
+        },
+        "sorts": {
+          "type": "array",
+          "description": "Sort criteria for the query results"
+        },
+        "start_cursor": {
+          "type": "string",
+          "description": "Cursor for paginating through the results"
+        },
+        "page_size": {
+          "type": "integer",
+          "description": "Maximum number of results to return"
+        }
+      }
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "filter_properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of property IDs to include in the response"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "Type of the response object"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "List of page or database objects matching the query"
+        },
+        "next_cursor": {
+          "type": "string",
+          "description": "Cursor for retrieving the next set of results"
+        },
+        "has_more": {
+          "type": "boolean",
+          "description": "Whether there are more results to retrieve"
+        }
+      },
+      "required": ["object", "results"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "contentType", "response"]
+}

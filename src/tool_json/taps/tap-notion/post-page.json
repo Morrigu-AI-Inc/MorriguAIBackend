@@ -1,0 +1,272 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create a Page",
+  "description": "Creates a new page that is a child of an existing page or database",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for creating a new page",
+      "value": "/v1/pages"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["POST"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Notion-Version": {
+          "type": "string",
+          "description": "Version of the Notion API to use"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Notion-Version"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "parent": {
+          "type": "object",
+          "description": "The parent page or database for the new page",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type of the parent object",
+              "enum": [
+                "page_id",
+                "database_id"
+              ]
+            },
+            "page_id": {
+              "type": "string",
+              "description": "The ID of the parent page"
+            },
+            "database_id": {
+              "type": "string",
+              "description": "The ID of the parent database"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        "properties": {
+          "type": "object",
+          "description": "Properties for the new page",
+          "patternProperties": {
+            "^.*$": {
+              "type": ["string", "object", "array", "number", "boolean", "null"]
+            }
+          }
+        },
+        "children": {
+          "type": "array",
+          "description": "Child content blocks for the new page",
+          "items": {
+            "$ref": "#/definitions/block"
+          }
+        }
+      },
+      "required": [
+        "parent"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "The type of the created object",
+          "enum": [
+            "page"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "description": "The ID of the created page"
+        },
+        "created_time": {
+          "type": "string",
+          "description": "The time the page was created"
+        },
+        "last_edited_time": {
+          "type": "string",
+          "description": "The time the page was last edited"
+        },
+        "cover": {
+          "$ref": "#/definitions/cover"
+        },
+        "icon": {
+          "$ref": "#/definitions/icon"
+        },
+        "parent": {
+          "$ref": "#/definitions/parent"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether the page is archived or not"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Property values of the created page"
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of the created page"
+        }
+      },
+      "required": [
+        "object",
+        "id"
+      ],
+      "definitions": {
+        "block": {
+          "type": "object",
+          "description": "A block object",
+          "properties": {
+            "object": {
+              "type": "string",
+              "enum": [
+                "block"
+              ]
+            },
+            "type": {
+              "type": "string",
+              "description": "The type of the block"
+            }
+          },
+          "required": [
+            "object",
+            "type"
+          ]
+        },
+        "cover": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "external",
+                    "file"
+                  ]
+                },
+                "external": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ]
+                },
+                "file": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "expiry_time": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "url",
+                    "expiry_time"
+                  ]
+                }
+              },
+              "required": [
+                "type"
+              ]
+            }
+          ]
+        },
+        "icon": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "emoji"
+                  ]
+                },
+                "emoji": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "emoji"
+              ]
+            }
+          ]
+        },
+        "parent": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "page_id",
+                "database_id"
+              ]
+            },
+            "page_id": {
+              "type": "string"
+            },
+            "database_id": {
+              "type": "string" 
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "contentType",
+    "body",
+    "response"
+  ],
+  "additionalProperties": false
+}

@@ -153,5 +153,5 @@ async function processHtmlFiles(directory) {
   }
 }
 
-const directoryPath = '../../../../../ai-taps/ai-taps-github/docs';
+const directoryPath = '../../../../../ai-taps/ai-tap-notion/docs';
 processHtmlFiles(directoryPath);

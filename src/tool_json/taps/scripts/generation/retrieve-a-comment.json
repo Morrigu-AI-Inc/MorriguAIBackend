@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retrieve Comments", 
+  "description": "Retrieves a list of un-resolved Comment objects from a page or block.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving comments",
+      "value": "/v1/comments"
+    },
+    "method": {
+      "type": "string", 
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["application/json"],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object", 
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "Object type"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "object": {
+                "type": "string",
+                "description": "Object type"
+              },
+              "id": {
+                "type": "string",
+                "description": "Identifier for the comment"
+              },
+              "parent": {
+                "type": "object",
+                "description": "Reference to the parent page or block"
+              },
+              "discussion_id": {
+                "type": "string",
+                "description": "ID of the discussion thread this comment belongs to"  
+              },
+              "created_time": {
+                "type": "string",
+                "description": "Time when this comment was created"
+              },
+              "last_edited_time": {
+                "type": "string", 
+                "description": "Time when this comment was last edited"
+              },
+              "author": {
+                "type": "object",
+                "description": "Author information for this comment"
+              },
+              "rich_text": {
+                "type": "array",
+                "description": "The inline content of the comment"
+              }
+            },
+            "required": ["object", "id", "parent", "created_time", "rich_text"]
+          }
+        },
+        "next_cursor": {
+          "type": ["string", "null"],
+          "description": "The cursor to use to retrieve the next page of results, if any remaining"  
+        }
+      },
+      "required": ["object", "results"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

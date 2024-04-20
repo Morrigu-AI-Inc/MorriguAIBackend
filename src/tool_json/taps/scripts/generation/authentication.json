@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Notion API Authentication",
+  "description": "Authentication for the Notion API using bearer tokens",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for authentication",
+      "value": "/v1/users"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Notion-Version": {
+          "type": "string",
+          "description": "Notion API version"
+        }
+      },
+      "required": ["Authorization", "Notion-Version"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No content type required for authentication"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "Type of the authentication response"
+        },
+        "user": {
+          "type": "object",
+          "description": "User object associated with the bearer token"
+        }
+      },
+      "required": ["object", "user"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

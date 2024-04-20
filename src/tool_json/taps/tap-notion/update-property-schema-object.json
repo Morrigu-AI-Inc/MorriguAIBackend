@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Update Database Properties",
+  "description": "Update the properties of a Notion database",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for updating database properties",
+      "value": "/v1/databases/{database_id}/properties"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["PATCH"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Notion-Version": {
+          "type": "string",
+          "description": "Version of the API to use"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Notion-Version"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "description": "Properties to update",
+          "properties": {
+            "propertyId": {
+              "oneOf": [
+                {
+                  "type": "null",
+                  "description": "Set to null to remove the property"
+                },
+                {
+                  "type": "object",
+                  "description": "Property schema object to update the property",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "New name for the property"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "The new type for the property",
+                      "enum": [
+                        "title",
+                        "rich_text",
+                        "number",
+                        "select",
+                        "multi_select", 
+                        "date",
+                        "people",
+                        "files",
+                        "checkbox",
+                        "url",
+                        "email",
+                        "phone_number",
+                        "formula",
+                        "relation",
+                        "rollup",
+                        "created_time",
+                        "created_by", 
+                        "last_edited_time",
+                        "last_edited_by"
+                      ]
+                    },
+                    "select": {
+                      "type": "object",
+                      "description": "Configuration for select property type",
+                      "properties": {
+                        "options": {
+                          "type": "array",
+                          "description": "Array of existing or new select options",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the option"
+                              },
+                              "id": {
+                                "type": "string",
+                                "description": "ID of the existing option"
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "multi_select": {
+                      "type": "object",
+                      "description": "Configuration for multi-select property type", 
+                      "properties": {
+                        "options": {
+                          "type": "array",
+                          "description": "Array of existing or new multi-select options",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the option"
+                              },
+                              "id": {
+                                "type": "string",
+                                "description": "ID of the existing option"  
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]  
+                }
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "Type of object updated"
+        },
+        "id": {
+          "type": "string",
+          "description": "ID of the updated database"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Updated database properties"
+        }
+      },
+      "required": [
+        "object",
+        "id",
+        "properties"  
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "contentType",
+    "body",
+    "response"
+  ],
+  "additionalProperties": false
+}

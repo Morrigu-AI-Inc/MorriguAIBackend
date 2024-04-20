@@ -3,6 +3,7 @@ import OpenAI from 'openai';
 import tools, { frontend_tools } from 'src/tool_json';
 import github_api_integration from 'src/tool_json/backend/github_api_integration';
 import hubspot_api_integration from 'src/tool_json/backend/hubspot_api_integration';
+import notion_api_integration from 'src/tool_json/backend/notion_api_integration';
 import quickbooks_update from 'src/tool_json/backend/quickbooks_update';
 import slack_api_integration from 'src/tool_json/backend/slack_api_integration';
 import { quickbooks_query } from 'src/tool_json/quickbooks_query';
@@ -84,9 +85,10 @@ export class AssistantService {
         Version: 1.0
         Current Date: ${new Date().toDateString()}
         Current Time: ${new Date().toLocaleTimeString()} 
-        Domain Of Expertise: Slack Query Assistant. QuickBooks Query Assistant.
+        Domain Of Expertise: Slack Query Assistant. QuickBooks Query Assistant. Notion Query Assistant.
         Purpose: The purpose of this assistant is to help you with your Slack queries and speed up user productivity and efficiency.
         Purpose: The purpose of this assistant is to help you with your QuickBooks queries and speed up user productivity and efficiency.
+        Purpose: The purpose of this assistant is to help you with your Notion queries and speed up user productivity and efficiency.
 
         Tools:
         1. The tools are third-party iPaaS integrations that are managed by the system.
@@ -108,6 +110,7 @@ export class AssistantService {
         slack_api_integration,
         quickbooks_query,
         quickbooks_update,
+        notion_api_integration,
       ],
     },
     hubspot: {
@@ -119,10 +122,11 @@ export class AssistantService {
         Version: 1.0
         Current Date: ${new Date().toDateString()}
         Current Time: ${new Date().toLocaleTimeString()} 
-        Domain Of Expertise: HubSpot Query Assistant. QuickBooks Query Assistant. Slack Integration Assistant.
+        Domain Of Expertise: HubSpot Query Assistant. QuickBooks Query Assistant. Slack Integration Assistant. Notion Query Assistant.
         Purpose: The purpose of this assistant is to help you with your Slack queries and speed up user productivity and efficiency.
         Purpose: The purpose of this assistant is to help you with your QuickBooks queries and speed up user productivity and efficiency.
         Purpose: The purpose of this assistant is to help you with your HubSpot queries and speed up user productivity and efficiency.
+        Purpose: The purpose of this assistant is to help you with your Notion queries and speed up user productivity and efficiency.
 
         Tools:
         1. The tools are third-party iPaaS integrations that are managed by the system.
@@ -144,6 +148,7 @@ export class AssistantService {
         quickbooks_query,
         quickbooks_update,
         slack_api_integration,
+        notion_api_integration,
       ],
       model: 'gpt-4-turbo-2024-04-09',
     },

@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retrieve a Page Property Item",
+  "description": "Retrieves a property_item object for a given page_id and property_id. Depending on the property type, the object returned will either be a value or a paginated list of property item values.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving a page property item",
+      "value": "/v1/pages/{page_id}/properties/{property_id}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Notion-Version": {
+          "type": "string",
+          "description": "Version of the API to use"
+        }
+      },
+      "required": ["Authorization", "Notion-Version"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "No request body for GET requests"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "page_id": {
+          "type": "string",
+          "description": "ID of the page to retrieve property from"
+        },
+        "property_id": {
+          "type": "string",
+          "description": "ID of the property to retrieve"
+        }
+      },
+      "required": ["page_id", "property_id"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "Object type"
+        },
+        "id": {
+          "type": "string",
+          "description": "Identifier of the property item"  
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the property item"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Property value object or paginated list of property items"
+        },
+        "next_cursor": {
+          "type": "string",
+          "description": "Cursor to use to retrieve next set of results for paginated properties"
+        },
+        "has_more": {
+          "type": "boolean",
+          "description": "Whether there are more paginated results"
+        }
+      },
+      "required": ["object", "id", "type"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

@@ -1,0 +1,146 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Append Block Children",
+  "description": "Creates and appends new children blocks to the parent block specified by block_id. Blocks can be parented by other blocks, pages, or databases.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for appending block children",
+      "value": "/v1/blocks/{block_id}/children"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["PATCH"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Notion-Version": {
+          "type": "string",
+          "description": "Version of the API to use"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Notion-Version"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "children": {
+          "type": "array",
+          "description": "An array of block objects to append as children",
+          "items": {
+            "$ref": "#/definitions/Block"
+          }
+        }
+      },
+      "required": [
+        "children"
+      ]
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {
+        "after": {
+          "type": "string",
+          "description": "The block ID to append the new blocks after"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "The object type of the response"
+        },
+        "results": {
+          "type": "array",
+          "description": "The array of appended block objects",
+          "items": {
+            "$ref": "#/definitions/Block"
+          }
+        },
+        "next_cursor": {
+          "type": "string",
+          "description": "The cursor to use in the next request to retrieve more results, omitted if all results were returned in this response"
+        },
+        "has_more": {
+          "type": "boolean",
+          "description": "Whether there are more results available to retrieve"
+        }
+      },
+      "required": [
+        "object",
+        "results"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method",
+    "headers",
+    "contentType",
+    "body",
+    "response"
+  ],
+  "definitions": {
+    "Block": {
+      "type": "object",
+      "description": "A block object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "The object type of the block"
+        },
+        "id": {
+          "type": "string",
+          "description": "The ID of the block"
+        },
+        "created_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the block was created"
+        },
+        "last_edited_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the block was last edited"
+        },
+        "has_children": {
+          "type": "boolean",
+          "description": "Whether the block has children blocks"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the block"
+        }
+      },
+      "required": [
+        "object",
+        "id",
+        "created_time",
+        "last_edited_time",
+        "has_children",
+        "type"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

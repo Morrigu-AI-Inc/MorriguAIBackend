@@ -6,9 +6,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ExternalSlackMappingSchema } from 'src/db/schemas/ExternalSlackMapping';
 import { ToolOutputSchema } from 'src/db/schemas/ToolOutput';
 import { AssistantService } from 'src/assistant/assistant.service';
+import { OrganizationService } from 'src/organization/organization.service';
+import { OrganizationSchema } from 'src/db/schemas/Organization';
+import { UserSchema } from 'src/db/schemas/User';
 
 @Module({
-  providers: [SlackService, OpenaiService, AssistantService],
+  providers: [
+    SlackService,
+    OpenaiService,
+    AssistantService,
+    OrganizationService,
+  ],
   controllers: [SlackController],
   imports: [
     MongooseModule.forFeature([
@@ -17,6 +25,10 @@ import { AssistantService } from 'src/assistant/assistant.service';
     MongooseModule.forFeature([
       { name: 'ToolOutput', schema: ToolOutputSchema },
     ]),
+    MongooseModule.forFeature([
+      { name: 'Organization', schema: OrganizationSchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
 })
 export class SlackModule {}

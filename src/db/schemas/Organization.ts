@@ -25,6 +25,9 @@ export class Organization {
 
   @Prop({ type: SchemaTypes.Mixed, required: true })
   config: any;
+
+  @Prop({ type: SchemaTypes.Mixed, required: true, default: {} })
+  usage: object;
 }
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization);

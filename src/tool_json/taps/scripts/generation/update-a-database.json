@@ -1,0 +1,111 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Update a Database",
+  "description": "Updates the database object — the title, description, or properties — of a specified database. Returns the updated database object.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for updating a database",
+      "value": "/v1/databases/{database_id}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["PATCH"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        },
+        "Notion-Version": {
+          "type": "string",
+          "description": "The version of the Notion you would like to use for your API request"
+        }
+      },
+      "required": [
+        "Authorization",
+        "Notion-Version"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "description": "An object containing the properties to update for the database"
+        }
+      },
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "The type of object, in this case 'database'"
+        },
+        "id": {
+          "type": "string",
+          "description": "The ID of the database"  
+        },
+        "cover": {
+          "type": "object",
+          "description": "The cover image associated with the database"
+        },
+        "icon": {
+          "type": "object",
+          "description": "The icon associated with the database"
+        },
+        "created_time": {
+          "type": "string",
+          "description": "The creation time of the database"
+        },
+        "last_edited_time": {
+          "type": "string", 
+          "description": "The last time the database was edited"
+        },
+        "title": {
+          "type": ["array", "object"],
+          "description": "The title of the database, which can be an array of rich text objects or a plain string"
+        },
+        "description": {
+          "type": ["array", "string"],
+          "description": "The description of the database, which can be an array of rich text objects or a plain string"
+        },
+        "properties": {
+          "type": "object",
+          "description": "An object containing the properties or columns of the database"
+        }
+      },
+      "required": [
+        "object",
+        "id"
+      ]
+    }
+  },
+  "required": [
+    "endpoint",
+    "method", 
+    "headers",
+    "contentType",
+    "response"
+  ],
+  "additionalProperties": false
+}

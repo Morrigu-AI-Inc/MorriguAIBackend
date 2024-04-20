@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+
 /**
- * Processes an input file to extract and write content to respective file paths.
+ * Reads the input file and processes each section separated by '===end==='.
  * @param {string} inputFile - The path to the input file containing structured content.
  */
 function processInputFile(inputFile) {
@@ -12,27 +13,44 @@ function processInputFile(inputFile) {
       return;
     }
 
-    // Split the data on the end marker and process each section
-    const sections = data.split('===end===');
+    // Split the data on the end marker and process each valid section
+    const sections = data
+      .split('===end===')
+      .filter((section) => section.trim());
 
     sections.forEach((section) => {
-      // Extract the filename
-      const filenameMatch = section.match(/===filename:(.*?)===/s);
-      // Extract the content immediately after the filename declaration to the end of the section
-      const contentStart = section.indexOf('===', 12) + 3; // Start capturing after the filename line
-      const content = section.substring(contentStart).trim();
+      // Match filename and initialize other variables
+      const filenameMatch = section.match(/===filename: (.*?)===/s);
+      if (!filenameMatch) return;
 
-      if (filenameMatch && content) {
-        const filePath = filenameMatch[1].trim();
-        const fullPath = path.resolve(__dirname, filePath); // Resolve full path for file writing
+      const filePath = path.resolve(__dirname, filenameMatch[1].trim());
+      const dir = path.dirname(filePath);
 
-        // Ensure the directory exists
-        fs.mkdirSync(path.dirname(fullPath), { recursive: true });
-
-        // Write the file
-        fs.writeFileSync(fullPath, content, 'utf8');
-        console.log(`File written to ${fullPath}`);
+      // Ensure the directory exists
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
       }
+
+      // Read existing content if file exists
+      let fileContent = fs.existsSync(filePath)
+        ? fs.readFileSync(filePath, 'utf8')
+        : '';
+
+      // Regex to find all search and replace pairs
+      const regexPairs = [
+        ...section.matchAll(/===search: (.*?)===[\r\n]+===replace: (.*?)===/gs),
+      ];
+
+      // Apply all search-replace pairs
+      regexPairs.forEach((matches) => {
+        const searchRegex = new RegExp(matches[1].trim(), 'gs'); // 'g' for global, 's' for dot matches newline
+        const replace = matches[2].trim();
+        fileContent = fileContent.replace(searchRegex, replace);
+      });
+
+      // Write the updated content to the file
+      fs.writeFileSync(filePath, fileContent, 'utf8');
+      console.log(`File updated at ${filePath}`);
     });
   });
 }

@@ -1,0 +1,84 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retrieve a Page",
+  "description": "Retrieves a Page object using the specified ID. Includes page properties but not page content.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint for retrieving a page",
+      "value": "/v1/pages/{page_id}"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET"],
+      "description": "HTTP method used for the request"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string",
+          "description": "Bearer token for authentication"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [],
+      "description": "Content type of the request body"
+    },
+    "body": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "queryParameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "type": "string",
+          "description": "Type of object returned"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the page"
+        },
+        "created_time": {
+          "type": "string",
+          "description": "Date and time when this page was created"
+        },
+        "last_edited_time": {
+          "type": "string",
+          "description": "Date and time when this page was last edited"
+        },
+        "parent": {
+          "type": "object",
+          "description": "Information about the parent of this page"
+        },
+        "archived": {
+          "type": "boolean",
+          "description": "Whether the page is archived"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Properties of the retrieved page"
+        },
+        "url": {
+          "type": "string",
+          "description": "URL of the retrieved page"
+        }
+      },
+      "required": ["object", "id", "created_time", "last_edited_time", "parent", "archived", "properties"]
+    }
+  },
+  "required": ["endpoint", "method", "headers", "response"],
+  "additionalProperties": false
+}

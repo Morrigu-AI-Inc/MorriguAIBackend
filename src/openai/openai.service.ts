@@ -7,7 +7,9 @@ import { AssistantStream } from 'openai/lib/AssistantStream';
 import { Observable, Subscriber } from 'rxjs';
 import { AssistantService } from 'src/assistant/assistant.service';
 import { ToolOutputDocument } from 'src/db/schemas/ToolOutput';
+import { OrganizationService } from 'src/organization/organization.service';
 import tools, { frontend_tools } from 'src/tool_json';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class OpenaiService {
@@ -21,6 +23,7 @@ export class OpenaiService {
     @InjectModel('ToolOutput')
     private toolOutputModel: Model<ToolOutputDocument>,
     private readonly assistantService: AssistantService,
+    private readonly organizationService: OrganizationService,
   ) {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
@@ -372,7 +375,9 @@ export class OpenaiService {
           assistant_id: process.env.DEFAULT_ASSISTANT,
         })
         .on('messageCreated', this.handleMessage)
-        .on('runStepDone', this.handleRunStepDone)
+        .on('runStepDone', (runStep, snapshot) =>
+          this.handleRunStepDone(runStep, snapshot, token, null),
+        )
         .on('textCreated', this.handleTextCreated)
         .on('textDelta', this.handleTextDelta)
         .on('runStepCreated', this.handleRunStepCreated)
@@ -445,9 +450,85 @@ export class OpenaiService {
 
   public handleRunStepCreated = async (runStep: any) => {};
 
-  public handleRunStepDone = async (runStep: any) => {};
+  public handleRunStepDone = async (
+    runStep: any,
+    snapshot,
+    token,
+    observer,
+  ) => {
+    console.log('snapshot', snapshot);
+    const { providerAccountId } = jwt.decode(token) as any;
+    console.log('providerAccountId', providerAccountId);
+    const org =
+      await this.organizationService.getOrganizationByUserId(providerAccountId);
 
-  public handleEventv2 = async (event: any, token: string) => {
+    org.usage = {
+      prompt_tokens:
+        ((
+          org.usage as {
+            prompt_tokens: number;
+            completion_tokens: number;
+            total_tokens: number;
+          }
+        ).prompt_tokens
+          ? (org.usage as { prompt_tokens: number }).prompt_tokens
+          : 0) + snapshot.usage.prompt_tokens,
+      completion_tokens:
+        ((
+          org.usage as {
+            prompt_tokens: number;
+            completion_tokens: number;
+            total_tokens: number;
+          }
+        ).completion_tokens
+          ? (org.usage as { completion_tokens: number }).completion_tokens
+          : 0) + snapshot.usage.completion_tokens,
+      total_tokens:
+        ((
+          org.usage as {
+            prompt_tokens: number;
+            completion_tokens: number;
+            total_tokens: number;
+          }
+        ).total_tokens
+          ? (org.usage as { total_tokens: number }).total_tokens
+          : 0) + snapshot.usage.total_tokens,
+      request_time: snapshot.completed_at - snapshot.created_at,
+    };
+
+    const newOrg = await this.organizationService.updateOrganization(
+      org.id,
+      org,
+    );
+
+    console.log('newOrg', newOrg);
+
+    //     snapshot {
+    //   id: 'step_6oXjKsTV8HDWU1dR9yvnxeZq',
+    //   object: 'thread.run.step',
+    //   created_at: 1713597831,
+    //   run_id: 'run_BrQLZsofAv5hfkbEogF8msDm',
+    //   assistant_id: 'asst_ojoowqxQVjCoBvhxYwMNQFgq',
+    //   thread_id: 'thread_TlGtHq6yQgZnXJMotCYHB0vR',
+    //   type: 'message_creation',
+    //   status: 'completed',
+    //   cancelled_at: null,
+    //   completed_at: 1713597832,
+    //   expires_at: 1713598421,
+    //   failed_at: null,
+    //   last_error: null,
+    //   step_details: {
+    //     type: 'message_creation',
+    //     message_creation: { message_id: 'msg_Fc9irUDKsXXGHiLjOTvfhGmf' }
+    //   },
+    //   usage: { prompt_tokens: 15387, completion_tokens: 28, total_tokens: 15415 }
+    // }
+
+    // console.log('metrics', metrics);
+    // this.organizationService.updateMetrics(metrics);
+  };
+
+  public handleEventv2 = async (event: any, token: string, observer) => {
     console.log('event', event.event);
     if (event.event === 'thread.run.completed') {
       this.observer?.next({
@@ -502,7 +583,7 @@ export class OpenaiService {
             .on('connect', this.handleConnect)
             .on('end', this.handleEnd)
             .on('error', this.handleError)
-            .on('event', (event) => this.handleEventv2(event, token))
+            .on('event', (event) => this.handleEventv2(event, token, observer))
             .on('imageFileDone', this.handleImageFileDone)
             .on('messageCreated', this.handleMessage)
             .on('messageDelta', this.handleMessageDelta)
@@ -510,7 +591,9 @@ export class OpenaiService {
             .on('run', this.handleRun)
             .on('runStepCreated', this.handleRunStepCreated)
             .on('runStepDelta', this.handleRunStepDelta)
-            .on('runStepDone', this.handleRunStepDone)
+            .on('runStepDone', (runStep, snapshot) =>
+              this.handleRunStepDone(runStep, snapshot, token, observer),
+            )
             .on('textCreated', this.handleTextCreated)
             .on('textDelta', this.handleTextDelta)
             .on('textDone', this.handleTextDone)
@@ -634,7 +717,7 @@ export class OpenaiService {
             .on('connect', this.handleConnect)
             .on('end', this.handleEnd)
             .on('error', this.handleError)
-            .on('event', (event) => this.handleEventv2(event, token))
+            .on('event', (event) => this.handleEventv2(event, token, observer))
             .on('imageFileDone', this.handleImageFileDone)
             .on('messageCreated', this.handleMessage)
             .on('messageDelta', this.handleMessageDelta)
@@ -642,7 +725,9 @@ export class OpenaiService {
             .on('run', this.handleRun)
             .on('runStepCreated', this.handleRunStepCreated)
             .on('runStepDelta', this.handleRunStepDelta)
-            .on('runStepDone', this.handleRunStepDone)
+            .on('runStepDone', (runStep, snapshot) =>
+              this.handleRunStepDone(runStep, snapshot, token, observer),
+            )
             .on('textCreated', this.handleTextCreated)
             .on('textDelta', this.handleTextDelta)
             .on('textDone', this.handleTextDone)

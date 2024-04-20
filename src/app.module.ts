@@ -68,6 +68,9 @@ import { SlackModule } from './slack/slack.module';
 import { ExternalSlackMappingSchema } from './db/schemas/ExternalSlackMapping';
 import { ToolOutputSchema } from './db/schemas/ToolOutput';
 import { AssistantModule } from './assistant/assistant.module';
+import { OrganizationSchema } from './db/schemas/Organization';
+import { OrganizationService } from './organization/organization.service';
+import { UserSchema } from './db/schemas/User';
 
 @Module({
   imports: [
@@ -93,6 +96,10 @@ import { AssistantModule } from './assistant/assistant.module';
     MongooseModule.forFeature([
       { name: 'ToolOutput', schema: ToolOutputSchema },
     ]),
+    MongooseModule.forFeature([
+      { name: 'Organization', schema: OrganizationSchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     MessagesModule,
     HttpModule,
 
@@ -184,6 +191,7 @@ import { AssistantModule } from './assistant/assistant.module';
     ListingService,
     MediaService,
     AnthropicService,
+    OrganizationService,
   ],
 })
 export class AppModule {}

@@ -135,6 +135,147 @@ export default function Document() {
   );
 }
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/assistants/index.tsx===
+import { Button, Grid, Stack, Typography } from '@mui/material';
+import Page from 'components/Page';
+import Layout from 'layout';
+import { ReactElement, useState } from 'react';
+import BasicTable from 'sections/tables/react-table/BasicTable';
+import MainCard from 'components/MainCard';
+import CreateAssistantDialog from 'components/administration/assistants/CreateAssistantDialog';
+
+type Assistant = {
+  id: number;
+  name: string;
+  description: string;
+  status: 'active' | 'inactive' | 'draft';
+  createdAt: string;
+  updatedAt: string;
+  lastActiveAt: string;
+  tools: {
+    integrations: ReactElement;
+    analytics: ReactElement;
+    logs: ReactElement;
+    billing: ReactElement;
+    settings: ReactElement;
+    documentation: ReactElement;
+    content: ReactElement;
+  };
+  schema: ReactElement;
+};
+
+const Assistants = () => {
+  const [open, setOpen] = useState(false);
+  const [assistants, setAssistants] = useState<Assistant[]>([]);
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
+  const handleCreateAssistant = (assistant: Assistant) => {
+    setAssistants([...assistants, assistant]);
+    handleCloseDialog();
+  };
+
+  const columns = [
+    {
+      Header: 'Name',
+      accessor: 'name'
+    },
+    {
+      Header: 'Description',
+      accessor: 'description'
+    },
+    {
+      Header: 'Status',
+      accessor: 'status',
+      Cell: ({ value }: { value: 'active' | 'inactive' | 'draft' }) => {
+        return (
+          <Typography
+            color={
+              value === 'active'
+                ? 'success.main'
+                : value === 'inactive'
+                ? 'error.main'
+                : 'warning.main'
+            }
+          >
+            {value}
+          </Typography>
+        );
+      }
+    },
+    {
+      Header: 'Created At',
+      accessor: 'createdAt'
+    },
+    {
+      Header: 'Updated At',
+      accessor: 'updatedAt'
+    },
+    {
+      Header: 'Last Active At',
+      accessor: 'lastActiveAt'
+    },
+    {
+      Header: 'Tools',
+      accessor: 'tools',
+      Cell: ({ value }: { value: typeof Assistant.prototype.tools }) => {
+        return (
+          <Stack direction="row" spacing={1}>
+            {value.integrations}
+            {value.analytics}
+            {value.logs}
+            {value.billing}
+            {value.settings}
+            {value.documentation}
+            {value.content}
+          </Stack>
+        );
+      }
+    },
+    {
+      Header: 'Schema',
+      accessor: 'schema'
+    }
+  ];
+
+  return (
+    <Page title="Assistants">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h4">Assistants</Typography>
+            <Button variant="contained" onClick={handleOpenDialog}>
+              Create Assistant
+            </Button>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <MainCard>
+            <BasicTable columns={columns} data={assistants} />
+          </MainCard>
+        </Grid>
+      </Grid>
+      <CreateAssistantDialog
+        open={open}
+        onClose={handleCloseDialog}
+        onCreateAssistant={handleCreateAssistant}
+      />
+    </Page>
+  );
+};
+
+Assistants.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default Assistants;
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/integrations/index.tsx===
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import Page from 'components/Page';
@@ -297,7 +438,6 @@ Integrations.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default Integrations;
-
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/profile/account/[tab].tsx===
 import { useState, ReactElement } from 'react';
@@ -345,9 +485,9 @@ const AccountProfile = () => {
           </Tabs>
         </Box>
         <Box sx={{ mt: 2.5 }}>
-          {tab === 'basic' && <TabProfile />}
-          {tab === 'personal' && <TabPersonal />}
-          {tab === 'my-account' && <TabAccount />}
+          {/* {tab === 'basic' && <TabProfile />} */}
+          {/* {tab === 'personal' && <TabPersonal />} */}
+          {tab === 'general' && <TabAccount />}
           {tab === 'password' && <TabPassword />}
           {tab === 'role' && <TabRole />}
           {tab === 'settings' && <TabSettings />}
@@ -404,7 +544,7 @@ const UserProfile = () => {
           <ProfileTabs focusInput={focusInput} />
         </Grid>
         <Grid item xs={12} md={9}>
-          {tab === 'personal' && <TabPersonal />}
+          {tab === 'general' && <TabPersonal />}
           {tab === 'payment' && <TabPayment />}
           {tab === 'password' && <TabPassword />}
           {tab === 'settings' && <TabSettings />}
@@ -419,150 +559,60 @@ UserProfile.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default UserProfile;
-
 ===end===
-===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/settings/[setting].tsx===
-import { ReactElement } from 'react';
-import { useRouter } from 'next/router';
-
-// layout
-import Layout from 'layout';
-
-// components
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/users/index.tsx===
+import React, { ReactElement, useState } from 'react';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import Page from 'components/Page';
-import GeneralSettings from 'sections/administration/settings/GeneralSettings';
-import BillingSettings from 'sections/administration/settings/BillingSettings';
-import SecuritySettings from 'sections/administration/settings/SecuritySettings';
-import RolesSettings from 'sections/administration/settings/RolesSettings';
-import UsersSettings from 'sections/administration/settings/UsersSettings';
-
-const SettingsPage = () => {
-  const router = useRouter();
-  const { setting } = router.query;
-
-  const renderSettingsComponent = () => {
-    switch (setting) {
-      case 'general':
-        return <GeneralSettings />;
-      case 'billing':
-        return <BillingSettings />;
-      case 'security':
-        return <SecuritySettings />;
-      case 'roles':
-        return <RolesSettings />;
-      case 'users':
-        return <UsersSettings />;
-      default:
-        return <GeneralSettings />;
-    }
-  };
-
-  return <Page title={`${setting?.charAt(0).toUpperCase()}${setting?.slice(1)} Settings`}>{renderSettingsComponent()}</Page>;
-};
-
-SettingsPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-
-export default SettingsPage;
-
-===end===
-===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/settings/billing/index.tsx===
-import { ReactElement, useState } from 'react';
-import { Typography, Button, Grid, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Layout from 'layout';
-import Page from 'components/Page';
 import MainCard from 'components/MainCard';
+import UserTable from 'components/administration/users/UserTable';
+import CreateUserDialog from 'components/administration/users/CreateUserDialog';
 
-// Billing Settings Page
-const BillingSettings = () => {
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [plan, setPlan] = useState('');
-  // const [updateBilling] = useUpdateBillingMutation();
+const Users = () => {
+  const [open, setOpen] = useState(false);
+  const [users, setUsers] = useState([]);
 
-  const handlePaymentMethodChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setPaymentMethod(event.target.value as string);
+  const handleOpenDialog = () => {
+    setOpen(true);
   };
 
-  const handlePlanChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setPlan(event.target.value as string);
+  const handleCloseDialog = () => {
+    setOpen(false);
   };
 
-  const handleUpdatePaymentMethod = async () => {
-    try {
-      // await updateBilling({
-      //   paymentMethod
-      //   // Include any other required fields
-      // }).unwrap();
-      // Handle successful update
-      console.log('Payment method updated');
-    } catch (error) {
-      // Handle error
-      console.error('Failed to update payment method', error);
-    }
-  };
-
-  const handleChangePlan = async () => {
-    try {
-      // await updateBilling({
-      //   plan
-      //   // Include any other required fields
-      // }).unwrap();
-      // Handle successful plan change
-      console.log('Plan changed');
-    } catch (error) {
-      // Handle error
-      console.error('Failed to change plan', error);
-    }
+  const handleCreateUser = (user) => {
+    setUsers([...users, user]);
+    handleCloseDialog();
   };
 
   return (
-    <Page title="Billing Settings">
-      <MainCard title="Billing Information">
-        <Typography variant="body1">Manage your billing details, payment methods, and subscription plans.</Typography>
-        <Grid container spacing={2} mt={2}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="payment-method-label">Payment Method</InputLabel>
-              <Select labelId="payment-method-label" id="payment-method" value={paymentMethod} onChange={handlePaymentMethodChange}>
-                <MenuItem value="creditCard">Credit Card</MenuItem>
-                <MenuItem value="paypal">PayPal</MenuItem>
-                <MenuItem value="bankTransfer">Bank Transfer</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="plan-label">Plan</InputLabel>
-              <Select labelId="plan-label" id="plan" value={plan} onChange={handlePlanChange}>
-                <MenuItem value="basic">Basic</MenuItem>
-                <MenuItem value="pro">Pro</MenuItem>
-                <MenuItem value="enterprise">Enterprise</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item>
-            <Button variant="contained" color="primary" onClick={handleUpdatePaymentMethod}>
-              Update Payment Method
+    <Page title="Users">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h4">Users</Typography>
+            <Button variant="contained" onClick={handleOpenDialog}>
+              Create User
             </Button>
-          </Grid>
-          <Grid item>
-            <Button variant="outlined" onClick={handleChangePlan}>
-              Change Plan
-            </Button>
-          </Grid>
+          </Stack>
         </Grid>
-      </MainCard>
+        <Grid item xs={12}>
+          <MainCard>
+            <UserTable users={users} />
+          </MainCard>
+        </Grid>
+      </Grid>
+      <CreateUserDialog open={open} onClose={handleCloseDialog} onCreateUser={handleCreateUser} />
     </Page>
   );
 };
 
-BillingSettings.getLayout = function getLayout(page: ReactElement) {
+Users.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default BillingSettings;
-
+export default Users;
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/auth/[...nextauth].ts===
 // next
@@ -3994,9 +4044,10 @@ import React from 'react';
 interface CueCardProps {
   text: string;
   text2: string;
+  integration_icon?: React.ReactElement;
 }
 
-const CueCard = ({ text, text2 }: CueCardProps) => {
+const CueCard = ({ text, text2, integration_icon }: CueCardProps) => {
   return (
     <MainCard
       sx={{
@@ -4005,7 +4056,12 @@ const CueCard = ({ text, text2 }: CueCardProps) => {
       }}
     >
       <Stack>
-        <Typography variant="subtitle1">{text}</Typography>
+        <Typography variant="subtitle1">
+          <Stack direction={'row'} gap={1}>
+            {integration_icon}
+            {text}
+          </Stack>
+        </Typography>
         <Divider
           sx={{
             marginY: 1
@@ -4025,6 +4081,7 @@ import React from 'react';
 
 import CueCard from './CueCard';
 import { Grid, Stack } from '@mui/material';
+import SimpleIconsQuickbooks from 'components/icons/Quickbooks';
 
 type CueCardSectionProps = {
   onClick?: () => void;
@@ -4038,6 +4095,7 @@ const CueCardSection = () => {
           <CueCard
             text={'List all overdue invoices as of today.'}
             text2={'Prompt to retrieve and display the total revenue recorded in QuickBooks for the current month.'}
+            integration_icon={<SimpleIconsQuickbooks width={'25px'} height={'25px'} />}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={4} paddingX={2}>
@@ -4091,20 +4149,42 @@ const CreateHistoryItem: React.FC = () => {
   const [createHistory] = useCreateHistoryMutation();
 
   useEffect(() => {
-    router.push(`/chat/thread`);
+    const init = async () => {
+      const newThread = await fetch(`${process.env.NEXT_PUBLIC_MORRIGU_BACKEND_API_URL}/api/openai/assistant/thread`, {
+        method: 'GET'
+      });
+
+      const thread_json = await newThread.json();
+
+      router.push(`/chat/thread/${thread_json.id}`);
+    };
+    init();
   }, [router.query.historyId, createHistory, router]);
 
   return <></>;
 };
 
 export default CreateHistoryItem;
-
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/chat/thread/[threadId].tsx===
 import { ReactElement, useEffect, useRef, useState } from 'react';
 
 // material-ui
-import { Stack, TextField, Grid, FormControl, IconButton, Badge, Avatar, Card, Typography, Divider } from '@mui/material';
+import {
+  Stack,
+  TextField,
+  Grid,
+  FormControl,
+  IconButton,
+  Badge,
+  Avatar,
+  Typography,
+  Popper,
+  Popover,
+  Menu,
+  MenuItem,
+  List
+} from '@mui/material';
 
 // project imports
 import Layout from 'layout';
@@ -4113,16 +4193,14 @@ import MainCard from 'components/MainCard';
 
 import Markdown from 'react-markdown';
 import { useFormik } from 'formik';
-import { PhotoOutlined, SendOutlined } from '@mui/icons-material';
+import { AlternateEmail, EmailOutlined, PhotoOutlined, SendOutlined, SupportAgent, Tag } from '@mui/icons-material';
 import { PaperClipOutlined } from '@ant-design/icons';
 import Dropzone from 'components/Dropzone';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import CueCard from '../CueCard';
-import CueCardSection from '../CueCardSection';
-import ApexBarChart from 'sections/charts/apexchart/ApexBarChart';
+
 import ChatVizMessage, { ChartVizMessageDataType } from '../ChatVizMessage';
-import { type } from '../../../data/supported-models';
+import CueCardSection from '../CueCardSection';
 import ChatStatusIndicator from '../ChatStatusIndicator';
 
 type ThreadMessage = {
@@ -4157,23 +4235,18 @@ const RunPage = () => {
   const [processedFiles, setProcessedFiles] = useState<unknown[]>([]);
   const [messages, setMessages] = useState<ThreadMessage[]>([]);
   const [actionRequired, setActionRequired] = useState<Record<string, unknown>>({});
-  const [chartData, setChartData] = useState<{
-    type: string;
-    title: string;
-    caption: string;
-    message: string;
-    series: { name: string; data: number[] }[];
-    width: string | number;
-  }>();
+  const [chartData, setChartData] = useState<ChartVizMessageDataType | undefined>(undefined);
   const [status, setStatus] = useState<string>('loading');
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
+  const [anchorEl3, setAnchorEl3] = useState<HTMLElement | null>(null);
+
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_MORRIGU_BACKEND_API_URL}/api/openai/assistant/thread/${threadId}/required_actions`)
       .then(async (res) => {
         const data = await res.json();
 
-        if (data.status == 'requires_action') {
-          // setActionRequired(data.body);
-
+        if (data.status === 'requires_action') {
           const func = data.required_action?.submit_tool_outputs?.tool_calls[0].function;
           const name = func.name;
           const args = JSON.parse(func.arguments);
@@ -4208,7 +4281,7 @@ const RunPage = () => {
     initialValues: {
       message: ''
     },
-    onSubmit: (values) => {
+    onSubmit: () => {
       // handleSend(values);
     }
   });
@@ -4224,7 +4297,6 @@ const RunPage = () => {
         if (message.metadata) {
           if (message.metadata?.tool_outputs?.[0]?.output) {
             const metadata = message.metadata;
-            // console.log('metadata', metadata?.tool_outputs?.[0]);
             const output = JSON.parse(metadata?.tool_outputs?.[0]?.output);
             metadata.tool_outputs[0].output = output;
 
@@ -4251,7 +4323,6 @@ const RunPage = () => {
       if (message.metadata) {
         if (message.metadata?.tool_outputs?.[0]?.output) {
           const metadata = message.metadata;
-          // console.log('metadata', metadata?.tool_outputs?.[0]);
           const output = JSON.parse(metadata?.tool_outputs?.[0]?.output);
           metadata.tool_outputs[0].output = output;
 
@@ -4282,7 +4353,7 @@ const RunPage = () => {
       .then(() => {
         handleUpdateMessages();
       })
-      .then(async (res) => {
+      .then(async () => {
         formik.resetForm();
         const tokenResp = await fetch('/api/jwt');
         const { token } = await tokenResp.json();
@@ -4291,7 +4362,7 @@ const RunPage = () => {
           `${process.env.NEXT_PUBLIC_MORRIGU_BACKEND_API_URL}/api/openai/assistant/thread/${threadId}?token=${token}`
         );
 
-        es.addEventListener('closeStream', (event) => {
+        es.addEventListener('closeStream', () => {
           es.close();
         });
 
@@ -4304,13 +4375,13 @@ const RunPage = () => {
           setStatus(JSON.parse(event.data).status);
         });
 
-        es.addEventListener('refresh', (event) => {
+        es.addEventListener('refresh', () => {
           handleUpdateMessages();
           setResponse('');
           setChartData(undefined);
         });
 
-        es.addEventListener('streamEnd', (event) => {
+        es.addEventListener('streamEnd', () => {
           handleUpdateMessages();
         });
 
@@ -4348,7 +4419,6 @@ const RunPage = () => {
             gap={2}
             sx={{
               overflowY: 'auto',
-
               minHeight: 'calc(100vh - 245px)',
               maxHeight: 'calc(100vh - 245px)',
               paddingX: 0
@@ -4356,7 +4426,6 @@ const RunPage = () => {
             ref={scrollRef}
           >
             {messages.map((m, i) => {
-              // if (m.role === 'assistant') return;
               return (
                 <Stack
                   key={i}
@@ -4366,13 +4435,7 @@ const RunPage = () => {
                   }}
                   justifyContent={m.role === 'assistant' ? 'flex-start' : 'flex-end'}
                 >
-                  {(
-                    m?.metadata?.tool_outputs as {
-                      id: string;
-                      type: 'function';
-                      function: { name: string; arguments: ChartVizMessageDataType };
-                    }[]
-                  )
+                  {m?.metadata?.tool_outputs
                     ?.filter((toolOutput) => {
                       return toolOutput.function.arguments ? true : false;
                     })
@@ -4396,9 +4459,7 @@ const RunPage = () => {
                       <MainCard
                         sx={{
                           backgroundColor: m.role === 'assistant' ? '#F5F5F5' : 'primary.main',
-                          color: m.role === 'assistant' ? 'black' : 'white',
-                          padding: 0
-                          // borderRadius: 1
+                          color: m.role === 'assistant' ? 'black' : 'white'
                         }}
                       >
                         <Markdown>{m.content[0]?.text.value}</Markdown>
@@ -4410,7 +4471,6 @@ const RunPage = () => {
                       )}
                     </Stack>
                   )}
-                  {/* {m.metadata ? JSON.stringify(m.metadata.tool_outputs) : ''} */}
                 </Stack>
               );
             })}
@@ -4432,16 +4492,12 @@ const RunPage = () => {
               </Stack>
             )}
 
-            {
-              // show cue card section only if the thread is new
-              messages.length === 0 && <CueCardSection />
-            }
-            {/* <CueCardSection /> */}
-            {status != 'finished' && (
+            {messages.length === 0 && <CueCardSection />}
+
+            {status !== 'finished' && (
               <Stack direction={'row'} gap={1} justifyContent={'flex-start'} alignItems={'flex-end'} maxWidth={'80%'} marginY={2}>
-                {/* <Avatar sx={{ color: 'white' }} src={'/assets/images/icons/LogoIcon.svg'} /> */}
-                {status != 'finished' && <ChatStatusIndicator status={status as any} />}
-                {status != 'finished' && <Typography>{status}</Typography>}
+                {status !== 'finished' && <ChatStatusIndicator status={status as any} />}
+                {status !== 'finished' && <Typography>{status}</Typography>}
               </Stack>
             )}
           </Grid>
@@ -4457,6 +4513,7 @@ const RunPage = () => {
                       value={formik.values.message}
                       onChange={formik.handleChange}
                       error={formik.touched.message && Boolean(formik.errors.message)}
+                      placeholder='How can I help you? Type "/" for assistant commands. Type "@" to mention someone. Type "#" to tag a message.'
                       helperText={formik.touched.message && formik.errors.message}
                       maxRows={15}
                       multiline
@@ -4495,16 +4552,97 @@ const RunPage = () => {
                                   </Stack>
                                 )}
                               </Stack>
-                              <Dropzone onDrop={(files) => setFiles(files)}>
-                                <Stack direction={'row'}>
-                                  <IconButton>
-                                    <PaperClipOutlined />
-                                  </IconButton>
-                                  <IconButton>
-                                    <PhotoOutlined />
-                                  </IconButton>
-                                </Stack>
-                              </Dropzone>
+
+                              <Stack direction={'row'}>
+                                <Dropzone onDrop={(files) => setFiles(files)}>
+                                  <Stack direction={'row'}>
+                                    <IconButton>
+                                      <PaperClipOutlined />
+                                    </IconButton>
+                                  </Stack>
+                                </Dropzone>
+                                <IconButton
+                                  onClick={(event) => {
+                                    setAnchorEl3(event.currentTarget);
+                                  }}
+                                >
+                                  <SupportAgent />
+                                </IconButton>
+                                <Popover open={Boolean(anchorEl3)} anchorEl={anchorEl3} onClose={() => setAnchorEl3(null)}>
+                                  <Stack>
+                                    <List>
+                                      {[
+                                        'QuickBooks Assistant',
+                                        'Salesforce Assistant',
+                                        'Zendesk Assistant',
+                                        'Google Analytics Assistant',
+                                        'Google Ads Assistant',
+                                        'Facebook Ads Assistant',
+                                        'HubSpot Assistant',
+                                        'Slack Assistant'
+                                      ].map((email) => (
+                                        <MenuItem key={`email-${email}`}>
+                                          <SupportAgent
+                                            sx={{
+                                              width: '20px',
+                                              paddingRight: '5px'
+                                            }}
+                                          />
+                                          {'  '}
+                                          {email}
+                                        </MenuItem>
+                                      ))}
+                                    </List>
+                                  </Stack>
+                                </Popover>
+
+                                <IconButton
+                                  onClick={(event) => {
+                                    setAnchorEl2(event.currentTarget);
+                                  }}
+                                >
+                                  <AlternateEmail />
+                                </IconButton>
+                                <Popover open={Boolean(anchorEl2)} anchorEl={anchorEl2} onClose={() => setAnchorEl2(null)}>
+                                  <Stack>
+                                    <List>
+                                      {[1, 2, 3, 4, 5, 6].map((email) => (
+                                        <MenuItem key={`email-${email}`}>
+                                          <AlternateEmail
+                                            sx={{
+                                              width: '13px'
+                                            }}
+                                          />{' '}
+                                          Email {email}
+                                        </MenuItem>
+                                      ))}
+                                    </List>
+                                  </Stack>
+                                </Popover>
+                                <IconButton
+                                  onClick={(event) => {
+                                    setAnchorEl(event.currentTarget);
+                                  }}
+                                >
+                                  <Tag />
+                                </IconButton>
+                                <Popover open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
+                                  <Stack>
+                                    <List>
+                                      {[1, 2, 3, 4, 5, 6].map((tag) => (
+                                        <MenuItem key={`tag-${tag}`}>
+                                          <Tag
+                                            sx={{
+                                              width: '13px'
+                                            }}
+                                          />{' '}
+                                          Tag {tag}
+                                        </MenuItem>
+                                      ))}
+                                    </List>
+                                  </Stack>
+                                </Popover>
+                              </Stack>
                             </Stack>
                           </Stack>
                         )
@@ -4526,7 +4664,6 @@ RunPage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default RunPage;
-
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/chat/thread/index.tsx===
 import { Types } from 'mongoose';
@@ -4860,6 +4997,12 @@ DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default DashboardAnalytics;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/database/index.tsx===
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/index.tsx===
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/forgot-password.tsx===
@@ -6704,6 +6847,36 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/integration/index.tsx===
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/inventory/index.tsx===
+import { ReactElement } from 'react';
+
+// material-ui
+import { Typography } from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+
+// ==============================|| INVENTORY DASHBOARD ||============================== //
+
+const InventoryDashboard = () => (
+  <Page title="Inventory Dashboard">
+    <MainCard title="Inventory Dashboard">
+      <Typography variant="body2">Inventory Dashboard content goes here.</Typography>
+    </MainCard>
+  </Page>
+);
+
+InventoryDashboard.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default InventoryDashboard;
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/login.tsx===
 import { ReactElement } from 'react';
 
@@ -7053,6 +7226,33 @@ UnderConstruction.getLayout = function getLayout(page: ReactElement) {
 export default UnderConstruction;
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/marketing/index.tsx===
+import { ReactElement } from 'react';
+
+// material-ui
+import { Typography } from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+
+// ==============================|| MARKETING DASHBOARD ||============================== //
+
+const MarketingDashboard = () => (
+  <Page title="Marketing Dashboard">
+    <MainCard title="Marketing Dashboard">
+      <Typography variant="body2">Marketing Dashboard content goes here.</Typography>
+    </MainCard>
+  </Page>
+);
+
+MarketingDashboard.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default MarketingDashboard;
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/pricing.tsx===
 import { useState, Fragment, ReactElement } from 'react';
 
@@ -7095,7 +7295,7 @@ const plans = [
 
     price: -1,
     //help me decide which permission to show are appropriate for this plan
-    permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
   }
 ];
 
@@ -7107,15 +7307,15 @@ const planList = [
   'Unlimited Messages', // 3
   'Unlimited Storage', // 4
   'Unlimited Data', // 5
-  '180+ Integrations', // 1
-  'Unlimited Users', // 2
-  'Email Support', // 3
-  'Slack Integration', // 4
-  'Data Warehouse', // 5
-  'SSO via SAML', // 6
-  'API Access', // 7
-  'AI Tooling RESTful endpoints', // 8
-  'On-Premise LLM' // 9
+  '180+ Integrations', // 6
+  'Unlimited Users', // 7
+  'Email Support', // 8
+  'Slack Integration', // 9
+  'Data Warehouse', // 10
+  'SSO via SAML', // 11
+  'API Access', // 12
+  'AI Tooling RESTful endpoints', // 13
+  'On-Premise LLM' // 14
 ];
 
 const Pricing = () => {
@@ -7206,7 +7406,6 @@ Pricing.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default Pricing;
-
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/register.tsx===
 import { ReactElement } from 'react';
@@ -7264,6 +7463,123 @@ Register.getLayout = function getLayout(page: ReactElement) {
 export default Register;
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/sales/index.tsx===
+import React, { ReactElement } from 'react';
+
+// material-ui
+import { Grid, Typography, Button, Card, CardContent, CardActions } from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+
+// ==============================|| SALES DASHBOARD ||============================== //
+
+const SalesAndMarketingDashboard = () => {
+  return (
+    <Page title="Sales and Marketing Dashboard">
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                Customer Segmentation
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                AI algorithms can analyze customer data to segment customers more effectively according to behavior, preferences, and
+                demographics.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                Predictive Analytics
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Predict future buying behaviors based on past purchase history and browsing data, allowing for more targeted marketing and
+                sales strategies.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                Lead Scoring
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                AI can rank prospects according to their likelihood of converting, enabling sales teams to prioritize their efforts more
+                effectively.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                Churn Prediction
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Identify customers who are likely to churn, allowing businesses to proactively engage them with retention strategies.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                Ad Targeting Optimization
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Optimize ad targeting by analyzing which messages perform best with specific demographics and user behaviors.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+SalesAndMarketingDashboard.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default SalesAndMarketingDashboard;
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/sample-page.tsx===
 import { ReactElement } from 'react';
 
@@ -7295,5 +7611,138 @@ SamplePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default SamplePage;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/usage/index.tsx===
+import { ReactElement, useEffect, useState } from 'react';
+import { useTheme } from '@mui/material/styles';
+
+// material-ui
+import { Grid, Typography, Box, LinearProgress, Stack } from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+import ApexAreaChart from 'sections/charts/apexchart/ApexAreaChart';
+
+// ==============================|| USAGE PAGE ||============================== //
+
+const UsagePage = () => {
+  const theme = useTheme();
+  const [usage, setUsage] = useState({
+    totalRequests: 0,
+    lastMonthRequests: 0,
+    averageRequestTime: 0,
+    totalCost: 0,
+    requestHistory: []
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch usage data from the API
+    const fetchUsageData = async () => {
+      try {
+        const response = await fetch('/api/usage');
+        const data = await response.json();
+        setUsage(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching usage data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchUsageData();
+  }, []);
+
+  return (
+    <Page title="Usage">
+      <Grid container spacing={2}>
+        {loading ? (
+          <Grid item xs={12}>
+            <Box sx={{ width: '100%' }}>
+              <LinearProgress />
+            </Box>
+          </Grid>
+        ) : (
+          <>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Total Requests">
+                <Typography variant="h4">{usage.totalRequests}</Typography>
+                <Typography variant="body2">Total number of requests made to the LLM.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Last Month Requests">
+                <Typography variant="h4">{usage.lastMonthRequests}</Typography>
+                <Typography variant="body2">Number of requests made to the LLM in the last month.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Average Request Time">
+                <Typography variant="h4">{usage.averageRequestTime} ms</Typography>
+                <Typography variant="body2">Average time taken to process a request by the LLM.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Total Cost">
+                <Typography variant="h4">${usage.totalCost.toFixed(2)}</Typography>
+                <Typography variant="body2">Total cost incurred for using the LLM.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12}>
+              <MainCard title="Request History">
+                <Stack spacing={2}>
+                  <ApexAreaChart
+                    data={{
+                      series: [
+                        {
+                          name: 'Requests',
+                          data: usage.requestHistory.map((record) => record.count)
+                        }
+                      ],
+                      categories: usage.requestHistory.map((record) => record.date)
+                    }}
+                    options={{
+                      chart: {
+                        type: 'area',
+                        toolbar: {
+                          show: true
+                        }
+                      },
+                      colors: [theme.palette.primary.main],
+                      dataLabels: {
+                        enabled: false
+                      },
+                      stroke: {
+                        curve: 'smooth'
+                      },
+                      xaxis: {
+                        type: 'datetime',
+                        categories: usage.requestHistory.map((record) => new Date(record.date).getTime())
+                      },
+                      tooltip: {
+                        x: {
+                          format: 'dd/MM/yy'
+                        }
+                      }
+                    }}
+                  />
+                </Stack>
+              </MainCard>
+            </Grid>
+          </>
+        )}
+      </Grid>
+    </Page>
+  );
+};
+
+UsagePage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default UsagePage;
 
 ===end===
