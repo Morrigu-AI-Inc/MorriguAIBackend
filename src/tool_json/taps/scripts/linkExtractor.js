@@ -44,8 +44,8 @@ async function generateSchemaForHtml(html, filename) {
       anthropic_version: 'bedrock-2023-05-31',
       max_tokens: 4096,
       system: `
-        Extract the documentation links so we can extract all the information.
-        The html block from the documentation will be provided, from which the links will be extracted.
+        What you are looking at is a sales force documentation page. You are directly writing the extracted links to disk so please be careful.
+        Come up with permutations of the links in the docs and write them to disk.
         You are directly writing the extracted links to disk so please be careful.`,
       messages: [
         {

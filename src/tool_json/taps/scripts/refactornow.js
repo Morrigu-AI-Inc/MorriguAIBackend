@@ -67,7 +67,7 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
           content: [
             {
               type: 'text',
-              text: 'Create an operations dashboard with demo visuals.',
+              text: 'Update The Sales Dashboard With Relevant Metric Charts using the similar components as before. ',
             },
             {
               type: 'text',
@@ -79,6 +79,14 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
             {
               type: 'text',
               text: html,
+            },
+            {
+              type: 'text',
+              text: 'Ive tagged the content with a thumbprint: "lhh3123jhqgs7d" so you can find it easily.',
+            },
+            {
+              type: 'text',
+              text: 'Dont assume Ill create new components for you. Use the existing components and modify them as needed. Or create new ones if necessary.',
             },
           ],
         },

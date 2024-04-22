@@ -71,6 +71,7 @@ import { AssistantModule } from './assistant/assistant.module';
 import { OrganizationSchema } from './db/schemas/Organization';
 import { OrganizationService } from './organization/organization.service';
 import { UserSchema } from './db/schemas/User';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
@@ -166,6 +167,8 @@ import { UserSchema } from './db/schemas/User';
     SlackModule,
 
     AssistantModule,
+
+    StripeModule,
   ],
   controllers: [
     AppController,

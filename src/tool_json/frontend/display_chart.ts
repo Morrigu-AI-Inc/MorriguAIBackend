@@ -21,33 +21,68 @@ const display_chart = {
           description: 'Message to the user about the chart.',
         },
 
-        type: {
+        chart_type: {
           type: 'string',
-          enum: [
-            'line',
-            'area',
-            'bar',
-            'pie',
-            'donut',
-            'radialBar',
-            'scatter',
-            'bubble',
-            'heatmap',
-            'candlestick',
-            'boxPlot',
-            'radar',
-            'polarArea',
-            'rangeBar',
-            'rangeArea',
-            'treemap',
-          ],
+          enum: ['area', 'bar', 'column', 'line'],
           description: 'Defines the type of the chart to be rendered.',
         },
         series: {
           type: 'array',
           description: 'Array of series objects representing the chart data.',
           oneOf: [
+            // {
+            //   chart_type: ['mixed'],
+            //   type: 'object',
+            //   items: {
+            //     type: 'object',
+            //     description:
+            //       'Series object representing a series in the chart.',
+            //     properties: {
+            //       name: {
+            //         type: 'string',
+            //         description: 'Name of the series.',
+            //       },
+            //       series_type: {
+            //         type: 'string',
+            //         enum: ['column', 'line'],
+            //         description: 'Type of the series.',
+            //       },
+            //       data: {
+            //         type: 'array',
+            //         items: {
+            //           type: 'number',
+            //         },
+            //       },
+            //     },
+            //     required: ['name', 'type', 'data'],
+            //   },
+            // },
             {
+              chart_type: ['line'],
+              type: 'object',
+              items: {
+                type: 'object',
+                description:
+                  'Series object representing a series in the chart.',
+                properties: {
+                  name: {
+                    type: 'string',
+                    description: 'Name of the series.',
+                  },
+
+                  data: {
+                    type: 'array',
+                    items: {
+                      type: 'number',
+                    },
+                  },
+                },
+                required: ['name', 'data'],
+              },
+            },
+            {
+              chart_type: ['area', 'bar', 'column'],
+              type: 'object',
               items: {
                 type: 'object',
                 description:

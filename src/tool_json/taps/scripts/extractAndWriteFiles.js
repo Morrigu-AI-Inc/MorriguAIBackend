@@ -3,7 +3,7 @@ const path = require('path');
 
 
 /**
- * Reads the input file and processes each section separated by '===end==='.
+ * Processes an input file to extract, replace, add, or remove content based on structured input.
  * @param {string} inputFile - The path to the input file containing structured content.
  */
 function processInputFile(inputFile) {
@@ -13,13 +13,12 @@ function processInputFile(inputFile) {
       return;
     }
 
-    // Split the data on the end marker and process each valid section
+    // Split the data on the end marker and filter out any empty sections
     const sections = data
       .split('===end===')
       .filter((section) => section.trim());
 
     sections.forEach((section) => {
-      // Match filename and initialize other variables
       const filenameMatch = section.match(/===filename: (.*?)===/s);
       if (!filenameMatch) return;
 
@@ -36,17 +35,34 @@ function processInputFile(inputFile) {
         ? fs.readFileSync(filePath, 'utf8')
         : '';
 
-      // Regex to find all search and replace pairs
+      // Find all search-replace pairs in the section
       const regexPairs = [
         ...section.matchAll(/===search: (.*?)===[\r\n]+===replace: (.*?)===/gs),
       ];
+      let operationsPerformed = false;
 
-      // Apply all search-replace pairs
+      // Apply each search-replace pair sequentially
       regexPairs.forEach((matches) => {
         const searchRegex = new RegExp(matches[1].trim(), 'gs'); // 'g' for global, 's' for dot matches newline
         const replace = matches[2].trim();
         fileContent = fileContent.replace(searchRegex, replace);
+        operationsPerformed = true;
       });
+
+      // Check for insertions where no search is provided
+      const insertMatch = section.match(/===insert:(.*?)===/s);
+      if (insertMatch && !operationsPerformed) {
+        fileContent += '\n' + insertMatch[1].trim();
+      }
+
+      // Check for removals where no replace is specified
+      const removeMatch = section.match(
+        /===search: (.*?)===[\r\n]+===replace:===/s,
+      );
+      if (removeMatch) {
+        const removeRegex = new RegExp(removeMatch[1].trim(), 'gs');
+        fileContent = fileContent.replace(removeRegex, '');
+      }
 
       // Write the updated content to the file
       fs.writeFileSync(filePath, fileContent, 'utf8');
@@ -55,6 +71,6 @@ function processInputFile(inputFile) {
   });
 }
 
-// Example usage:
+// Example usage
 const inputFile = './refactored.txt'; // Replace with your actual input file path
 processInputFile(inputFile);
