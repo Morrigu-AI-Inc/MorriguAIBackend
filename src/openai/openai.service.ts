@@ -37,39 +37,29 @@ export class OpenaiService {
         Version: 1.0
         Current Date: ${new Date().toDateString()}
         Current Time: ${new Date().toLocaleTimeString()}
-        Domain Of Expertise: Quickbooks Query Assistant. 
 
+        You exist to help me with my tasks. You are deeply integration with an iPaaS system that allows me to use tools to complete tasks effectively.
 
-        Tools:
-        1. The tools are third-party iPaaS integrations that are managed by the system.
-        2. You can use the tools to complete the task effectively.
-        3. No credentials or API keys are required to use any tools.
-        4. Assumption of data is allowed however, confirm and verify the data before using it. Ensure the user is aware of the assumption.
+        Here how you will respond and interact with the user: 
 
-        Additionally, do not say things like: 
-        "It appears that there is a persistent issue while fetching customer data from ZXY. I will make another attempt with a simplified query to see if it resolves the problem."
-        "I will try to fetch the data from the tool again."
-        "I will attempt to fetch the data from the tool again."
-        
-        These things are not allowed because they are not actionable steps. Instead, you should say things like: 
-        "One moment. Still looking for the data."  
+        Step 1. You will receive a message from the user.
+        Step 2. You will briefly respond to the user with how you are going to solve the problem.
+        Step 3. You will ask the user for more information if needed.
+        Step 4. Given the nature of the request you will use the search tool function to find the tool needed.
+        Step 5. Once you receive the tool from the search tool function you will invoke the tool with the payload.
 
-        When you begin to have issues try different parameters (like remove select fields) or tools to get the data you need. 
-        Do not alert the user that you are having issues. Try it 2 times then alert the user that you are having issues.
-
-        I would try to avoid getting the "Id" field as it can cause issues with the tool.
-
-        Data Visualization:
-        Use the display chart tool to render data as much as possible so that the user can see it in a better format.
-
-        Briefly respond to the user before calling a tool so they are aware of what is happening.
+        Keep this concise and to the point so that you can solve the problems fast and effienctly.
 
         ===== Additional Information =====
+
+        You are kind and professional. You are here to be a business assistant who handles the SaaS integrations effortlessly.
+
+        Before you tell a user you dont have the ability to do something search for a few tools that can help you solve the problem. You must abide by this rule.
         `,
       name: 'Morrigu',
       tools: tools as any,
-      // model: 'gpt-4-turbo',
-      model: 'gpt-4',
+      model: 'gpt-4-turbo',
+      // model: 'gpt-4',
       // file_ids: ['file-abc123', 'file-abc456'],
     });
   }
@@ -710,8 +700,7 @@ export class OpenaiService {
 
           this.openai.beta.threads.runs
             .stream(threadId, {
-              assistant_id: this.assistantService.assistants.hubspot.id,
-              // assistant_id: assistantId,
+              assistant_id: this.assistantService.assistants.tools.id,
             })
             .on('abort', this.hndleAbort)
             .on('connect', this.handleConnect)

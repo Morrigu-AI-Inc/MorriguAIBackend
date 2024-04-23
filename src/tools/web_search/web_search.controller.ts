@@ -1,4 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
+import { query } from 'express';
 
 import { ActionsService } from 'src/actions/actions.service';
 
@@ -60,9 +61,17 @@ export class WebSearchController {
   constructor(private readonly actionService: ActionsService) {}
 
   @Get()
-  async searchTools(@Query('parameters') parameters: string): Promise<any> {
+  async searchTools(@Query('query') query: string): Promise<any> {
+    console.log('Searching the web', query);
+
+    const urlParams = new URLSearchParams({
+      key: process.env.GOOGLE_SEARCH_API,
+      cx: process.env.GOOGLE_CX,
+      q: query,
+    }).toString();
+
     const googleResults = await fetch(
-      `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_SEARCH_API}&cx=${process.env.GOOGLE_CX}&q=${JSON.parse(parameters).query}`,
+      `https://www.googleapis.com/customsearch/v1?${urlParams}`,
     )
       .then((response) => response.json())
       .then((data: GoogleSearchResult) => {

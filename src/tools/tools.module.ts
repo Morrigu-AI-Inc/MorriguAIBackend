@@ -50,6 +50,8 @@ import { ZendeskSupportIntegrationModule } from './zendesk_support_integration/z
 import { SlackApiIntegrationModule } from './slack_api_integration/slack_api_integration.module';
 import { HubspotApiIntegrationModule } from './hubspot_api_integration/hubspot_api_integration.module';
 import { NotionApiIntegrationModule } from './notion_api_integration/notion_api_integration.module';
+import { ToolSearchModule } from './tool_search/tool_search.module';
+import { SalesforceApiIntegrationModule } from './salesforce_api_integration/salesforce_api_integration.module';
 
 @Module({
   providers: [
@@ -109,6 +111,8 @@ import { NotionApiIntegrationModule } from './notion_api_integration/notion_api_
     SlackApiIntegrationModule,
     HubspotApiIntegrationModule,
     NotionApiIntegrationModule,
+    ToolSearchModule,
+    SalesforceApiIntegrationModule,
   ],
   exports: [
     MongooseModule.forFeature([

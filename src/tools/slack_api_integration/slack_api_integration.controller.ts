@@ -1,24 +1,48 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
-import { val } from 'cheerio/lib/api/attributes';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 
 @Controller('tools/slack_api_integration')
 export class SlackApiIntegrationController {
+  @Post()
+  async slackApiIntegrationPost(
+    @Body() body,
+    @Req() req,
+    @Query('endpoint') endpoint: string,
+  ) {
+    try {
+      console.log('Slack API Integration', body);
+      console.log('Slack API Integration', req.query);
+
+      const fetchOps = {
+        method: req.method,
+        headers: {
+          Authorization: req.headers.authorization.includes('Bearer')
+            ? req.headers.authorization
+            : `Bearer ${req.headers.authorization}`,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(body),
+      };
+
+      const results = await fetch(
+        `${process.env.PARAGON_URL}/sdk/proxy/slack/${endpoint}`,
+        fetchOps,
+      );
+
+      const response = await results.json();
+
+      return response;
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  }
+
   @Get()
   async slackApiIntegration(@Query('payload') payload: any, @Req() req) {
     try {
       const validPayload = JSON.parse(JSON.parse(payload));
-
-      //       {
-      //   endpoint: 'conversations.history',
-      //   body: {
-      //     endpoint: 'conversations.history',
-      //     method: 'POST',
-      //     headers: {
-      //       Authorization: 'Bearer xoxp-123456789012-123456789012-123456789012-abcd1234efgh5678'
-      //     },
-      //     body: { channel: 'C06UVAQ5VCN', text: 'hello dooode' }
-      //   }
-      // }
+      console.log('Slack API Integration', payload);
 
       delete validPayload?.body?.body?.token || null;
 

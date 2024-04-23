@@ -12,6 +12,7 @@ export class ToolsService {
   ) {}
 
   async searchToolsV2(searchTerm: string): Promise<Partial<ToolDocument>[]> {
+    console.log('searchTerm', searchTerm);
     const aggregation = [
       {
         $search: {

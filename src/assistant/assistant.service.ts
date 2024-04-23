@@ -6,6 +6,7 @@ import hubspot_api_integration from 'src/tool_json/backend/hubspot_api_integrati
 import notion_api_integration from 'src/tool_json/backend/notion_api_integration';
 import quickbooks_update from 'src/tool_json/backend/quickbooks_update';
 import slack_api_integration from 'src/tool_json/backend/slack_api_integration';
+import tool_search, { invoke_tool } from 'src/tool_json/compiled_taps/tooling';
 import { quickbooks_query } from 'src/tool_json/quickbooks_query';
 
 @Injectable()
@@ -150,6 +151,33 @@ export class AssistantService {
         slack_api_integration,
         notion_api_integration,
       ],
+      model: 'gpt-4-turbo-2024-04-09',
+    },
+    tools: {
+      name: 'Tools Assistant v1.0',
+      description: `
+        Tools Assistant is a tool that helps you manage your tools. You can search for and use tools with this assistant.
+        
+        The system has integration deep with an iPaaS system that allows you to use tools to complete tasks effectively.
+
+        The only requirement is that you search for the tool you need and use it to complete the task.
+
+        Integrations include:
+        - QuickBooks Integration
+        - Slack API Integration
+        - Notion API Integration
+        - HubSpot API Integration
+        - Salesforce API Integration
+        - Web Search
+        - Display Chart to the user for better visualization of data.
+        - Tool Search to find a tool by its name or description.
+        - Invoke Tool to invoke a tool by its name with a payload.
+        
+        `,
+      domain: 'tools, tools',
+
+      id: 'asst_iQe8AvZafdXGPQv1dYbmct4L',
+      tools: [...frontend_tools, tool_search, invoke_tool],
       model: 'gpt-4-turbo-2024-04-09',
     },
   };

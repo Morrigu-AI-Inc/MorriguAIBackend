@@ -25,7 +25,7 @@ const slack_api_integration = {
   function: {
     name: 'slack_api_integration',
     description: `
-    This function allows you to interact with the Slack API.
+    This function allows you to integration with any function of the Slack API. You can do anything with this integrations, from creating a conversation to fetching a user's list.
 
     Special Notes: 
     POST'ing to conversation.history fetches a conversation's history of messages does not create a new message.
@@ -168,7 +168,6 @@ const slack_api_integration = {
             'views.publish', // pass
             'views.push', // pass
             'views.update', // pass
-
             'workflows.stepCompleted', // pass
             'workflows.stepFailed', // pass
             'workflows.updateStep', // pass
@@ -178,6 +177,22 @@ const slack_api_integration = {
           type: 'object',
           description: 'That data to complete the operation with.',
           oneOf: all,
+          additionalProperties: true,
+        },
+
+        method: {
+          type: 'string',
+          enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+        },
+        contentType: {
+          type: 'string',
+          enum: ['application/json'],
+        },
+        queryParameters: {
+          type: 'object',
+          properties: {},
+          required: [],
+          additionalProperties: true,
         },
       },
       required: ['endpoint', 'body'],
