@@ -1,0 +1,436 @@
+===filename: /Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/reports/index.tsx===
+// AI Thumbprint = adsasdfknx1b12
+import { useState, ReactElement } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { Grid, Typography, Box, LinearProgress, Stack } from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+import ApexAreaChart from 'sections/charts/apexchart/ApexAreaChart';
+
+const ExpenseReports = () => {
+  // AI Thumbprint = adsasdfknx1b12
+  const theme = useTheme();
+  const [loading, setLoading] = useState(false); // Add loading state
+  const [expenseData, setExpenseData] = useState({
+    totalExpenses: 0,
+    monthlyExpenses: 0,
+    averageExpense: 0,
+    expenseHistory: [
+      {
+        date: '',
+        amount: 0
+      },
+      {
+        date: '',
+        amount: 0
+      }
+    ]
+  });
+
+  // Fetch expense data from the API
+  const fetchExpenseData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/expenses');
+      const data = await response.json();
+      setExpenseData(data);
+    } catch (error) {
+      console.error('Error fetching expense data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch expense data when the component mounts
+  useState(() => {
+    fetchExpenseData();
+  }, []);
+
+  return (
+    <Page title="Expense Reports">
+      <Grid container spacing={2}>
+        {loading ? (
+          <Grid item xs={12}>
+            <Box sx={{ width: '100%' }}>
+              <LinearProgress />
+            </Box>
+          </Grid>
+        ) : (
+          <>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Total Expenses">
+                <Typography variant="h4">${expenseData.totalExpenses.toFixed(2)}</Typography>
+                <Typography variant="body2">Total expenses incurred.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Monthly Expenses">
+                <Typography variant="h4">${expenseData.monthlyExpenses.toFixed(2)}</Typography>
+                <Typography variant="body2">Expenses incurred in the current month.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Average Expense">
+                <Typography variant="h4">${expenseData.averageExpense.toFixed(2)}</Typography>
+                <Typography variant="body2">Average expense per transaction.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12}>
+              <MainCard title="Expense History">
+                <Stack spacing={2}>
+                  <ApexAreaChart series={[{ name: 'Expenses', data: expenseData.expenseHistory.map((record) => record.amount) }]} />
+                </Stack>
+              </MainCard>
+            </Grid>
+          </>
+        )}
+      </Grid>
+    </Page>
+  );
+};
+
+ExpenseReports.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default ExpenseReports;
+
+===end===
+
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/index.tsx===
+import { useTheme } from '@emotion/react';
+import { Grid, Typography, Divider, Stack, Button, TextField, IconButton, Menu, MenuItem } from '@mui/material';
+import MainCard from 'components/MainCard';
+import Page from 'components/Page';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+import Layout from 'layout';
+
+import { ReactElement, useState, useEffect } from 'react';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ExpenseBreakdown from 'sections/expense/ExpenseBreakdown';
+import RecentExpenses from 'sections/expense/RecentExpenses';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import PrintIcon from '@mui/icons-material/Print';
+import SearchIcon from '@mui/icons-material/Search';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import CategoryIcon from '@mui/icons-material/Category';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+
+interface Expense {
+  id: number;
+  category: string;
+  description: string;
+  amount: number;
+  date: string;
+}
+
+const ExpensePage = () => {
+  const theme = useTheme();
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [filterAnchorEl, setFilterAnchorEl] = useState<null | HTMLElement>(null);
+  const [searchText, setSearchText] = useState('');
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [category, setCategory] = useState('');
+  const [minAmount, setMinAmount] = useState<number | null>(null);
+  const [maxAmount, setMaxAmount] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Fetch expenses from the API
+    const fetchExpenses = async () => {
+      try {
+        const response = await fetch('/api/expenses');
+        const data = await response.json();
+        setExpenses(data);
+      } catch (error) {
+        console.error('Error fetching expenses:', error);
+      }
+    };
+
+    fetchExpenses();
+  }, []);
+
+  const handleFilterClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setFilterAnchorEl(event.currentTarget);
+  };
+
+  const handleFilterClose = () => {
+    setFilterAnchorEl(null);
+  };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    setEndDate(date);
+  };
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCategory(event.target.value);
+  };
+
+  const handleMinAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMinAmount(event.target.value ? parseFloat(event.target.value) : null);
+  };
+
+  const handleMaxAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxAmount(event.target.value ? parseFloat(event.target.value) : null);
+  };
+
+  const filteredExpenses = expenses.filter(
+    (expense) =>
+      (searchText === '' || expense.description.toLowerCase().includes(searchText.toLowerCase())) &&
+      (!startDate || new Date(expense.date) >= startDate) &&
+      (!endDate || new Date(expense.date) <= endDate) &&
+      (category === '' || expense.category === category) &&
+      (!minAmount || expense.amount >= minAmount) &&
+      (!maxAmount || expense.amount <= maxAmount)
+  );
+
+  const handlePrint = () => {
+    // Implement print functionality
+    console.log('Print expenses');
+  };
+
+  const handleExport = () => {
+    // Implement export to CSV functionality
+    console.log('Export expenses to CSV');
+  };
+
+  const handleCreateExpense = () => {
+    // Implement create new expense functionality
+    console.log('Create new expense');
+  };
+
+  return (
+    <Page title="Expense Management">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Expenses" count="$78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Overdue Expenses" count="$18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Cash Flow" count="$35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Savings" count="$523,000" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Stack spacing={3}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Typography variant="h4">Recent Expenses</Typography>
+              <Stack direction="row" spacing={1}>
+                <TextField
+                  placeholder="Search expenses..."
+                  value={searchText}
+                  onChange={handleSearch}
+                  InputProps={{
+                    startAdornment: <SearchIcon fontSize="small" />
+                  }}
+                />
+                <IconButton onClick={handleFilterClick}>
+                  <FilterListIcon />
+                </IconButton>
+                <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
+                  <MenuItem>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <DateRangeIcon />
+                      <TextField
+                        type="date"
+                        label="Start Date"
+                        value={startDate ? startDate.toISOString().split('T')[0] : ''}
+                        onChange={(e) => handleStartDateChange(e.target.value ? new Date(e.target.value) : null)}
+                        InputLabelProps={{ shrink: true }}
+                      />
+                      <TextField
+                        type="date"
+                        label="End Date"
+                        value={endDate ? endDate.toISOString().split('T')[0] : ''}
+                        onChange={(e) => handleEndDateChange(e.target.value ? new Date(e.target.value) : null)}
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <CategoryIcon />
+                      <TextField label="Category" value={category} onChange={handleCategoryChange} />
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <AttachMoneyIcon />
+                      <TextField type="number" label="Min Amount" value={minAmount ?? ''} onChange={handleMinAmountChange} />
+                      <TextField type="number" label="Max Amount" value={maxAmount ?? ''} onChange={handleMaxAmountChange} />
+                    </Stack>
+                  </MenuItem>
+                </Menu>
+              </Stack>
+            </Stack>
+            <Divider />
+            <RecentExpenses
+              data={[
+                {
+                  id: 1,
+                  category: 'Travel',
+                  description: 'Flight to New York',
+                  amount: 500,
+                  date: '2021-10-01'
+                },
+                {
+                  id: 2,
+                  category: 'Office',
+                  description: 'Office Supplies',
+                  amount: 100,
+                  date: '2021-10-05'
+                },
+                {
+                  id: 3,
+                  category: 'Marketing',
+                  description: 'Facebook Ads',
+                  amount: 300,
+                  date: '2021-10-10'
+                },
+                {
+                  id: 4,
+                  category: 'Other',
+                  description: 'Miscellaneous',
+                  amount: 200,
+                  date: '2021-10-15'
+                }
+              ]}
+            />
+          </Stack>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <MainCard title="Expense Breakdown" content={false}>
+            <ExpenseBreakdown
+              data={[
+                {
+                  category: 'Travel',
+                  amount: 500
+                },
+                {
+                  category: 'Office',
+                  amount: 100
+                },
+                {
+                  category: 'Marketing',
+                  amount: 300
+                },
+                {
+                  category: 'Other',
+                  amount: 200
+                }
+              ]}
+            />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+ExpensePage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default ExpensePage;
+
+===end===
+
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/create.tsx===
+import { useState, ReactElement } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import {
+  Grid,
+  TextField,
+  Button,
+  Stack,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText
+} from '@mui/material';
+import { useRouter } from 'next/router';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+
+const initialValues = {
+  expenseCategory: '',
+  description: '',
+  amount: 0,
+  date: new Date(),
+  paymentType: 'cash',
+  recurring: false
+};
+
+const CreateExpense = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const validationSchema = Yup.object({
+    expenseCategory: Yup.string().required('Expense category is required'),
+    description: Yup.string().required('Description is required'),
+    amount: Yup.number().required('Amount is required'),
+    date: Yup.date().required('Date is required'),
+    paymentType: Yup.string().required('Payment type is required')
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        // Submit expense data to the server
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        router.push('/finance/expense');
+      } catch (error) {
+        console.error('Error creating expense:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  });
+
+  return (
+    <Page title="Create Expense">
+      <form onSubmit={formik.handleSubmit}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="expense-category-label">Expense Category</InputLabel>

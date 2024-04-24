@@ -50,7 +50,6 @@ export class StripeService {
   }
 
   async fetchOrCreateNew(email: string, name: string) {
-    console.log('FETCHING STRIPE USER:', email, name);
     const customers = await this.stripe.customers.list({
       email,
       limit: 1,

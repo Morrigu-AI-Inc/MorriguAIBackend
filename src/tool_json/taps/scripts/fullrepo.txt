@@ -135,6 +135,214 @@ export default function Document() {
   );
 }
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/accounting/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/assistants/index.tsx===
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import Page from 'components/Page';
@@ -439,6 +647,136 @@ Integrations.getLayout = function getLayout(page: ReactElement) {
 
 export default Integrations;
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/invites/accept.tsx===
+import useUser from 'hooks/useUser';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+
+const AcceptInvitePage: React.FC = () => {
+  const user = useSession();
+  const router = useRouter();
+  console.log('User:', user);
+
+  useEffect(() => {
+    // Resolve user invite here
+    const inviteToken = new URLSearchParams(location.search).get('token');
+    console.log('Invite token:', user.data);
+    const data = user.data as unknown as {
+      name: string;
+      email: string;
+      id_token: string;
+    };
+    if (data?.id_token) {
+      console.log('User ID Token:', data);
+    }
+    fetch(`/api/invites/accept?token=${inviteToken}&id_token=${data?.id_token}`).then(async (response) => {
+      const data = await response.json();
+      router.replace('/chat/thread');
+    });
+
+    // Call your API or perform any necessary actions to resolve the invite
+
+    // Redirect the user to the desired page after resolving the invite
+    // Replace '/dashboard' with the actual page you want to redirect to
+    // window.location.href = '/dashboard';
+  }, [user.data]);
+
+  return (
+    <div>
+      <h1>Accept Invite Page</h1>
+      {/* Add your page content here */}
+    </div>
+  );
+};
+
+export default AcceptInvitePage;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/invites/index.tsx===
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Page from 'components/Page';
+import Layout from 'layout';
+import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
+
+const Invites = () => {
+  const router = useRouter();
+  const [invites, setInvites] = useState<any | undefined>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const { query } = router;
+  const { token } = query;
+
+  useEffect(() => {
+    console.log;
+    const fetchInvites = async () => {
+      setIsLoading(true);
+      try {
+        console.log('token', token);
+        const response = await fetch(`/api/invites?token=${token}`);
+
+        const data = await response.json();
+
+        signIn('auth0', {
+          callbackUrl: '/administration/invites/accept?status=accepted&token=' + token
+        });
+
+        setInvites(data);
+      } catch (err) {
+        setError('Failed to fetch invites');
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchInvites();
+  }, []);
+
+  const handleResponse = async (inviteId, status) => {
+    try {
+      // Example API call to update the invite status
+      await axios.patch(`/api/invites/${inviteId}`, { status });
+      // Refresh the invites or update the local state
+      setInvites(invites.map((invite) => (invite._id === inviteId ? { ...invite, status } : invite)));
+    } catch (err) {
+      console.error('Failed to update invite', err);
+    }
+  };
+
+  return (
+    <Page title="Invites">
+      <h1>Invites</h1>
+      {isLoading ? (
+        <p>Loading invites...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <ul>
+          {invites?.map((invite) => (
+            <li key={invite._id}>
+              {invite.name} ({invite.email}) - Status: {invite.status}
+              <button onClick={() => handleResponse(invite._id, 'accepted')}>Accept</button>
+              <button onClick={() => handleResponse(invite._id, 'declined')}>Decline</button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Page>
+  );
+};
+
+// Compare this snippet from src/pages/usage/index.tsx:
+Invites.getLayout = function getLayout(page) {
+  return <Layout variant={'blank'}>{page}</Layout>;
+};
+
+export default Invites;
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/profile/account/[tab].tsx===
 import { useState, ReactElement } from 'react';
 
@@ -560,7 +898,29 @@ UserProfile.getLayout = function getLayout(page: ReactElement) {
 
 export default UserProfile;
 ===end===
-===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/users/index.tsx===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/settings/general.tsx===
+import Layout from 'layout';
+import React, { ReactElement } from 'react';
+
+const GeneralSettings = () => {
+  // Add your code for the General Settings page here
+
+  return (
+    <div>
+      <h1>General Settings</h1>
+      {/* Add your settings components and logic here */}
+    </div>
+  );
+};
+
+GeneralSettings.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default GeneralSettings;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/settings/users/index.tsx===
 import React, { ReactElement, useState } from 'react';
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import Page from 'components/Page';
@@ -568,6 +928,7 @@ import Layout from 'layout';
 import MainCard from 'components/MainCard';
 import UserTable from 'components/administration/users/UserTable';
 import CreateUserDialog from 'components/administration/users/CreateUserDialog';
+import { PlusOutlined } from '@ant-design/icons';
 
 const Users = () => {
   const [open, setOpen] = useState(false);
@@ -582,8 +943,16 @@ const Users = () => {
   };
 
   const handleCreateUser = (user) => {
-    setUsers([...users, user]);
-    handleCloseDialog();
+    console.log('Creating user:', user);
+
+    fetch('/api/invites', {
+      method: 'POST',
+      body: JSON.stringify(user)
+    }).then((response) => {
+      console.log('User created:', response);
+      setUsers([...users, user]);
+      handleCloseDialog();
+    });
   };
 
   return (
@@ -593,7 +962,9 @@ const Users = () => {
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Typography variant="h4">Users</Typography>
             <Button variant="contained" onClick={handleOpenDialog}>
-              Create User
+              <Stack direction={'row'} gap={1} alignItems={'center'}>
+                <PlusOutlined /> {' Invite User'}
+              </Stack>
             </Button>
           </Stack>
         </Grid>
@@ -665,7 +1036,7 @@ export const authOptions: NextAuthOptions = {
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        console.log('credentials', credentials);
+        // console.log('credentials', credentials);
         const res = await fetch('/api/secure/auth', {
           method: 'POST',
           body: JSON.stringify(credentials),
@@ -684,14 +1055,14 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     jwt: async ({ token, account, profile, trigger, session }) => {
-      console.log('FROM JWT', token, account, profile, trigger, session)
+      // console.log('FROM JWT', token, account, profile, trigger, session)
       if (trigger === 'signIn') {
-        console.log('FROM JWT', token, account, profile, trigger, session);
+        // console.log('FROM JWT', token, account, profile, trigger, session);
       }
       return { ...token, ...account, ...profile };
     },
     session: ({ session, token, user }) => {
-      console.log('FROM SESSION', session, token, user)
+      // console.log('FROM SESSION', session, token, user)
       const customSession: CustomSession = {
         ...session,
         ...token,
@@ -2697,12 +3068,265 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 }
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/invites/accept.ts===
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]';
+import { dbConnect } from 'backend/db/connection';
+import * as jwt from 'jsonwebtoken';
+import { Invite } from './index';
+import OrganizationModel from 'backend/schemas/Organization';
+import { UserModel } from 'backend/schemas';
+
+export default async function acceptCallback(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    // const user = await getServerSession(authOptions);
+    await dbConnect();
+
+    const token = req.query.token;
+    const id_token = req.query.id_token;
+
+    if (!token) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const decoded: {
+      email: string;
+      name: string;
+    } = jwt.decode(token as string) as any;
+
+    if (!decoded) {
+      return res.status(400).json({ error: 'Invalid token' });
+    }
+
+    const decodedIdToken: {
+      email: string;
+      name: string;
+      sub: string;
+      picture: string;
+      nickname: string;
+      updated_at: string;
+    } = jwt.decode(id_token as string) as any;
+
+    if (!decodedIdToken) {
+      return res.status(400).json({ error: 'Invalid ID token' });
+    }
+
+    console.log('token', decoded);
+    console.log('id_token', decodedIdToken);
+
+    const invites = await Invite.findOne({
+      status: 'pending',
+      email: decoded?.email as unknown as string,
+      token: token
+    });
+
+    if (!invites) {
+      console.log('Invites:', invites);
+      return res.status(200).json({ error: 'No invites found' });
+    }
+
+    const user = await UserModel.create({
+      id: decodedIdToken.sub,
+      provider: 'auth0',
+      email: decodedIdToken.email,
+      name: decodedIdToken.name,
+      data: {
+        type: 'oauth',
+        name: decodedIdToken.name,
+        picture: decodedIdToken.picture,
+        providerAccountId: decodedIdToken.sub,
+        provider: 'auth0',
+        scope: 'openid profile email',
+        nickname: decodedIdToken.nickname,
+        updatedAt: decodedIdToken.updated_at,
+        image: decodedIdToken.picture,
+        user_id: decodedIdToken.sub
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'No user found' });
+    }
+
+    const updatedInvite = await Invite.findOneAndUpdate(
+      {
+        status: 'pending',
+        email: decodedIdToken?.email as unknown as string
+        // token: token
+      },
+      { status: 'accepted' }
+    );
+
+    const org = await OrganizationModel.findOne({
+      users: {
+        $in: [updatedInvite._id]
+      }
+    });
+
+    if (!org) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
+    // await org.users.push(user._id).save();
+
+    const nuOrg = await OrganizationModel.updateOne({ _id: org._id }, { $pull: { users: updatedInvite._id } });
+
+    if (!nuOrg) {
+      return res.status(404).json({ error: 'Organization not updated' });
+    }
+
+    await OrganizationModel.findOneAndUpdate({ _id: org._id }, { $push: { users: user._id } });
+
+    console.log('Organization:', nuOrg);
+    // // Validate the callback data
+
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error('Error resolving invitation:', error);
+    res.status(500).json({ error: 'Failed to resolve invitation' });
+  }
+}
+
+async function resolveInvitation(invitationId: string, code: string, state: string) {
+  // Implement your logic to resolve the invitation here
+  // ...
+
+  // Return the resolved invitation
+  return { invitationId, code, state };
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/invites/index.ts===
+import { dbConnect } from 'backend/db/connection';
+import { NextApiRequest, NextApiResponse } from 'next';
+import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]';
+import { CustomSession } from 'backend/controllers/AuthController';
+import UserController from 'backend/controllers/UserController';
+import { UserModel } from 'backend/schemas';
+import OrganizationModel from 'backend/schemas/Organization';
+
+// Define a Mongoose schema for an Invite
+export const inviteSchema = new mongoose.Schema({
+  email: { type: String, required: true },
+  name: { type: String, required: true },
+  token: String,
+  sentAt: { type: Date, default: Date.now },
+  status: { type: String, default: 'pending' },
+  organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }
+});
+
+// Create a model or use an existing one
+export const Invite = mongoose.models.Invite || mongoose.model('Invite', inviteSchema);
+
+const transporter = nodemailer.createTransport({
+  host: 'email-smtp.us-east-1.amazonaws.com', // Replace with the appropriate AWS region
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: 'AKIA2XAEOTXPJ46JTKV7', // Your SMTP username from the IAM console
+    pass: 'BH21Q2FW11VDRwpmbUYkphP+NYXGAvsIuTea6sgrowDd'
+  }
+});
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  try {
+    await dbConnect();
+
+    if (req.method === 'GET') {
+      const token = req.query.token;
+      console.log('token', token);
+      if (!token) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
+
+      const decoded = jwt.decode(token as string);
+
+      if (!decoded) {
+        return res.status(400).json({ error: 'Invalid token' });
+      }
+
+      const invites = await Invite.find({
+        status: 'pending',
+        email: decoded?.email as unknown as string,
+        name: decoded?.name as unknown as string,
+        token: token
+      });
+
+      if (invites.length === 0) {
+        return res.status(404).json({ error: 'No invites found' });
+      }
+
+      return res.status(200).json(invites);
+    } else if (req.method === 'POST') {
+      const { email, name } = JSON.parse(req.body);
+      const user = (await getServerSession(req, res, authOptions)) as CustomSession;
+
+      if (!user) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const db_user = await UserModel.findOne({ email: user.user.email });
+
+      if (!db_user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const org = await OrganizationModel.findOne({
+        users: {
+          $in: [db_user._id]
+        }
+      });
+
+      if (!org) {
+        return res.status(404).json({ error: 'Organization not found' });
+      }
+
+      const token = jwt.sign({ email, name }, process.env.JWT_SECRET || '', { expiresIn: '48h' });
+
+      const newInvite = new Invite({ email, name, token });
+      const savedInvite = await newInvite.save();
+
+      await org.users.push(savedInvite._id);
+
+      await org.save();
+
+      // Send an email with the JWT token
+      const mailOptions = {
+        from: '"Your Service" <jason@morrigu.ai>',
+        // to: email,
+        to: 'jason@morrigu.ai', // Replace with the recipient's email address
+        subject: 'You are invited!',
+        text: `Please use the following link to accept the invite: ${process.env.NODEMAILER_URL}/administration/invites/accept?token=${token}`,
+        html: `<p>Please use the following link to accept the invite:</p><a href="${process.env.NODEMAILER_URL}/administ ration/invites/accept?token=${token}">Accept Invitation</a>`
+      };
+
+      await transporter.sendMail(mailOptions);
+
+      res.status(201).json(savedInvite);
+    } else {
+      res.setHeader('Allow', ['GET', 'POST']);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+  } catch (error) {
+    console.log('error', error);
+    res.status(500).json({ error: 'Failed to process request' });
+  }
+}
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/jwt.ts===
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import { getSession } from 'next-auth/react';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
+import { UserModel } from 'backend/schemas';
+import OrganizationModel from 'backend/schemas/Organization';
 
 export function auth(
   ...args: [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']] | [NextApiRequest, NextApiResponse] | []
@@ -2723,6 +3347,22 @@ export default async function jwtRoute(req: NextApiRequest, res: NextApiResponse
     };
     const privateKey = process.env.PARAGON_KEY?.slice(1, -1).replace(/\\n/g, '\n');
 
+    const user = await UserModel.findOne({ id: session?.user?.user_id });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const org = await OrganizationModel.findOne({
+      users: {
+        $in: [user?._id]
+      }
+    });
+
+    if (!org) {
+      return res.status(404).json({ error: 'Organization not found' });
+    }
+
     // Generate JWT token
     const token = jwt.sign(
       {
@@ -2733,7 +3373,7 @@ export default async function jwtRoute(req: NextApiRequest, res: NextApiResponse
             };
           }
         ).user,
-        sub: session?.user?.user_id as string,
+        sub: org._id,
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
         iat: Math.floor(Date.now() / 1000) - 30
       },
@@ -2845,7 +3485,7 @@ import OrganizationController from 'backend/controllers/OrganizationController';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { method } = req;
     const { id } = req.query;
@@ -2856,7 +3496,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         return OrganizationController.getOrganization(req, res);
       }
       if (userId) {
-        return OrganizationController.getOrganizationByUserId(userId as string);
+        const org = await OrganizationController.getOrganizationByUserId(userId as string);
+        return res.status(200).json(org);
       }
       return OrganizationController.getOrganizations(req, res);
     }
@@ -3708,6 +4349,214 @@ ResetPassword.getLayout = function getLayout(page: ReactElement) {
 export default ResetPassword;
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/billing/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/blog/index.tsx===
 import Layout from 'layout';
 import Page from 'components/Page';
@@ -3986,7 +4835,7 @@ import ApexPolarChart from 'sections/charts/apexchart/ApexPolarChart';
 import ApexRedialBarChart from 'sections/charts/apexchart/ApexRadialChart';
 
 export type ChartVizMessageDataType = {
-  type: string;
+  chart_type: string;
   title: string;
   caption: string;
   message: string;
@@ -3995,6 +4844,7 @@ export type ChartVizMessageDataType = {
     data: number[];
   }[];
   width: string | number;
+  height: string | number;
 };
 
 export type ChatVizMessageProps = {
@@ -4013,14 +4863,14 @@ const ChatVizMessage = ({ data }: ChatVizMessageProps) => {
       >
         <Stack>
           <Stack>
-            {data?.type === 'area' && <ApexAreaChart {...data} />}
-            {data?.type === 'bar' && <ApexBarChart {...data} />}
-            {data?.type === 'column' && <ApexColumnChart />}
-            {data?.type === 'line' && <ApexLineChart />}
-            {data?.type === 'mixed' && <ApexMixedChart />}
-            {data?.type === 'pie' && <ApexPieChart />}
-            {data?.type === 'polar' && <ApexPolarChart />}
-            {data?.type === 'radial' && <ApexRedialBarChart />}
+            {data?.chart_type === 'area' && <ApexAreaChart {...data} />}
+            {data?.chart_type === 'bar' && <ApexBarChart {...data} />}
+            {data?.chart_type === 'column' && <ApexColumnChart {...data} />}
+            {data?.chart_type === 'line' && <ApexLineChart {...data} />}
+            {/* {data?.chart_type === 'mixed' && <ApexMixedChart />} */}
+            {data?.chart_type === 'pie' && <ApexPieChart {...data} />}
+            {data?.chart_type === 'polar' && <ApexPolarChart {...data} />}
+            {data?.chart_type === 'radial' && <ApexRedialBarChart />}
           </Stack>
           <Stack>
             <Typography variant="caption">{data.caption}</Typography>
@@ -4170,21 +5020,7 @@ export default CreateHistoryItem;
 import { ReactElement, useEffect, useRef, useState } from 'react';
 
 // material-ui
-import {
-  Stack,
-  TextField,
-  Grid,
-  FormControl,
-  IconButton,
-  Badge,
-  Avatar,
-  Typography,
-  Popper,
-  Popover,
-  Menu,
-  MenuItem,
-  List
-} from '@mui/material';
+import { Stack, TextField, Grid, FormControl, IconButton, Badge, Avatar, Typography, Popover, MenuItem, List } from '@mui/material';
 
 // project imports
 import Layout from 'layout';
@@ -4193,7 +5029,7 @@ import MainCard from 'components/MainCard';
 
 import Markdown from 'react-markdown';
 import { useFormik } from 'formik';
-import { AlternateEmail, EmailOutlined, PhotoOutlined, SendOutlined, SupportAgent, Tag } from '@mui/icons-material';
+import { AlternateEmail, SendOutlined, SupportAgent, Tag } from '@mui/icons-material';
 import { PaperClipOutlined } from '@ant-design/icons';
 import Dropzone from 'components/Dropzone';
 import Image from 'next/image';
@@ -4202,6 +5038,9 @@ import { useParams } from 'next/navigation';
 import ChatVizMessage, { ChartVizMessageDataType } from '../ChatVizMessage';
 import CueCardSection from '../CueCardSection';
 import ChatStatusIndicator from '../ChatStatusIndicator';
+import { paragon } from '@useparagon/connect';
+import { sleep } from 'openai/core';
+import { IIntegrationMetadata } from '@useparagon/connect/dist/src/entities/integration.interface';
 
 type ThreadMessage = {
   id: string;
@@ -4226,7 +5065,12 @@ type TextContent = {
   annotations: any[];
 };
 
-const RunPage = () => {
+type RunPageProps = {
+  layout: "full" | "side",
+  threadIdOverride?: string
+}
+
+const RunPage = ({layout}: RunPageProps) => {
   const { threadId } = useParams<{ threadId: string }>();
   const scrollRef = useRef(null);
   const [loading, setLoading] = useState(true);
@@ -4240,6 +5084,8 @@ const RunPage = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
   const [anchorEl3, setAnchorEl3] = useState<HTMLElement | null>(null);
+  const [message, setMessage] = useState('');
+  const lastValueRef = useRef(message);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_MORRIGU_BACKEND_API_URL}/api/openai/assistant/thread/${threadId}/required_actions`)
@@ -4408,6 +5254,73 @@ const RunPage = () => {
     scrollTOBottom();
   }, [messages, response]);
 
+  // Paragon Integration
+  const [intMeta, setIntMeta] = useState<IIntegrationMetadata[]>([]);
+  useEffect(() => {
+    const init = async () => {
+      while (paragon.getIntegrationMetadata().length === 0) {
+        await sleep(1000);
+      }
+
+      const temp = paragon.getIntegrationMetadata();
+
+      console.log('temp', temp);
+      setIntMeta(temp);
+    };
+
+    init();
+    // const intList = intMeta.map((integ) => {
+    //   return integ.name.toLowerCase();
+    // });
+  }, []);
+
+  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    // we want to check if the delta between the last value and the current value is an '@', '#', or '/' and then handle those cases
+    if (e.key === '@' || e.key === '#' || e.key === '/') {
+      // we need to handle the case where the user is typing a message and they type '@' or '#' or '/'
+      // we need to show a popper with a list of users or tags
+      console.log("User is typing a message and they typed '@' or '#' or '/'", e.key);
+
+      switch (e.key) {
+        case '#':
+          if (anchorEl) {
+            setAnchorEl(null);
+            break;
+          }
+          setAnchorEl(e.currentTarget);
+          break;
+        case '@':
+          if (anchorEl2) {
+            setAnchorEl2(null);
+            break;
+          }
+          setAnchorEl2(e.currentTarget);
+          break;
+        case '/':
+          if (anchorEl3) {
+            setAnchorEl3(null);
+            break;
+          }
+          setAnchorEl3(e.currentTarget);
+          break;
+      }
+    }
+    // Shift + Enter
+    if (e.key === 'Enter' && e.shiftKey) {
+      // we need to handle the case where the user is typing a message and they press enter
+      // we need to send the message to the backend
+      handleSend({
+        message: formik.values.message
+      });
+      console.log('User is typing a message and they pressed enter');
+    }
+  };
+
+  const handleAppendToFormikMessage = (text: string) => {
+    formik.setFieldValue('message', formik.values.message + text);
+    setAnchorEl3(null);
+  };
+
   return (
     <Page title="Chat">
       <MainCard>
@@ -4517,13 +5430,7 @@ const RunPage = () => {
                       helperText={formik.touched.message && formik.errors.message}
                       maxRows={15}
                       multiline
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          handleSend({
-                            message: formik.values.message
-                          });
-                        }
-                      }}
+                      onKeyDown={handleOnKeyDown}
                       InputProps={{
                         endAdornment: (
                           <IconButton
@@ -4571,25 +5478,15 @@ const RunPage = () => {
                                 <Popover open={Boolean(anchorEl3)} anchorEl={anchorEl3} onClose={() => setAnchorEl3(null)}>
                                   <Stack>
                                     <List>
-                                      {[
-                                        'QuickBooks Assistant',
-                                        'Salesforce Assistant',
-                                        'Zendesk Assistant',
-                                        'Google Analytics Assistant',
-                                        'Google Ads Assistant',
-                                        'Facebook Ads Assistant',
-                                        'HubSpot Assistant',
-                                        'Slack Assistant'
-                                      ].map((email) => (
-                                        <MenuItem key={`email-${email}`}>
-                                          <SupportAgent
-                                            sx={{
-                                              width: '20px',
-                                              paddingRight: '5px'
-                                            }}
-                                          />
-                                          {'  '}
-                                          {email}
+                                      {intMeta?.map((integration) => (
+                                        <MenuItem
+                                          key={`email-${integration.name}`}
+                                          onClick={() => handleAppendToFormikMessage(`/${integration.name}`)}
+                                        >
+                                          <Stack direction={'row'} gap={1} alignItems={'center'}>
+                                            <Image src={integration.icon} width={15} height={15} alt={integration.name} />
+                                            {integration.name}
+                                          </Stack>
                                         </MenuItem>
                                       ))}
                                     </List>
@@ -4607,7 +5504,7 @@ const RunPage = () => {
                                   <Stack>
                                     <List>
                                       {[1, 2, 3, 4, 5, 6].map((email) => (
-                                        <MenuItem key={`email-${email}`}>
+                                        <MenuItem key={`email-${email}`} onClick={() => handleAppendToFormikMessage(`@${email}`)}>
                                           <AlternateEmail
                                             sx={{
                                               width: '13px'
@@ -4630,7 +5527,7 @@ const RunPage = () => {
                                   <Stack>
                                     <List>
                                       {[1, 2, 3, 4, 5, 6].map((tag) => (
-                                        <MenuItem key={`tag-${tag}`}>
+                                        <MenuItem key={`tag-${tag}`} onClick={() => handleAppendToFormikMessage(`#${tag}`)}>
                                           <Tag
                                             sx={{
                                               width: '13px'
@@ -5000,9 +5897,1222 @@ export default DashboardAnalytics;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/database/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/feedback/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/create.tsx===
+import { useState, ReactElement } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import {
+  Grid,
+  TextField,
+  Button,
+  Stack,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText
+} from '@mui/material';
+import { useRouter } from 'next/router';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+
+const initialValues = {
+  expenseCategory: '',
+  description: '',
+  amount: 0,
+  date: new Date(),
+  paymentType: 'cash',
+  recurring: false
+};
+
+const CreateExpense = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const validationSchema = Yup.object({
+    expenseCategory: Yup.string().required('Expense category is required'),
+    description: Yup.string().required('Description is required'),
+    amount: Yup.number().required('Amount is required'),
+    date: Yup.date().required('Date is required'),
+    paymentType: Yup.string().required('Payment type is required')
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        // Submit expense data to the server
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        router.push('/finance/expense');
+      } catch (error) {
+        console.error('Error creating expense:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  });
+
+  return (
+    <Page title="Create Expense">
+      <form onSubmit={formik.handleSubmit}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="expense-category-label">Expense Category</InputLabel>
+              <Select
+                labelId="expense-category-label"
+                id="expense-category"
+                name="expenseCategory"
+                value={formik.values.expenseCategory}
+                onChange={formik.handleChange}
+                error={formik.touched.expenseCategory && Boolean(formik.errors.expenseCategory)}
+              >
+                <MenuItem value="travel">Travel</MenuItem>
+                <MenuItem value="office">Office</MenuItem>
+                <MenuItem value="marketing">Marketing</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+              <FormHelperText error>{formik.touched.expenseCategory && formik.errors.expenseCategory}</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              id="description"
+              name="description"
+              label="Description"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              id="amount"
+              name="amount"
+              label="Amount"
+              type="number"
+              value={formik.values.amount}
+              onChange={formik.handleChange}
+              error={formik.touched.amount && Boolean(formik.errors.amount)}
+              helperText={formik.touched.amount && formik.errors.amount}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              id="date"
+              name="date"
+              label="Date"
+              type="date"
+              value={formik.values.date}
+              onChange={formik.handleChange}
+              error={formik.touched.date && Boolean(formik.errors.date)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Payment Type</FormLabel>
+              <RadioGroup row aria-label="payment-type" name="paymentType" value={formik.values.paymentType} onChange={formik.handleChange}>
+                <FormControlLabel value="cash" control={<Radio />} label="Cash" />
+                <FormControlLabel value="credit" control={<Radio />} label="Credit Card" />
+                <FormControlLabel value="debit" control={<Radio />} label="Debit Card" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Recurring Expense</FormLabel>
+              <RadioGroup
+                row
+                aria-label="recurring-expense"
+                name="recurring"
+                value={formik.values.recurring.toString()}
+                onChange={formik.handleChange}
+              >
+                <FormControlLabel value="true" control={<Radio />} label="Yes" />
+                <FormControlLabel value="false" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Stack direction="row" spacing={1}>
+              <Button type="submit" variant="contained" color="primary" disabled={loading}>
+                Create Expense
+              </Button>
+              <Button variant="contained" color="secondary" disabled={loading}>
+                Cancel
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
+      </form>
+    </Page>
+  );
+};
+
+CreateExpense.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default CreateExpense;
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/edit/[id].tsx===
+import { useState, ReactElement } from 'react';
+import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import {
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Stack,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText
+} from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+
+const initialValues = {
+  expenseCategory: '',
+  description: '',
+  amount: 0,
+  date: new Date(),
+  paymentType: 'cash',
+  recurring: false
+};
+
+const EditExpense = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const validationSchema = Yup.object({
+    expenseCategory: Yup.string().required('Expense category is required'),
+    description: Yup.string().required('Description is required'),
+    amount: Yup.number().required('Amount is required'),
+    date: Yup.date().required('Date is required'),
+    paymentType: Yup.string().required('Payment type is required')
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        // Submit expense data to the server
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        router.push('/finance/expense');
+      } catch (error) {
+        console.error('Error updating expense:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  });
+
+  return (
+    <Page title="Edit Expense">
+      <form onSubmit={formik.handleSubmit}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="expense-category-label">Expense Category</InputLabel>
+              <Select
+                labelId="expense-category-label"
+                id="expense-category"
+                name="expenseCategory"
+                value={formik.values.expenseCategory}
+                onChange={formik.handleChange}
+                error={formik.touched.expenseCategory && Boolean(formik.errors.expenseCategory)}
+              >
+                <MenuItem value="travel">Travel</MenuItem>
+                <MenuItem value="office">Office</MenuItem>
+                <MenuItem value="marketing">Marketing</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+              <FormHelperText error>{formik.touched.expenseCategory && formik.errors.expenseCategory}</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              id="description"
+              name="description"
+              label="Description"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              id="amount"
+              name="amount"
+              label="Amount"
+              type="number"
+              value={formik.values.amount}
+              onChange={formik.handleChange}
+              error={formik.touched.amount && Boolean(formik.errors.amount)}
+              helperText={formik.touched.amount && formik.errors.amount}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              id="date"
+              name="date"
+              label="Date"
+              type="date"
+              value={formik.values.date}
+              onChange={formik.handleChange}
+              error={formik.touched.date && Boolean(formik.errors.date)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Payment Type</FormLabel>
+              <RadioGroup row aria-label="payment-type" name="paymentType" value={formik.values.paymentType} onChange={formik.handleChange}>
+                <FormControlLabel value="cash" control={<Radio />} label="Cash" />
+                <FormControlLabel value="credit" control={<Radio />} label="Credit Card" />
+                <FormControlLabel value="debit" control={<Radio />} label="Debit Card" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Recurring Expense</FormLabel>
+              <RadioGroup
+                row
+                aria-label="recurring-expense"
+                name="recurring"
+                value={formik.values.recurring.toString()}
+                onChange={formik.handleChange}
+              >
+                <FormControlLabel value="true" control={<Radio />} label="Yes" />
+                <FormControlLabel value="false" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Stack direction="row" spacing={1}>
+              <Button type="submit" variant="contained" color="primary" disabled={loading}>
+                Update Expense
+              </Button>
+              <Button variant="contained" color="secondary" disabled={loading}>
+                Cancel
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
+      </form>
+    </Page>
+  );
+};
+
+EditExpense.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default EditExpense;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/index.tsx===
+import { useTheme } from '@emotion/react';
+import { Grid, Typography, Divider, Stack, Button, TextField, IconButton, Menu, MenuItem } from '@mui/material';
+import MainCard from 'components/MainCard';
+import Page from 'components/Page';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+import Layout from 'layout';
+
+import { ReactElement, useState, useEffect } from 'react';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ExpenseBreakdown from 'sections/expense/ExpenseBreakdown';
+import RecentExpenses from 'sections/expense/RecentExpenses';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import PrintIcon from '@mui/icons-material/Print';
+import SearchIcon from '@mui/icons-material/Search';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import CategoryIcon from '@mui/icons-material/Category';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+
+interface Expense {
+  id: number;
+  category: string;
+  description: string;
+  amount: number;
+  date: string;
+}
+
+const ExpensePage = () => {
+  const theme = useTheme();
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [filterAnchorEl, setFilterAnchorEl] = useState<null | HTMLElement>(null);
+  const [searchText, setSearchText] = useState('');
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [category, setCategory] = useState('');
+  const [minAmount, setMinAmount] = useState<number | null>(null);
+  const [maxAmount, setMaxAmount] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Fetch expenses from the API
+    const fetchExpenses = async () => {
+      try {
+        const response = await fetch('/api/expenses');
+        const data = await response.json();
+        setExpenses(data);
+      } catch (error) {
+        console.error('Error fetching expenses:', error);
+      }
+    };
+
+    fetchExpenses();
+  }, []);
+
+  const handleFilterClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setFilterAnchorEl(event.currentTarget);
+  };
+
+  const handleFilterClose = () => {
+    setFilterAnchorEl(null);
+  };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    setEndDate(date);
+  };
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCategory(event.target.value);
+  };
+
+  const handleMinAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMinAmount(event.target.value ? parseFloat(event.target.value) : null);
+  };
+
+  const handleMaxAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxAmount(event.target.value ? parseFloat(event.target.value) : null);
+  };
+
+  const filteredExpenses = expenses.filter(
+    (expense) =>
+      (searchText === '' || expense.description.toLowerCase().includes(searchText.toLowerCase())) &&
+      (!startDate || new Date(expense.date) >= startDate) &&
+      (!endDate || new Date(expense.date) <= endDate) &&
+      (category === '' || expense.category === category) &&
+      (!minAmount || expense.amount >= minAmount) &&
+      (!maxAmount || expense.amount <= maxAmount)
+  );
+
+  const handlePrint = () => {
+    // Implement print functionality
+    console.log('Print expenses');
+  };
+
+  const handleExport = () => {
+    // Implement export to CSV functionality
+    console.log('Export expenses to CSV');
+  };
+
+  const handleCreateExpense = () => {
+    // Implement create new expense functionality
+    console.log('Create new expense');
+  };
+
+  return (
+    <Page title="Expense Management">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Expenses" count="$78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Overdue Expenses" count="$18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Cash Flow" count="$35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Savings" count="$523,000" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Stack spacing={3}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Typography variant="h4">Recent Expenses</Typography>
+              <Stack direction="row" spacing={1}>
+                <TextField
+                  placeholder="Search expenses..."
+                  value={searchText}
+                  onChange={handleSearch}
+                  InputProps={{
+                    startAdornment: <SearchIcon fontSize="small" />
+                  }}
+                />
+                <IconButton onClick={handleFilterClick}>
+                  <FilterListIcon />
+                </IconButton>
+                <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
+                  <MenuItem>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <DateRangeIcon />
+                      <TextField
+                        type="date"
+                        label="Start Date"
+                        value={startDate ? startDate.toISOString().split('T')[0] : ''}
+                        onChange={(e) => handleStartDateChange(e.target.value ? new Date(e.target.value) : null)}
+                        InputLabelProps={{ shrink: true }}
+                      />
+                      <TextField
+                        type="date"
+                        label="End Date"
+                        value={endDate ? endDate.toISOString().split('T')[0] : ''}
+                        onChange={(e) => handleEndDateChange(e.target.value ? new Date(e.target.value) : null)}
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <CategoryIcon />
+                      <TextField label="Category" value={category} onChange={handleCategoryChange} />
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <AttachMoneyIcon />
+                      <TextField type="number" label="Min Amount" value={minAmount ?? ''} onChange={handleMinAmountChange} />
+                      <TextField type="number" label="Max Amount" value={maxAmount ?? ''} onChange={handleMaxAmountChange} />
+                    </Stack>
+                  </MenuItem>
+                </Menu>
+              </Stack>
+            </Stack>
+            <Divider />
+            <RecentExpenses
+              data={[
+                {
+                  id: 1,
+                  category: 'Travel',
+                  description: 'Flight to New York',
+                  amount: 500,
+                  date: '2021-10-01'
+                },
+                {
+                  id: 2,
+                  category: 'Office',
+                  description: 'Office Supplies',
+                  amount: 100,
+                  date: '2021-10-05'
+                },
+                {
+                  id: 3,
+                  category: 'Marketing',
+                  description: 'Facebook Ads',
+                  amount: 300,
+                  date: '2021-10-10'
+                },
+                {
+                  id: 4,
+                  category: 'Other',
+                  description: 'Miscellaneous',
+                  amount: 200,
+                  date: '2021-10-15'
+                }
+              ]}
+            />
+          </Stack>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <MainCard title="Expense Breakdown" content={false}>
+            <ExpenseBreakdown
+              data={[
+                {
+                  category: 'Travel',
+                  amount: 500
+                },
+                {
+                  category: 'Office',
+                  amount: 100
+                },
+                {
+                  category: 'Marketing',
+                  amount: 300
+                },
+                {
+                  category: 'Other',
+                  amount: 200
+                }
+              ]}
+            />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+ExpensePage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default ExpensePage;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import { Grid, SelectChangeEvent, Stack } from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import Page from 'components/Page';
+import useConfig from 'hooks/useConfig';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Finance Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Accounts Receivable" count="$78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Accounts Payable" count="$18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Cash Flow" count="$35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Revenue" count="$523,000" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item xs={12} md={7} lg={8}>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <IncomeChart slot={slot} quantity={2} />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/reports/index.tsx===
+// AI Thumbprint = adsasdfknx1b12
+import { useState, ReactElement } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { Grid, Typography, Box, LinearProgress, Stack } from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+import ApexAreaChart from 'sections/charts/apexchart/ApexAreaChart';
+
+const ExpenseReports = () => {
+  // AI Thumbprint = adsasdfknx1b12
+  const theme = useTheme();
+  const [loading, setLoading] = useState(false); // Add loading state
+  const [expenseData, setExpenseData] = useState({
+    totalExpenses: 0,
+    monthlyExpenses: 0,
+    averageExpense: 0,
+    expenseHistory: [
+      {
+        date: '',
+        amount: 0
+      },
+      {
+        date: '',
+        amount: 0
+      }
+    ]
+  });
+
+  // Fetch expense data from the API
+  const fetchExpenseData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/expenses');
+      const data = await response.json();
+      setExpenseData(data);
+    } catch (error) {
+      console.error('Error fetching expense data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch expense data when the component mounts
+  useState(() => {
+    fetchExpenseData();
+  }, []);
+
+  return (
+    <Page title="Expense Reports">
+      <Grid container spacing={2}>
+        {loading ? (
+          <Grid item xs={12}>
+            <Box sx={{ width: '100%' }}>
+              <LinearProgress />
+            </Box>
+          </Grid>
+        ) : (
+          <>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Total Expenses">
+                <Typography variant="h4">${expenseData.totalExpenses.toFixed(2)}</Typography>
+                <Typography variant="body2">Total expenses incurred.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Monthly Expenses">
+                <Typography variant="h4">${expenseData.monthlyExpenses.toFixed(2)}</Typography>
+                <Typography variant="body2">Expenses incurred in the current month.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Average Expense">
+                <Typography variant="h4">${expenseData.averageExpense.toFixed(2)}</Typography>
+                <Typography variant="body2">Average expense per transaction.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12}>
+              <MainCard title="Expense History">
+                <Stack spacing={2}>
+                  <ApexAreaChart series={[{ name: 'Expenses', data: expenseData.expenseHistory.map((record) => record.amount) }]} />
+                </Stack>
+              </MainCard>
+            </Grid>
+          </>
+        )}
+      </Grid>
+    </Page>
+  );
+};
+
+ExpenseReports.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default ExpenseReports;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/forgot-password.tsx===
@@ -6826,6 +8936,215 @@ FormsWizard.getLayout = function getLayout(page: ReactElement) {
 export default FormsWizard;
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/hr-dashboard/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/index.tsx===
 import { ReactElement } from 'react';
 
@@ -6848,34 +9167,435 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/integration/index.tsx===
+import React from 'react';
+
+const IntegrationPage: React.FC = () => {
+  return (
+    <div>
+      <h1>Integration Page</h1>
+      {/* Add your content here */}
+    </div>
+  );
+};
+
+export default IntegrationPage;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/inventory/index.tsx===
-import { ReactElement } from 'react';
+import { useState, ReactElement } from 'react';
 
 // material-ui
-import { Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
 
-// project imports
+// project import
 import Layout from 'layout';
-import Page from 'components/Page';
+
 import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
 
-// ==============================|| INVENTORY DASHBOARD ||============================== //
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
 
-const InventoryDashboard = () => (
-  <Page title="Inventory Dashboard">
-    <MainCard title="Inventory Dashboard">
-      <Typography variant="body2">Inventory Dashboard content goes here.</Typography>
-    </MainCard>
-  </Page>
-);
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
 
-InventoryDashboard.getLayout = function getLayout(page: ReactElement) {
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default InventoryDashboard;
+export default DashboardAnalytics;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/legal/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
+
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/login.tsx===
 import { ReactElement } from 'react';
@@ -7227,31 +9947,212 @@ export default UnderConstruction;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/marketing/index.tsx===
-import { ReactElement } from 'react';
+import { useState, ReactElement } from 'react';
 
 // material-ui
-import { Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
 
-// project imports
+// project import
 import Layout from 'layout';
-import Page from 'components/Page';
+
 import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
 
-// ==============================|| MARKETING DASHBOARD ||============================== //
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
 
-const MarketingDashboard = () => (
-  <Page title="Marketing Dashboard">
-    <MainCard title="Marketing Dashboard">
-      <Typography variant="body2">Marketing Dashboard content goes here.</Typography>
-    </MainCard>
-  </Page>
-);
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
 
-MarketingDashboard.getLayout = function getLayout(page: ReactElement) {
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default MarketingDashboard;
+export default DashboardAnalytics;
+
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/pricing.tsx===
 import { useState, Fragment, ReactElement } from 'react';
@@ -7464,120 +10365,212 @@ export default Register;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/sales/index.tsx===
-import React, { ReactElement } from 'react';
+import { useState, ReactElement } from 'react';
 
 // material-ui
-import { Grid, Typography, Button, Card, CardContent, CardActions } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
 
-// project imports
+// project import
 import Layout from 'layout';
-import Page from 'components/Page';
+
 import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
 
-// ==============================|| SALES DASHBOARD ||============================== //
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
 
-const SalesAndMarketingDashboard = () => {
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+import SalesBanner from 'sections/dashboard/analytics/SalesBanner';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
   return (
-    <Page title="Sales and Marketing Dashboard">
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                Customer Segmentation
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                AI algorithms can analyze customer data to segment customers more effectively according to behavior, preferences, and
-                demographics.
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <SalesBanner />
+          </Stack>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                Predictive Analytics
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Predict future buying behaviors based on past purchase history and browsing data, allowing for more targeted marketing and
-                sales strategies.
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Daily Sales Activity" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                Lead Scoring
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                AI can rank prospects according to their likelihood of converting, enabling sales teams to prioritize their efforts more
-                effectively.
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Lead Conversion Rates" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                Churn Prediction
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Identify customers who are likely to churn, allowing businesses to proactively engage them with retention strategies.
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Monthly Sales Trend" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                Ad Targeting Optimization
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Optimize ad targeting by analyzing which messages perform best with specific demographics and user behaviors.
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
         </Grid>
       </Grid>
     </Page>
   );
 };
 
-SalesAndMarketingDashboard.getLayout = function getLayout(page: ReactElement) {
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default SalesAndMarketingDashboard;
+export default DashboardAnalytics;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/sample-page.tsx===
@@ -7611,6 +10604,422 @@ SamplePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default SamplePage;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/shipping/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/support/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const DashboardAnalytics = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Analytic Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        <Grid item xs={12}>
+          <Stack spacing={3}>
+            <ReaderCard />
+          </Stack>
+        </Grid>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Invocations" count="78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Sessions" count="18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Functions Called" count="35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Models" count="23" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Invocations</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <Grid item>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Stack sx={{ ml: 2, mt: 3 }} alignItems={{ xs: 'center', sm: 'flex-start' }}>
+                    <Stack direction="row" alignItems="center">
+                      <CaretDownOutlined style={{ color: theme.palette.error.main, paddingRight: '4px' }} />
+                      <Typography color={theme.palette.error.main}>112,900 (45.67%)</Typography>
+                    </Stack>
+                    <Typography color="textSecondary" sx={{ display: 'block' }}>
+                      Compare to : 01 Dec 2021-08 Jan 2022
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ xs: 'center', sm: 'flex-end' }}
+                    sx={{ mt: 3, mr: 2 }}
+                  >
+                    <ToggleButtonGroup exclusive onChange={handleChange} size="small" value={slot}>
+                      <ToggleButton disabled={slot === 'week'} value="week" sx={{ px: 2, py: 0.5 }}>
+                        Week
+                      </ToggleButton>
+                      <ToggleButton disabled={slot === 'month'} value="month" sx={{ px: 2, py: 0.5 }}>
+                        Month
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <Select value={quantity} onChange={handleQuantity} size="small">
+                      <MenuItem value="By volume">By Volume</MenuItem>
+                      <MenuItem value="By margin">By Margin</MenuItem>
+                      <MenuItem value="By sales">By Sales</MenuItem>
+                    </Select>
+                    <IconButton
+                      size="small"
+                      sx={{
+                        border: `1px solid ${theme.palette.grey[400]}`,
+                        '&:hover': { backgroundColor: 'transparent' }
+                      }}
+                    >
+                      <DownloadOutlined style={{ color: theme.palette.grey[900] }} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Box sx={{ pt: 1 }}>
+              <ApexPieChart />
+            </Box>
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <InvokeCalls />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Prompt Features</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <PromptFeatureList />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Analytics Report</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+              <ListItemButton divider>
+                <ListItemText primary="Company Finance Growth" />
+                <Typography variant="h5">+45.14%</Typography>
+              </ListItemButton>
+              <ListItemButton divider>
+                <ListItemText primary="Company Expenses Ratio" />
+                <Typography variant="h5">0.58%</Typography>
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText primary="Business Risk Cases" />
+                <Typography variant="h5">Low</Typography>
+              </ListItemButton>
+            </List>
+            <ReportChart />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default DashboardAnalytics;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/usage/index.tsx===

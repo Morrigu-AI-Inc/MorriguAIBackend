@@ -1,0 +1,222 @@
+ /Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/reports/index.tsx===
+import { useState, ReactElement } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { Grid, Typography, Box, LinearProgress, Stack } from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+import MainCard from 'components/MainCard';
+import ApexAreaChart from 'sections/charts/apexchart/ApexAreaChart';
+
+const ExpenseReports = () => {
+  const theme = useTheme();
+  const [loading, setLoading] = useState(false); // Add loading state
+  const [expenseData, setExpenseData] = useState({
+    totalExpenses: 0,
+    monthlyExpenses: 0,
+    averageExpense: 0,
+    expenseHistory: []
+  });
+
+  // Fetch expense data from the API
+  const fetchExpenseData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/expenses');
+      const data = await response.json();
+      setExpenseData(data);
+    } catch (error) {
+      console.error('Error fetching expense data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch expense data when the component mounts
+  useState(() => {
+    fetchExpenseData();
+  }, []);
+
+  return (
+    <Page title="Expense Reports">
+      <Grid container spacing={2}>
+        {loading ? (
+          <Grid item xs={12}>
+            <Box sx={{ width: '100%' }}>
+              <LinearProgress />
+            </Box>
+          </Grid>
+        ) : (
+          <>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Total Expenses">
+                <Typography variant="h4">${expenseData.totalExpenses.toFixed(2)}</Typography>
+                <Typography variant="body2">Total expenses incurred.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Monthly Expenses">
+                <Typography variant="h4">${expenseData.monthlyExpenses.toFixed(2)}</Typography>
+                <Typography variant="body2">Expenses incurred in the current month.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MainCard title="Average Expense">
+                <Typography variant="h4">${expenseData.averageExpense.toFixed(2)}</Typography>
+                <Typography variant="body2">Average expense per transaction.</Typography>
+              </MainCard>
+            </Grid>
+            <Grid item xs={12}>
+              <MainCard title="Expense History">
+                <Stack spacing={2}>
+                  <ApexAreaChart
+                    data={{
+                      series: [
+                        {
+                          name: 'Expenses',
+                          data: expenseData.expenseHistory.map((record) => record.amount)
+                        }
+                      ],
+                      categories: expenseData.expenseHistory.map((record) => record.date)
+                    }}
+                    options={{
+                      chart: {
+                        type: 'area',
+                        toolbar: {
+                          show: true
+                        }
+                      },
+                      colors: [theme.palette.error.main],
+                      dataLabels: {
+                        enabled: false
+                      },
+                      stroke: {
+                        curve: 'smooth'
+                      },
+                      xaxis: {
+                        type: 'datetime',
+                        categories: expenseData.expenseHistory.map((record) => new Date(record.date).getTime())
+                      },
+                      tooltip: {
+                        x: {
+                          format: 'dd/MM/yy'
+                        }
+                      }
+                    }}
+                  />
+                </Stack>
+              </MainCard>
+            </Grid>
+          </>
+        )}
+      </Grid>
+    </Page>
+  );
+};
+
+ExpenseReports.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default ExpenseReports;
+===end===
+
+===filename: /Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/administration/settings/general.tsx===
+import Layout from 'layout';
+import React, { ReactElement, useState } from 'react';
+import { Grid, Typography, TextField, Button, Divider } from '@mui/material';
+import MainCard from 'components/MainCard';
+import Page from 'components/Page';
+
+const GeneralSettings = () => {
+  const [settings, setSettings] = useState({
+    companyName: '',
+    companyAddress: '',
+    companyEmail: '',
+    companyPhone: ''
+  });
+
+  const handleChange = (e) => {
+    setSettings({ ...settings, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    try {
+      // Send settings data to the API
+      await fetch('/api/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(settings)
+      });
+      console.log('Settings saved successfully');
+    } catch (error) {
+      console.error('Error saving settings:', error);
+    }
+  };
+
+  return (
+    <Page title="General Settings">
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <MainCard>
+            <Typography variant="h4" mb={2}>
+              General Settings
+            </Typography>
+            <Divider />
+            <Grid container spacing={3} mt={2}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Company Name"
+                  name="companyName"
+                  value={settings.companyName}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Company Address"
+                  name="companyAddress"
+                  value={settings.companyAddress}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Company Email"
+                  name="companyEmail"
+                  value={settings.companyEmail}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Company Phone"
+                  name="companyPhone"
+                  value={settings.companyPhone}
+                  onChange={handleChange}
+                />
+              </Grid>
+            </Grid>
+            <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 3 }}>
+              Save Settings
+            </Button>
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+GeneralSettings.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default GeneralSettings;
+===end===

@@ -41,6 +41,9 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
     
       If you would like to replace a line of code, please provide the exact search term and the replacement code.
       This only works for single line not multi-line code changes. You can stack multiple search and replace pairs but only one per filename block.
+
+      You must provide both the search term and the replacement code.
+
       Example: 
 
       ===filename:src/components/ChatInput.js===
@@ -60,6 +63,14 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
       Finally --- You are only to write code and nothing else.
       All code goes in the pages directory.
       
+      Do not ask or tell the user to create anything in the codebase. You are to make all edits directly. This script will get run again if you are not finished.
+      
+      At the end of the response you should inform the user whether you are finish or not and if not write ====incomplete==== at the end of the response.
+
+      Writing ====incomplete==== will trigger this script to run again the changes will get saved and you will start anew.
+
+      Design - You MUST write code that is clean and follows the design patterns of the codebase.
+      
       `,
       messages: [
         {
@@ -67,26 +78,38 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
           content: [
             {
               type: 'text',
-              text: 'Update The Sales Dashboard With Relevant Metric Charts using the similar components as before. ',
-            },
-            {
-              type: 'text',
-              text: `
-              For each section in the dashboard in sales make sure they have a visual representation of the data.
-              Come up with Dummy Data for the dashboard.
-              `,
+              text: 'We are creating an AI saas expense management platform. This platform is for Corporate Finance teams to manage their expenses and reports. We need to consider the following:',
             },
             {
               type: 'text',
               text: html,
             },
+
             {
               type: 'text',
-              text: 'Ive tagged the content with a thumbprint: "lhh3123jhqgs7d" so you can find it easily.',
+              text: `
+              Let's start with the following pages/components or edits to existing pages/components focus only on out finance platform. Here are the pages I need to create or edit:
+              - Reports
+                - Expense Page
+                  - This page should show a list of expenses and allow the user to filter by date, category, and amount.
+                  - The user should be able to click on an expense to view more details.
+                  - The user should be able to edit an expense.
+                  - The user should be able to delete an expense.
+                  - The user should be able to add a new expense.
+                  - The user should be able to export the expenses to a CSV file.
+                  - The user should be able to print the expenses.
+                  - The user should be able to search for an expense.
+                  - The user should be able to sort the expenses.
+                  - The user should be able to create a new expense.
+                  - Anything else that makes this platform top of the line.
+              - Settings
+              `,
             },
             {
               type: 'text',
-              text: 'Dont assume Ill create new components for you. Use the existing components and modify them as needed. Or create new ones if necessary.',
+              text: `
+              Make an amazing expense management platform for Corporate Finance teams. Remember we have the utilization of conversational AI,
+              `,
             },
           ],
         },
@@ -125,6 +148,7 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
 
 // Usage
 const read_file_path = './fullrepo.txt';
-const write_file_path = './refactored.txt';
+const write_file_path =
+  './refactored/refactored-' + new Date().getTime() + '.changes';
 
 generateSchemaForHtml(read_file_path, write_file_path);

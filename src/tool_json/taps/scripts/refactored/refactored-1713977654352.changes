@@ -1,4 +1,4 @@
-===filenam: /Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/create.tsx===
+===filename: /Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/create.tsx===
 import { useState, ReactElement } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -164,6 +164,7 @@ CreateExpense.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default CreateExpense;
+
 ===end===
 
 ===filename: /Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/edit/[id].tsx===
@@ -358,6 +359,7 @@ EditExpense.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default EditExpense;
+
 ===end===
 
 ===filename: /Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/index.tsx===
@@ -444,5 +446,4 @@ ExpensePage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default ExpensePage;
-===end===
+export

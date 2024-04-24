@@ -1,0 +1,69 @@
+{
+  "name": "tools/github_api_integration",
+  "description": "This tool is used to integrate with the Github API",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "endpoint": {
+        "type": "array",
+        "description": "The endpoints to be called",
+        "enum": [
+          "/repos/{owner}/{repo}/commits",
+          "/repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head",
+          "/repos/{owner}/{repo}/compare/{basehead}",
+          "/repos/{owner}/{repo}/comments",
+          "/repos/{owner}/{repo}/comments/{comment_id}",
+          "/repos/{owner}/{repo}/commits/{commit_sha}/comments",
+          "/repos/{owner}/{repo}/commits/{ref}/status",
+          "/repos/{owner}/{repo}/commits/{commit_sha}/statuses",
+          "/repos/{owner}/{repo}/statuses/{sha}",
+          "/enterprises/{enterprise}/dependabot/alerts",
+          "/orgs/{org}/dependabot/alerts",
+          "/repos/{owner}/{repo}/dependabot/alerts",
+          "/repos/{owner}/{repo}/dependabot/alerts/{alert_number}",
+          "/repos/{owner}/{repo}/deployments",
+          "/orgs/{org}/repos",
+          "/organizations",
+          "/org/{org}",
+          "/org/{org}/installations",
+          "/user/orgs",
+          "/user/{username}/orgs"
+        ],
+        "additionalProperties": false
+      },
+
+      "method": {
+        "type": "string",
+        "description": "The method to be used",
+        "enum": ["GET", "POST", "PUT", "DELETE"],
+        "additionalProperties": false
+      },
+      "headers": {
+        "type": "object",
+        "description": "The headers to be used",
+        "properties": {
+          "Content-Type": {
+            "type": "string",
+            "description": "The content type of the request"
+          }
+        }
+      },
+      "body": {
+        "type": "object",
+        "description": "The body of the request",
+        "additionalProperties": true
+      },
+      "queryParameters": {
+        "type": "object",
+        "description": "The query parameters to be used",
+        "additionalProperties": true
+      },
+      "pathParameters": {
+        "type": "object",
+        "description": "The path parameters to be used. These should correspond to the placeholders in the endpoint.",
+        "additionalProperties": true
+      }
+    },
+    "required": ["endpoint", "method"]
+  }
+}

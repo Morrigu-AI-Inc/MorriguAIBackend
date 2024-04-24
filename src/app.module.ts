@@ -72,6 +72,7 @@ import { OrganizationSchema } from './db/schemas/Organization';
 import { OrganizationService } from './organization/organization.service';
 import { UserSchema } from './db/schemas/User';
 import { StripeModule } from './stripe/stripe.module';
+import { ProxyModule } from './proxy/proxy.module';
 
 @Module({
   imports: [
@@ -169,6 +170,8 @@ import { StripeModule } from './stripe/stripe.module';
     AssistantModule,
 
     StripeModule,
+
+    ProxyModule,
   ],
   controllers: [
     AppController,

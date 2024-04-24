@@ -61,6 +61,9 @@ type AIRequestPayload = {
   body: {
     [key: string]: any;
   };
+  pathParameters: {
+    [key: string]: string;
+  };
 };
 
 @Controller('tools')
@@ -115,16 +118,40 @@ export class ToolSearchController {
         payload: AIRequestPayload;
       } = JSON.parse(JSON.parse(payload));
 
-      console.log('Invoking tool', tool_name, validPayload);
+      const {
+        endpoint,
+        method,
+        contentType,
+        body,
+        queryParameters,
+        pathParameters,
+      } = validPayload;
 
-      const endPoint = `http://localhost:6060/api/${tool_name}?${new URLSearchParams(
+      if (!validPayload.queryParameters) {
+        validPayload.queryParameters = {};
+      }
+
+      if (!validPayload.body) {
+        validPayload.body = {};
+      }
+
+      for (const key in pathParameters) {
+        validPayload.endpoint = validPayload.endpoint.replace(
+          `{${key}}`,
+          pathParameters[key],
+        );
+      }
+
+      console.log('Endpoint: ', validPayload.endpoint);
+
+      const endPoint = `${process.env.FUNCTION_CALLS_URL}/api/${tool_name}?${new URLSearchParams(
         {
           endpoint: validPayload.endpoint,
           ...validPayload.queryParameters,
         },
       ).toString()}`;
 
-      const call = await fetch(endPoint, {
+      const fetchOps = {
         method: validPayload.method,
         headers: {
           'Content-Type': validPayload.contentType,
@@ -132,8 +159,14 @@ export class ToolSearchController {
             ? req.headers.authorization
             : `Bearer ${req.headers.authorization}`,
         },
-        body: JSON.stringify(validPayload.body) || undefined,
-      });
+        body: validPayload.body ? JSON.stringify(validPayload.body) : null,
+      };
+
+      if (validPayload.method === 'GET') {
+        delete fetchOps.body;
+      }
+
+      const call = await fetch(endPoint, fetchOps);
 
       const json = await call.json();
 

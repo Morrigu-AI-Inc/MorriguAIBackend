@@ -23,23 +23,23 @@ export class ToolsService {
                 text: {
                   query: searchTerm,
                   path: 'tool_name', // Searches in tool_name
-                  score: { boost: { value: 2 } }, // Optional, boosts relevance score for matches in tool_name
+                  score: { boost: { value: 3 } }, // Optional, boosts relevance score for matches in tool_name
                 },
               },
               {
                 text: {
                   query: searchTerm,
                   path: 'description', // Searches in description
-                  score: { boost: { value: 2 } }, // Optional, boosts relevance score for matches in tool_name
+                  score: { boost: { value: 4 } }, // Optional, boosts relevance score for matches in tool_name
                 },
               },
             ],
           },
         },
       },
-      // {
-      //   $limit: 10, // Adjust based on your needs
-      // },
+      {
+        $limit: 3, // Adjust based on your needs
+      },
     ];
 
     const tools = await this.toolModel.aggregate(aggregation).exec();

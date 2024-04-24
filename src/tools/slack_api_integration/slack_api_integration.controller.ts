@@ -7,13 +7,14 @@ export class SlackApiIntegrationController {
     @Body() body,
     @Req() req,
     @Query('endpoint') endpoint: string,
+    @Query('method') method: string,
   ) {
     try {
       console.log('Slack API Integration', body);
       console.log('Slack API Integration', req.query);
 
       const fetchOps = {
-        method: req.method,
+        method: method,
         headers: {
           Authorization: req.headers.authorization.includes('Bearer')
             ? req.headers.authorization
@@ -39,32 +40,31 @@ export class SlackApiIntegrationController {
   }
 
   @Get()
-  async slackApiIntegration(@Query('payload') payload: any, @Req() req) {
+  async slackApiIntegration(
+    @Query('endpoint') endpoint: any,
+    @Req() req,
+    @Query('method') method: any,
+    @Query('queryParameters') queryParameters: any,
+  ) {
     try {
-      const validPayload = JSON.parse(JSON.parse(payload));
-      console.log('Slack API Integration', payload);
+      console.log('Slack API Integration', endpoint);
 
-      delete validPayload?.body?.body?.token || null;
+      console.log('Slack API Integration', req.query);
 
       const fetchOps = {
-        method: validPayload.body.method ? validPayload.body.method : 'GET',
+        method: method,
         headers: {
           Authorization: req.headers.authorization.includes('Bearer')
             ? req.headers.authorization
             : `Bearer ${req.headers.authorization}`,
           'Content-Type': 'application/json; charset=utf-8',
         },
-        body: validPayload.body.body
-          ? JSON.stringify(validPayload.body.body)
-          : null,
       };
 
-      if (validPayload.body.method !== 'POST') {
-        delete fetchOps.body;
-      }
+      console.log('fetchOps', fetchOps);
 
       const results = await fetch(
-        `${process.env.PARAGON_URL}/sdk/proxy/slack/${validPayload.endpoint}?${new URLSearchParams(validPayload.body.queryParameters)}`,
+        `${process.env.PARAGON_URL}/sdk/proxy/slack/${endpoint}?${new URLSearchParams(req.query)}`,
         fetchOps,
       );
 
@@ -80,4 +80,5 @@ export class SlackApiIntegrationController {
       };
     }
   }
+  
 }
