@@ -144,7 +144,7 @@ export class ToolSearchController {
 
       console.log('Endpoint: ', validPayload.endpoint);
 
-      const endPoint = `${process.env.FUNCTION_CALLS_URL}/api/${tool_name}?${new URLSearchParams(
+      const endPoint = `${process.env.BACKEND_API_URL}/api/${tool_name}?${new URLSearchParams(
         {
           endpoint: validPayload.endpoint,
           ...validPayload.queryParameters,

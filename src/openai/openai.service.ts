@@ -133,6 +133,14 @@ export class OpenaiService {
             payload: JSON.stringify(call.function.arguments),
           }).toString();
 
+          console.log(
+            'URL ',
+            `${process.env.BACKEND_API_URL}/api/tools/` +
+              call.function.name +
+              '?' +
+              q,
+          );
+
           const callResp = await fetch(
             `${process.env.BACKEND_API_URL}/api/tools/` +
               call.function.name +
