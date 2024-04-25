@@ -254,77 +254,59 @@ export class OpenaiService {
     token,
     observer,
   ) => {
-    console.log('snapshot', snapshot);
-    console.log(jwt.decode(token));
-    const { providerAccountId } = jwt.decode(token) as any;
-    console.log('providerAccountId', providerAccountId);
-    const org =
-      await this.organizationService.getOrganizationByUserId(providerAccountId);
+    try {
+      console.log('snapshot', snapshot);
+      console.log(jwt.decode(token));
+      const { providerAccountId } = jwt.decode(token) as any;
+      console.log('providerAccountId', providerAccountId);
+      const org =
+        await this.organizationService.getOrganizationByUserId(
+          providerAccountId,
+        );
 
-    org.usage = {
-      prompt_tokens:
-        ((
-          org.usage as {
-            prompt_tokens: number;
-            completion_tokens: number;
-            total_tokens: number;
-          }
-        ).prompt_tokens
-          ? (org.usage as { prompt_tokens: number }).prompt_tokens
-          : 0) + snapshot.usage.prompt_tokens,
-      completion_tokens:
-        ((
-          org.usage as {
-            prompt_tokens: number;
-            completion_tokens: number;
-            total_tokens: number;
-          }
-        ).completion_tokens
-          ? (org.usage as { completion_tokens: number }).completion_tokens
-          : 0) + snapshot.usage.completion_tokens,
-      total_tokens:
-        ((
-          org.usage as {
-            prompt_tokens: number;
-            completion_tokens: number;
-            total_tokens: number;
-          }
-        ).total_tokens
-          ? (org.usage as { total_tokens: number }).total_tokens
-          : 0) + snapshot.usage.total_tokens,
-      request_time: snapshot.completed_at - snapshot.created_at,
-    };
+      org.usage = {
+        prompt_tokens:
+          ((
+            org.usage as {
+              prompt_tokens: number;
+              completion_tokens: number;
+              total_tokens: number;
+            }
+          ).prompt_tokens
+            ? (org.usage as { prompt_tokens: number }).prompt_tokens
+            : 0) + snapshot.usage.prompt_tokens,
+        completion_tokens:
+          ((
+            org.usage as {
+              prompt_tokens: number;
+              completion_tokens: number;
+              total_tokens: number;
+            }
+          ).completion_tokens
+            ? (org.usage as { completion_tokens: number }).completion_tokens
+            : 0) + snapshot.usage.completion_tokens,
+        total_tokens:
+          ((
+            org.usage as {
+              prompt_tokens: number;
+              completion_tokens: number;
+              total_tokens: number;
+            }
+          ).total_tokens
+            ? (org.usage as { total_tokens: number }).total_tokens
+            : 0) + snapshot.usage.total_tokens,
+        request_time: snapshot.completed_at - snapshot.created_at,
+      };
 
-    const newOrg = await this.organizationService.updateOrganization(
-      org.id,
-      org,
-    );
+      const newOrg = await this.organizationService.updateOrganization(
+        org.id,
+        org,
+      );
 
-    console.log('newOrg', newOrg);
-
-    //     snapshot {
-    //   id: 'step_6oXjKsTV8HDWU1dR9yvnxeZq',
-    //   object: 'thread.run.step',
-    //   created_at: 1713597831,
-    //   run_id: 'run_BrQLZsofAv5hfkbEogF8msDm',
-    //   assistant_id: 'asst_ojoowqxQVjCoBvhxYwMNQFgq',
-    //   thread_id: 'thread_TlGtHq6yQgZnXJMotCYHB0vR',
-    //   type: 'message_creation',
-    //   status: 'completed',
-    //   cancelled_at: null,
-    //   completed_at: 1713597832,
-    //   expires_at: 1713598421,
-    //   failed_at: null,
-    //   last_error: null,
-    //   step_details: {
-    //     type: 'message_creation',
-    //     message_creation: { message_id: 'msg_Fc9irUDKsXXGHiLjOTvfhGmf' }
-    //   },
-    //   usage: { prompt_tokens: 15387, completion_tokens: 28, total_tokens: 15415 }
-    // }
-
-    // console.log('metrics', metrics);
-    // this.organizationService.updateMetrics(metrics);
+      console.log('newOrg', newOrg);
+    } catch (error) {
+      console.error('Error handling run step done', error);
+    }
   };
 
   public handleEventv2 = async (event: any, token: string, observer) => {
