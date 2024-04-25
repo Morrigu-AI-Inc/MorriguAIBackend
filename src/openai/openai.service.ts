@@ -256,7 +256,7 @@ export class OpenaiService {
   ) => {
     try {
       console.log('snapshot', snapshot);
-      console.log(jwt.decode(token));
+      console.log('token', jwt.decode(token));
       const { providerAccountId } = jwt.decode(token) as any;
       console.log('providerAccountId', providerAccountId);
       const org =
@@ -321,6 +321,8 @@ export class OpenaiService {
     if (event.event === 'thread.run.requires_action') {
       console.log('thread.run.requires_action', event.data);
       if (event.data?.required_action?.type === 'submit_tool_outputs') {
+
+        console.log('token handleEventv2', token);
         const calls =
           event.data?.required_action?.submit_tool_outputs.tool_calls;
 
@@ -356,6 +358,7 @@ export class OpenaiService {
             call_results = await this.get_call_results(calls, token);
           }
           this.updateFrontEndStatus('submitting', observer);
+
           this.openai.beta.threads.runs
             .submitToolOutputsStream(event.data.thread_id, event.data.id, {
               tool_outputs: call_results,
@@ -498,6 +501,7 @@ export class OpenaiService {
     assistantId = process.env.DEFAULT_ASSISTANT,
   ): Promise<[Observable<any>, Subscriber<any>]> {
     try {
+      console.log('runAssistant', token);
       let innerObs;
       return [
         new Observable((observer) => {
@@ -507,7 +511,7 @@ export class OpenaiService {
 
           this.openai.beta.threads.runs
             .stream(threadId, {
-              assistant_id: this.assistantService.assistants.tools.id,
+              assistant_id: assistantId,
             })
             .on('abort', (event) => this.hndleAbort(event, observer))
             .on('connect', () => this.handleConnect(observer))
