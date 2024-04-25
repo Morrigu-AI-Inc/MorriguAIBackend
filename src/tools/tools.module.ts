@@ -52,6 +52,7 @@ import { HubspotApiIntegrationModule } from './hubspot_api_integration/hubspot_a
 import { NotionApiIntegrationModule } from './notion_api_integration/notion_api_integration.module';
 import { ToolSearchModule } from './tool_search/tool_search.module';
 import { SalesforceApiIntegrationModule } from './salesforce_api_integration/salesforce_api_integration.module';
+import { QuickbooksApiIntegrationModule } from './quickbooks_api_integration/quickbooks_api_integration.module';
 
 @Module({
   providers: [
@@ -113,6 +114,7 @@ import { SalesforceApiIntegrationModule } from './salesforce_api_integration/sal
     NotionApiIntegrationModule,
     ToolSearchModule,
     SalesforceApiIntegrationModule,
+    QuickbooksApiIntegrationModule,
   ],
   exports: [
     MongooseModule.forFeature([

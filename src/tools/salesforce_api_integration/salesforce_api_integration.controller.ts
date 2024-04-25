@@ -39,16 +39,10 @@ export class SalesforceApiIntegrationController {
   }
 
   @Get()
-  async salesforceApiIntegration(
-    @Query('endpoint') endpoint: any,
-    @Req() req,
-    @Query('queryParameters') queryParameters: any,
-  ) {
+  async salesforceApiIntegration(@Query('endpoint') endpoint: any, @Req() req) {
     try {
-      console.log('Salesforce API Integration', endpoint.queryParameters);
-      console.log('Salesforce API Integration', req.query);
-
-      const { query, path } = this.parseQuery(endpoint);
+      const { endpoint: _ep, ...queryParameters } = req.query;
+      console.log('Salesforce API Integration', queryParameters);
 
       const fetchOps = {
         method: req.method,
@@ -60,11 +54,14 @@ export class SalesforceApiIntegrationController {
         },
       };
 
+      console.log({
+        ...queryParameters,
+      });
+
       const results = await fetch(
-        `${process.env.PARAGON_URL}/sdk/proxy/salesforce/${path}?${new URLSearchParams(
+        `${process.env.PARAGON_URL}/sdk/proxy/salesforce/${endpoint}?${new URLSearchParams(
           {
-            ...query,
-            ...req.query,
+            ...queryParameters,
           },
         ).toString()}`,
         fetchOps,

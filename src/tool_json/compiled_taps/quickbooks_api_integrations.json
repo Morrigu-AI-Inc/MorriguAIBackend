@@ -1,0 +1,61 @@
+{
+  "name": "tools/quickbooks_api_integration",
+  "description": "Quickbooks API Integration",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "endpoint": {
+        "type": "string",
+        "title": "Quickbooks API Endpoint",
+        "description": "The endpoint for the Quickbooks API",
+        "enum": ["/query"]
+      },
+      "headers": {
+        "type": "object",
+        "title": "Request Headers",
+        "description": "The headers to include in the request",
+        "properties": {
+          "addtionalProperties": true
+        }
+      },
+      "method": {
+        "type": "string",
+        "title": "HTTP Method",
+        "description": "The HTTP method to use when making the request",
+        "enum": ["GET", "POST", "PUT", "DELETE"]
+      },
+      "body": {
+        "type": "object",
+        "title": "Request Body",
+        "description": "The body of the request",
+        "properties": {
+          "addtionalProperties": true
+        }
+      },
+      "queryParameters": {
+        "type": "object",
+        "title": "Query Parameters",
+        "description": "The query parameters to include in the request",
+        "properties": {
+          "oneOf": [
+            {
+              "endpoint": ["/query"],
+              "query": {
+                "type": "string",
+                "title": "Query",
+                "description": "The query to execute"
+              },
+              "addtionalProperties": true,
+              "required": ["query"]
+            },
+            {
+              "endpoint": [],
+              "addtionalProperties": true
+            }
+          ]
+        }
+      }
+    },
+    "required": ["endpoint", "method"]
+  }
+}

@@ -169,6 +169,7 @@ export class AssistantService {
         - HubSpot API Integration
         - Salesforce API Integration
         - GitHub API Integration
+        - QuickBooks API Integration
         - Web Search
         - Display Chart to the user for better visualization of data.
         - Tool Search to find a tool by its name or description.

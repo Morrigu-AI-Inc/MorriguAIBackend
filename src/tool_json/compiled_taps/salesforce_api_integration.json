@@ -35,6 +35,10 @@
         "type": "object",
         "description": "The query parameters to be included in the API request.",
         "properties": {
+          "q": {
+            "type": "string",
+            "description": "The query string to be sent with the API request."
+          },
           "additionalProperties": true
         }
       }
