@@ -255,6 +255,7 @@ export class OpenaiService {
     observer,
   ) => {
     console.log('snapshot', snapshot);
+    console.log(jwt.decode(token));
     const { providerAccountId } = jwt.decode(token) as any;
     console.log('providerAccountId', providerAccountId);
     const org =
