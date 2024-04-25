@@ -54,25 +54,6 @@ export class OpenaiController {
     }
   }
 
-  @Sse('/assistant/thread/:threadId/tool_output')
-  @Get('/assistant/thread/:threadId/tool_output')
-  @Header('Content-Type', 'text/event-stream')
-  @Header('Cache-Control', 'no-cache, no-transform')
-  @Header('Content-Encoding', 'none')
-  @Header('Transfer-Encoding', 'chunked')
-  async getToolOutput(
-    @Param('threadId') threadId: string,
-    @Query('token') token,
-  ) {
-    try {
-      return new Observable((observer) => {
-        this.openaiService.streamToolOutput(threadId, token, observer);
-      });
-    } catch (error) {
-      console.error('Error getting tool output', error);
-    }
-  }
-
   @Post('/assistant/thread/:threadId/:runId/tool_output')
   async addToolOutputToThread(
     @Param('threadId') threadId: string,

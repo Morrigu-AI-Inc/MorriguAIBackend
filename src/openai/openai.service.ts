@@ -87,11 +87,7 @@ export class OpenaiService {
     return this.thread;
   }
 
-  public async addMessageToThread(
-    threadId: string,
-    message: string,
-    slackFn?: (message) => Promise<void>,
-  ) {
+  public async addMessageToThread(threadId: string, message: string) {
     try {
       const result = await this.openai.beta.threads.messages.create(threadId, {
         role: 'user',
@@ -100,22 +96,7 @@ export class OpenaiService {
 
       return result;
     } catch (error) {
-      try {
-        const runs = await this.openai.beta.threads.runs.list(threadId);
-
-        for (const run of runs.data) {
-          if (run.status !== 'completed') {
-            console.log('run', run);
-            await this.handleEvent(
-              run,
-              'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoib2F1dGgiLCJuYW1lIjoiSmFzb24gU3QuIEN5ciIsImVtYWlsIjoiamFzb25AbW9ycmlndS5haSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NKM01yOEhINGFJNURfSE1Oak9LWTd4UmV2OWV3NHNtbU5GbnNET0NhMDRodFk5aGc9czk2LWMiLCJwcm92aWRlckFjY291bnRJZCI6Imdvb2dsZS1vYXV0aDJ8MTE4MzgyNDc2ODAyNjY5NTQ5ODU4IiwicHJvdmlkZXIiOiJhdXRoMCIsImdpdmVuX25hbWUiOiJKYXNvbiIsImZhbWlseV9uYW1lIjoiU3QuIEN5ciIsImxvY2FsZSI6ImVuIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuaWNrbmFtZSI6Imphc29uIiwidXBkYXRlZEF0IjoiMjAyNC0wNC0wOFQwMzo1Njo1Mi4wMDlaIiwiaW1hZ2UiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NKM01yOEhINGFJNURfSE1Oak9LWTd4UmV2OWV3NHNtbU5GbnNET0NhMDRodFk5aGc9czk2LWMiLCJ1c2VyX2lkIjoiZ29vZ2xlLW9hdXRoMnwxMTgzODI0NzY4MDI2Njk1NDk4NTgiLCJzdWIiOiJnb29nbGUtb2F1dGgyfDExODM4MjQ3NjgwMjY2OTU0OTg1OCIsImV4cCI6MTcxMzEzOTIxMSwiaWF0IjoxNzEzMTM1NTgxfQ.ZyGsbIZhV73L4bvqYHzYnt9T04SHpax4el7cJfBZsmpMjKRnqEG1Xi2mn_yDB0GDlDrOAjDk1rAVzNbRfC4C7mfhIdOpevgCcmjJunT-Xn4MZrP1yBZ97nTWz-AeZW6mv_W0xsguMYPIbjlXcRFinxC-L_AVowtPz4Cq5bnTSETqxKxMn6zBRyGnXIYrkKI69vnYowouh4zVoq_MTh0AmaTiBg5ZFIz30bqjbnQq6V10DNF3pcealSTvsTq65eaQufsypzD4KeMgsy9n6nZS6XKdVSy4sud4Vb7xCS8lCWQUrA0PC-1255_XZ5t_HaAZhrkVilQuhEBvfN-mRQ9QyDhNAOxmTGHS_FLIGgaV7AweDxQvp76azAh2H0xedmBkY-5hKbCv3NJITbuw__6SYJH_i1XH3sk06yCCTQV506FifrEpf4eteE-pfrkt1_WGmi08JaNHpWlLIqJTp_qF17x2HZC22HNCr6OB5RVSt9UsrVaUZ-KsKlAyp9i_jEE0p45VHpZ8hMnSyL7i4Xv7LIC2RR3ZFU_ro20rnW3XUgFIdvs_9vIpxlXK4QsD1y0P2pu6ClPyWTjarGRAizdEGlbfEWC-JLhR7BaVTnP7XSWNWbUvGGA0DvxyAr79zQ7kytMtVebPjL0f0dReg_asrnFbYFnYlltSYUSLR-I7E_k',
-              slackFn,
-            );
-          }
-        }
-      } catch (error) {
-        console.error('Error adding message to thread', error);
-      }
+      console.error('Error adding message to thread', error);
     }
   }
 
@@ -171,25 +152,6 @@ export class OpenaiService {
     }
   }
 
-  public async streamToolOutput(
-    threadId: string,
-    token: string,
-    observer: any,
-  ) {
-    this.observer = observer;
-    return this.openai.beta.threads.runs
-      .stream(threadId, {
-        assistant_id: process.env.DEFAULT_ASSISTANT,
-      })
-      .on('toolCallDone', this.handleToolCallDone)
-      .on('toolCallDelta', this.handleToolCallDelta)
-      .on('event', (event) => this.handleEvent(event, token))
-      .on('toolCallCreated', this.handleToolCallCreated)
-      .on('textCreated', this.handleTextCreated)
-      .on('textDelta', this.handleTextDelta)
-      .on('runStepCreated', this.handleRunStepCreated);
-  }
-
   public submitToolOutputs = async (
     outputs: any,
     threadId: string,
@@ -215,117 +177,6 @@ export class OpenaiService {
       .then((runs) => {
         return runs.data[0];
       });
-  };
-
-  public handleEvent = async (
-    event,
-    token,
-    slackFn?: (message) => Promise<void>,
-  ) => {
-    this.observer?.next({ event: 'event', data: event });
-
-    if (event.data?.status === 'completed') {
-      this.updateFrontEndStatus(event.data?.status);
-    }
-
-    if (event.data?.status === 'requires_action') {
-      this.updateFrontEndStatus(event.data?.status);
-      console.log('event', event.data);
-      if (event.data?.required_action?.type === 'submit_tool_outputs') {
-        const calls =
-          event.data?.required_action?.submit_tool_outputs.tool_calls;
-
-        try {
-          console.log('calls', calls);
-
-          const frontend_tools_names = frontend_tools
-            .filter((tool) => tool.type === 'function')
-            .map((tool) => tool.function.name);
-
-          if (frontend_tools_names.includes(calls[0].function.name)) {
-            this.observer?.next({
-              type: 'frontend_tool_call',
-              data: {
-                calls: calls,
-                runId: event.data.id,
-              },
-            });
-
-            await sleep(2000);
-
-            this.openai.beta.threads.runs
-              .stream(event.data.thread_id, {
-                assistant_id: process.env.DEFAULT_ASSISTANT,
-              })
-              .on('textCreated', this.handleTextCreated)
-              .on('textDelta', this.handleTextDelta)
-              .on('runStepCreated', this.handleRunStepCreated)
-              .on('event', (event) => this.handleEvent(event, token, slackFn))
-              .on('toolCallCreated', this.handleToolCallCreated)
-              .on('toolCallDone', this.handleToolCallDone)
-              .on('toolCallDelta', this.handleToolCallDelta)
-              .on('textDone', async (text) => {
-                await slackFn?.(text.value);
-              })
-              .on('error', async (error) => {
-                console.log('Error running stream', error);
-                const runs = await this.openai.beta.threads.runs.list(
-                  event.data.thread_id,
-                );
-
-                for (const run of runs.data) {
-                  if (run.status !== 'completed') {
-                    await this.handleEvent(run, token, slackFn);
-                  }
-                }
-              });
-          } else {
-            const call_results = await this.get_call_results(calls, token);
-
-            console.log('call_results', JSON.stringify(call_results, null, 1));
-
-            return this.openai.beta.threads.runs
-              .submitToolOutputsStream(event.data.thread_id, event.data.id, {
-                tool_outputs: call_results,
-              })
-
-              .on('toolCallDone', this.handleToolCallDone)
-              .on('toolCallDelta', this.handleToolCallDelta)
-              .on('event', (event) => this.handleEvent(event, token, slackFn))
-              .on('toolCallCreated', this.handleToolCallCreated)
-              .on('textCreated', this.handleTextCreated)
-              .on('textDelta', this.handleTextDelta)
-              .on('runStepCreated', this.handleRunStepCreated)
-              .on('textDone', async (text) => {
-                console.log('textDone', text.value);
-                console.log('slackFn', slackFn);
-                await slackFn?.(text.value);
-              })
-              .on('end', () => {
-                this.observer?.next({ event: 'streamEnded' });
-                this.observer?.complete();
-              })
-              .on('error', (error) => {
-                console.log('Error handling event', error);
-              });
-          }
-
-          // if (
-          //   frontend_tools
-          //     .map((tool) => tool.function.name)
-          //     .includes(call.function.name)
-          // ) {
-          //   this.observer?.next({
-          //     event: call.function.name,
-          //     data: call.function.arguments,
-          //   });
-
-          // }
-        } catch (error) {
-          console.error('Error handling event', error);
-        }
-      }
-    }
   };
 
   public getMessages = async (threadId: string) => {
@@ -362,67 +213,12 @@ export class OpenaiService {
     return messages;
   };
 
-  public runStreamSlack(
-    threadId: string,
-    token: string,
-    slackFn?: (message) => Promise<void>,
-  ) {
-    return (
-      this.openai.beta.threads.runs
-        .stream(threadId, {
-          assistant_id: process.env.DEFAULT_ASSISTANT,
-        })
-        .on('messageCreated', this.handleMessage)
-        .on('runStepDone', (runStep, snapshot) =>
-          this.handleRunStepDone(runStep, snapshot, token, null),
-        )
-        .on('textCreated', this.handleTextCreated)
-        .on('textDelta', this.handleTextDelta)
-        .on('runStepCreated', this.handleRunStepCreated)
-        // .on('event', (event) => this.handleEvent(event, token, slackFn))
-        // .on('event', this.handleEventv2)
-        .on('toolCallCreated', this.handleToolCallCreated)
-        .on('toolCallDone', this.handleToolCallDone)
-        .on('toolCallDelta', this.handleToolCallDelta)
-        .on('textDone', async (text) => {
-          await slackFn?.(text.value);
-        })
-        .on('error', async (error) => {
-          const runs = await this.openai.beta.threads.runs.list(threadId);
-
-          for (const run of runs.data) {
-            if (run.status !== 'completed') {
-              await this.handleEvent(run, token, slackFn);
-            }
-          }
-        })
-    );
-  }
-
-  public async runStream(
-    threadId: string,
-    token: string,
-    slackFn?: (message) => Promise<void>,
-  ): Promise<AssistantStream> {
-    return await this.openai.beta.threads.runs
-      .stream(threadId, {
-        assistant_id: process.env.DEFAULT_ASSISTANT,
-      })
-      .on('textCreated', this.handleTextCreated)
-      .on('textDelta', this.handleTextDelta)
-      .on('runStepCreated', this.handleRunStepCreated)
-      .on('event', (event) => this.handleEvent(event, token, slackFn))
-      .on('toolCallCreated', this.handleToolCallCreated)
-      .on('toolCallDone', this.handleToolCallDone)
-      .on('toolCallDelta', this.handleToolCallDelta);
-  }
-
   public async recoverRun(threadId: string, runId: string) {
     return this.openai.beta.threads.runs.retrieve(threadId, runId);
   }
 
-  public updateFrontEndStatus = (status: string) => {
-    this.observer?.next({
+  public updateFrontEndStatus = (status: string, observer) => {
+    observer?.next({
       type: 'update_status',
       data: {
         status: status,
@@ -430,23 +226,30 @@ export class OpenaiService {
     });
   };
 
-  public handleToolCallCreated = async (toolCall: any) => {
-    this.updateFrontEndStatus('calling tool');
+  public handleToolCallCreated = (toolCall: any, observer) => {
+    this.updateFrontEndStatus('calling tool', observer);
+    return toolCall;
   };
 
-  public handleToolCallDone = async (toolCall: any) => {
-    this.updateFrontEndStatus('done calling tool');
+  public handleToolCallDone = async (toolCall: any, observer) => {
+    this.updateFrontEndStatus('done calling tool', observer);
   };
 
-  public handleToolCallDelta = async (toolCallDelta: any, snapshot: any) => {};
+  public handleToolCallDelta = async (
+    toolCallDelta: any,
+    snapshot: any,
+    observer,
+  ) => {};
 
-  public handleMessage = async (message: any) => {
-    this.updateFrontEndStatus('creating');
+  public handleMessage = async (message: any, observer) => {
+    this.updateFrontEndStatus('creating', observer);
   };
 
-  public handleTextDelta = async (textDelta: any, snapshot: any) => {};
+  public handleTextDelta = async (textDelta: any, observer) => {};
 
-  public handleRunStepCreated = async (runStep: any) => {};
+  public handleRunStepCreated = async (runStep: any, observer) => {
+    return runStep;
+  };
 
   public handleRunStepDone = async (
     runStep: any,
@@ -529,7 +332,7 @@ export class OpenaiService {
   public handleEventv2 = async (event: any, token: string, observer) => {
     console.log('event', event.event);
     if (event.event === 'thread.run.completed') {
-      this.observer?.next({
+      observer?.next({
         type: 'closeStream',
         data: event.data,
       });
@@ -549,20 +352,20 @@ export class OpenaiService {
             .map((tool) => tool.function.name);
           let call_results = [];
           if (frontend_tools_names.includes(calls[0].function.name)) {
-            this.updateFrontEndStatus('displaying');
-            this.observer?.next({
+            this.updateFrontEndStatus('displaying', observer);
+            observer?.next({
               type: 'frontend_tool_call',
               data: {
                 calls: calls,
                 runId: event.data.id,
               },
             });
-            this.updateFrontEndStatus('saving');
+            this.updateFrontEndStatus('saving', observer);
             await this.toolOutputModel.create({
               runId: event.data.id,
               data: event.data,
             });
-            this.updateFrontEndStatus('saved');
+            this.updateFrontEndStatus('saved', observer);
             call_results = calls.map((call) => {
               return {
                 tool_call_id: call.id,
@@ -572,32 +375,48 @@ export class OpenaiService {
           } else {
             call_results = await this.get_call_results(calls, token);
           }
-          this.updateFrontEndStatus('submitting');
+          this.updateFrontEndStatus('submitting', observer);
           this.openai.beta.threads.runs
             .submitToolOutputsStream(event.data.thread_id, event.data.id, {
               tool_outputs: call_results,
             })
-            .on('abort', this.hndleAbort)
-            .on('connect', this.handleConnect)
-            .on('end', this.handleEnd)
-            .on('error', this.handleError)
+            .on('abort', (event) => this.hndleAbort(event, observer))
+            .on('connect', () => this.handleConnect(observer))
+            .on('end', () => this.handleEnd(observer))
+            .on('error', (error) => this.handleError(error, observer))
             .on('event', (event) => this.handleEventv2(event, token, observer))
             .on('imageFileDone', this.handleImageFileDone)
-            .on('messageCreated', this.handleMessage)
-            .on('messageDelta', this.handleMessageDelta)
-            .on('messageDone', this.handleMessageDone)
-            .on('run', this.handleRun)
-            .on('runStepCreated', this.handleRunStepCreated)
-            .on('runStepDelta', this.handleRunStepDelta)
+            .on('messageCreated', (message) =>
+              this.handleMessage(message, observer),
+            )
+            .on('messageDelta', (delta) =>
+              this.handleMessageDelta(delta, observer),
+            )
+            .on('messageDone', (message) =>
+              this.handleMessageDone(message, observer),
+            )
+            .on('run', (run) => this.handleRun(run))
+            .on('runStepCreated', (runStep) =>
+              this.handleRunStepCreated(runStep, observer),
+            )
+            .on('runStepDelta', (runStep) =>
+              this.handleRunStepDelta(runStep, observer),
+            )
             .on('runStepDone', (runStep, snapshot) =>
               this.handleRunStepDone(runStep, snapshot, token, observer),
             )
-            .on('textCreated', this.handleTextCreated)
-            .on('textDelta', this.handleTextDelta)
-            .on('textDone', this.handleTextDone)
-            .on('toolCallCreated', this.handleToolCallCreated)
-            .on('toolCallDone', this.handleToolCallDone)
-            .on('toolCallDelta', this.handleToolCallDelta);
+            .on('textCreated', (text) => this.handleTextCreated(text))
+            .on('textDelta', (delta) => this.handleTextDelta(delta, observer))
+            .on('textDone', (text) => this.handleTextDone(text, observer))
+            .on('toolCallCreated', (toolCall) =>
+              this.handleToolCallCreated(toolCall, observer),
+            )
+            .on('toolCallDone', (toolCall) =>
+              this.handleToolCallDone(toolCall, observer),
+            )
+            .on('toolCallDelta', (toolCallDelta, snapshot) =>
+              this.handleToolCallDelta(toolCallDelta, snapshot, observer),
+            );
         } catch (error) {
           console.error('Error handling event', error);
         }
@@ -605,13 +424,13 @@ export class OpenaiService {
     }
   };
 
-  public hndleAbort = async (event: any) => {
-    this.updateFrontEndStatus('aborted');
+  public hndleAbort = async (event: any, observer) => {
+    this.updateFrontEndStatus('aborted', observer);
     console.log('abort', event);
   };
 
-  public handleConnect = async () => {
-    this.updateFrontEndStatus('connected');
+  public handleConnect = async (observer) => {
+    this.updateFrontEndStatus('connected', observer);
     console.log('connect');
   };
 
@@ -623,36 +442,36 @@ export class OpenaiService {
     console.log('run', run);
   };
 
-  public handleRunStepDelta = async (runStep: any) => {
+  public handleRunStepDelta = async (runStep: any, observer) => {
     console.log('runStep delta', runStep);
   };
 
-  public handleEnd = async () => {
-    this.updateFrontEndStatus('finished');
-    this.observer?.next({
+  public handleEnd = async (observer) => {
+    this.updateFrontEndStatus('finished', observer);
+    observer?.next({
       type: 'streamEnd',
       data: {},
     });
   };
 
-  public handleError = async (error: any) => {
+  public handleError = async (error: any, observer) => {
     // console.log('error', error);
-    this.updateFrontEndStatus('error');
+    this.updateFrontEndStatus('error', observer);
   };
 
   public handleImageFileDone = async (imageFile: any) => {
     console.log('imageFile done', imageFile);
   };
 
-  public handleMessageDelta = async (delta: any) => {
-    this.updateFrontEndStatus('writing');
-    this.observer?.next({
+  public handleMessageDelta = async (delta: any, observer) => {
+    this.updateFrontEndStatus('writing', observer);
+    observer?.next({
       type: 'messageDelta',
       data: delta,
     });
   };
 
-  public handleMessageDone = async (message: any) => {
+  public handleMessageDone = async (message: any, observer) => {
     const output = await this.toolOutputModel.findOne({
       runId: message.run_id,
       msgId: '',
@@ -661,10 +480,10 @@ export class OpenaiService {
     console.log('output', output);
 
     if (!output) {
-      this.updateFrontEndStatus('finished'); // not error just finished
+      this.updateFrontEndStatus('finished', observer);
       return;
     }
-    this.updateFrontEndStatus('saving');
+    this.updateFrontEndStatus('saving', observer);
     await this.toolOutputModel.updateOne(
       {
         _id: output.id,
@@ -673,7 +492,7 @@ export class OpenaiService {
         msgId: message.id,
       },
     );
-    this.updateFrontEndStatus('saving_message');
+    this.updateFrontEndStatus('saving_message', observer);
     await this.openai.beta.threads.messages
       .update(message.thread_id, message.id, {
         metadata: {
@@ -681,58 +500,74 @@ export class OpenaiService {
         },
       })
       .then((value) => {
-        this.observer?.next({
+        observer?.next({
           type: 'refresh',
           data: value,
         });
       });
-    this.updateFrontEndStatus('finished');
+    this.updateFrontEndStatus('finished', observer);
   };
 
-  public handleTextDone = async (text: any) => {
+  public handleTextDone = async (text: any, observer) => {
     console.log('text done', text);
   };
 
   public async runAssistant(
     threadId,
     token,
-    assistantId = this.assistantService.assistants.quickbooks.id,
-    slackFn?: (message) => Promise<void>,
+    assistantId = process.env.DEFAULT_ASSISTANT,
   ): Promise<[Observable<any>, Subscriber<any>]> {
     try {
+      let innerObs;
       return [
         new Observable((observer) => {
-          this.observer = observer;
+          innerObs = observer;
 
-          this.updateFrontEndStatus('running');
+          this.updateFrontEndStatus('running', observer);
 
           this.openai.beta.threads.runs
             .stream(threadId, {
               assistant_id: this.assistantService.assistants.tools.id,
             })
-            .on('abort', this.hndleAbort)
-            .on('connect', this.handleConnect)
-            .on('end', this.handleEnd)
-            .on('error', this.handleError)
+            .on('abort', (event) => this.hndleAbort(event, observer))
+            .on('connect', () => this.handleConnect(observer))
+            .on('end', () => this.handleEnd(observer))
+            .on('error', (error) => this.handleError(error, observer))
             .on('event', (event) => this.handleEventv2(event, token, observer))
             .on('imageFileDone', this.handleImageFileDone)
-            .on('messageCreated', this.handleMessage)
-            .on('messageDelta', this.handleMessageDelta)
-            .on('messageDone', this.handleMessageDone)
-            .on('run', this.handleRun)
-            .on('runStepCreated', this.handleRunStepCreated)
-            .on('runStepDelta', this.handleRunStepDelta)
+            .on('messageCreated', (message) =>
+              this.handleMessage(message, observer),
+            )
+            .on('messageDelta', (delta) =>
+              this.handleMessageDelta(delta, observer),
+            )
+            .on('messageDone', (message) =>
+              this.handleMessageDone(message, observer),
+            )
+            .on('run', (run) => this.handleRun(run))
+            .on('runStepCreated', (runStep) =>
+              this.handleRunStepCreated(runStep, observer),
+            )
+            .on('runStepDelta', (runStep) =>
+              this.handleRunStepDelta(runStep, observer),
+            )
             .on('runStepDone', (runStep, snapshot) =>
               this.handleRunStepDone(runStep, snapshot, token, observer),
             )
-            .on('textCreated', this.handleTextCreated)
-            .on('textDelta', this.handleTextDelta)
-            .on('textDone', this.handleTextDone)
-            .on('toolCallCreated', this.handleToolCallCreated)
-            .on('toolCallDone', this.handleToolCallDone)
-            .on('toolCallDelta', this.handleToolCallDelta);
+            .on('textCreated', (text) => this.handleTextCreated(text))
+            .on('textDelta', (delta) => this.handleTextDelta(delta, observer))
+            .on('textDone', (text) => this.handleTextDone(text, observer))
+            .on('toolCallCreated', (toolCall) =>
+              this.handleToolCallCreated(toolCall, observer),
+            )
+            .on('toolCallDone', (toolCall) =>
+              this.handleToolCallDone(toolCall, observer),
+            )
+            .on('toolCallDelta', (toolCallDelta, snapshot) =>
+              this.handleToolCallDelta(toolCallDelta, snapshot, observer),
+            );
         }),
-        this.observer,
+        innerObs,
       ];
     } catch (error) {
       console.error('Error running assistant', error);
