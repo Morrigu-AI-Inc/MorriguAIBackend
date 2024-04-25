@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import OpenAI from 'openai';
-import { sleep } from 'openai/core';
-import { AssistantStream } from 'openai/lib/AssistantStream';
 import { Observable, Subscriber } from 'rxjs';
 import { AssistantService } from 'src/assistant/assistant.service';
 import { ToolOutputDocument } from 'src/db/schemas/ToolOutput';
@@ -17,7 +15,6 @@ export class OpenaiService {
   private assistant: any;
   private thread: any;
   private run: any;
-  private observer: Subscriber<any>;
 
   constructor(
     @InjectModel('ToolOutput')
