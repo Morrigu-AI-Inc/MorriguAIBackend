@@ -15,12 +15,14 @@ import { Model } from 'mongoose';
 import * as quickbooks_api_integration from '../tool_json/compiled_taps/quickbooks_api_integrations.json';
 import * as github_api_integration from '../tool_json/compiled_taps/github_api_integration.json';
 import * as salesforce_api_integration from '../tool_json/compiled_taps/salesforce_api_integration.json';
+import * as slack_api_integration from '../tool_json/compiled_taps/slack_api_integrations.json';
 import * as web_search from '../tool_json/compiled_taps/web_search.json';
 
 const tools = [
   quickbooks_api_integration,
   github_api_integration,
   salesforce_api_integration,
+  slack_api_integration,
   web_search,
 ];
 
@@ -123,7 +125,7 @@ export class ToolsController {
   @Get('/updateAll')
   async bulkUpdate(): Promise<any> {
     try {
-      for (const tool of tools) {
+      for (const tool of this.tools) {
         const validTools = validation.validateSync(tool, {
           abortEarly: true,
         });

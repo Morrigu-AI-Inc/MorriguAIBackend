@@ -1,0 +1,276 @@
+{
+  "name": "tools/slack_api_integration",
+  "description": "This function allows you to integration with any function of the Slack API. You can do anything with this integrations, from creating a conversation to fetching a users list. Special Notes: POST'ing to conversation.history fetches a conversations history of messages does not create a new message.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "endpoint": {
+        "type": "string",
+        "description": "The endpoint to call on the Slack API.",
+        "enum": [
+          "admin.analytics.getFile",
+          "admin.apps.activities.list",
+          "admin.apps.approve",
+          "admin.apps.clearResolution",
+          "admin.apps.restrict",
+          "admin.apps.approved.list",
+          "admin.apps.requests.list",
+          "admin.apps.restrict.list",
+          "admin.apps.approve.list",
+          "admin.apps.uninstall",
+          "admin.barriers.create",
+          "admin.barriers.delete",
+          "admin.barriers.list",
+          "admin.barriers.update",
+          "admin.emoji.add",
+          "admin.emoji.addAlias",
+          "admin.emoji.list",
+          "admin.emoji.remove",
+          "admin.emoji.rename",
+          "admin.functions.list",
+          "admin.functions.permissions.lookup",
+          "admin.functions.permissions.set",
+          "admin.inviteRequests.approve",
+          "admin.inviteRequests.deny",
+          "admin.inviteRequests.list",
+          "admin.roles.addAssignments",
+          "admin.users.list",
+          "calls.add",
+          "calls.end",
+          "calls.info",
+          "calls.update",
+          "calls.participants.remove",
+          "calls.participants.add",
+          "users.list",
+          "chat.delete",
+          "chat.deleteScheduledMessage",
+          "chat.getPermalink",
+          "chat.meMessage",
+          "chat.postEphemeral",
+          "chat.unfurl",
+          "chat.update",
+          "chat.scheduledMessages.list",
+          "conversations.join",
+          "conversations.leave",
+          "conversations.list",
+          "conversations.members",
+          "conversations.history",
+          "conversations.replies",
+          "conversations.open",
+          "conversations.close",
+          "conversations.create",
+          "conversations.rename",
+          "conversations.archive",
+          "conversations.unarchive",
+          "conversations.invite",
+          "conversations.kick",
+          "conversations.setPurpose",
+          "conversations.setTopic",
+          "conversations.mark",
+          "conversations.reactions",
+          "conversations.unreadCount",
+          "conversations.info",
+          "usergroups.create",
+          "usergroups.disable",
+          "usergroups.enable",
+          "usergroups.list",
+          "usergroups.update",
+          "usergroups.users.list",
+          "usergroups.users.update",
+          "users.conversations",
+          "users.deletePhoto",
+          "users.getPresence",
+          "users.identity",
+          "users.info",
+          "users.list",
+          "users.lookupByEmail",
+          "users.setActive",
+          "users.setPhoto",
+          "users.setPresence",
+          "users.profile.get",
+          "users.profile.set",
+          "dialog.open",
+          "dnd.endDnd",
+          "dnd.endSnooze",
+          "dnd.info",
+          "dnd.setSnooze",
+          "dnd.teamInfo",
+          "files.comments.add",
+          "files.comments.delete",
+          "reactions.add",
+          "reactions.get",
+          "reactions.list",
+          "reactions.remove",
+          "reminders.add",
+          "reminders.complete",
+          "reminders.delete",
+          "reminders.info",
+          "reminders.list",
+          "search.all",
+          "search.files",
+          "search.messages",
+          "stars.add",
+          "stars.list",
+          "stars.remove",
+          "team.accessLogs",
+          "team.billableInfo",
+          "team.info",
+          "team.integrationLogs",
+          "team.profile.get",
+          "team.preferences.list",
+          "users.conversations",
+          "users.deletePhoto",
+          "users.getPresence",
+          "users.identity",
+          "users.info",
+          "users.list",
+          "users.lookupByEmail",
+          "users.setActive",
+          "users.setPhoto",
+          "users.setPresence",
+          "users.profile.get",
+          "users.profile.set",
+          "views.open",
+          "views.publish",
+          "views.push",
+          "views.update",
+          "workflows.stepCompleted",
+          "workflows.stepFailed",
+          "workflows.updateStep"
+        ]
+      },
+      "body": {
+        "type": "object",
+        "description": "That data to complete the operation with.",
+        "oneOf": [
+          {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "title": "List Users on a Workspace",
+            "description": "API for listing users on a workspace in Slack's Enterprise Grid",
+            "type": "object",
+            "properties": {
+              "endpoint": {
+                "type": "string",
+                "description": "API endpoint for listing users",
+                "example": "admin.users.list"
+              },
+              "method": {
+                "type": "string",
+                "enum": ["POST"],
+                "description": "HTTP method used for the request"
+              },
+              "headers": {
+                "type": "object",
+                "properties": {
+                  "Authorization": {
+                    "type": "string",
+                    "description": "Bearer token for authentication"
+                  },
+                  "Content-Type": {
+                    "type": "string",
+                    "enum": [
+                      "application/x-www-form-urlencoded",
+                      "application/json"
+                    ]
+                  }
+                },
+                "required": ["Authorization", "Content-Type"]
+              },
+              "body": {
+                "type": "object",
+                "properties": {
+                  "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                  },
+                  "include_deactivated_user_workspaces": {
+                    "type": "boolean",
+                    "description": "Whether to include workspaces where the user may be deactivated"
+                  },
+                  "is_active": {
+                    "type": "boolean",
+                    "description": "Filter for either active or deactivated users"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Number of users to retrieve per page"
+                  },
+                  "team_id": {
+                    "type": "string",
+                    "description": "ID of the workspace, required if using an org-level token"
+                  }
+                },
+                "required": []
+              },
+              "response": {
+                "type": "object",
+                "properties": {
+                  "ok": {
+                    "type": "boolean",
+                    "description": "Indicates success or failure of the request"
+                  },
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "User ID"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "User email address"
+                        },
+                        "is_admin": {
+                          "type": "boolean",
+                          "description": "Indicates if the user is an admin"
+                        },
+                        "is_active": {
+                          "type": "boolean",
+                          "description": "Indicates if the user is active"
+                        },
+                        "username": {
+                          "type": "string",
+                          "description": "User's username"
+                        },
+                        "full_name": {
+                          "type": "string",
+                          "description": "User's full name"
+                        },
+                        "workspaces": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "description": "List of workspace IDs the user belongs to"
+                          }
+                        }
+                      }
+                    },
+                    "description": "List of users"
+                  }
+                }
+              }
+            },
+            "required": ["endpoint", "method", "headers", "body", "response"]
+          }
+        ],
+        "additionalProperties": true
+      },
+      "method": {
+        "type": "string",
+        "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+      },
+      "contentType": {
+        "type": "string",
+        "enum": ["application/json"]
+      },
+      "queryParameters": {
+        "type": "object",
+        "required": [],
+        "additionalProperties": true
+      }
+    },
+    "required": ["endpoint", "body"]
+  }
+}

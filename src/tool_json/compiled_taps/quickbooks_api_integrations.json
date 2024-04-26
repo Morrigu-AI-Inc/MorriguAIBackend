@@ -21,7 +21,7 @@
           "/bill/{billId}",
           "/billpayment/{billPaymentId}",
           "/budget/{budgetId}",
-          "/reports/CashFlow", // pass
+          "/reports/CashFlow",
           "/companycurrency/{companyCurrencyId}",
           "/creditmemo/{creditMemoId}/pdf",
           "/creditmemo/{creditMemoId}",
@@ -47,14 +47,6 @@
           "/purchaseorder/{purchaseOrderId}/pdf",
           "/purchaseorder/{purchaseOrderId}",
           "/recurringtransaction/{recurringTransactionId}"
-
-
-
-
-
-          
-
-
         ]
       },
       "headers": {
