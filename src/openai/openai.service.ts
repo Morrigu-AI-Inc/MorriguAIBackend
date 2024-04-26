@@ -105,19 +105,9 @@ export class OpenaiService {
     try {
       return await Promise.all(
         calls.map(async (call) => {
-          console.log(JSON.parse(call.function.arguments));
-
           const q = new URLSearchParams({
             payload: JSON.stringify(call.function.arguments),
           }).toString();
-
-          console.log(
-            'URL ',
-            `${process.env.BACKEND_API_URL}/api/tools/` +
-              call.function.name +
-              '?' +
-              q,
-          );
 
           const callResp = await fetch(
             `${process.env.BACKEND_API_URL}/api/tools/` +
@@ -195,14 +185,6 @@ export class OpenaiService {
             },
           );
 
-        // const toolOut = JSON.parse(
-        //   (
-        //     await this.toolOutputModel.findOne({
-        //       _id: message.metadata['tool_outputs'],
-        //     })
-        //   ).data,
-        // );
-
         message.metadata['tool_outputs'] = toolOut;
       }
     }
@@ -255,10 +237,8 @@ export class OpenaiService {
     observer,
   ) => {
     try {
-      console.log('snapshot', snapshot);
-      console.log('token', jwt.decode(token));
       const { providerAccountId } = jwt.decode(token) as any;
-      console.log('providerAccountId', providerAccountId);
+
       const org =
         await this.organizationService.getOrganizationByUserId(
           providerAccountId,
@@ -302,15 +282,12 @@ export class OpenaiService {
         org.id,
         org,
       );
-
-      console.log('newOrg', newOrg);
     } catch (error) {
       console.error('Error handling run step done', error);
     }
   };
 
   public handleEventv2 = async (event: any, token: string, observer) => {
-    console.log('event', event.event);
     if (event.event === 'thread.run.completed') {
       observer?.next({
         type: 'closeStream',
@@ -319,16 +296,11 @@ export class OpenaiService {
       return;
     }
     if (event.event === 'thread.run.requires_action') {
-      console.log('thread.run.requires_action', event.data);
       if (event.data?.required_action?.type === 'submit_tool_outputs') {
-
-        console.log('token handleEventv2', token);
         const calls =
           event.data?.required_action?.submit_tool_outputs.tool_calls;
 
         try {
-          console.log('calls', calls);
-
           const frontend_tools_names = frontend_tools
             .filter((tool) => tool.type === 'function')
             .map((tool) => tool.function.name);
@@ -409,25 +381,17 @@ export class OpenaiService {
 
   public hndleAbort = async (event: any, observer) => {
     this.updateFrontEndStatus('aborted', observer);
-    console.log('abort', event);
   };
 
   public handleConnect = async (observer) => {
     this.updateFrontEndStatus('connected', observer);
-    console.log('connect');
   };
 
-  public handleTextCreated = async (text: any) => {
-    console.log('text created', text);
-  };
+  public handleTextCreated = async (text: any) => {};
 
-  public handleRun = async (run: any) => {
-    console.log('run', run);
-  };
+  public handleRun = async (run: any) => {};
 
-  public handleRunStepDelta = async (runStep: any, observer) => {
-    console.log('runStep delta', runStep);
-  };
+  public handleRunStepDelta = async (runStep: any, observer) => {};
 
   public handleEnd = async (observer) => {
     this.updateFrontEndStatus('finished', observer);
@@ -460,8 +424,6 @@ export class OpenaiService {
       msgId: '',
     });
 
-    console.log('output', output);
-
     if (!output) {
       this.updateFrontEndStatus('finished', observer);
       return;
@@ -491,9 +453,7 @@ export class OpenaiService {
     this.updateFrontEndStatus('finished', observer);
   };
 
-  public handleTextDone = async (text: any, observer) => {
-    console.log('text done', text);
-  };
+  public handleTextDone = async (text: any, observer) => {};
 
   public async runAssistant(
     threadId,
@@ -501,7 +461,6 @@ export class OpenaiService {
     assistantId = process.env.DEFAULT_ASSISTANT,
   ): Promise<[Observable<any>, Subscriber<any>]> {
     try {
-      console.log('runAssistant', token);
       let innerObs;
       return [
         new Observable((observer) => {
