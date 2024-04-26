@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import OpenAI from 'openai';
@@ -8,6 +8,8 @@ import { ToolOutputDocument } from 'src/db/schemas/ToolOutput';
 import { OrganizationService } from 'src/organization/organization.service';
 import tools, { frontend_tools } from 'src/tool_json';
 import * as jwt from 'jsonwebtoken';
+import { UserDocument } from 'src/db/schemas/User';
+import { OrganizationDocument } from 'src/db/schemas/Organization';
 
 @Injectable()
 export class OpenaiService {
@@ -19,6 +21,10 @@ export class OpenaiService {
   constructor(
     @InjectModel('ToolOutput')
     private toolOutputModel: Model<ToolOutputDocument>,
+    @InjectModel('User')
+    private readonly UserModel: Model<UserDocument>,
+    @InjectModel('Organization')
+    private readonly organizationModel: Model<OrganizationDocument>,
     private readonly assistantService: AssistantService,
     private readonly organizationService: OrganizationService,
   ) {
@@ -59,6 +65,64 @@ export class OpenaiService {
       // model: 'gpt-4',
       // file_ids: ['file-abc123', 'file-abc456'],
     });
+  }
+
+  async generateToken(userId: string) {
+    try {
+      console.log('userId', userId);
+
+      const privateKey = process.env.PARAGON_KEY?.slice(1, -1).replace(
+        /\\n/g,
+        '\n',
+      );
+      const user = await this.UserModel.findOne({ id: userId });
+
+      if (!user) {
+        return {
+          error: 'User not found',
+        };
+      }
+
+      console.log('user', user);
+
+      const org = await this.organizationModel.findOne({
+        users: {
+          $in: [user?._id],
+        },
+      });
+
+      if (!org) {
+        return {
+          error: 'Organization not found',
+        };
+      }
+
+      //   // Generate JWT token
+      const token = jwt.sign(
+        {
+          ...{
+            user: {
+              user_id: userId,
+            },
+          },
+          providerAccountId: userId,
+          sub: org._id,
+          exp: Math.floor(Date.now() / 1000) + 60 * 60,
+          iat: Math.floor(Date.now() / 1000) - 30,
+        },
+        privateKey as string,
+        {
+          algorithm: 'RS256',
+        },
+      );
+
+      return token;
+    } catch (error) {
+      console.log(error);
+      return {
+        error: 'Failed to generate JWT token',
+      };
+    }
   }
 
   public async initAssistant() {

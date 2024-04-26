@@ -93,10 +93,11 @@ export class OpenaiController {
   async getThread(
     @Param('threadId') threadId: string,
     @Req() req,
-    @Query('token') token,
+
+    @Query('userId') userId,
   ) {
-    
     //add message to thread
+    const token = await this.openaiService.generateToken(userId);
     console.log('req', token);
     try {
       const [observer, sub] = await this.openaiService.runAssistant(
@@ -120,8 +121,9 @@ export class OpenaiController {
     @Param('threadId') threadId: string,
     @Param('assistantId') assistantId: string,
     @Req() req,
-    @Query('token') token,
+    @Query('userId') userId,
   ) {
+    const token = await this.openaiService.generateToken(userId);
     //add message to thread
     console.log('req', token);
     try {
