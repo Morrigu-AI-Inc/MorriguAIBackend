@@ -1,0 +1,453 @@
+===filename: src/pages/accounting/index.tsx===
+import { useState, ReactElement } from 'react';
+
+// material-ui
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography
+} from '@mui/material';
+
+// project import
+import Layout from 'layout';
+
+import MainCard from 'components/MainCard';
+import IconButton from 'components/@extended/IconButton';
+import AnalyticsDataCard from 'components/cards/statistics/AnalyticsDataCard';
+
+import IncomeChart from 'sections/dashboard/analytics/IncomeChart';
+import MarketingCardChart from 'sections/dashboard/analytics/MarketingCardChart';
+import OrdersCardChart from 'sections/dashboard/analytics/OrdersCardChart';
+import ReportChart from 'sections/dashboard/analytics/ReportChart';
+import SalesCardChart from 'sections/dashboard/analytics/SalesCardChart';
+import UsersCardChart from 'sections/dashboard/analytics/UsersCardChart';
+import ReaderCard from 'sections/dashboard/analytics/ReaderCard';
+
+// assets
+import { DownloadOutlined, CaretDownOutlined } from '@ant-design/icons';
+import Page from 'components/Page';
+import InvokeCalls from 'sections/dashboard/analytics/InvokeCalls';
+import PromptFeatureList from 'sections/dashboard/analytics/PromptFeatureList';
+import useConfig from 'hooks/useConfig';
+import ApexPieChart from 'sections/charts/apexchart/ApexPieChart';
+import OverdueInvoices from 'sections/accounting/OverdueInvoices';
+import SalesPerformance from 'sections/accounting/SalesPerformance';
+import ExpenseBreakdown from 'sections/accounting/ExpenseBreakdown';
+import ARAPAnalysis from 'sections/accounting/ARAPAnalysis';
+
+// sales report status
+
+// ==============================|| DASHBOARD - ANALYTICS ||============================== //
+
+const AccountingDashboard = () => {
+  const theme = useTheme();
+  const config = useConfig();
+  const [slot, setSlot] = useState('week');
+  const [quantity, setQuantity] = useState('By volume');
+
+  const handleQuantity = (e: SelectChangeEvent) => {
+    setQuantity(e.target.value as string);
+  };
+
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  if (!config) return null;
+
+  return (
+    <Page title="Accounting Dashboard">
+      <Grid container rowSpacing={4.5} columnSpacing={3}>
+        {/* row 1 */}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Accounts Receivable" count="$78,250" percentage={70.5}>
+            <UsersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Accounts Payable" count="$18,800" percentage={27.4} isLoss color="warning">
+            <OrdersCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Cash Flow" count="$35,078" percentage={27.4} isLoss color="warning">
+            <SalesCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <AnalyticsDataCard title="Total Revenue" count="$523,000" percentage={70.5}>
+            <MarketingCardChart />
+          </AnalyticsDataCard>
+        </Grid>
+
+        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+        {/* row 2 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Overdue Invoices</Typography>
+            </Grid>
+          </Grid>
+          <MainCard content={false} sx={{ mt: 1.5 }}>
+            <OverdueInvoices />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <SalesPerformance />
+        </Grid>
+
+        {/* row 3 */}
+        <Grid item xs={12} md={7} lg={8}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">Expense Breakdown</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <ExpenseBreakdown />
+          </MainCard>
+        </Grid>
+        <Grid item xs={12} md={5} lg={4}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5">AR/AP Analysis</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <ARAPAnalysis />
+          </MainCard>
+        </Grid>
+
+      </Grid>
+    </Page>
+  );
+};
+
+AccountingDashboard.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default AccountingDashboard;
+
+===end===
+===filename: src/pages/administration/assistants/index.tsx===
+import { Button, Grid, Stack, Typography } from '@mui/material';
+import Page from 'components/Page';
+import Layout from 'layout';
+import { ReactElement, useState } from 'react';
+import BasicTable from 'sections/tables/react-table/BasicTable';
+import MainCard from 'components/MainCard';
+import CreateAssistantDialog from 'components/administration/assistants/CreateAssistantDialog';
+
+type Assistant = {
+  id: number;
+  name: string;
+  description: string;
+  status: 'active' | 'inactive' | 'draft';
+  createdAt: string;
+  updatedAt: string;
+  lastActiveAt: string;
+  tools: {
+    integrations: ReactElement;
+    analytics: ReactElement;
+    logs: ReactElement;
+    billing: ReactElement;
+    settings: ReactElement;
+    documentation: ReactElement;
+    content: ReactElement;
+  };
+  schema: ReactElement;
+};
+
+const Assistants = () => {
+  const [open, setOpen] = useState(false);
+  const [assistants, setAssistants] = useState<Assistant[]>([]);
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
+  const handleCreateAssistant = (assistant: Assistant) => {
+    // Add logic to create the assistant and update the assistants state
+    setAssistants([...assistants, assistant]);
+    handleCloseDialog();
+  };
+
+  const columns = [
+    {
+      Header: 'Name',
+      accessor: 'name'
+    },
+    {
+      Header: 'Description',
+      accessor: 'description'
+    },
+    {
+      Header: 'Status',
+      accessor: 'status',
+      Cell: ({ value }: { value: 'active' | 'inactive' | 'draft' }) => {
+        return (
+          <Typography
+            color={
+              value === 'active'
+                ? 'success.main'
+                : value === 'inactive'
+                ? 'error.main'
+                : 'warning.main'
+            }
+          >
+            {value}
+          </Typography>
+        );
+      }
+    },
+    {
+      Header: 'Created At',
+      accessor: 'createdAt'
+    },
+    {
+      Header: 'Updated At',
+      accessor: 'updatedAt'
+    },
+    {
+      Header: 'Last Active At',
+      accessor: 'lastActiveAt'
+    },
+    {
+      Header: 'Tools',
+      accessor: 'tools',
+      Cell: ({ value }: { value: typeof Assistant.prototype.tools }) => {
+        return (
+          <Stack direction="row" spacing={1}>
+            {value.integrations}
+            {value.analytics}
+            {value.logs}
+            {value.billing}
+            {value.settings}
+            {value.documentation}
+            {value.content}
+          </Stack>
+        );
+      }
+    },
+    {
+      Header: 'Schema',
+      accessor: 'schema'
+    }
+  ];
+
+  return (
+    <Page title="Assistants">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h4">Assistants</Typography>
+            <Button variant="contained" onClick={handleOpenDialog}>
+              Create Assistant
+            </Button>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <MainCard>
+            <BasicTable columns={columns} data={assistants} />
+          </MainCard>
+        </Grid>
+      </Grid>
+      <CreateAssistantDialog
+        open={open}
+        onClose={handleCloseDialog}
+        onCreateAssistant={handleCreateAssistant}
+      />
+    </Page>
+  );
+};
+
+Assistants.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default Assistants;
+
+===end===
+===filename: src/pages/administration/integrations/index.tsx===
+import { Button, Grid, Stack, Typography } from '@mui/material';
+import Page from 'components/Page';
+import Layout from 'layout';
+import { ReactElement, useEffect, useState } from 'react';
+import BasicTable from 'sections/tables/react-table/BasicTable';
+import MainCard from 'components/MainCard';
+import { useGetIntegrationsQuery } from 'store/api/integrations';
+import useConfig from 'hooks/useConfig';
+import { paragon } from '@useparagon/connect';
+import Image from 'next/image';
+import { IIntegrationMetadata } from '@useparagon/connect/dist/src/entities/integration.interface';
+import { sleep } from 'openai/core';
+
+type Integration = {
+  id: number;
+  slug: string;
+  name: ReactElement;
+  description: string;
+  logo?: ReactElement;
+  action: () => void;
+};
+
+const integration_descriptions = {
+  quickbooks:
+    'Integrate QuickBooks to manage customer relationships, automate sales processes, and drive revenue growth. Benefit from advanced lead management, sales automation, and analytics features, driving growth and success in your business.',
+  hubspot:
+    'Integrate HubSpot to see a complete view of your customers, automate marketing, sales, and service processes, and drive growth.',
+  stripe: 'Integrate Stripe to accept payments, manage subscriptions, and handle billing for your business.',
+  mailchimp: 'Integrate Mailchimp to create targeted email campaigns, automate marketing processes, and drive customer engagement.',
+  slack: 'Integrate Slack to communicate with your team, share files, and collaborate on projects in real time.',
+  zapier:
+    'Integrate Zapier to connect your favorite apps and automate workflows without writing any code. Set up triggers and actions to automate repetitive tasks and save time.'
+};
+
+const Integrations = () => {
+  const config = useConfig();
+  const { data, refetch } = useGetIntegrationsQuery(config.currentOrganization?._id);
+  const [selectedIntegration, setSelectedIntegration] = useState<Integration>();
+  const [open, setOpen] = useState(false);
+  const [integrationsData, setIntegrationsData] = useState<Integration[]>([]);
+  const [intMeta, setIntMeta] = useState<IIntegrationMetadata[]>([]);
+  useEffect(() => {
+    const init = async () => {
+      while (paragon.getIntegrationMetadata().length === 0) {
+        await sleep(1000);
+      }
+
+      const temp = paragon.getIntegrationMetadata();
+
+      console.log('temp', temp);
+      setIntMeta(temp);
+    };
+
+    init();
+    // const intList = intMeta.map((integ) => {
+    //   return integ.name.toLowerCase();
+    // });
+  }, []);
+
+  useEffect(() => {
+    const integrations = intMeta.map((integ: { type: string; name: string; icon: string }) => {
+      console.log('integ', integ);
+      return {
+        id: integ.type,
+        slug: integ.type,
+        name: <Typography variant="h6">{integ.name}</Typography>,
+        logo: <Image src={integ.icon} alt={''} width={26} height={26} />,
+        description:
+          'Integrate QuickBooks to manage customer relationships, automate sales processes, and drive revenue growth. Benefit from advanced lead management, sales automation, and analytics features, driving growth and success in your business.',
+        action: () =>
+          paragon.connect(integ.type, {
+            onSuccess(event, user) {
+              console.log(`${integ.name} connected`, user);
+            },
+            onError(error) {
+              console.error(`${integ.name} error`, error);
+            }
+          })
+      };
+    });
+
+    setIntegrationsData(integrations);
+  }, [intMeta]);
+
+  useEffect(() => {
+    if (open == false) {
+      refetch();
+    }
+  }, [open, refetch]);
+
+  return (
+    <Page title={'Integrations'}>
+      <Grid container spacing={2}>
+        <Grid item xs={9}>
+          <BasicTable
+            columns={[
+              {
+                Header: 'Logo',
+                accessor: 'logo'
+              },
+
+              {
+                Header: 'Description',
+                accessor: 'description',
+                Cell: ({ value }: { value: string }) => {
+                  return (
+                    <Typography color={'GrayText'} variant={'body2'}>
+                      {value}
+                    </Typography>
+                  );
+                }
+              },
+
+              {
+                accessor: 'actions',
+                Cell: ({ cell }) => {
+                  console.log(cell.row.original);
+                  return (
+                    <Stack direction={'row'} justifyContent={'flex-end'}>
+                      <Button
+                        onClick={() =>
+                          paragon.connect(cell.row.original.slug, { onSuccess: () => console.log(`${cell.row.original.name} connected`) })
+                        }
+                      >
+                        Manage
+                      </Button>
+                    </Stack>
+                  );
+                }
+              }
+            ]}
+            data={integrationsData}
+          />
+        </Grid>
+        <Grid item xs={12} lg={3}>
+          <MainCard title={'Recommended Integrations'}>
+            <Stack spacing={1}>
+              <Typography variant={'h6'}>QuickBooks</Typography>
+              <Typography variant={'body2'}>
+                Integrate QuickBooks to manage customer relationships, automate sales processes, and drive revenue growth. Benefit from
+                advanced lead management, sales automation, and analytics features, driving growth and success in your business.
+              </Typography>
+              <Button
+                onClick={() => paragon.connect('quickbooks', { onSuccess: () => console.log('HubSpot connected') })}
+                variant={'contained'}
+              >
+                Manage
+              </Button>
+            </Stack>
+          </MainCard>
+        </Grid>
+      </Grid>
+    </Page>
+  );
+};
+
+Integrations.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default Integrations;
+
+===end===
+===filename: src/pages/

@@ -8,7 +8,54 @@
         "type": "string",
         "title": "Quickbooks API Endpoint",
         "description": "The endpoint for the Quickbooks API",
-        "enum": ["/query"]
+        "enum": [
+          "/",
+          "/query",
+          "/reports/AccountListDetail",
+          "/reports/AgedPayableDetail",
+          "/reports/AgedPayables",
+          "/reports/AgedReceivableDetail",
+          "/reports/AgedReceivables",
+          "/attachable/{attachableId}",
+          "/reports/BalanceSheet",
+          "/bill/{billId}",
+          "/billpayment/{billPaymentId}",
+          "/budget/{budgetId}",
+          "/reports/CashFlow", // pass
+          "/companycurrency/{companyCurrencyId}",
+          "/creditmemo/{creditMemoId}/pdf",
+          "/creditmemo/{creditMemoId}",
+          "/creditcardpayment/{creditCardPaymentId}",
+          "/customer/{customerId}",
+          "/customertype/{Id}",
+          "/department/{departmentId}",
+          "/deposit/{depositId}",
+          "/employee/{employeeId}",
+          "/estimate/{estimateId}/pdf",
+          "/estimate/{estimateId}",
+          "/exchangerate",
+          "/invoice/{invoiceId}/pdf",
+          "/invoice/{invoiceId}",
+          "/item/{itemId}",
+          "/journalcode/{journalCodeId}",
+          "/journalentry/{journalEntryId}",
+          "/payment/{paymentId}/pdf",
+          "/payment/{paymentId}",
+          "/paymentmethod/{paymentMethodId}",
+          "/preferences",
+          "/purchase/{purchaseId}",
+          "/purchaseorder/{purchaseOrderId}/pdf",
+          "/purchaseorder/{purchaseOrderId}",
+          "/recurringtransaction/{recurringTransactionId}"
+
+
+
+
+
+          
+
+
+        ]
       },
       "headers": {
         "type": "object",

@@ -985,6 +985,112 @@ Users.getLayout = function getLayout(page: ReactElement) {
 
 export default Users;
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/address.ts===
+import useSWR, { mutate } from 'swr';
+import { useMemo } from 'react';
+
+// utils
+import { fetcher } from 'utils/axios';
+
+// types
+import { Address } from 'types/e-commerce';
+
+export const endpoints = {
+  key: 'api/address',
+  list: '/list', // server URL
+  insert: '/new', // server URL
+  update: '/edit', // server URL
+  delete: '/delete' // server URL
+};
+
+export function useGetAddress() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      address: data?.address as Address[],
+      addressLoading: isLoading,
+      addressError: error,
+      addressValidating: isValidating,
+      addressEmpty: !isLoading && !data?.address?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export async function insertAddress(newAddress: Address) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentAddress: any) => {
+      newAddress.id = currentAddress.address.length + 1;
+      const addedAddress: Address[] = [...currentAddress.address, newAddress];
+
+      return {
+        ...currentAddress,
+        address: addedAddress
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { newAddress };
+  //   await axios.post(endpoints.key + endpoints.insert, data);
+}
+
+export async function updateAddress(addressId: string | number | undefined, updatedAddress: Address) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentAddress: any) => {
+      const newAddress: Address[] = currentAddress.address.map((address: Address) =>
+        address.id === addressId ? { ...address, ...updatedAddress } : address
+      );
+
+      return {
+        ...currentAddress,
+        address: newAddress
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { list: updatedAddress };
+  //   await axios.post(endpoints.key + endpoints.update, data);
+}
+
+export async function deleteAddress(addressId: number) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentAddress: any) => {
+      const nonDeletedAddress = currentAddress.address.filter((address: Address) => address.id !== addressId);
+
+      return {
+        ...currentAddress,
+        address: nonDeletedAddress
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { addressId };
+  //   await axios.post(endpoints.key + endpoints.delete, data);
+}
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/auth/[...nextauth].ts===
 // next
 import NextAuth, { NextAuthOptions } from 'next-auth';
@@ -1180,6 +1286,466 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Handle other HTTP methods
     res.status(405).json({ message: 'Method Not Allowed' });
   }
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/calender.ts===
+import useSWR, { mutate } from 'swr';
+import { useMemo } from 'react';
+
+// third-party
+import { v4 as UIDV4 } from 'uuid';
+
+// utils
+import { fetcher } from 'utils/axios';
+
+// types
+import { EventInput } from '@fullcalendar/common';
+
+// ----------------------------------------------------------------------
+
+export const endpoints = {
+  key: 'api/calendar/events',
+  add: '/add', // server URL
+  udpate: '/update', // server URL
+  delete: '/delete' // server URL
+};
+
+export function useGetEvents() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      events: data?.events as EventInput[],
+      eventsLoading: isLoading,
+      eventsError: error,
+      eventsValidating: isValidating,
+      eventsEmpty: !isLoading && !data?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export async function createEvent(newEvent: Omit<EventInput, 'id'>) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentEvents: any) => {
+      const addedEvents: EventInput[] = [...currentEvents.events, { ...newEvent, id: UIDV4() }];
+
+      return {
+        ...currentEvents,
+        events: addedEvents
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { newEvent };
+  //   await axios.post(endpoints.key + endpoints.add, data);
+}
+
+export async function updateEvent(
+  eventId: string,
+  updatedEvent: Partial<{
+    allDay: boolean;
+    start: Date | null;
+    end: Date | null;
+  }>
+) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentEvents: any) => {
+      const updatedEvents: EventInput[] = currentEvents.events.map((event: EventInput) =>
+        event.id === eventId ? { ...event, ...updatedEvent } : event
+      );
+
+      return {
+        ...currentEvents,
+        events: updatedEvents
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { newEvent };
+  //   await axios.post(endpoints.key + endpoints.udpate, data);
+}
+
+export async function deleteEvent(eventId: string) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentEvents: any) => {
+      const nonDeletedEvent = currentEvents.events.filter((event: EventInput) => event.id !== eventId);
+
+      return {
+        ...currentEvents,
+        events: nonDeletedEvent
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { newEvent };
+  //   await axios.post(endpoints.key + endpoints.delete, data);
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/cart.ts===
+import { useMemo } from 'react';
+import { filter } from 'lodash';
+import { Chance } from 'chance';
+
+import useSWR, { mutate } from 'swr';
+import { Address, CartCheckoutStateProps, ProductCardProps } from 'types/cart';
+
+const chance = new Chance();
+const LOCAL_STORAGE = 'mantis-ts-cart';
+
+export const endpoints = {
+  key: 'cart'
+};
+
+const initialState: CartCheckoutStateProps = {
+  step: 0,
+  products: [],
+  subtotal: 0,
+  total: 0,
+  discount: 0,
+  shipping: 0,
+  billing: null,
+  payment: {
+    type: 'free',
+    method: 'card',
+    card: ''
+  }
+};
+
+export function useGetCart() {
+  const localProducts = localStorage.getItem(LOCAL_STORAGE);
+
+  // to update local state based on key
+  const { data, isLoading } = useSWR(
+    endpoints.key,
+    () => (localProducts ? (JSON.parse(localProducts) as CartCheckoutStateProps) : initialState),
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      onSuccess(data) {
+        localStorage.setItem(LOCAL_STORAGE, JSON.stringify(data));
+      }
+    }
+  );
+
+  const memoizedValue = useMemo(() => ({ cart: data!, cartLoading: isLoading }), [data, isLoading]);
+
+  return memoizedValue;
+}
+
+export function addToCart(product: ProductCardProps, products: ProductCardProps[]) {
+  // to update local state based on key
+  let inCartProduct: ProductCardProps[];
+  let newProduct: ProductCardProps;
+  let subtotal: number = 0;
+  let latestProducts: ProductCardProps[];
+
+  newProduct = { ...product, itemId: chance.timestamp() };
+  subtotal = newProduct.quantity * newProduct.offerPrice!;
+
+  inCartProduct = filter(products, {
+    id: newProduct.id,
+    color: newProduct.color,
+    size: newProduct.size
+  });
+  if (inCartProduct && inCartProduct.length > 0) {
+    const newProducts = products.map((item) => {
+      if (newProduct.id === item.id && newProduct.color === item.color && newProduct.size === item.size) {
+        return { ...newProduct, quantity: newProduct.quantity + inCartProduct[0].quantity };
+      }
+      return item;
+    });
+    latestProducts = newProducts;
+  } else {
+    latestProducts = [...products, newProduct];
+  }
+
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = {
+        ...currentCart,
+        products: latestProducts,
+        subtotal: currentCart.subtotal + subtotal,
+        total: currentCart.total + subtotal
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function updateCartProduct(id: string | number, quantity: number, products: ProductCardProps[]) {
+  // to update local state based on key
+  let newProduct: ProductCardProps;
+  let subtotal: number = 0;
+  let oldSubTotal: number = 0;
+  let latestProducts: ProductCardProps[];
+
+  newProduct = filter(products, { itemId: id })[0];
+
+  subtotal = quantity * newProduct.offerPrice!;
+  oldSubTotal = 0;
+
+  latestProducts = products.map((item) => {
+    if (id === item.itemId) {
+      oldSubTotal = item.quantity * (item.offerPrice || 0);
+      return { ...item, quantity };
+    }
+    return item;
+  });
+
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = {
+        ...currentCart,
+        products: latestProducts,
+        subtotal: currentCart.subtotal - oldSubTotal + subtotal,
+        total: currentCart.total - oldSubTotal + subtotal
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function removeCartProduct(id: string | number, products: ProductCardProps[]) {
+  // to update local state based on key
+  let newProduct: ProductCardProps;
+  let subtotal: number = 0;
+  let latestProducts: ProductCardProps[];
+
+  newProduct = filter(products, { itemId: id })[0];
+
+  subtotal = newProduct.quantity * newProduct.offerPrice!;
+  latestProducts = filter(products, (item) => item.itemId !== id);
+
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = {
+        ...currentCart,
+        products: latestProducts,
+        subtotal: currentCart.subtotal - subtotal,
+        total: currentCart.total - subtotal
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function setCheckoutStep(step: number) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = {
+        ...currentCart,
+        step
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function setNextStep() {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = {
+        ...currentCart,
+        step: currentCart.step + 1
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function setBackStep() {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = {
+        ...currentCart,
+        step: currentCart.step - 1
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function setBillingAddress(billing: Address | null) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = {
+        ...currentCart,
+        billing
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function setCartDiscount(code: string, total: number) {
+  // to update local state based on key
+  let amount = 0;
+  if (total > 0) {
+    switch (code) {
+      case 'BERRY50':
+        amount = chance.integer({ min: 1, max: total < 49 ? total : 49 });
+        break;
+      case 'FLAT05':
+        amount = total < 5 ? total : 5;
+        break;
+      case 'SUB150':
+        amount = total < 150 ? total : 150;
+        break;
+      case 'UPTO200':
+        amount = chance.integer({ min: 1, max: total < 199 ? total : 199 });
+        break;
+      default:
+        amount = 0;
+    }
+  }
+
+  let difference = 0;
+
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      if (currentCart.discount > 0) {
+        difference = currentCart.discount;
+      }
+
+      const newCart = {
+        ...currentCart,
+        discount: amount,
+        total: currentCart.total + difference - amount
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function setShippingCharge(charge: string, shipping: number) {
+  // to update local state based on key
+  let newShipping = 0;
+  if (shipping > 0 && charge === 'free') {
+    newShipping = -5;
+  }
+  if (charge === 'fast') {
+    newShipping = 5;
+  }
+
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = {
+        ...currentCart,
+        shipping,
+        total: currentCart.total + newShipping,
+        payment: {
+          ...currentCart.payment,
+          type: charge
+        }
+      };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function setPaymentMethod(method: string) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = { ...currentCart, payment: { ...currentCart.payment, method } };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function setPaymentCard(card: string) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      const newCart = { ...currentCart, payment: { ...currentCart.payment, card } };
+
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(newCart));
+      return newCart;
+    },
+    false
+  );
+}
+
+export function resetCart() {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentCart: any) => {
+      localStorage.setItem(LOCAL_STORAGE, JSON.stringify(initialState));
+      return initialState;
+    },
+    false
+  );
 }
 
 ===end===
@@ -1759,6 +2325,228 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ error: 'Failed to fetch dashboard data' });
   }
 };
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/chat.ts===
+import useSWR, { mutate } from 'swr';
+import { useMemo } from 'react';
+
+// utils
+import { fetcher, fetcherPost } from 'utils/axios';
+
+// types
+import { UserProfile } from 'types/user-profile';
+import { ChatHistory } from 'types/chat';
+
+export const endpoints = {
+  key: 'api/chat',
+  list: '/users', // server URL
+  update: '/filter' // server URL
+};
+
+export function useGetUsers() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      users: data?.users as UserProfile[],
+      usersLoading: isLoading,
+      usersError: error,
+      usersValidating: isValidating,
+      usersEmpty: !isLoading && !data?.users?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export function useGetUserChat(userName: string) {
+  const URL = [endpoints.key + endpoints.update, { user: userName, endpoints: 'chat' }];
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcherPost, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      chat: (data as ChatHistory[]) || [],
+      chatLoading: isLoading,
+      chatError: error,
+      chatValidating: isValidating,
+      chatEmpty: !isLoading && !data?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export async function insertChat(userName: string, newChat: ChatHistory) {
+  const URL = [endpoints.key + endpoints.update, { user: userName, endpoints: 'chat' }];
+
+  // to update local state based on key
+  mutate(
+    URL,
+    (currentChat: any) => {
+      const addedChat: ChatHistory[] = [...currentChat, newChat];
+      return addedChat;
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  // const data = { chat: newChat };
+  // await axios.post(endpoints.key + endpoints.update, data);
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/customer.ts===
+import useSWR, { mutate } from 'swr';
+import { useMemo } from 'react';
+
+// utils
+import { fetcher } from 'utils/axios';
+
+// types
+import { CustomerList, CustomerProps } from 'types/customer';
+
+const initialState: CustomerProps = {
+  modal: false
+};
+
+export const endpoints = {
+  key: 'api/customer',
+  list: '/list', // server URL
+  modal: '/modal', // server URL
+  insert: '/insert', // server URL
+  update: '/update', // server URL
+  delete: '/delete' // server URL
+};
+
+export function useGetCustomer() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      customers: data?.customers as CustomerList[],
+      customersLoading: isLoading,
+      customersError: error,
+      customersValidating: isValidating,
+      customersEmpty: !isLoading && !data?.customers?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export async function insertCustomer(newCustomer: CustomerList) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentCustomer: any) => {
+      newCustomer.id = currentCustomer.customers.length + 1;
+      const addedCustomer: CustomerList[] = [...currentCustomer.customers, newCustomer];
+
+      return {
+        ...currentCustomer,
+        customers: addedCustomer
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { newCustomer };
+  //   await axios.post(endpoints.key + endpoints.insert, data);
+}
+
+export async function updateCustomer(customerId: number, updatedCustomer: CustomerList) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentCustomer: any) => {
+      const newCustomer: CustomerList[] = currentCustomer.customers.map((customer: CustomerList) =>
+        customer.id === customerId ? { ...customer, ...updatedCustomer } : customer
+      );
+
+      return {
+        ...currentCustomer,
+        customers: newCustomer
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { list: updatedCustomer };
+  //   await axios.post(endpoints.key + endpoints.update, data);
+}
+
+export async function deleteCustomer(customerId: number) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentCustomer: any) => {
+      const nonDeletedCustomer = currentCustomer.customers.filter((customer: CustomerList) => customer.id !== customerId);
+
+      return {
+        ...currentCustomer,
+        customers: nonDeletedCustomer
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { customerId };
+  //   await axios.post(endpoints.key + endpoints.delete, data);
+}
+
+export function useGetCustomerMaster() {
+  const { data, isLoading } = useSWR(endpoints.key + endpoints.modal, () => initialState, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      customerMaster: data,
+      customerMasterLoading: isLoading
+    }),
+    [data, isLoading]
+  );
+
+  return memoizedValue;
+}
+
+export function handlerCustomerDialog(modal: boolean) {
+  // to update local state based on key
+
+  mutate(
+    endpoints.key + endpoints.modal,
+    (currentCustomermaster: any) => {
+      return { ...currentCustomermaster, modal };
+    },
+    false
+  );
+}
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/environments/[id]/flags.ts===
@@ -3302,7 +4090,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         to: 'jason@morrigu.ai', // Replace with the recipient's email address
         subject: 'You are invited!',
         text: `Please use the following link to accept the invite: ${process.env.NODEMAILER_URL}/administration/invites/accept?token=${token}`,
-        html: `<p>Please use the following link to accept the invite:</p><a href="${process.env.NODEMAILER_URL}/administ ration/invites/accept?token=${token}">Accept Invitation</a>`
+        html: `<p>Please use the following link to accept the invite:</p><a href="${process.env.NODEMAILER_URL}/administration/invites/accept?token=${token}">Accept Invitation</a>`
       };
 
       await transporter.sendMail(mailOptions);
@@ -3316,6 +4104,202 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log('error', error);
     res.status(500).json({ error: 'Failed to process request' });
   }
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/invoice.ts===
+import useSWR, { mutate } from 'swr';
+import { useMemo } from 'react';
+
+// project-import
+import { fetcher } from 'utils/axios';
+
+// types
+import { CountryType, InvoiceList, InvoiceProps } from 'types/invoice';
+
+const countries: CountryType[] = [
+  { code: 'US', label: 'United States Dollar', currency: 'Dollar', prefix: '$' },
+  { code: 'GB', label: 'United Kingdom Pound', currency: 'Pound', prefix: '£' },
+  { code: 'IN', label: 'India Rupee', currency: 'Rupee', prefix: '₹' },
+  { code: 'JP', label: 'Japan Yun', currency: 'Yun', prefix: '¥' }
+];
+
+const initialState: InvoiceProps = {
+  isOpen: false,
+  isCustomerOpen: false,
+  open: false,
+  country: countries[0],
+  countries: countries,
+  alertPopup: false
+};
+
+export const endpoints = {
+  key: 'api/invoice',
+  actions: 'actions',
+  list: '/list', // server URL
+  insert: '/insert', // server URL
+  update: '/update', // server URL
+  delete: '/delete' // server URL
+};
+
+export function useGetInvoice() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      invoice: data?.invoice as InvoiceList[],
+      invoiceLoading: isLoading,
+      invoiceError: error,
+      invoiceValidating: isValidating,
+      invoiceEmpty: !isLoading && !data?.invoice?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export async function insertInvoice(newInvoice: InvoiceList) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentInvoice: any) => {
+      newInvoice.id = currentInvoice.invoice.length + 1;
+      const addedInvoice: InvoiceList[] = [...currentInvoice.invoice, newInvoice];
+
+      return {
+        ...currentInvoice,
+        invoice: addedInvoice
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { newInvoice };
+  //   await axios.post(endpoints.key + endpoints.insert, data);
+}
+
+export async function updateInvoice(invoiceId: number, updatedInvoice: InvoiceList) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentInvoice: any) => {
+      const newInvoice: InvoiceList[] = currentInvoice.invoice.map((invoice: InvoiceList) =>
+        invoice.id === invoiceId ? { ...invoice, ...updatedInvoice } : invoice
+      );
+
+      return {
+        ...currentInvoice,
+        invoice: newInvoice
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { list: updatedInvoice };
+  //   await axios.post(endpoints.key + endpoints.update, data);
+}
+
+export async function deleteInvoice(invoiceId: number) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentInvoice: any) => {
+      const nonDeletedInvoice = currentInvoice.invoice.filter((invoice: InvoiceList) => invoice.id !== invoiceId);
+
+      return {
+        ...currentInvoice,
+        invoice: nonDeletedInvoice
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { invoiceId };
+  //   await axios.post(endpoints.key + endpoints.delete, data);
+}
+
+export function useGetInvoiceMaster() {
+  const { data, isLoading } = useSWR(endpoints.key + endpoints.actions, () => initialState, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      invoiceMaster: data,
+      invoiceMasterLoading: isLoading
+    }),
+    [data, isLoading]
+  );
+
+  return memoizedValue;
+}
+
+export function handlerCustomerTo(isCustomerOpen: boolean) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.actions,
+    (currentInvoicemaster: any) => {
+      return { ...currentInvoicemaster, isCustomerOpen };
+    },
+    false
+  );
+}
+
+export function handlerCustomerFrom(open: boolean) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.actions,
+    (currentInvoicemaster: any) => {
+      return { ...currentInvoicemaster, open };
+    },
+    false
+  );
+}
+
+export function selectCountry(country: CountryType | null) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.actions,
+    (currentInvoicemaster: any) => {
+      return { ...currentInvoicemaster, country };
+    },
+    false
+  );
+}
+
+export function handlerPreview(isOpen: boolean) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.actions,
+    (currentInvoicemaster: any) => {
+      return { ...currentInvoicemaster, isOpen };
+    },
+    false
+  );
+}
+
+export function handlerDelete(alertPopup: boolean) {
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.actions,
+    (currentInvoicemaster: any) => {
+      return { ...currentInvoicemaster, alertPopup };
+    },
+    false
+  );
 }
 
 ===end===
@@ -3394,6 +4378,637 @@ export default async function jwtRoute(req: NextApiRequest, res: NextApiResponse
 }
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/kanban.ts===
+import { useMemo } from 'react';
+
+// third-party
+import useSWR, { mutate } from 'swr';
+
+// utils
+import { fetcher } from 'utils/axios';
+import { KanbanColumn, KanbanComment, KanbanItem, KanbanStateProps, KanbanUserStory } from 'types/kanban';
+
+const initialState: KanbanStateProps = {
+  selectedItem: false
+};
+
+export const endpoints = {
+  key: 'api/kanban',
+  master: 'master',
+  list: '/backlogs', // server URL
+  addColumn: '/add-column', // server URL
+  editColumn: '/edit-column', // server URL
+  updateColumnOrder: '/update-column-order', // server URL
+  deleteColumn: '/delete-column', // server URL
+  addItem: '/add-item', // server URL
+  editItem: '/edit-item', // server URL
+  updateColumnItemOrder: '/update-item-order', // server URL
+  addItemComment: '/add-item-comment', // server URL
+  deleteItem: '/delete-item', // server URL
+  addStory: '/add-story', // server URL
+  editStory: '/edit-story', // server URL
+  updateStoryOrder: '/update-story-order', // server URL
+  updateStoryItemOrder: '/update-storyitem-order', // server URL
+  addStoryComment: '/add-story-comment', // server URL
+  deleteStory: '/delete-story' // server URL
+};
+
+export function useGetBacklogs() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      backlogs: data?.backlogs,
+      backlogsLoading: isLoading,
+      backlogsError: error,
+      backlogsValidating: isValidating
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export async function addColumn(newColumn: KanbanColumn) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+      const columns = [...backlogs.columns, newColumn];
+      const columnsOrder = [...backlogs.columnsOrder, newColumn.id];
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          columns,
+          columnsOrder
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { column: newColumn };
+  //   await axios.post(endpoints.key + endpoints.addColumn, data);
+}
+
+export async function editColumn(newColumn: KanbanColumn) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      const column = backlogs.columns.splice(
+        backlogs.columns.findIndex((c: KanbanColumn) => c.id === newColumn.id),
+        1,
+        newColumn
+      );
+      const columns = [...backlogs.columns, column];
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          columns
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  // const data = { column: newColumn };
+  // await axios.post(endpoints.key + endpoints.editColumn, data);
+}
+
+export async function updateColumnOrder(columnsOrder: string[]) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          columnsOrder
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { columnsOrder };
+  //   await axios.post(endpoints.key + endpoints.updateColumnOrder, data);
+}
+
+export async function deleteColumn(columnId: string) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      const columns = backlogs.columns.filter((column: KanbanColumn) => column.id !== columnId);
+      const columnsOrder = backlogs.columnsOrder.filter((id: string) => id !== columnId);
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          columns,
+          columnsOrder
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { columnId };
+  //   await axios.post(endpoints.key + endpoints.deleteColumn, data);
+}
+
+export async function addItem(columnId: string, item: KanbanItem, storyId: string) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      let columns = backlogs.columns;
+      if (columnId !== '0') {
+        columns = backlogs.columns.map((column: KanbanColumn) => {
+          if (column.id === columnId) {
+            return {
+              ...column,
+              itemIds: column.itemIds ? [...column.itemIds, item.id] : [item.id]
+            };
+          }
+          return column;
+        });
+      }
+
+      let userStory = backlogs.userStory;
+      if (storyId !== '0') {
+        userStory = backlogs.userStory.map((story: KanbanUserStory) => {
+          if (story.id === storyId) {
+            return {
+              ...story,
+              itemIds: story.itemIds ? [...story.itemIds, item.id] : [item.id]
+            };
+          }
+          return story;
+        });
+      }
+
+      const items = [...backlogs.items, item];
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          columns,
+          userStory,
+          items
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { columnId, item, storyId };
+  //   await axios.post(endpoints.key + endpoints.addItem, data);
+}
+
+export async function editItem(columnId: string, newItem: KanbanItem, storyId: string) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      const item = backlogs.items.splice(
+        backlogs.items.findIndex((c: KanbanItem) => c.id === newItem.id),
+        1,
+        newItem
+      );
+      const items = [...backlogs.items, item];
+
+      let userStory = backlogs.userStory;
+      if (storyId) {
+        const currentStory = backlogs.userStory.filter(
+          (story: KanbanUserStory) => story.itemIds.filter((itemId) => itemId === newItem.id)[0]
+        )[0];
+        if (currentStory !== undefined && currentStory.id !== storyId) {
+          userStory = backlogs.userStory.map((story: KanbanUserStory) => {
+            if (story.itemIds.filter((itemId) => itemId === newItem.id)[0]) {
+              return {
+                ...story,
+                itemIds: story.itemIds.filter((itemId) => itemId !== newItem.id)
+              };
+            }
+            if (story.id === storyId) {
+              return {
+                ...story,
+                itemIds: story.itemIds ? [...story.itemIds, newItem.id] : [newItem.id]
+              };
+            }
+            return story;
+          });
+        }
+
+        if (currentStory === undefined) {
+          userStory = backlogs.userStory.map((story: KanbanUserStory) => {
+            if (story.id === storyId) {
+              return {
+                ...story,
+                itemIds: story.itemIds ? [...story.itemIds, newItem.id] : [newItem.id]
+              };
+            }
+            return story;
+          });
+        }
+      }
+
+      let columns = backlogs.columns;
+      if (columnId) {
+        const currentColumn = backlogs.columns.filter(
+          (column: KanbanColumn) => column.itemIds.filter((itemId) => itemId === newItem.id)[0]
+        )[0];
+        if (currentColumn !== undefined && currentColumn.id !== columnId) {
+          columns = backlogs.columns.map((column: KanbanColumn) => {
+            if (column.itemIds.filter((itemId) => itemId === newItem.id)[0]) {
+              return {
+                ...column,
+                itemIds: column.itemIds.filter((itemId) => itemId !== newItem.id)
+              };
+            }
+            if (column.id === columnId) {
+              return {
+                ...column,
+                itemIds: column.itemIds ? [...column.itemIds, newItem.id] : [newItem.id]
+              };
+            }
+            return column;
+          });
+        }
+
+        if (currentColumn === undefined) {
+          columns = backlogs.columns.map((column: KanbanColumn) => {
+            if (column.id === columnId) {
+              return {
+                ...column,
+                itemIds: column.itemIds ? [...column.itemIds, newItem.id] : [newItem.id]
+              };
+            }
+            return column;
+          });
+        }
+      }
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          columns,
+          userStory,
+          items
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { columnId, item: newItem, storyId };
+  //   await axios.post(endpoints.key + endpoints.editItem, data);
+}
+
+export async function updateColumnItemOrder(columns: KanbanColumn[]) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          columns
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { columns };
+  //   await axios.post(endpoints.key + endpoints.updateColumnItemOrder, data);
+}
+
+export async function addItemComment(itemId: string | false, comment: KanbanComment) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      const items = backlogs.items.map((item: KanbanItem) => {
+        if (item.id === itemId) {
+          return {
+            ...item,
+            commentIds: item.commentIds ? [...item.commentIds, comment.id] : [comment.id]
+          };
+        }
+        return item;
+      });
+
+      const comments = [...backlogs.comments, comment];
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          items,
+          comments
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { itemId, comment };
+  //   await axios.post(endpoints.key + endpoints.addItemComment, data);
+}
+
+export async function deleteItem(itemId: string | false) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      const items = backlogs.items.filter((item: KanbanItem) => item.id !== itemId);
+      const columns = backlogs.columns.map((column: KanbanColumn) => {
+        const itemIds = column.itemIds.filter((id) => id !== itemId);
+        return {
+          ...column,
+          itemIds
+        };
+      });
+
+      const userStory = backlogs.userStory.map((story: KanbanUserStory) => {
+        const itemIds = story.itemIds.filter((id) => id !== itemId);
+        return {
+          ...story,
+          itemIds
+        };
+      });
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          items,
+          columns,
+          userStory
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { itemId };
+  //   await axios.post(endpoints.key + endpoints.deleteItem, data);
+}
+
+export async function addStory(newStory: any) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+      const userStory = [...backlogs.userStory, newStory];
+      const userStoryOrder = [...backlogs.userStoryOrder, newStory.id];
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          userStory,
+          userStoryOrder
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { story: newStory };
+  //   await axios.post(endpoints.key + endpoints.addStory, data);
+}
+
+export async function editStory(newStory: KanbanUserStory) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      backlogs.userStory.splice(
+        backlogs.userStory.findIndex((c: KanbanUserStory) => c.id === newStory.id),
+        1,
+        newStory
+      );
+
+      const userStory = [...backlogs.userStory];
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          userStory
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { story: newStory };
+  //   await axios.post(endpoints.key + endpoints.editStory, data);
+}
+
+export async function updateStoryOrder(userStoryOrder: string[]) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          userStoryOrder
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { userStoryOrder };
+  //   await axios.post(endpoints.key + endpoints.updateStoryOrder, data);
+}
+
+export async function updateStoryItemOrder(userStory: KanbanUserStory[]) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          userStory
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { userStory };
+  //   await axios.post(endpoints.key + endpoints.updateStoryItemOrder, data);
+}
+
+export async function addStoryComment(storyId: string, comment: KanbanComment) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      const userStory = backlogs.userStory.map((story: KanbanUserStory) => {
+        if (story.id === storyId) {
+          return {
+            ...story,
+            commentIds: story.commentIds ? [...story.commentIds, comment.id] : [comment.id]
+          };
+        }
+        return story;
+      });
+
+      const comments = [...backlogs.comments, comment];
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          userStory,
+          comments
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { storyId, comment };
+  //   await axios.post(endpoints.key + endpoints.addStoryComment, data);
+}
+
+export async function deleteStory(storyId: string) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentBacklog: any) => {
+      const backlogs = currentBacklog.backlogs;
+
+      const userStory = backlogs.userStory.filter((column: KanbanUserStory) => column.id !== storyId);
+      const userStoryOrder = backlogs.userStoryOrder.filter((id: string) => id !== storyId);
+
+      return {
+        ...currentBacklog,
+        backlogs: {
+          ...backlogs,
+          userStory,
+          userStoryOrder
+        }
+      };
+    },
+    false
+  );
+
+  // to hit server
+  // you may need to refetch latest data after server hit and based on your logic
+  //   const data = { storyId };
+  //   await axios.post(endpoints.key + endpoints.deleteStory, data);
+}
+
+export function useGetKanbanMaster() {
+  const { data, isLoading } = useSWR(endpoints.key + endpoints.master, () => initialState, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      kanbanMaster: data,
+      kanbanMasterLoading: isLoading
+    }),
+    [data, isLoading]
+  );
+
+  return memoizedValue;
+}
+
+export function handlerKanbanDialog(selectedItem: string | boolean) {
+  // to update local state based on key
+
+  mutate(
+    endpoints.key + endpoints.master,
+    (currentKanbanMaster: any) => {
+      return { ...currentKanbanMaster, selectedItem };
+    },
+    false
+  );
+}
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/menu/dashboard.ts===
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -3409,6 +5024,130 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ error: 'Failed to fetch dashboard data' });
   }
 };
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/menu.ts===
+import useSWR, { mutate } from 'swr';
+import { useMemo } from 'react';
+
+// Project-imports
+import { fetcher } from 'utils/axios';
+
+// types
+import { MenuProps, NavItemType } from 'types/menu';
+
+const initialState: MenuProps = {
+  openedItem: 'dashboard',
+  openedComponent: 'buttons',
+  openedHorizontalItem: null,
+  isDashboardDrawerOpened: false,
+  isComponentDrawerOpened: true
+};
+
+export const endpoints = {
+  key: 'api/menu',
+  master: 'master',
+  dashboard: '/dashboard' // server URL
+};
+
+export function useGetMenu() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.dashboard, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      menu: data?.dashboard as NavItemType,
+      menuLoading: isLoading,
+      menuError: error,
+      menuValidating: isValidating,
+      menuEmpty: !isLoading && !data?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export function useGetMenuMaster() {
+  const { data, isLoading } = useSWR(endpoints.key + endpoints.master, () => initialState, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      menuMaster: data as MenuProps,
+      menuMasterLoading: isLoading
+    }),
+    [data, isLoading]
+  );
+
+  return memoizedValue;
+}
+
+export function handlerComponentDrawer(isComponentDrawerOpened: boolean) {
+  // to update local state based on key
+
+  mutate(
+    endpoints.key + endpoints.master,
+    (currentMenuMaster: any) => {
+      return { ...currentMenuMaster, isComponentDrawerOpened };
+    },
+    false
+  );
+}
+
+export function handlerActiveComponent(openedComponent: string) {
+  // to update local state based on key
+
+  mutate(
+    endpoints.key + endpoints.master,
+    (currentMenuMaster: any) => {
+      return { ...currentMenuMaster, openedComponent };
+    },
+    false
+  );
+}
+
+export function handlerDrawerOpen(isDashboardDrawerOpened: boolean) {
+  // to update local state based on key
+
+  mutate(
+    endpoints.key + endpoints.master,
+    (currentMenuMaster: any) => {
+      return { ...currentMenuMaster, isDashboardDrawerOpened };
+    },
+    false
+  );
+}
+
+export function handlerHorizontalActiveItem(openedHorizontalItem: string | null) {
+  // to update local state based on key
+
+  mutate(
+    endpoints.key + endpoints.master,
+    (currentMenuMaster: any) => {
+      return { ...currentMenuMaster, openedHorizontalItem };
+    },
+    false
+  );
+}
+
+export function handlerActiveItem(openedItem: string) {
+  // to update local state based on key
+
+  mutate(
+    endpoints.key + endpoints.master,
+    (currentMenuMaster: any) => {
+      return { ...currentMenuMaster, openedItem };
+    },
+    false
+  );
+}
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/models/[...id].ts===
@@ -3514,6 +5253,108 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (error) {
     return res.status(500).json({ error: 'Failed to create organization' });
   }
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/products.ts===
+import { useMemo } from 'react';
+
+// third-party
+import useSWR, { mutate } from 'swr';
+
+// project-import
+import axios, { fetcher, fetcherPost } from 'utils/axios';
+
+// types
+import { Products, ProductsFilter, Reviews } from 'types/e-commerce';
+
+export const endpoints = {
+  key: 'api/products',
+  list: '/list', // server URL
+  filter: '/filter', // server URL
+  related: 'api/product/related', // server URL
+  review: 'api/review/list' // server URL
+};
+
+export function useGetProducts() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, fetcher, {
+    revalidateIfStale: true,
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      products: data?.products as Products[],
+      productsLoading: isLoading,
+      productsError: error,
+      productsValidating: isValidating,
+      productsEmpty: !isLoading && !data?.products?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export async function productFilter(filter: ProductsFilter) {
+  const newProducts = await axios.post(endpoints.key + endpoints.filter, { filter });
+
+  // to update local state based on key
+  mutate(
+    endpoints.key + endpoints.list,
+    (currentProducts: any) => {
+      return {
+        ...currentProducts,
+        products: newProducts.data
+      };
+    },
+    false
+  );
+}
+
+export function useGetReleatedProducts(id: string) {
+  const URL = [endpoints.related, { id, endpoints: 'products' }];
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcherPost, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      relatedProducts: data as Products[],
+      relatedProductsLoading: isLoading,
+      relatedProductsError: error,
+      relatedProductsValidating: isValidating,
+      relatedProductsEmpty: !isLoading && !data?.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export function useGetProductReviews() {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.review, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(
+    () => ({
+      productReviews: data?.productReviews as Reviews[],
+      productReviewsLoading: isLoading,
+      productReviewsError: error,
+      productReviewsValidating: isValidating,
+      productReviewsEmpty: !isLoading && !data?.productReviews.length
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
 }
 
 ===end===
@@ -4112,6 +5953,338 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error(error);
     return false;
   }
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/api/snackbar.ts===
+import { useMemo } from 'react';
+import useSWR, { mutate } from 'swr';
+
+// types
+import { SnackbarProps } from 'types/snackbar';
+
+export const endpoints = {
+  key: 'snackbar'
+};
+
+const initialState: SnackbarProps = {
+  action: false,
+  open: false,
+  message: 'Note archived',
+  anchorOrigin: {
+    vertical: 'bottom',
+    horizontal: 'right'
+  },
+  variant: 'default',
+  alert: {
+    color: 'primary',
+    variant: 'filled'
+  },
+  transition: 'Fade',
+  close: false,
+  actionButton: false,
+  maxStack: 3,
+  dense: false,
+  iconVariant: 'usedefault'
+};
+
+export function useGetSnackbar() {
+  const { data } = useSWR(endpoints.key, () => initialState, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+
+  const memoizedValue = useMemo(() => ({ snackbar: data! }), [data]);
+
+  return memoizedValue;
+}
+
+export function openSnackbar(snackbar: SnackbarProps) {
+  // to update local state based on key
+
+  const { action, open, message, anchorOrigin, variant, alert, transition, close, actionButton } = snackbar;
+
+  mutate(
+    endpoints.key,
+    (currentSnackbar: any) => {
+      return {
+        ...currentSnackbar,
+        action: action || initialState.action,
+        open: open || initialState.open,
+        message: message || initialState.message,
+        anchorOrigin: anchorOrigin || initialState.anchorOrigin,
+        variant: variant || initialState.variant,
+        alert: {
+          color: alert?.color || initialState.alert.color,
+          variant: alert?.variant || initialState.alert.variant
+        },
+        transition: transition || initialState.transition,
+        close: close || initialState.close,
+        actionButton: actionButton || initialState.actionButton
+      };
+    },
+    false
+  );
+}
+
+export function closeSnackbar() {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentSnackbar: any) => {
+      return { ...currentSnackbar, open: false };
+    },
+    false
+  );
+}
+
+export function handlerIncrease(maxStack: number) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentSnackbar: any) => {
+      return { ...currentSnackbar, maxStack };
+    },
+    false
+  );
+}
+
+export function handlerDense(dense: boolean) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentSnackbar: any) => {
+      return { ...currentSnackbar, dense };
+    },
+    false
+  );
+}
+
+export function handlerIconVariants(iconVariant: string) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentSnackbar: any) => {
+      return { ...currentSnackbar, iconVariant };
+    },
+    false
+  );
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/calendar/page.tsx===
+import CalendarApp from 'views/apps/calendar';
+
+// ==============================|| PAGE ||============================== //
+
+export default function CalendarAppPage() {
+  return <CalendarApp />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/chat/page.tsx===
+import ChatApp from 'views/apps/chat';
+
+// ==============================|| PAGE ||============================== //
+
+export default function ChatAppPage() {
+  return <ChatApp />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/customer/card/page.tsx===
+import CustmCardApp from 'views/apps/customer/card';
+
+// ==============================|| PAGE ||============================== //
+
+export default function CustmCardAppPage() {
+  return <CustmCardApp />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/customer/list/page.tsx===
+import CustmListApp from 'views/apps/customer/list';
+
+// ==============================|| PAGE ||============================== //
+
+export default function CustmListAppPage() {
+  return <CustmListApp />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/e-commerce/add-product/page.tsx===
+import AddProduct from 'views/apps/e-commerce/add-product';
+
+// ==============================|| PAGE ||============================== //
+
+export default function AddProductPage() {
+  return <AddProduct />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/e-commerce/checkout/page.tsx===
+import CheckoutApp from 'views/apps/e-commerce/checkout';
+
+// ==============================|| PAGE ||============================== //
+
+export default function CheckoutAppPage() {
+  return <CheckoutApp />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/e-commerce/product-details/[id]/page.tsx===
+// import { Products } from 'types/e-commerce';
+// import axios from 'utils/axios';
+import ProductDetails from 'views/apps/e-commerce/product-detail';
+
+// ==============================|| PAGE ||============================== //
+
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+export default function Page({ params }: Props) {
+  const { id } = params;
+
+  return <ProductDetails id={id} />;
+}
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  // todo: this need to look back again once we implemted SWR
+  // const response = await axios.get('/api/products/list');
+
+  // return response.data.products.map((prod: Products) => ({
+  //   id: prod.id
+  // }));
+
+  const response = [1, 2, 3, 5];
+
+  return response.map((prodId: number) => ({
+    id: prodId.toString()
+  }));
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/e-commerce/products/page.tsx===
+import ProductsApp from 'views/apps/e-commerce/products';
+
+// ==============================|| PAGE ||============================== //
+
+export default function ProductsAppPage() {
+  return <ProductsApp />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/e-commerce/products-list/page.tsx===
+import ProdListApp from 'views/apps/e-commerce/products-list';
+
+// ==============================|| PAGE ||============================== //
+
+export default function ProdListAppPage() {
+  return <ProdListApp />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/kanban/[tab]/page.tsx===
+import KanbanApp from 'views/apps/kanban';
+
+// ==============================|| PAGE ||============================== //
+
+type Props = {
+  params: {
+    tab: string;
+  };
+};
+
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+export default function Page({ params }: Props) {
+  const { tab } = params;
+
+  return <KanbanApp tab={tab} />;
+}
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  const response = ['board', 'backlogs'];
+
+  return response.map((tab: string) => ({
+    tab: tab
+  }));
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/loading.tsx===
+'use client';
+
+import Loader from 'components/Loader';
+
+export default function Loading() {
+  return <Loader />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/profiles/account/[tab]/page.tsx===
+import AccProfileApp from 'views/apps/profiles/account';
+
+// ==============================|| PAGE ||============================== //
+
+type Props = {
+  params: {
+    tab: string;
+  };
+};
+
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+export default function Page({ params }: Props) {
+  const { tab } = params;
+
+  return <AccProfileApp tab={tab} />;
+}
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  const response = ['basic', 'personal', 'my-account', 'password', 'role', 'settings'];
+
+  return response.map((tab: string) => ({
+    tab: tab
+  }));
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/apps/profiles/user/[tab]/page.tsx===
+import UserProfileApp from 'views/apps/profiles/user';
+
+// ==============================|| PAGE ||============================== //
+
+type Props = {
+  params: {
+    tab: string;
+  };
+};
+
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+export default function Page({ params }: Props) {
+  const { tab } = params;
+
+  return <UserProfileApp tab={tab} />;
+}
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  const response = ['personal', 'payment', 'password', 'settings'];
+
+  return response.map((tab: string) => ({
+    tab: tab
+  }));
 }
 
 ===end===
@@ -5070,8 +7243,8 @@ type RunPageProps = {
   threadIdOverride?: string
 }
 
-const RunPage = ({layout}: RunPageProps) => {
-  const { threadId } = useParams<{ threadId: string }>();
+const RunPage = ({ layout, threadIdOverride }: RunPageProps) => {
+  const { threadId = threadIdOverride } = useParams<{ threadId: string }>();
   const scrollRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState<string>('');
@@ -5307,6 +7480,11 @@ const RunPage = ({layout}: RunPageProps) => {
     }
     // Shift + Enter
     if (e.key === 'Enter' && e.shiftKey) {
+      // we need to handle the case where the user is typing a message and they press enter
+      // we need to send the message to the backend
+      // we just want a new line
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
       // we need to handle the case where the user is typing a message and they press enter
       // we need to send the message to the backend
       handleSend({
@@ -6312,6 +8490,219 @@ DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
 export default DashboardAnalytics;
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/approvals/index.tsx===
+import { ReactElement } from 'react';
+import StatsWidget from './widget/statistics';
+import Layout from 'layout';
+
+const StatsWidgetPage = () => {
+  return <StatsWidget />;
+};
+
+StatsWidgetPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default StatsWidgetPage;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/approvals/widget/chart/index.tsx===
+import WidgetChart from 'views/widget/chart';
+
+export default function WidgetChartPage() {
+  return <WidgetChart />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/approvals/widget/data/index.tsx===
+import DataChart from 'views/widget/data';
+
+export default function DataChartPage() {
+  return <DataChart />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/approvals/widget/loading.tsx===
+'use client';
+
+import Loader from 'components/Loader';
+
+export default function Loading() {
+  return <Loader />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/approvals/widget/statistics/index.tsx===
+import WidgetStatistics from 'views/widget/statistics';
+
+export default function WidgetStatisticsPage() {
+  return <WidgetStatistics />;
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/[id].tsx===
+import { useState, ReactElement } from 'react';
+import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import {
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Stack,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText
+} from '@mui/material';
+
+// project imports
+import Layout from 'layout';
+import Page from 'components/Page';
+
+const initialValues = {
+  expenseCategory: '',
+  description: '',
+  amount: 0,
+  date: new Date(),
+  paymentType: 'cash',
+  recurring: false
+};
+
+const EditExpense = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const validationSchema = Yup.object({
+    expenseCategory: Yup.string().required('Expense category is required'),
+    description: Yup.string().required('Description is required'),
+    amount: Yup.number().required('Amount is required'),
+    date: Yup.date().required('Date is required'),
+    paymentType: Yup.string().required('Payment type is required')
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        // Submit expense data to the server
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        router.push('/finance/expense');
+      } catch (error) {
+        console.error('Error updating expense:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  });
+
+  return (
+    <Page title="Edit Expense">
+      <form onSubmit={formik.handleSubmit}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="expense-category-label">Expense Category</InputLabel>
+              <Select
+                labelId="expense-category-label"
+                id="expense-category"
+                name="expenseCategory"
+                value={formik.values.expenseCategory}
+                onChange={formik.handleChange}
+                error={formik.touched.expenseCategory && Boolean(formik.errors.expenseCategory)}
+              >
+                <MenuItem value="travel">Travel</MenuItem>
+                <MenuItem value="office">Office</MenuItem>
+                <MenuItem value="marketing">Marketing</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+              <FormHelperText error>{formik.touched.expenseCategory && formik.errors.expenseCategory}</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              id="description"
+              name="description"
+              label="Description"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              id="amount"
+              name="amount"
+              label="Amount"
+              type="number"
+              value={formik.values.amount}
+              onChange={formik.handleChange}
+              error={formik.touched.amount && Boolean(formik.errors.amount)}
+              helperText={formik.touched.amount && formik.errors.amount}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField fullWidth id="date" name="date" label="Date" type="date" value={formik.values.date} onChange={formik.handleChange} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Payment Type</FormLabel>
+              <RadioGroup row aria-label="payment-type" name="paymentType" value={formik.values.paymentType} onChange={formik.handleChange}>
+                <FormControlLabel value="cash" control={<Radio />} label="Cash" />
+                <FormControlLabel value="credit" control={<Radio />} label="Credit Card" />
+                <FormControlLabel value="debit" control={<Radio />} label="Debit Card" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Recurring Expense</FormLabel>
+              <RadioGroup
+                row
+                aria-label="recurring-expense"
+                name="recurring"
+                value={formik.values.recurring.toString()}
+                onChange={formik.handleChange}
+              >
+                <FormControlLabel value="true" control={<Radio />} label="Yes" />
+                <FormControlLabel value="false" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Stack direction="row" spacing={1}>
+              <Button type="submit" variant="contained" color="primary" disabled={loading}>
+                Update Expense
+              </Button>
+              <Button variant="contained" color="secondary" disabled={loading}>
+                Cancel
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
+      </form>
+    </Page>
+  );
+};
+
+EditExpense.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default EditExpense;
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/create.tsx===
 import { useState, ReactElement } from 'react';
 import { useFormik } from 'formik';
@@ -6481,6 +8872,7 @@ CreateExpense.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default CreateExpense;
+
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/edit/[id].tsx===
 import { useState, ReactElement } from 'react';
@@ -6652,7 +9044,6 @@ EditExpense.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default EditExpense;
-
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/expense/index.tsx===
 import { useTheme } from '@emotion/react';
@@ -6794,115 +9185,93 @@ const ExpensePage = () => {
         </Grid>
 
         {/* row 2 */}
-        <Grid item xs={12} md={7} lg={8}>
-          <Stack spacing={3}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Typography variant="h4">Recent Expenses</Typography>
-              <Stack direction="row" spacing={1}>
-                <TextField
-                  placeholder="Search expenses..."
-                  value={searchText}
-                  onChange={handleSearch}
-                  InputProps={{
-                    startAdornment: <SearchIcon fontSize="small" />
-                  }}
-                />
-                <IconButton onClick={handleFilterClick}>
-                  <FilterListIcon />
-                </IconButton>
-                <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
-                  <MenuItem>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <DateRangeIcon />
-                      <TextField
-                        type="date"
-                        label="Start Date"
-                        value={startDate ? startDate.toISOString().split('T')[0] : ''}
-                        onChange={(e) => handleStartDateChange(e.target.value ? new Date(e.target.value) : null)}
-                        InputLabelProps={{ shrink: true }}
-                      />
-                      <TextField
-                        type="date"
-                        label="End Date"
-                        value={endDate ? endDate.toISOString().split('T')[0] : ''}
-                        onChange={(e) => handleEndDateChange(e.target.value ? new Date(e.target.value) : null)}
-                        InputLabelProps={{ shrink: true }}
-                      />
-                    </Stack>
-                  </MenuItem>
-                  <MenuItem>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <CategoryIcon />
-                      <TextField label="Category" value={category} onChange={handleCategoryChange} />
-                    </Stack>
-                  </MenuItem>
-                  <MenuItem>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <AttachMoneyIcon />
-                      <TextField type="number" label="Min Amount" value={minAmount ?? ''} onChange={handleMinAmountChange} />
-                      <TextField type="number" label="Max Amount" value={maxAmount ?? ''} onChange={handleMaxAmountChange} />
-                    </Stack>
-                  </MenuItem>
-                </Menu>
+        <Grid item xs={12}>
+          <MainCard>
+            <Stack spacing={3}>
+              <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Typography variant="h4">Recent Expenses</Typography>
+                <Stack direction="row" spacing={1}>
+                  <TextField
+                    placeholder="Search expenses..."
+                    value={searchText}
+                    onChange={handleSearch}
+                    InputProps={{
+                      startAdornment: <SearchIcon fontSize="small" />
+                    }}
+                  />
+                  <IconButton onClick={handleFilterClick}>
+                    <FilterListIcon />
+                  </IconButton>
+                  <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
+                    <MenuItem>
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <DateRangeIcon />
+                        <TextField
+                          type="date"
+                          label="Start Date"
+                          value={startDate ? startDate.toISOString().split('T')[0] : ''}
+                          onChange={(e) => handleStartDateChange(e.target.value ? new Date(e.target.value) : null)}
+                          InputLabelProps={{ shrink: true }}
+                        />
+                        <TextField
+                          type="date"
+                          label="End Date"
+                          value={endDate ? endDate.toISOString().split('T')[0] : ''}
+                          onChange={(e) => handleEndDateChange(e.target.value ? new Date(e.target.value) : null)}
+                          InputLabelProps={{ shrink: true }}
+                        />
+                      </Stack>
+                    </MenuItem>
+                    <MenuItem>
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <CategoryIcon />
+                        <TextField label="Category" value={category} onChange={handleCategoryChange} />
+                      </Stack>
+                    </MenuItem>
+                    <MenuItem>
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <AttachMoneyIcon />
+                        <TextField type="number" label="Min Amount" value={minAmount ?? ''} onChange={handleMinAmountChange} />
+                        <TextField type="number" label="Max Amount" value={maxAmount ?? ''} onChange={handleMaxAmountChange} />
+                      </Stack>
+                    </MenuItem>
+                  </Menu>
+                </Stack>
               </Stack>
+              <Divider />
+              <RecentExpenses
+                data={[
+                  {
+                    id: 1,
+                    category: 'Travel',
+                    description: 'Flight to New York',
+                    amount: 500,
+                    date: '2021-10-01'
+                  },
+                  {
+                    id: 2,
+                    category: 'Office',
+                    description: 'Office Supplies',
+                    amount: 100,
+                    date: '2021-10-05'
+                  },
+                  {
+                    id: 3,
+                    category: 'Marketing',
+                    description: 'Facebook Ads',
+                    amount: 300,
+                    date: '2021-10-10'
+                  },
+                  {
+                    id: 4,
+                    category: 'Other',
+                    description: 'Miscellaneous',
+                    amount: 200,
+                    date: '2021-10-15'
+                  }
+                ]}
+              />
             </Stack>
-            <Divider />
-            <RecentExpenses
-              data={[
-                {
-                  id: 1,
-                  category: 'Travel',
-                  description: 'Flight to New York',
-                  amount: 500,
-                  date: '2021-10-01'
-                },
-                {
-                  id: 2,
-                  category: 'Office',
-                  description: 'Office Supplies',
-                  amount: 100,
-                  date: '2021-10-05'
-                },
-                {
-                  id: 3,
-                  category: 'Marketing',
-                  description: 'Facebook Ads',
-                  amount: 300,
-                  date: '2021-10-10'
-                },
-                {
-                  id: 4,
-                  category: 'Other',
-                  description: 'Miscellaneous',
-                  amount: 200,
-                  date: '2021-10-15'
-                }
-              ]}
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={12} md={5} lg={4}>
-          <MainCard title="Expense Breakdown" content={false}>
-            <ExpenseBreakdown
-              data={[
-                {
-                  category: 'Travel',
-                  amount: 500
-                },
-                {
-                  category: 'Office',
-                  amount: 100
-                },
-                {
-                  category: 'Marketing',
-                  amount: 300
-                },
-                {
-                  category: 'Other',
-                  amount: 200
-                }
-              ]}
-            />
           </MainCard>
         </Grid>
       </Grid>
@@ -7014,6 +9383,168 @@ DashboardAnalytics.getLayout = function getLayout(page: ReactElement) {
 export default DashboardAnalytics;
 
 ===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/invoice/create/index.tsx===
+import Layout from 'layout';
+import { ReactElement } from 'react';
+import CreateInvoiceApp from 'views/apps/invoice/create';
+
+// ==============================|| PAGE ||============================== //
+
+const CreateInvoice = () => {
+  return <CreateInvoiceApp />;
+};
+
+CreateInvoice.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default CreateInvoice;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/invoice/dashboard/index.tsx===
+import Layout from 'layout';
+import { ReactElement } from 'react';
+import InvoiceDashboardApp from 'views/apps/invoice/dashboard';
+
+// ==============================|| PAGE ||============================== //
+
+const InvoiceDashboard = () => {
+  return <InvoiceDashboardApp />;
+};
+
+InvoiceDashboard.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default InvoiceDashboard;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/invoice/details/[id].tsx===
+// import { Products } from 'types/e-commerce';
+// import axios from 'utils/axios';
+import Layout from 'layout';
+import { useRouter } from 'next/router';
+import InvoiceDetails from 'views/apps/invoice/details';
+
+// ==============================|| PAGE ||============================== //
+
+type Props = {
+  params: {};
+};
+
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+const InvoiceDetailsPage = ({ params }: Props) => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  return <InvoiceDetails id={id as string} />;
+};
+
+InvoiceDetailsPage.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout>{page}</Layout>;
+};
+
+export default InvoiceDetailsPage;
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  // todo: this need to look back again once we implemted SWR
+  // const response = await axios.get('/api/products/list');
+
+  // return response.data.products.map((prod: Products) => ({
+  //   id: prod.id
+  // }));
+
+  const response = [1, 2, 3, 5];
+
+  return response.map((prodId: number) => ({
+    id: prodId.toString()
+  }));
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/invoice/edit/[id]/index.tsx===
+// import { Products } from 'types/e-commerce';
+// import axios from 'utils/axios';
+import Layout from 'layout';
+import { useRouter } from 'next/router';
+import { ReactElement } from 'react';
+import InvoiceEdit from 'views/apps/invoice/edit';
+
+// ==============================|| PAGE ||============================== //
+
+type Props = {
+  params: {};
+};
+
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+const InvoiceEditPage = ({ params }: Props) => {
+  const router = useRouter();
+
+  const { id } = router.query;
+
+  return <InvoiceEdit id={id as string} />;
+};
+
+InvoiceEditPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default InvoiceEditPage;
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  // todo: this need to look back again once we implemted SWR
+  // const response = await axios.get('/api/products/list');
+
+  // return response.data.products.map((prod: Products) => ({
+  //   id: prod.id
+  // }));
+
+  const response = [1, 2, 3, 5];
+
+  return response.map((prodId: number) => ({
+    id: prodId.toString()
+  }));
+}
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/invoice/index.tsx===
+import Layout from 'layout';
+import { ReactElement } from 'react';
+import InvoiceListApp from 'views/apps/invoice/list';
+
+// ==============================|| PAGE ||============================== //
+
+const InvoiceList = () => {
+  return <InvoiceListApp />;
+};
+
+InvoiceList.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default InvoiceList;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/policy/index.tsx===
+import Layout from 'layout';
+import { ReactElement } from 'react';
+import WidgetStatistics from 'views/widget/statistics';
+
+const WidgetStatisticsPage = () => {
+  return <WidgetStatistics />;
+};
+
+WidgetStatisticsPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default WidgetStatisticsPage;
+
+===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/reports/index.tsx===
 // AI Thumbprint = adsasdfknx1b12
 import { useState, ReactElement } from 'react';
@@ -7113,6 +9644,38 @@ ExpenseReports.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default ExpenseReports;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/settings/index.tsx===
+import Layout from 'layout';
+import { ReactElement } from 'react';
+import WidgetStatistics from 'views/widget/statistics';
+
+const WidgetStatisticsPage = () => {
+  return <WidgetStatistics />;
+};
+
+WidgetStatisticsPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default WidgetStatisticsPage;
+
+===end===
+===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/finance/transactions/index.tsx===
+import Layout from 'layout';
+import { ReactElement } from 'react';
+import WidgetStatistics from 'views/widget/statistics';
+
+const StatsWidgetPage = () => {
+  return <WidgetStatistics />;
+};
+
+StatsWidgetPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default StatsWidgetPage;
 
 ===end===
 ===filename:/Users/jasonst.cyr/Developer/morrigu/MorriguAI/src/pages/forgot-password.tsx===
@@ -11104,39 +13667,12 @@ const UsagePage = () => {
               <MainCard title="Request History">
                 <Stack spacing={2}>
                   <ApexAreaChart
-                    data={{
-                      series: [
-                        {
-                          name: 'Requests',
-                          data: usage.requestHistory.map((record) => record.count)
-                        }
-                      ],
-                      categories: usage.requestHistory.map((record) => record.date)
-                    }}
-                    options={{
-                      chart: {
-                        type: 'area',
-                        toolbar: {
-                          show: true
-                        }
-                      },
-                      colors: [theme.palette.primary.main],
-                      dataLabels: {
-                        enabled: false
-                      },
-                      stroke: {
-                        curve: 'smooth'
-                      },
-                      xaxis: {
-                        type: 'datetime',
-                        categories: usage.requestHistory.map((record) => new Date(record.date).getTime())
-                      },
-                      tooltip: {
-                        x: {
-                          format: 'dd/MM/yy'
-                        }
+                    series={[
+                      {
+                        name: 'Requests',
+                        data: usage.requestHistory.map((record) => record.count)
                       }
-                    }}
+                    ]}
                   />
                 </Stack>
               </MainCard>

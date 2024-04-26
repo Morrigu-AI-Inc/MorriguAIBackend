@@ -12,6 +12,18 @@ import { ToolDocument } from 'src/db/schemas/Tools';
 import * as yup from 'yup';
 import { Model } from 'mongoose';
 
+import * as quickbooks_api_integration from '../tool_json/compiled_taps/quickbooks_api_integrations.json';
+import * as github_api_integration from '../tool_json/compiled_taps/github_api_integration.json';
+import * as salesforce_api_integration from '../tool_json/compiled_taps/salesforce_api_integration.json';
+import * as web_search from '../tool_json/compiled_taps/web_search.json';
+
+const tools = [
+  quickbooks_api_integration,
+  github_api_integration,
+  salesforce_api_integration,
+  web_search,
+];
+
 const validation = yup.object().shape({
   name: yup.string().required(),
   description: yup.string().required(),
@@ -43,6 +55,11 @@ const validation = yup.object().shape({
 
 @Controller('tools')
 export class ToolsController {
+  private tools: {
+    name: string;
+    description: string;
+    input_schema: any;
+  }[] = tools;
   constructor(
     @InjectModel('ToolDescription')
     private readonly toolModel: Model<ToolDocument>,
@@ -101,5 +118,38 @@ export class ToolsController {
     return this.toolModel.deleteOne({
       _id: id,
     });
+  }
+
+  @Get('/updateAll')
+  async bulkUpdate(): Promise<any> {
+    try {
+      for (const tool of tools) {
+        const validTools = validation.validateSync(tool, {
+          abortEarly: true,
+        });
+
+        await this.toolModel.updateOne(
+          {
+            name: validTools.name,
+          },
+          {
+            $set: {
+              ...tool,
+            },
+          },
+        );
+      }
+
+      return {
+        message: 'Bulk update successful',
+      };
+    } catch (error) {
+      if (error instanceof yup.ValidationError)
+        return {
+          error: error.errors,
+        };
+      return error;
+    }
+    // Logic to bulk create tools
   }
 }

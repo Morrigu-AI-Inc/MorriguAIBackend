@@ -70,6 +70,13 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
       Writing ====incomplete==== will trigger this script to run again the changes will get saved and you will start anew.
 
       Design - You MUST write code that is clean and follows the design patterns of the codebase.
+
+      Do not output code that is unchanged from the original file.
+
+      ==== OBJECTIVE ====
+    
+      Expense Pages Similar to Invoice But For Expenses (This is to be a competitor to Expensify, Concur, and other expense management platforms)
+      Copy the features of Expensify, Concur, and other expense management platforms
       
       `,
       messages: [
@@ -78,38 +85,17 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
           content: [
             {
               type: 'text',
-              text: 'We are creating an AI saas expense management platform. This platform is for Corporate Finance teams to manage their expenses and reports. We need to consider the following:',
+              text: `
+              Let's start with the following pages/components or edits to existing pages/components focus only on out finance platform. Here are the pages I need to create or edit:
+              
+              - Expense Pages Similar to Invoice But For Expenses (This is to be a competitor to Expensify, Concur, and other expense management platforms)
+              - Copy the features of Expensify, Concur, and other expense management platforms
+                
+              `,
             },
             {
               type: 'text',
               text: html,
-            },
-
-            {
-              type: 'text',
-              text: `
-              Let's start with the following pages/components or edits to existing pages/components focus only on out finance platform. Here are the pages I need to create or edit:
-              - Reports
-                - Expense Page
-                  - This page should show a list of expenses and allow the user to filter by date, category, and amount.
-                  - The user should be able to click on an expense to view more details.
-                  - The user should be able to edit an expense.
-                  - The user should be able to delete an expense.
-                  - The user should be able to add a new expense.
-                  - The user should be able to export the expenses to a CSV file.
-                  - The user should be able to print the expenses.
-                  - The user should be able to search for an expense.
-                  - The user should be able to sort the expenses.
-                  - The user should be able to create a new expense.
-                  - Anything else that makes this platform top of the line.
-              - Settings
-              `,
-            },
-            {
-              type: 'text',
-              text: `
-              Make an amazing expense management platform for Corporate Finance teams. Remember we have the utilization of conversational AI,
-              `,
             },
           ],
         },
