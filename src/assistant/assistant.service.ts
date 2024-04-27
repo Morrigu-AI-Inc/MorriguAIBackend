@@ -179,7 +179,12 @@ export class AssistantService {
       domain: 'tools, tools',
 
       id: 'asst_iQe8AvZafdXGPQv1dYbmct4L',
-      tools: [...frontend_tools, tool_search, invoke_tool],
+      tools: [
+        ...frontend_tools,
+        tool_search,
+        invoke_tool,
+        { type: 'code_interpreter' },
+      ],
       model: 'gpt-4-turbo-2024-04-09',
     },
   };

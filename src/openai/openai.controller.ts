@@ -41,13 +41,33 @@ export class OpenaiController {
     @Body()
     message: {
       role: string;
-      content: string;
+      content: any[];
     },
   ) {
+    console.log('message', message);
+    console.log(JSON.stringify(message, null, 2));
     try {
+      const attachments = [];
+      for (const content of message.content) {
+        if (content.url) {
+          const file = await this.openaiService.uploadBase64Image(
+            //name and url
+            content,
+            'assistants',
+          );
+
+          attachments.push({
+            file_id: file.id,
+            tools: [{ type: 'code_interpreter' }],
+          });
+
+          console.log('file', file);
+        }
+      }
       return await this.openaiService.addMessageToThread(
         threadId,
-        message.content,
+        message.content.length > 0 ? message.content[0].value : message,
+        attachments,
       );
     } catch (error) {
       console.error('Error adding message to thread', error);
