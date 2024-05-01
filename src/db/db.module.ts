@@ -22,6 +22,8 @@ import { FinancialCategorySchema } from './schemas/FinancialCategory';
 import { OperatingModelSchema } from './schemas/OperatingModel';
 import { RevenueDataSchema } from './schemas/RevenueData';
 import { RevenueModelSchema } from './schemas/RevenueModel';
+import { LeadSchema } from './schemas/Lead';
+import { CustomerSchema } from './schemas/Customer';
 
 @Module({
   imports: [
@@ -70,6 +72,8 @@ import { RevenueModelSchema } from './schemas/RevenueModel';
     MongooseModule.forFeature([
       { name: 'RevenueModel', schema: RevenueModelSchema },
     ]),
+    MongooseModule.forFeature([{ name: 'Lead', schema: LeadSchema }]),
+    MongooseModule.forFeature([{ name: 'Customer', schema: CustomerSchema }]),
   ],
   exports: [
     MongooseModule.forFeature([
@@ -105,6 +109,8 @@ import { RevenueModelSchema } from './schemas/RevenueModel';
     MongooseModule.forFeature([
       { name: 'RevenueModel', schema: RevenueModelSchema },
     ]),
+    MongooseModule.forFeature([{ name: 'Lead', schema: LeadSchema }]),
+    MongooseModule.forFeature([{ name: 'Customer', schema: CustomerSchema }]),
   ],
 })
 export class DbModule {}

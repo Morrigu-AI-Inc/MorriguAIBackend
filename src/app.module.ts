@@ -76,6 +76,7 @@ import { ProxyModule } from './proxy/proxy.module';
 import { HiringPlanModule } from './hiring-plan/hiring-plan.module';
 import { OperatingModelModule } from './operating-model/operating-model.module';
 import { RevenueModelModule } from './revenue-model/revenue-model.module';
+import { DemandGenerationModule } from './demand-generation/demand-generation.module';
 
 
 @Module({
@@ -182,6 +183,8 @@ import { RevenueModelModule } from './revenue-model/revenue-model.module';
     OperatingModelModule,
 
     RevenueModelModule,
+
+    DemandGenerationModule,
   ],
   controllers: [
     AppController,
