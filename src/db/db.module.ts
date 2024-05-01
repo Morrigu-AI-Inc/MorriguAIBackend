@@ -13,6 +13,15 @@ import {
   HistorySchema,
 } from './schemas/ConversationHistory';
 import { AssistantSchema } from './schemas/Assistant';
+import { AgentSchema } from './schemas/Agent';
+import { TeamSchema } from './schemas/Team';
+import { EmployeeSchema } from './schemas/Employee';
+import { HiringPlanSchema } from './schemas/HiringPlan';
+import { MonthlyFinancialDetailSchema } from './schemas/MonthlyFinancialDetail';
+import { FinancialCategorySchema } from './schemas/FinancialCategory';
+import { OperatingModelSchema } from './schemas/OperatingModel';
+import { RevenueDataSchema } from './schemas/RevenueData';
+import { RevenueModelSchema } from './schemas/RevenueModel';
 
 @Module({
   imports: [
@@ -41,6 +50,26 @@ import { AssistantSchema } from './schemas/Assistant';
     MongooseModule.forFeature([
       { name: 'ChatMessage', schema: ChatMessageSchema },
     ]),
+    MongooseModule.forFeature([{ name: 'Team', schema: TeamSchema }]),
+    MongooseModule.forFeature([{ name: 'Employee', schema: EmployeeSchema }]),
+    MongooseModule.forFeature([
+      { name: 'HiringPlan', schema: HiringPlanSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'MonthlyFinancialDetail', schema: MonthlyFinancialDetailSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'FinancialCategory', schema: FinancialCategorySchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'OperatingModel', schema: OperatingModelSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'RevenueData', schema: RevenueDataSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'RevenueModel', schema: RevenueModelSchema },
+    ]),
   ],
   exports: [
     MongooseModule.forFeature([
@@ -55,6 +84,27 @@ import { AssistantSchema } from './schemas/Assistant';
       { name: 'ChatMessage', schema: ChatMessageSchema },
     ]),
     MongooseModule.forFeature([{ name: 'Assistant', schema: AssistantSchema }]),
+    MongooseModule.forFeature([{ name: 'Agent', schema: AgentSchema }]),
+    MongooseModule.forFeature([{ name: 'Team', schema: TeamSchema }]),
+    MongooseModule.forFeature([{ name: 'Employee', schema: EmployeeSchema }]),
+    MongooseModule.forFeature([
+      { name: 'HiringPlan', schema: HiringPlanSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'MonthlyFinancialDetail', schema: MonthlyFinancialDetailSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'FinancialCategory', schema: FinancialCategorySchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'OperatingModel', schema: OperatingModelSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'RevenueData', schema: RevenueDataSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'RevenueModel', schema: RevenueModelSchema },
+    ]),
   ],
 })
 export class DbModule {}

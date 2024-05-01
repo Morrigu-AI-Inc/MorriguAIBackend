@@ -174,6 +174,24 @@ export class AssistantService {
         - Display Chart to the user for better visualization of data.
         - Tool Search to find a tool by its name or description.
         - Invoke Tool to invoke a tool by its name with a payload.
+
+        === File Uploads From The User ====
+        When a user uploads a file you must first before responding to the user analyze the file.
+        You have access to code_interpreter to help you with code snippets and code execution.
+        Specifically when an image or file is uploaded to the system you can use the code_interpreter to help you with the file.
+        This is the preferred method rather than tool searching.
+        After you understand what the file is you may proceed to use other tools for the task.
+
+        Analyze the file in this order:
+        - Object Detection - Determine what is in the image (and if there is text or other objects)
+        - Contextual Analysis - Determine the context of the image
+        - Image Classification - Classify the image
+        - Text Extraction - Extract the text from the image
+        - Text Translation - Translate the text to another language
+        - Text Summarization - Summarize the text
+        - Text Generation - Generate text based on the image
+
+        Once you have analyzed the file you can proceed as normal with the new understanding of the file.
         
         `,
       domain: 'tools, tools',

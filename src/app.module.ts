@@ -73,6 +73,10 @@ import { OrganizationService } from './organization/organization.service';
 import { UserSchema } from './db/schemas/User';
 import { StripeModule } from './stripe/stripe.module';
 import { ProxyModule } from './proxy/proxy.module';
+import { HiringPlanModule } from './hiring-plan/hiring-plan.module';
+import { OperatingModelModule } from './operating-model/operating-model.module';
+import { RevenueModelModule } from './revenue-model/revenue-model.module';
+
 
 @Module({
   imports: [
@@ -172,6 +176,12 @@ import { ProxyModule } from './proxy/proxy.module';
     StripeModule,
 
     ProxyModule,
+
+    HiringPlanModule,
+
+    OperatingModelModule,
+
+    RevenueModelModule,
   ],
   controllers: [
     AppController,

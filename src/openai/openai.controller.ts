@@ -10,12 +10,14 @@ import {
   Sse,
 } from '@nestjs/common';
 import { OpenaiService } from './openai.service';
-import { Observable } from 'rxjs';
-import * as jwt from 'jsonwebtoken';
+import { MediaService } from 'src/media/media.service';
 
 @Controller('openai')
 export class OpenaiController {
-  constructor(private readonly openaiService: OpenaiService) {}
+  constructor(
+    private readonly openaiService: OpenaiService,
+    private readonly mediaService: MediaService,
+  ) {}
 
   @Get('/assistant/thread')
   async createThread() {
@@ -35,6 +37,15 @@ export class OpenaiController {
     }
   }
 
+  @Get('/assistant/file/:fileId')
+  async getFile(@Param('fileId') fileId: string) {
+    try {
+      return await this.openaiService.getFile(fileId);
+    } catch (error) {
+      console.error('Error getting file', error);
+    }
+  }
+
   @Post('/assistant/thread/:threadId/message')
   async addMessageToThread(
     @Param('threadId') threadId: string,
@@ -44,14 +55,12 @@ export class OpenaiController {
       content: any[];
     },
   ) {
-    console.log('message', message);
-    console.log(JSON.stringify(message, null, 2));
     try {
       const attachments = [];
       for (const content of message.content) {
+        console.log('content', content);
         if (content.url) {
           const file = await this.openaiService.uploadBase64Image(
-            //name and url
             content,
             'assistants',
           );
@@ -59,9 +68,8 @@ export class OpenaiController {
           attachments.push({
             file_id: file.id,
             tools: [{ type: 'code_interpreter' }],
+            s3_url: content.data.url,
           });
-
-          console.log('file', file);
         }
       }
       return await this.openaiService.addMessageToThread(
@@ -156,6 +164,82 @@ export class OpenaiController {
       return observer;
     } catch (error) {
       console.error('Error adding message to thread', error);
+    }
+  }
+
+  /// ---- Below are Knowledge Base API Endpoints ----
+
+  @Get('/knowledge-base')
+  async getKnowledgeBase(@Query('owner') owner: any) {
+    try {
+      return await this.openaiService.getKnowledgeBases(owner);
+    } catch (error) {
+      console.error('Error getting knowledge base', error);
+    }
+  }
+
+  @Get('/knowledge-base/:knowledgeBaseId')
+  async getKnowledgeBaseById(
+    @Param('knowledgeBaseId') knowledgeBaseId: string,
+    @Query('owner') owner: any,
+  ) {
+    try {
+      return await this.openaiService.getKnowledgeBase(knowledgeBaseId, owner);
+    } catch (error) {
+      console.error('Error getting knowledge base by id', error);
+    }
+  }
+
+  @Post('/knowledge-base')
+  async createKnowledgeBase(@Body() knowledgeBase: any) {
+    try {
+      return await this.openaiService.createKnowledgeBase(
+        knowledgeBase,
+        '66247c8b47b52805d21f2187',
+      );
+    } catch (error) {
+      console.error('Error creating knowledge base', error);
+    }
+  }
+
+  // ==== Agent API Endpoints ====
+
+  @Get('/agent')
+  async getAgents(@Query('owner') owner: any) {
+    try {
+      return await this.openaiService.getAgents(owner);
+    } catch (error) {
+      console.error('Error getting agents', error);
+    }
+  }
+
+  @Get('/agent/:agentId')
+  async getAgentById(
+    @Param('agentId') agentId: string,
+    @Query('owner') owner: any,
+  ) {
+    try {
+      return await this.openaiService.getAgent(agentId, owner);
+    } catch (error) {
+      console.error('Error getting agent by id', error);
+    }
+  }
+
+  @Post('/agent')
+  async createAgent(@Body() agent: any) {
+    try {
+      return await this.openaiService.createAgent(agent);
+    } catch (error) {
+      console.error('Error creating agent', error);
+    }
+  }
+
+  @Post('/agent/:agentId')
+  async updateAgent(@Param('agentId') agentId: string, @Body() agent: any) {
+    try {
+      return await this.openaiService.updateAgent(agentId, agent);
+    } catch (error) {
+      console.error('Error updating agent', error);
     }
   }
 }

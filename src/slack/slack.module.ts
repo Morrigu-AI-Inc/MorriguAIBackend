@@ -9,6 +9,8 @@ import { AssistantService } from 'src/assistant/assistant.service';
 import { OrganizationService } from 'src/organization/organization.service';
 import { OrganizationSchema } from 'src/db/schemas/Organization';
 import { UserSchema } from 'src/db/schemas/User';
+import { KnowledgeBaseSchema } from 'src/db/schemas/KnowledgeBase';
+import { AgentSchema } from 'src/db/schemas/Agent';
 
 @Module({
   providers: [
@@ -29,6 +31,10 @@ import { UserSchema } from 'src/db/schemas/User';
       { name: 'Organization', schema: OrganizationSchema },
     ]),
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: 'KnowledgeBase', schema: KnowledgeBaseSchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'Agent', schema: AgentSchema }]),
   ],
 })
 export class SlackModule {}
