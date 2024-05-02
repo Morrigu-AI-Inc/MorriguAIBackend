@@ -77,6 +77,8 @@ import { HiringPlanModule } from './hiring-plan/hiring-plan.module';
 import { OperatingModelModule } from './operating-model/operating-model.module';
 import { RevenueModelModule } from './revenue-model/revenue-model.module';
 import { DemandGenerationModule } from './demand-generation/demand-generation.module';
+import { SalesVolumeModule } from './sales-volume/sales-volume.module';
+import { SalesVolumnService } from './sales-volumn/sales-volumn.service';
 
 
 @Module({
@@ -185,6 +187,8 @@ import { DemandGenerationModule } from './demand-generation/demand-generation.mo
     RevenueModelModule,
 
     DemandGenerationModule,
+
+    SalesVolumeModule,
   ],
   controllers: [
     AppController,
@@ -211,6 +215,7 @@ import { DemandGenerationModule } from './demand-generation/demand-generation.mo
     MediaService,
     AnthropicService,
     OrganizationService,
+    SalesVolumnService,
   ],
 })
 export class AppModule {}

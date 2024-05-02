@@ -36,6 +36,7 @@
     "@slack/web-api": "^7.0.2",
     "@types/sanitize-html": "^2.11.0",
     "@useparagon/connect": "^1.0.5",
+    "arima": "^0.2.5",
     "cheerio": "^1.0.0-rc.12",
     "express-oauth2-jwt-bearer": "^1.6.0",
     "helmet": "^7.1.0",

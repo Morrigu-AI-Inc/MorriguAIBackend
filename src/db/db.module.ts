@@ -24,6 +24,9 @@ import { RevenueDataSchema } from './schemas/RevenueData';
 import { RevenueModelSchema } from './schemas/RevenueModel';
 import { LeadSchema } from './schemas/Lead';
 import { CustomerSchema } from './schemas/Customer';
+import { SalesVolumeSchema } from './schemas/SalesVolumn';
+import { ResourceItemSchema } from './schemas/ResourceItem';
+import { ResourceForecastSchema } from './schemas/ResourceForecast';
 
 @Module({
   imports: [
@@ -74,6 +77,15 @@ import { CustomerSchema } from './schemas/Customer';
     ]),
     MongooseModule.forFeature([{ name: 'Lead', schema: LeadSchema }]),
     MongooseModule.forFeature([{ name: 'Customer', schema: CustomerSchema }]),
+    MongooseModule.forFeature([
+      { name: 'SalesVolume', schema: SalesVolumeSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'ResourceItem', schema: ResourceItemSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'ResourceForecast', schema: ResourceForecastSchema },
+    ]),
   ],
   exports: [
     MongooseModule.forFeature([
@@ -111,6 +123,15 @@ import { CustomerSchema } from './schemas/Customer';
     ]),
     MongooseModule.forFeature([{ name: 'Lead', schema: LeadSchema }]),
     MongooseModule.forFeature([{ name: 'Customer', schema: CustomerSchema }]),
+    MongooseModule.forFeature([
+      { name: 'SalesVolume', schema: SalesVolumeSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'ResourceItem', schema: ResourceItemSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'ResourceForecast', schema: ResourceForecastSchema },
+    ]),
   ],
 })
 export class DbModule {}

@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RevenueData } from 'src/db/schemas/RevenueData';
 import { RevenueModel } from 'src/db/schemas/RevenueModel';
+import * as ARIMA from 'arima'; // Import the ARIMA library
 
 @Injectable()
 export class RevenueModelService {
@@ -12,19 +13,123 @@ export class RevenueModelService {
   ) {}
 
   async initRevenueModel(): Promise<RevenueModel> {
-    const defaultData: RevenueData[] = [
+    const defaultData: Partial<RevenueData>[] = [
       {
-        date: new Date(), // Example: setting today's date as initial date
-        newCustomers: 0,
-        conversionRate: 0.0,
-        recurringRevenue: 0,
-        // Initialize other necessary fields with default values
+        period: '2024-01',
+        newCustomersMonthly: 100,
+        newCustomersAnnual: 1200,
+        arpcNewCustomers: 100,
+        mrrNewCustomersMonthly: 10000,
+        mrrNewCustomersAnnual: 120000,
+        expansionsMonthly: 10,
+        expansionsAnnual: 120,
+        expansionPercentMonthly: 10,
+        expansionPercentAnnual: 10,
+        arpcExpansion: 100,
+        mrrExpansionMonthly: 1000,
+        mrrExpansionAnnual: 12000,
+        reactivationsMonthly: 5,
+        arpcReactivation: 100,
+        reactivationRevenueMonthly: 500,
+        churnedCustomersMonthly: 5,
+        churnPercentMonthly: 5,
+        arpcChurned: 100,
+        mrrChurnedMonthly: 500,
+        customersUpForRenewalAnnual: 100,
+        renewalChurnPercentAnnual: 10,
+        churnedCustomersAnnual: 10,
+        customerChurnPercentAnnual: 10,
+        mrrChurnedAnnual: 1000,
+        downgradesMonthly: 5,
+        contractionPercentMonthly: 5,
+        contractedMrrMonthly: 500,
+        downgradesAnnual: 10,
+        contractionPercentAnnual: 10,
+        contractedMrrAnnual: 1000,
+        netNewCustomers: 100,
+        totalCustomers: 1000,
+        netNewMrr: 1000,
+        totalMrr: 10000,
+      },
+      {
+        period: '2024-02',
+        newCustomersMonthly: 110,
+        newCustomersAnnual: 1320,
+        arpcNewCustomers: 100,
+        mrrNewCustomersMonthly: 11000,
+        mrrNewCustomersAnnual: 132000,
+        expansionsMonthly: 11,
+        expansionsAnnual: 132,
+        expansionPercentMonthly: 10,
+        expansionPercentAnnual: 10,
+        arpcExpansion: 100,
+        mrrExpansionMonthly: 1100,
+        mrrExpansionAnnual: 13200,
+        reactivationsMonthly: 6,
+        arpcReactivation: 100,
+        reactivationRevenueMonthly: 600,
+        churnedCustomersMonthly: 6,
+        churnPercentMonthly: 5,
+        arpcChurned: 100,
+        mrrChurnedMonthly: 600,
+        customersUpForRenewalAnnual: 110,
+        renewalChurnPercentAnnual: 10,
+        churnedCustomersAnnual: 11,
+        customerChurnPercentAnnual: 10,
+        mrrChurnedAnnual: 1100,
+        downgradesMonthly: 6,
+        contractionPercentMonthly: 5,
+        contractedMrrMonthly: 600,
+        downgradesAnnual: 11,
+        contractionPercentAnnual: 10,
+        contractedMrrAnnual: 1100,
+        netNewCustomers: 110,
+        totalCustomers: 1100,
+        netNewMrr: 1100,
+        totalMrr: 11000,
+      },
+      {
+        period: '2024-03',
+        newCustomersMonthly: 120,
+        newCustomersAnnual: 1440,
+        arpcNewCustomers: 100,
+        mrrNewCustomersMonthly: 12000,
+        mrrNewCustomersAnnual: 144000,
+        expansionsMonthly: 12,
+        expansionsAnnual: 144,
+        expansionPercentMonthly: 10,
+        expansionPercentAnnual: 10,
+        arpcExpansion: 100,
+        mrrExpansionMonthly: 1200,
+        mrrExpansionAnnual: 14400,
+        reactivationsMonthly: 7,
+        arpcReactivation: 100,
+        reactivationRevenueMonthly: 700,
+        churnedCustomersMonthly: 7,
+        churnPercentMonthly: 5,
+        arpcChurned: 100,
+        mrrChurnedMonthly: 700,
+        customersUpForRenewalAnnual: 120,
+        renewalChurnPercentAnnual: 10,
+        churnedCustomersAnnual: 12,
+        customerChurnPercentAnnual: 10,
+        mrrChurnedAnnual: 1200,
+        downgradesMonthly: 7,
+        contractionPercentMonthly: 5,
+        contractedMrrMonthly: 700,
+        downgradesAnnual: 12,
+        contractionPercentAnnual: 10,
+        contractedMrrAnnual: 1200,
+        netNewCustomers: 120,
+        totalCustomers: 1200,
+        netNewMrr: 1200,
+        totalMrr: 12000,
       },
     ];
 
     const newRevenueModel = new this.revenueModel({
       scenario: 'base-case', // Default to a base-case scenario
-      data: defaultData,
+      data: [defaultData],
     });
 
     return newRevenueModel.save();
@@ -103,15 +208,17 @@ export class RevenueModelService {
 
     if (dataForMonth && dataForMonth.data.length > 0) {
       const lastMonthData = dataForMonth.data.find(
-        (d) => d.date < startOfMonth,
+        (d) => new Date(d.period) < startOfMonth,
       );
       if (lastMonthData) {
         // Calculate the forecast based on last month's data and growth/churn rates
         const forecastedRevenue =
-          lastMonthData.recurringRevenue *
-          (1 + lastMonthData.salesGrowth / 100);
+          lastMonthData.totalMrr *
+          (1 + lastMonthData.expansionPercentMonthly / 100);
+
         const forecastedCustomers = Math.round(
-          lastMonthData.newCustomers * (1 - lastMonthData.churnRate / 100),
+          lastMonthData.newCustomersMonthly *
+            (1 - lastMonthData.churnPercentMonthly / 100),
         );
 
         return {
@@ -128,5 +235,30 @@ export class RevenueModelService {
       date: startOfMonth,
       error: 'No sufficient data available for forecasting',
     };
+  }
+
+  async forecastRevenue(
+    scenario: string,
+    monthsAhead: number,
+    metric: string,
+  ): Promise<number[]> {
+    const revenueData = await this.revenueModel.findOne({ scenario: scenario });
+    if (!revenueData) {
+      throw new Error('Scenario data not found');
+    }
+    const data = revenueData.data
+      .sort((a, b) => a.period.localeCompare(b.period))
+      .map((d) => d[metric]);
+    const arimaModel = new ARIMA({
+      seasonal: false, // Or true, based on your data's characteristics
+      p: 6,
+      d: 1,
+      q: 6, // ARIMA model parameters
+      verbose: false,
+    }).fit(data);
+
+    const [predictedValues, predictedErrors] = arimaModel.predict(monthsAhead);
+
+    return [...data.slice(-12), ...predictedValues];
   }
 }

@@ -52,14 +52,15 @@ export class RevenueModelController {
   @Get(':scenario/forecasts')
   async calculateForecasts(
     @Param('scenario') scenario: string,
-    @Query('startMonth') startMonth: string,
+
     @Query('monthsAhead') monthsAhead: number,
+    @Query('metric') metric: string,
   ): Promise<any[]> {
-    const startMonthDate = new Date(startMonth);
-    return this.revenueModelService.calculateForecasts(
+    // const startMonthDate = new Date(startMonth);
+    return this.revenueModelService.forecastRevenue(
       scenario,
-      startMonthDate,
       monthsAhead,
+      metric,
     );
   }
 }
