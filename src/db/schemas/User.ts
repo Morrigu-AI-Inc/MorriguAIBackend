@@ -3,6 +3,7 @@ import { Document, SchemaTypes, Types } from 'mongoose';
 import { Role } from './Role';
 import { StripeAccount } from './StripeAccount';
 import { UserACL } from './ACL';
+import { Employee } from './Employee';
 
 export type UserDocument = User & Document;
 
@@ -34,6 +35,9 @@ export class User {
 
   @Prop({ required: true, type: SchemaTypes.Mixed, default: {} })
   config: any;
+
+  @Prop({ required: true, ref: 'Employee', type: Types.ObjectId })
+  employee: Employee;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -26,3 +26,5 @@ export class DatumEntry extends Document {
 }
 
 export const DatumEntrySchema = SchemaFactory.createForClass(DatumEntry);
+
+export default DatumEntrySchema;

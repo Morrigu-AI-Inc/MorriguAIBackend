@@ -39,6 +39,8 @@ import { StripeAccountSchema } from './schemas/StripeAccount';
 import { AddressSchema } from './schemas/Address';
 import { OrganizationSchema } from './schemas/Organization';
 import { OrganizationACLSchema, UserACLSchema } from './schemas/ACL';
+import DepartmentSchema from './schemas/Department';
+
 
 const schemas = [
   MongooseModule.forFeature([
@@ -124,6 +126,7 @@ const schemas = [
   ]),
   MongooseModule.forFeature([{ name: 'UserACL', schema: UserACLSchema }]),
   MongooseModule.forFeature([{ name: 'OrganizationACL', schema: OrganizationACLSchema }]),
+  MongooseModule.forFeature([{ name: 'Department', schema: DepartmentSchema }]),
 ];
 
 @Module({

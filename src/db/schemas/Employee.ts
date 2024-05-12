@@ -1,6 +1,7 @@
 // src/employees/schemas/employee.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Department } from './Department';
 
 @Schema()
 export class Employee extends Document {
@@ -33,6 +34,9 @@ export class Employee extends Document {
 
   @Prop()
   annualIncreaseDate: Date;
+
+  @Prop({ required: true, ref: 'Department', type: Types.ObjectId })
+  department: Department;
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);

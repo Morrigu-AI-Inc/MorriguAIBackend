@@ -1,6 +1,7 @@
 // src/expenses/schemas/expense.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { BaseDocument } from './BaseDocument';
 
 export type ExpenseDocument = Expense & Document;
 export type ExpenseCategoryDocument = ExpenseCategory & Document;
@@ -21,7 +22,7 @@ export class ExpenseCategory extends Document {
 }
 
 @Schema()
-export class Expense extends Document {
+export class Expense extends BaseDocument {
   @Prop({ required: true })
   amount: number;
 
@@ -31,6 +32,7 @@ export class Expense extends Document {
   @Prop({
     required: true,
     type: Types.ObjectId,
+    ref: 'ExpenseCategory',
   })
   category: string;
 
@@ -45,8 +47,8 @@ export class Expense extends Document {
   @Prop({ required: true, type: [Types.ObjectId], ref: 'Media' })
   media: string[];
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  owner: string;
+  @Prop({ required: false, default: 'User' })
+  ownerType: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Vendor', required: true })
   vendor: string;

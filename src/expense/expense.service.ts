@@ -66,8 +66,6 @@ export class ExpenseService {
     console.log(userId);
     const user = await this.userModel.findOne({ id: userId }).exec();
 
-    console.log(user);
-
     if (!user) {
       throw new Error('User not found');
     }
@@ -143,7 +141,7 @@ export class ExpenseService {
       throw new Error('Expense not found');
     }
 
-    if (expense.owner !== owner) {
+    if ((expense.owner as any) !== owner) {
       throw new Error('You do not have permission to update this expense');
     }
 

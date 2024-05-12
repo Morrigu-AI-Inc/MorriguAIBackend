@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import {
   MonthlyFinancialDetail,
   MonthlyFinancialDetailSchema,
@@ -15,7 +15,16 @@ export class FinancialCategory {
   @Prop({ type: String, required: true })
   description: string;
 
-  @Prop({ type: [MonthlyFinancialDetailSchema], default: [] })
+  @Prop({
+    type: [
+      {
+        type: Types.ObjectId,
+        ref: 'MonthlyFinancialDetail',
+      },
+    ],
+    default: [],
+    ref: 'MonthlyFinancialDetail',
+  })
   monthlyDetails: MonthlyFinancialDetail[];
 }
 

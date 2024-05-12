@@ -88,6 +88,7 @@ import { RolesModule } from './roles/roles.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { StripeAccountModule } from './stripe_account/stripe_account.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
+import { DepartmentModule } from './department/department.module';
 
 @Module({
   imports: [
@@ -215,6 +216,8 @@ import { OnboardingModule } from './onboarding/onboarding.module';
     StripeAccountModule,
 
     OnboardingModule,
+
+    DepartmentModule,
   ],
   controllers: [
     AppController,
