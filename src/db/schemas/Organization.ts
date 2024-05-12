@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, SchemaTypes, Types } from 'mongoose';
+import { Role } from './Role';
 
 export type OrganizationDocument = Organization & Document;
 
@@ -23,11 +24,14 @@ export class Organization {
   @Prop({ type: Types.ObjectId, ref: 'Billing', required: true })
   billing: Types.ObjectId;
 
-  @Prop({ type: SchemaTypes.Mixed, required: true })
+  @Prop({ type: SchemaTypes.Mixed, required: true, default: {} })
   config: any;
 
   @Prop({ type: SchemaTypes.Mixed, required: true, default: {} })
   usage: object;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Role' }] })
+  roles: Types.ObjectId[];
 }
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization);

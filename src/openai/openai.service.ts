@@ -567,7 +567,7 @@ export class OpenaiService {
   };
 
   public handleError = async (error: any, observer) => {
-    // console.log('error', error);
+    console.log('error', error);
     this.updateFrontEndStatus('error', observer);
   };
 

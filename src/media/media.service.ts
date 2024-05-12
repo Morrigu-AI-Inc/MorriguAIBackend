@@ -1,24 +1,9 @@
-import { GetObjectCommand, S3 } from '@aws-sdk/client-s3';
+import { GetObjectCommand, PutObjectCommand, S3 } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { MediaDocument } from 'src/db/schemas/Media';
 import * as yup from 'yup';
-
-// @Prop({ required: true })
-//   name: string;
-
-//   @Prop({ required: true })
-//   url: string;
-
-//   @Prop({ required: true })
-//   type: string;
-
-//   @Prop({ required: true })
-//   size: number;
-
-//   @Prop({ required: false })
-//   blob: Buffer;
 
 const MediaValidation = yup.object().shape({
   name: yup.string().required(),
@@ -95,5 +80,54 @@ export class MediaService {
     const base64String = Buffer.from(arrayBuffer).toString('base64');
 
     return base64String;
+  }
+
+  async uploadFile(file: any): Promise<MediaDocument | Error> {
+    try {
+      // Define the bucket ARN and S3 key
+      const bucketArn = 'dev-morrigu-ai-media';
+      const s3_key = new Types.ObjectId().toString();
+
+      // Create a new media document
+      const media = await this.createMedia({
+        name: file.originalname,
+        url: `https://${bucketArn}.s3.amazonaws.com/${s3_key}`,
+        type: file.mimetype,
+        size: file.size,
+        s3_key: s3_key,
+      });
+
+      if (!media) {
+        throw new Error('Error creating media');
+      }
+
+      // Create a new S3 client
+      const s3 = new S3({
+        region: 'us-east-1',
+      });
+
+      const params = {
+        Bucket: bucketArn,
+        Key: s3_key,
+        Body: file.buffer,
+      };
+
+      // Upload the file to S3
+      const response = await s3.send(new PutObjectCommand(params));
+
+      if (!response) {
+        // If the file fails to upload, delete the media document
+        await this.deleteMedia(media._id);
+
+        throw new Error('Error uploading file to S3');
+      }
+
+      // Return the response
+      return media;
+    } catch (error) {
+      console.log('Error uploading file to S3:', error);
+      // Return the error
+      return error;
+    }
   }
 }

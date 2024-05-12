@@ -68,50 +68,9 @@ export class MediaController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFileToS3(@UploadedFile() file): Promise<Partial<MediaDocument>> {
     try {
-      // Define the bucket ARN and a unique S3 key
-      const bucketArn = 'dev-morrigu-ai-media';
-      const s3_key = new Types.ObjectId().toString();
-
-      // Create a new media document
-      const media = await this.mediaService.createMedia({
-        name: file.originalname,
-        url: `https://${bucketArn}.s3.amazonaws.com/${s3_key}`,
-        type: file.mimetype,
-        size: file.size,
-        s3_key: s3_key,
-      });
-
-      if (!media) {
-        throw new Error('Error creating media');
-      }
-
-      // Create a new S3 client
-      const s3 = new S3({
-        region: 'us-east-1',
-      });
-
-      const params = {
-        Bucket: bucketArn,
-        Key: s3_key,
-        Body: file.buffer,
-      };
-
-      // Upload the file to S3
-      const response = await s3.send(new PutObjectCommand(params));
-
-      if (!response) {
-        // If the file fails to upload, delete the media document
-        await this.mediaService.deleteMedia(media._id);
-
-        throw new Error('Error uploading file to S3');
-      }
-
-      // Return the response
-      return media;
+      return this.mediaService.uploadFile(file);
     } catch (error) {
-      console.log('Error uploading file to S3:', error);
-      // Return the error
-      return error;
+      return error
     }
   }
 }

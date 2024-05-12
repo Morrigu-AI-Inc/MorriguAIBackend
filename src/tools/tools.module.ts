@@ -53,6 +53,8 @@ import { NotionApiIntegrationModule } from './notion_api_integration/notion_api_
 import { ToolSearchModule } from './tool_search/tool_search.module';
 import { SalesforceApiIntegrationModule } from './salesforce_api_integration/salesforce_api_integration.module';
 import { QuickbooksApiIntegrationModule } from './quickbooks_api_integration/quickbooks_api_integration.module';
+import { FinancialDataPointCommitModule } from './financial_data_point_commit/financial_data_point_commit.module';
+import { ChangeAssistantToolModule } from './change_assistant_tool/change_assistant_tool.module';
 
 @Module({
   providers: [
@@ -115,6 +117,8 @@ import { QuickbooksApiIntegrationModule } from './quickbooks_api_integration/qui
     ToolSearchModule,
     SalesforceApiIntegrationModule,
     QuickbooksApiIntegrationModule,
+    FinancialDataPointCommitModule,
+    ChangeAssistantToolModule,
   ],
   exports: [
     MongooseModule.forFeature([

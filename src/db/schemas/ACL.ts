@@ -25,7 +25,9 @@ export class OrganizationACL extends ACL {}
 @Schema({
   collection: 'useracls',
 })
-export class UserACL extends ACL {}
+export class UserACL extends ACL {
+  
+}
 
 export const OrganizationACLSchema =
   SchemaFactory.createForClass(OrganizationACL);

@@ -18,7 +18,6 @@ export class StripeController {
   async createCustomer(
     @Body() createCustomerDto: { email: string; name: string },
   ) {
-    console.log('Creating customer:', createCustomerDto);
     return this.stripeService.fetchOrCreateNew(
       createCustomerDto.email,
       createCustomerDto.name,

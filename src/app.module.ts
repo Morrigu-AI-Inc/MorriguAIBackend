@@ -79,7 +79,15 @@ import { RevenueModelModule } from './revenue-model/revenue-model.module';
 import { DemandGenerationModule } from './demand-generation/demand-generation.module';
 import { SalesVolumeModule } from './sales-volume/sales-volume.module';
 import { SalesVolumnService } from './sales-volumn/sales-volumn.service';
-
+import { BbsubsModule } from './bbsubs/bbsubs.module';
+import { TestModule } from './test/test.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { ExpenseModule } from './expense/expense.module';
+import { VendorModule } from './vendor/vendor.module';
+import { RolesModule } from './roles/roles.module';
+import { AccountsModule } from './accounts/accounts.module';
+import { StripeAccountModule } from './stripe_account/stripe_account.module';
+import { OnboardingModule } from './onboarding/onboarding.module';
 
 @Module({
   imports: [
@@ -189,6 +197,24 @@ import { SalesVolumnService } from './sales-volumn/sales-volumn.service';
     DemandGenerationModule,
 
     SalesVolumeModule,
+
+    BbsubsModule,
+
+    TestModule,
+
+    SubscriptionsModule,
+
+    ExpenseModule,
+
+    VendorModule,
+
+    RolesModule,
+
+    AccountsModule,
+
+    StripeAccountModule,
+
+    OnboardingModule,
   ],
   controllers: [
     AppController,

@@ -1,3 +1,5 @@
+import { prop } from 'cheerio/lib/api/attributes';
+
 const tool_search = {
   type: 'function',
   function: {

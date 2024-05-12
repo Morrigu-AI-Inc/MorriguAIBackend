@@ -1,9 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, SchemaTypes } from 'mongoose';
+import { Document, SchemaTypes, Types } from 'mongoose';
+import { Role } from './Role';
+import { StripeAccount } from './StripeAccount';
+import { UserACL } from './ACL';
 
 export type UserDocument = User & Document;
 
-@Schema({ timestamps: true, collection: 'users'})
+@Schema({ timestamps: true, collection: 'users' })
 export class User {
   @Prop({ required: true, unique: true })
   id: string;
@@ -19,6 +22,18 @@ export class User {
 
   @Prop({ type: SchemaTypes.Mixed })
   data: unknown;
+
+  @Prop({ required: true, type: Types.ObjectId, ref: 'Role' })
+  role: Role;
+
+  @Prop({ required: false, type: Types.ObjectId, ref: 'StripeAccount' })
+  stripeAccount: StripeAccount;
+
+  @Prop({ required: false, type: Types.ObjectId, ref: 'UserACL' })
+  acl: UserACL;
+
+  @Prop({ required: true, type: SchemaTypes.Mixed, default: {} })
+  config: any;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
