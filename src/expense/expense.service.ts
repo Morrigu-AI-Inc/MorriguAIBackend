@@ -66,14 +66,25 @@ export class ExpenseService {
     console.log(userId);
     const user = await this.userModel.findOne({ id: userId }).exec();
 
+    console.log(user);
+
     if (!user) {
       throw new Error('User not found');
     }
 
-    return this.expenseModel
-      .find({ owner: user._id })
-      .populate('media owner category vendor')
-      .exec();
+    try {
+      const results = this.expenseModel
+        .find({ owner: user._id })
+        .populate('media owner category vendor')
+        .exec();
+
+      console.log(results);
+      return results;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+   
   }
 
   async createDBExpense(

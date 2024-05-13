@@ -34,7 +34,7 @@ export class Expense extends BaseDocument {
     type: Types.ObjectId,
     ref: 'ExpenseCategory',
   })
-  category: string;
+  category: Types.ObjectId;
 
   @Prop()
   description: string;
