@@ -12,6 +12,7 @@ import { MediaSchema } from 'src/db/schemas/Media';
 import { KnowledgeBaseSchema } from 'src/db/schemas/KnowledgeBase';
 import { DbModule } from 'src/db/db.module';
 import { AgentSchema } from 'src/db/schemas/Agent';
+import { ToolInputSchema } from 'src/db/schemas/ToolInput';
 
 @Module({
   controllers: [OpenaiController],
@@ -34,6 +35,7 @@ import { AgentSchema } from 'src/db/schemas/Agent';
       { name: 'KnowledgeBase', schema: KnowledgeBaseSchema },
     ]),
     MongooseModule.forFeature([{ name: 'Agent', schema: AgentSchema }]),
+    MongooseModule.forFeature([{ name: 'ToolInput', schema: ToolInputSchema }]),
   ],
 })
 export class OpenaiModule {}

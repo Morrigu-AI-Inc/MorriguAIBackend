@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -12,16 +12,13 @@ import { BedrockService } from './bedrock/bedrock.service';
 import { BedrockModule } from './bedrock/bedrock.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DbModule } from './db/db.module';
-
 import { PromptService } from './prompt/prompt.service';
 import { PromptflagModule } from './promptflag/promptflag.module';
-import { AclModule } from './acl/acl.module';
 import { ApicredentialsModule } from './apicredentials/apicredentials.module';
 import { ApikeysModule } from './apikeys/apikeys.module';
 import { BillingModule } from './billing/billing.module';
 import { EnvironmentModule } from './environment/environment.module';
 import { InferenceparametersModule } from './inferenceparameters/inferenceparameters.module';
-
 import { ModelModule } from './model/model.module';
 import { ModelformattingModule } from './modelformatting/modelformatting.module';
 import { OrganizationModule } from './organization/organization.module';
@@ -59,7 +56,6 @@ import { ListingController } from './listing/listing.controller';
 import { MediaModule } from './media/media.module';
 import { MediaService } from './media/media.service';
 import { MediaSchema } from './db/schemas/Media';
-
 import { ToolsController } from './tools/tools.controller';
 import { AnthropicModule } from './anthropic/anthropic.module';
 import { AnthropicService } from './anthropic/anthropic.service';
@@ -89,6 +85,20 @@ import { AccountsModule } from './accounts/accounts.module';
 import { StripeAccountModule } from './stripe_account/stripe_account.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
 import { DepartmentModule } from './department/department.module';
+import { EmployeeModule } from './employee/employee.module';
+import { DecryptMiddleware } from './auth/decrypt.middleware';
+import { EmployeeController } from './employee/employee.controller';
+import { TeamModule } from './team/team.module';
+import { AclModule } from './acl/acl.module';
+import { OrganizationaclsModule } from './organizationacls/organizationacls.module';
+import { UseraclsModule } from './useracls/useracls.module';
+import { ResourceSimilarityAnalysisModule } from './tools/resource_similarity_analysis/resource_similarity_analysis.module';
+import { InventoryModule } from './inventory/inventory.module';
+import { RawmaterialModule } from './rawmaterial/rawmaterial.module';
+import { PurchasingModule } from './purchasing/purchasing.module';
+import { ShipmentModule } from './shipment/shipment.module';
+import { SupplierModule } from './supplier/supplier.module';
+import { WarehouseModule } from './warehouse/warehouse.module';
 
 @Module({
   imports: [
@@ -218,6 +228,28 @@ import { DepartmentModule } from './department/department.module';
     OnboardingModule,
 
     DepartmentModule,
+
+    EmployeeModule,
+
+    TeamModule,
+
+    OrganizationaclsModule,
+
+    UseraclsModule,
+
+    ResourceSimilarityAnalysisModule,
+
+    InventoryModule,
+
+    RawmaterialModule,
+
+    PurchasingModule,
+
+    ShipmentModule,
+
+    SupplierModule,
+
+    WarehouseModule,
   ],
   controllers: [
     AppController,

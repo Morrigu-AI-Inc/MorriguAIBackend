@@ -1,14 +1,9 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Mongoose } from 'mongoose';
-import { OrganizationACLSchema, UserACLSchema } from 'src/db/schemas/ACL';
+import { AclService } from './acl.service';
+import { AclController } from './acl.controller';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: 'OrganizationACL', schema: OrganizationACLSchema },
-      { name: 'UserACL', schema: UserACLSchema },
-    ]),
-  ],
+  controllers: [AclController],
+  providers: [AclService],
 })
 export class AclModule {}

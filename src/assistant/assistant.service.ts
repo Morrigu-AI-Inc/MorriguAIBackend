@@ -3,6 +3,9 @@ import OpenAI from 'openai';
 import tools from 'src/tool_json';
 import { change_assistant_tool } from 'src/tool_json/compiled_taps/change_assistant';
 import assistants from 'src/assistant/assistants_json';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { ToolInput } from 'src/db/schemas/ToolInput';
 
 @Injectable()
 export class AssistantService {
@@ -10,11 +13,25 @@ export class AssistantService {
 
   private openai: OpenAI;
 
-  constructor() {
+  constructor(@InjectModel('ToolInput') private toolModel: Model<ToolInput>) {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
     const init = async () => {
+      const tools_description_text = [];
+      await this.toolModel.find().then((tools) => {
+        tools.forEach((tool) => {
+          tools_description_text.push(
+            `============ ${tool.name} ============\n${tool.description} \n`,
+          );
+        });
+      });
+
+      console.log(
+        'tools_description_text',
+        tools_description_text.join('\n') + '\n',
+      );
+
       for (const key in this.assistants) {
         await this.openai.beta.assistants.update(this.assistants[key].id, {
           instructions: this.assistants[key].description,

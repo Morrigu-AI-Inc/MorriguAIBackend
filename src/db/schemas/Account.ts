@@ -1,13 +1,14 @@
 // account.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { BaseDocument } from './BaseDocument';
 
 export type AccountDocument = Account & Document;
 
 @Schema({
   collection: 'accounts',
 })
-export class Account {
+export class Account extends BaseDocument {
   @Prop({ required: true })
   name: string;
 
@@ -44,8 +45,7 @@ export class Account {
   @Prop()
   swiftCode?: string; // Optional, for international transactions
 
-  @Prop({ required: true })
-  owner: string;
+
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

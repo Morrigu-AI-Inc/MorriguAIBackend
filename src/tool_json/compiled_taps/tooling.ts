@@ -8,13 +8,6 @@ const tool_search = {
     Use this tool to find a tool by its name or description.
     Enter a search term to find a tool.
 
-    Available Types of Tools:
-    - QuickBooks Integration
-    - Slack API Integration
-    - Notion API Integration
-    - HubSpot API Integration
-    - Display Chart
-
      Find a tool by its name or description.
     
      Fine a tool with a query term to search for a tool. The query term describes what you are looking for in a tool.
@@ -50,7 +43,7 @@ const invoke_tool = {
       $schema: 'http://json-schema.org/draft-07/schema#',
       title: 'Invoke Tool',
       description:
-        'Invoke a tool by its name. Do not use made up tools as the tool will fail. You must search for the tools.',
+        'Invoke a tool by its name. Do not use made up names or tools as the tool will fail. You must search for the tools.',
       type: 'object',
       properties: {
         tool_name: {

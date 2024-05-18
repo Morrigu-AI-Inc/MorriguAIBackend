@@ -14,7 +14,7 @@ import { CreateRoleDto, RolesService, UpdateRoleDto } from './roles.service';
 import { Role } from 'src/db/schemas/Role';
 
 
-@Controller('roles')
+@Controller('role')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 

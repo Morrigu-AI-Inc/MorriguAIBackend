@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { BaseDocument } from './BaseDocument';
+import { Team } from './Team';
+import { Employee } from './Employee';
 
 export type DepartmentDocument = Department & Document;
 
@@ -8,18 +10,18 @@ export type DepartmentDocument = Department & Document;
   timestamps: true,
   versionKey: 'version',
 })
-export class Department extends BaseDocument {
+export class Department extends Document {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Employee', required: true })
-  manager: Types.ObjectId; // Assumes an Employee schema exists for manager references
+  @Prop({ type: Types.ObjectId, ref: 'Employee', required: false })
+  manager: Employee; // Assumes an Employee schema exists for manager references
 
   @Prop({ required: true })
   description: string;
 
-  @Prop([{ type: Types.ObjectId, ref: 'Department' }])
-  subdepartments: Department[];
+  @Prop([{ type: Types.ObjectId, ref: 'Team' }])
+  subdepartments: Team[];
 
   @Prop({ required: true })
   goals: string[];

@@ -2,11 +2,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { ResourceItem } from './ResourceItem';
+import { BaseDocument } from './BaseDocument';
 
 export type ResourceForecastDocument = ResourceForecast & Document;
 
 @Schema()
-export class ResourceForecast {
+export class ResourceForecast extends BaseDocument {
   @Prop({ required: true })
   period: string; // E.g., "2024-01", "2024-Q1"
 

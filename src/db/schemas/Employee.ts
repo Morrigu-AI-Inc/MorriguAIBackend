@@ -2,31 +2,36 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Department } from './Department';
+import { Role } from './Role';
+import { Team } from './Team';
 
 @Schema()
 export class Employee extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Team', required: true })
-  teamId: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: 'Team', required: false })
+  teamId: Team;
 
-  @Prop({ required: true })
-  roleId: string;
+  @Prop({ required: false })
+  name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false, type: Types.ObjectId, ref: 'Role' })
+  roleId: Role;
+
+  @Prop({ required: false })
   salary: number;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   hireDate: Date;
 
-  @Prop()
+  @Prop({ required: false })
   terminationDate: Date;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   payrollTax: number;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   percentBenefits: number;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   dollarBenefits: number;
 
   @Prop()
@@ -35,7 +40,7 @@ export class Employee extends Document {
   @Prop()
   annualIncreaseDate: Date;
 
-  @Prop({ required: true, ref: 'Department', type: Types.ObjectId })
+  @Prop({ required: false, ref: 'Department', type: Types.ObjectId })
   department: Department;
 }
 

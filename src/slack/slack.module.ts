@@ -11,6 +11,8 @@ import { OrganizationSchema } from 'src/db/schemas/Organization';
 import { UserSchema } from 'src/db/schemas/User';
 import { KnowledgeBaseSchema } from 'src/db/schemas/KnowledgeBase';
 import { AgentSchema } from 'src/db/schemas/Agent';
+import { ToolDescriptionSchema } from 'src/db/schemas';
+import { ToolInputSchema } from 'src/db/schemas/ToolInput';
 
 @Module({
   providers: [
@@ -35,6 +37,10 @@ import { AgentSchema } from 'src/db/schemas/Agent';
       { name: 'KnowledgeBase', schema: KnowledgeBaseSchema },
     ]),
     MongooseModule.forFeature([{ name: 'Agent', schema: AgentSchema }]),
+    MongooseModule.forFeature([
+      { name: 'ToolDescription', schema: ToolDescriptionSchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'ToolInput', schema: ToolInputSchema }]),
   ],
 })
 export class SlackModule {}

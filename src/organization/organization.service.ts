@@ -33,6 +33,12 @@ export class OrganizationService {
     return org;
   }
 
+  async createOrganizaton(
+    data: Partial<OrganizationDocument>,
+  ): Promise<OrganizationDocument> {
+    return this.organizationModel.create(data);
+  }
+
   async updateOrganization(
     orgId: string,
     data: Partial<OrganizationDocument>,

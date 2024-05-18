@@ -40,6 +40,14 @@ import { AddressSchema } from './schemas/Address';
 import { OrganizationSchema } from './schemas/Organization';
 import { OrganizationACLSchema, UserACLSchema } from './schemas/ACL';
 import DepartmentSchema from './schemas/Department';
+import { ToolDescriptionSchema } from './schemas/Tools';
+import { ToolInputSchema } from './schemas/ToolInput';
+import WarehouseSchema from './schemas/Warehouse';
+import SupplierSchema from './schemas/Supplier';
+import ShipmentSchema from './schemas/Shipment';
+import RawMaterialSchema from './schemas/RawMaterial';
+import InventorySchema from './schemas/Inventory';
+import PurchaseOrderSchema from './schemas/PurchaseOrder';
 
 
 const schemas = [
@@ -125,8 +133,28 @@ const schemas = [
     { name: 'Organization', schema: OrganizationSchema },
   ]),
   MongooseModule.forFeature([{ name: 'UserACL', schema: UserACLSchema }]),
-  MongooseModule.forFeature([{ name: 'OrganizationACL', schema: OrganizationACLSchema }]),
+  MongooseModule.forFeature([
+    { name: 'OrganizationACL', schema: OrganizationACLSchema },
+  ]),
   MongooseModule.forFeature([{ name: 'Department', schema: DepartmentSchema }]),
+  MongooseModule.forFeature([
+    { name: 'OrganizationACL', schema: OrganizationACLSchema },
+    { name: 'UserACL', schema: UserACLSchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'ToolDescription', schema: ToolDescriptionSchema },
+  ]),
+  MongooseModule.forFeature([{ name: 'ToolInput', schema: ToolInputSchema }]),
+  MongooseModule.forFeature([{ name: 'Warehouse', schema: WarehouseSchema }]),
+  MongooseModule.forFeature([{ name: 'Supplier', schema: SupplierSchema }]),
+  MongooseModule.forFeature([{ name: 'Shipment', schema: ShipmentSchema }]),
+  MongooseModule.forFeature([
+    { name: 'RawMaterial', schema: RawMaterialSchema },
+  ]),
+  MongooseModule.forFeature([{ name: 'Inventory', schema: InventorySchema }]),
+  MongooseModule.forFeature([
+    { name: 'PurchaseOrder', schema: PurchaseOrderSchema },
+  ]),
 ];
 
 @Module({

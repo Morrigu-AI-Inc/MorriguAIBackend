@@ -1,9 +1,10 @@
 // src/sales-forecast/schemas/sales-volume.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { BaseDocument } from './BaseDocument';
 
 @Schema()
-export class SalesVolume extends Document {
+export class SalesVolume extends BaseDocument {
   @Prop({ required: true })
   period: string; // Format: "YYYY-MM" or "YYYY-QQ" for monthly or quarterly data
 

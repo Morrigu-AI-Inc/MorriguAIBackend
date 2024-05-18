@@ -13,6 +13,9 @@ export class Team extends Document {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Team' }] })
   teams: Team[];
 
+  @Prop({ type: Types.ObjectId, ref: 'Employee' })
+  lead: Types.ObjectId;
+
   @Prop({
     type: Types.ObjectId,
     ref: 'Organization',

@@ -1,0 +1,34 @@
+{
+  "name": "Resource Allocation Analysis Tool",
+  "description": "The Rigu AI Resource Allocation Optimization Tool leverages advanced analytics to streamline resource allocation across divisions, eliminating duplication and inefficiencies. This innovative API-driven tool assists managers in centralizing procurement for common items, significantly reducing costs and improving operational efficiency. Resource Allocation Optimization, Centralized Procurement, Advanced Analytics, Cost Savings, Operational Efficiency, AI-driven Insights, Resource Utilization, Procurement Automation, Conversational AI, Bulk Buying, Negotiated Discounts.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": ["tools/resource_allocation_analysis"]
+      },
+      "method": {
+        "type": "string",
+        "enum": ["GET"]
+      },
+      "contentType": {
+        "type": "string",
+        "enum": ["application/json"]
+      },
+      "queryParameters": {
+        "type": "object",
+        "properties": {
+          "divisions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["divisions"]
+      }
+    },
+    "required": ["type", "method", "contentType", "queryParameters"]
+  }
+}

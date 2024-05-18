@@ -14,14 +14,12 @@ export class MessagesController {
     return this.messagesService.getPublicMessage();
   }
 
-  @UseGuards(AuthorizationGuard)
   @Get('protected')
   async getProtected(): Promise<Message> {
     return this.messagesService.getProtectedMessage();
   }
 
   @UseGuards(PermissionsGuard([MessagesPermissions.READ_ADMIN]))
-  @UseGuards(AuthorizationGuard)
   @Get('admin')
   async getAdmin(): Promise<Message> {
     return this.messagesService.getAdminMessage();

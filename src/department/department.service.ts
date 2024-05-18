@@ -4,8 +4,7 @@ import { Model } from 'mongoose';
 import { Department, DepartmentDocument } from 'src/db/schemas';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
-
-
+import { UserAuth } from 'src/authorization/authorization.guard';
 
 @Injectable()
 export class DepartmentService {

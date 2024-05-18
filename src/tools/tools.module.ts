@@ -55,6 +55,7 @@ import { SalesforceApiIntegrationModule } from './salesforce_api_integration/sal
 import { QuickbooksApiIntegrationModule } from './quickbooks_api_integration/quickbooks_api_integration.module';
 import { FinancialDataPointCommitModule } from './financial_data_point_commit/financial_data_point_commit.module';
 import { ChangeAssistantToolModule } from './change_assistant_tool/change_assistant_tool.module';
+import { Co2ImpactController } from './co2_impact/co2_impact.controller';
 
 @Module({
   providers: [
@@ -90,6 +91,7 @@ import { ChangeAssistantToolModule } from './change_assistant_tool/change_assist
     UpdateQuickbooksCustomerController,
     SalesforceMetadataSobjectFetcherController,
     QuickbooksQueryController,
+    Co2ImpactController,
   ],
   imports: [
     MongooseModule.forFeature([
@@ -121,9 +123,7 @@ import { ChangeAssistantToolModule } from './change_assistant_tool/change_assist
     ChangeAssistantToolModule,
   ],
   exports: [
-    MongooseModule.forFeature([
-      { name: 'ToolDescription', schema: ToolDescriptionSchema },
-    ]),
+    
   ],
 })
 export class ToolsModule {}
