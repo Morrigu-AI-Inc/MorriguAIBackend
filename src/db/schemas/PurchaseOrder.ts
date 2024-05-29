@@ -1,20 +1,39 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, Types, SchemaTypes } from 'mongoose';
 import { Supplier } from './Supplier';
-import { RawMaterial } from './RawMaterial';
+import { Product } from './Product';
+import { LineItem, LineItemDocument } from './LineItem';
+import { OrganizationDocument, Organization } from './Organization';
 
 export type PurchaseOrderDocument = PurchaseOrder & Document;
+
+enum POStatus {
+  SENT = 'SENT',
+  ACCEPTED = 'ACCEPTED',
+  PENDING = 'PENDING',
+  CONTRACT_SENT = 'CONTRACT_SENT',
+  CONTRACT_SIGNED = 'CONTRACT_SIGNED',
+  WAITING_FOR_PAYMENT = 'WAITING_FOR_PAYMENT',
+  PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  SHIPPED = 'SHIPPED',
+  DELIVERED = 'DELIVERED',
+  CANCELLED = 'CANCELLED',
+}
 
 @Schema({
   timestamps: true,
   versionKey: 'version',
 })
 export class PurchaseOrder extends Document {
+  @Prop({ required: true })
+  po_number: string;
+
   @Prop({ type: Types.ObjectId, ref: 'Supplier', required: true })
   supplier: Supplier;
 
-  @Prop([{ type: Types.ObjectId, ref: 'RawMaterial', required: true }])
-  rawMaterials: RawMaterial[];
+  @Prop({ type: Types.ObjectId, ref: 'LineItem', required: false, default: [] })
+  line_items: object[];
 
   @Prop({ required: true })
   orderDate: Date;
@@ -25,8 +44,14 @@ export class PurchaseOrder extends Document {
   @Prop({ required: true })
   totalAmount: number;
 
-  @Prop({ required: true })
-  status: string;
+  @Prop({ required: true, enum: POStatus, default: POStatus.SENT })
+  status: POStatus;
+
+  @Prop({ required: false, type: SchemaTypes.Mixed })
+  raw: any;
+
+  @Prop({ type: Types.ObjectId, ref: 'Organization', required: true })
+  owner: Organization;
 }
 
 const PurchaseOrderSchema = SchemaFactory.createForClass(PurchaseOrder);

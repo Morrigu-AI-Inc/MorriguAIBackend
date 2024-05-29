@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RevenueData } from 'src/db/schemas/RevenueData';
 import { RevenueModel } from 'src/db/schemas/RevenueModel';
-import * as ARIMA from 'arima'; // Import the ARIMA library
+// import * as ARIMA from 'arima'; // Import the ARIMA library
 
 @Injectable()
 export class RevenueModelService {
@@ -249,16 +249,16 @@ export class RevenueModelService {
     const data = revenueData.data
       .sort((a, b) => a.period.localeCompare(b.period))
       .map((d) => d[metric]);
-    const arimaModel = new ARIMA({
-      seasonal: false, // Or true, based on your data's characteristics
-      p: 6,
-      d: 1,
-      q: 6, // ARIMA model parameters
-      verbose: false,
-    }).fit(data);
+    // const arimaModel = new ARIMA({
+    //   seasonal: false, // Or true, based on your data's characteristics
+    //   p: 6,
+    //   d: 1,
+    //   q: 6, // ARIMA model parameters
+    //   verbose: false,
+    // }).fit(data);
 
-    const [predictedValues, predictedErrors] = arimaModel.predict(monthsAhead);
+    // const [predictedValues, predictedErrors] = arimaModel.predict(monthsAhead);
 
-    return [...data.slice(-12), ...predictedValues];
+    return [];
   }
 }

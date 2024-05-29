@@ -79,12 +79,14 @@ export const UserAuth = createParamDecorator(
     // const userJson = await user.json();
     // console.log(json, userJson);
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       console.log(decoded);
       if (err) {
         throw new UnauthorizedException('Invalid token');
       }
     });
+
+    
 
     return json;
   },

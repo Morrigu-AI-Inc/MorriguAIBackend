@@ -26,7 +26,22 @@ export class Shipment extends Document implements Location {
   status: string;
 
   @Prop({ required: true })
-  address: string;
+  address1: string;
+
+  @Prop({ required: false, default: '' })
+  address2: string;
+
+  @Prop({ required: true })
+  city: string;
+
+  @Prop({ required: true })
+  state: string;
+
+  @Prop({ required: true })
+  zip: string;
+
+  @Prop({ required: true })
+  country: string;
 
   @Prop({ required: true })
   latitude: number;

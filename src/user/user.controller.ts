@@ -7,24 +7,19 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-import {
-  AuthorizationGuard,
-  UserAuth,
-} from 'src/authorization/authorization.guard';
-import { User } from 'src/db/schemas';
-
 @Controller('user')
-@UseGuards(AuthorizationGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    console.log('createUserDto', createUserDto);
     return this.userService.create(createUserDto);
   }
 
@@ -34,13 +29,10 @@ export class UserController {
   }
 
   @Get('me')
-  findMe(@UserAuth() user) {
-    
-    return {
-      id: user.id,
-      email: user.email,
-      username: user.username,
-    };
+  async findMe(@Query('userId') userId: string) {
+    const resp = await this.userService.me(userId);
+
+    return resp;
   }
 
   @Get(':id')

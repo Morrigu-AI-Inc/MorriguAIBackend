@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { OrganizationDocument } from 'src/db/schemas/Organization';
+import {
+  Organization,
+  OrganizationDocument,
+} from 'src/db/schemas/Organization';
 import { UserDocument } from 'src/db/schemas/User';
 
 @Injectable()
@@ -41,7 +44,7 @@ export class OrganizationService {
 
   async updateOrganization(
     orgId: string,
-    data: Partial<OrganizationDocument>,
+    data: Partial<Organization>,
   ): Promise<OrganizationDocument> {
     return this.organizationModel.findByIdAndUpdate(orgId, data, { new: true });
   }

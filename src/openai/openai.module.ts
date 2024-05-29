@@ -13,6 +13,7 @@ import { KnowledgeBaseSchema } from 'src/db/schemas/KnowledgeBase';
 import { DbModule } from 'src/db/db.module';
 import { AgentSchema } from 'src/db/schemas/Agent';
 import { ToolInputSchema } from 'src/db/schemas/ToolInput';
+import VectorStoreSchema, { VectorStore } from 'src/db/schemas/VectorStore';
 
 @Module({
   controllers: [OpenaiController],
@@ -36,6 +37,8 @@ import { ToolInputSchema } from 'src/db/schemas/ToolInput';
     ]),
     MongooseModule.forFeature([{ name: 'Agent', schema: AgentSchema }]),
     MongooseModule.forFeature([{ name: 'ToolInput', schema: ToolInputSchema }]),
+
+    DbModule,
   ],
 })
 export class OpenaiModule {}

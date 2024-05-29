@@ -2,54 +2,6 @@ import { Controller, Get, Query, Req } from '@nestjs/common';
 import slack_api_integration from 'src/tool_json/backend/slack_api_integration';
 import { ToolsService } from '../tools.service';
 
-// parameters: {
-//       $schema: 'http://json-schema.org/draft-07/schema#',
-//       title: 'Invoke Tool',
-//       description: 'Invoke a tool by its name',
-//       type: 'object',
-//       properties: {
-//         tool_name: {
-//           type: 'string',
-//           description: 'Name of the tool to invoke',
-//         },
-//         payload: {
-//           endpoint: {
-//             type: 'string',
-//             description: 'API endpoint for the request',
-//             value: '/api/tools/invoke_tool/:tool_name',
-//           },
-//           method: {
-//             // this is to be filled in with the method schema
-//             type: 'string',
-//             enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-//             description: 'HTTP method used for the request',
-//           },
-//           contentType: {
-//             // this is to be filled in with the content type schema
-//             type: 'string',
-//             enum: ['application/x-www-form-urlencoded', 'application/json'],
-//             description: 'Content type of the request body',
-//           },
-//           queryParameters: {
-//             // this is to be filled in with the query parameters schema
-//             type: 'object',
-//             properties: {
-//               name: {
-//                 type: 'string',
-//                 description: 'Name of the tool to invoke',
-//               },
-//             },
-//             required: ['name'],
-//           },
-//           body: {
-//             type: 'object',
-//             description: 'Payload to send to the tool',
-//           },
-//         },
-//       },
-//       required: ['endpoint', 'method', 'queryParameters'],
-//       additionalProperties: false, // do not add any additional properties
-//     },
 
 type AIRequestPayload = {
   endpoint: string;
@@ -77,12 +29,6 @@ export class ToolSearchController {
 
     const tools = await this.toolService.searchToolsV2(validPayload.search);
 
-    console.log(tools);
-
-    // const tools = await this.toolService.searchToolsV2(
-    //   snapshot.content[0].text,
-    // );
-
     return {
       message: 'Search successful',
       data: {
@@ -94,11 +40,6 @@ export class ToolSearchController {
               properties: tool.input_schema,
             };
           }),
-          // {
-          //   name: slack_api_integration.function.name,
-          //   description: slack_api_integration.function.description,
-          //   properties: slack_api_integration.function.parameters.properties,
-          // },
         ],
       },
     };
@@ -169,8 +110,6 @@ export class ToolSearchController {
       const call = await fetch(endPoint, fetchOps);
 
       const json = await call.json();
-
-      console.log(json);
 
       return {
         message: `Successfully invoked tool ${tool_name}`,

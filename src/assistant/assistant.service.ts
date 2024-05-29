@@ -6,6 +6,10 @@ import assistants from 'src/assistant/assistants_json';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ToolInput } from 'src/db/schemas/ToolInput';
+import { VectorStore } from 'src/db/schemas/VectorStore';
+import { AssistantTool } from 'openai/resources/beta/assistants';
+import { Assistant } from 'src/db/schemas';
+import { AssistantResponseFormatOption } from 'openai/resources/beta/threads/threads';
 
 @Injectable()
 export class AssistantService {
@@ -13,34 +17,23 @@ export class AssistantService {
 
   private openai: OpenAI;
 
-  constructor(@InjectModel('ToolInput') private toolModel: Model<ToolInput>) {
+  constructor(
+    @InjectModel('VectorStore') private vectorStoreModel: Model<VectorStore>,
+    @InjectModel('Assistant') private assistantModel: Model<Assistant>,
+  ) {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
     const init = async () => {
-      const tools_description_text = [];
-      await this.toolModel.find().then((tools) => {
-        tools.forEach((tool) => {
-          tools_description_text.push(
-            `============ ${tool.name} ============\n${tool.description} \n`,
-          );
-        });
-      });
-
-      console.log(
-        'tools_description_text',
-        tools_description_text.join('\n') + '\n',
-      );
-
       for (const key in this.assistants) {
-        await this.openai.beta.assistants.update(this.assistants[key].id, {
-          instructions: this.assistants[key].description,
-          name: this.assistants[key].name,
-          tools: [...this.assistants[key].tools, change_assistant_tool],
-          model: this.assistants[key].model,
-          response_format: 'auto',
-          // file_ids: ['file-abc123', 'file-abc456'],
-        });
+        // await this.openai.beta.assistants.update(this.assistants[key].id, {
+        //   instructions: this.assistants[key].description,
+        //   name: this.assistants[key].name,
+        //   tools: [...this.assistants[key].tools, change_assistant_tool],
+        //   model: this.assistants[key].model,
+        //   response_format: 'auto',
+        //   // file_ids: ['file-abc123', 'file-abc456'],
+        // });
       }
     };
 
@@ -72,5 +65,77 @@ export class AssistantService {
 
   public deleteAssistant = async (id) => {
     return await this.openai.beta.assistants.del(id);
+  };
+
+  public runAssistantOnce = async (assistant_id, prompt) => {};
+
+  public async createAssistant(
+    owner,
+    vector_stores,
+    response_format: AssistantResponseFormatOption = 'auto',
+    tool: {
+      name: string;
+      description: string;
+      tools: AssistantTool[];
+    } = {
+      name: assistants.tools.name,
+      description: assistants.tools.description,
+      tools: assistants.tools.tools as AssistantTool[],
+    },
+  ) {
+    const assistant = await this.openai.beta.assistants.create({
+      instructions: tool.description,
+      name: tool.name,
+      tools: tool.tools,
+      tool_resources: {
+        file_search: {
+          vector_store_ids: [vector_stores],
+        },
+      },
+      model: 'gpt-4o',
+      response_format: response_format,
+    });
+
+    console.log('assistant', assistant);
+
+    return await this.assistantModel.create({
+      id: assistant.id,
+      owner: owner,
+      meta: assistant,
+    });
+  }
+
+  // These functions manage the vector databases
+
+  public createVectorDatabase = async (name, owner: string) => {
+    const vs = await this.openai.beta.vectorStores.create({
+      name: name,
+    });
+
+    console.log('vs', vs);
+
+    return await this.vectorStoreModel.create({
+      name: name,
+      id: vs.id,
+      owner: owner,
+    });
+  };
+
+  public upadateFileIds = async (id, file_id) => {
+    return await this.openai.beta.vectorStores.files.create(id, {
+      file_id: file_id,
+    });
+  };
+
+  public getVectorDatabase = async (id) => {
+    return await this.openai.beta.vectorStores.retrieve(id);
+  };
+
+  public getVectorDatabases = async () => {
+    return await this.openai.beta.vectorStores.list();
+  };
+
+  public deleteVectorDatabase = async (id) => {
+    return await this.openai.beta.vectorStores.del(id);
   };
 }

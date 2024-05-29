@@ -4,15 +4,12 @@ import { OrganizationSchema } from 'src/db/schemas/Organization';
 import { OrganizationService } from './organization.service';
 import { UserSchema } from 'src/db/schemas/User';
 import { OrganizationController } from './organization.controller';
+import { DbModule } from 'src/db/db.module';
+import { AssistantService } from 'src/assistant/assistant.service';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: 'Organization', schema: OrganizationSchema },
-    ]),
-    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
-  ],
-  providers: [OrganizationService],
+  imports: [DbModule],
+  providers: [OrganizationService, AssistantService],
   controllers: [OrganizationController],
 })
 export class OrganizationModule {}

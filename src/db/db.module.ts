@@ -48,21 +48,82 @@ import ShipmentSchema from './schemas/Shipment';
 import RawMaterialSchema from './schemas/RawMaterial';
 import InventorySchema from './schemas/Inventory';
 import PurchaseOrderSchema from './schemas/PurchaseOrder';
-
+import ProductSchema from './schemas/Product';
+import {
+  AgentSchema,
+  AssistantSchema,
+  BillingPlanSchema,
+  BillingSchema,
+  KnowledgeBaseSchema,
+  ToolOutputSchema,
+} from './schemas';
+import VectorStoreSchema from './schemas/VectorStore';
+import ThreadSchema from './schemas/Thread';
+import MessageSchema from './schemas/Message';
+import AttachmentSchema from './schemas/Attachment';
+import { LineItemSchema } from './schemas/LineItem';
+import RunSchema from './schemas/Run';
+import StepSchema, { modules } from './schemas/Step';
+import { messageDeltaModules } from './schemas/ThreadMessageDelta';
+import StepDeltaSchema from './schemas/StepDelta';
+import ThreadMessageSchema from './schemas/ThreadMessage';
 
 const schemas = [
+  MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }]),
+  MongooseModule.forFeature([{ name: 'Address', schema: AddressSchema }]),
   MongooseModule.forFeature([
-    {
-      name: 'PromptFlag',
-      schema: PromptFlagSchema,
-      collection: 'promptFlags',
-    },
+    { name: 'BBSubsDataPoint', schema: BBSubsDataPointSchema },
   ]),
+  MongooseModule.forFeature([
+    { name: 'BillingItem', schema: BillingItemSchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'BillingPlan', schema: BillingPlanSchema },
+  ]),
+  MongooseModule.forFeature([{ name: 'Billing', schema: BillingSchema }]),
+  MongooseModule.forFeature([
+    { name: 'ChatMessage', schema: ChatMessageSchema },
+  ]),
+  MongooseModule.forFeature([{ name: 'Customer', schema: CustomerSchema }]),
+  MongooseModule.forFeature([{ name: 'DatumEntry', schema: DatumEntrySchema }]),
+  MongooseModule.forFeature([{ name: 'Department', schema: DepartmentSchema }]),
+  MongooseModule.forFeature([{ name: 'Employee', schema: EmployeeSchema }]),
+  MongooseModule.forFeature([{ name: 'Expense', schema: ExpenseSchema }]),
+  MongooseModule.forFeature([
+    { name: 'ExpenseCategory', schema: ExpenseCategorySchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'FinancialCategory', schema: FinancialCategorySchema },
+  ]),
+  MongooseModule.forFeature([{ name: 'HiringPlan', schema: HiringPlanSchema }]),
+  MongooseModule.forFeature([{ name: 'History', schema: HistorySchema }]),
+  MongooseModule.forFeature([{ name: 'Inventory', schema: InventorySchema }]),
+  MongooseModule.forFeature([{ name: 'Lead', schema: LeadSchema }]),
+  MongooseModule.forFeature([{ name: 'Media', schema: MediaSchema }]),
+  MongooseModule.forFeature([{ name: 'Model', schema: ModelSchema }]),
   MongooseModule.forFeature([
     { name: 'ModelFormatting', schema: ModelFormattingSchema },
   ]),
   MongooseModule.forFeature([
+    { name: 'MonthlyFinancialDetail', schema: MonthlyFinancialDetailSchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'OperatingModel', schema: OperatingModelSchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'Organization', schema: OrganizationSchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'OrganizationACL', schema: OrganizationACLSchema },
+  ]),
+  MongooseModule.forFeature([{ name: 'Prompt', schema: PromptSchema }]),
+  MongooseModule.forFeature([{ name: 'PromptFlag', schema: PromptFlagSchema }]),
+  MongooseModule.forFeature([
     { name: 'PromptHistory', schema: PromptHistorySchema },
+  ]),
+  MongooseModule.forFeature([{ name: 'Product', schema: ProductSchema }]),
+  MongooseModule.forFeature([
+    { name: 'PurchaseOrder', schema: PurchaseOrderSchema },
   ]),
   MongooseModule.forFeature([
     { name: 'QueryResponse', schema: QueryResponseSchema },
@@ -70,23 +131,14 @@ const schemas = [
   MongooseModule.forFeature([
     { name: 'QueryResponsePair', schema: QueryResponsePairSchema },
   ]),
-  MongooseModule.forFeature([{ name: 'Model', schema: ModelSchema }]),
-  MongooseModule.forFeature([{ name: 'Prompt', schema: PromptSchema }]),
-  MongooseModule.forFeature([{ name: 'History', schema: HistorySchema }]),
   MongooseModule.forFeature([
-    { name: 'ChatMessage', schema: ChatMessageSchema },
-  ]),
-  MongooseModule.forFeature([{ name: 'Team', schema: TeamSchema }]),
-  MongooseModule.forFeature([{ name: 'Employee', schema: EmployeeSchema }]),
-  MongooseModule.forFeature([{ name: 'HiringPlan', schema: HiringPlanSchema }]),
-  MongooseModule.forFeature([
-    { name: 'MonthlyFinancialDetail', schema: MonthlyFinancialDetailSchema },
+    { name: 'RawMaterial', schema: RawMaterialSchema },
   ]),
   MongooseModule.forFeature([
-    { name: 'FinancialCategory', schema: FinancialCategorySchema },
+    { name: 'ResourceForecast', schema: ResourceForecastSchema },
   ]),
   MongooseModule.forFeature([
-    { name: 'OperatingModel', schema: OperatingModelSchema },
+    { name: 'ResourceItem', schema: ResourceItemSchema },
   ]),
   MongooseModule.forFeature([
     { name: 'RevenueData', schema: RevenueDataSchema },
@@ -94,67 +146,47 @@ const schemas = [
   MongooseModule.forFeature([
     { name: 'RevenueModel', schema: RevenueModelSchema },
   ]),
-  MongooseModule.forFeature([{ name: 'Lead', schema: LeadSchema }]),
-  MongooseModule.forFeature([{ name: 'Customer', schema: CustomerSchema }]),
+  MongooseModule.forFeature([{ name: 'Role', schema: RoleSchema }]),
   MongooseModule.forFeature([
     { name: 'SalesVolume', schema: SalesVolumeSchema },
   ]),
-  MongooseModule.forFeature([
-    { name: 'ResourceItem', schema: ResourceItemSchema },
-  ]),
-  MongooseModule.forFeature([
-    { name: 'ResourceForecast', schema: ResourceForecastSchema },
-  ]),
-  MongooseModule.forFeature([{ name: 'DatumEntry', schema: DatumEntrySchema }]),
-  MongooseModule.forFeature([
-    { name: 'BBSubsDataPoint', schema: BBSubsDataPointSchema },
-  ]),
-  MongooseModule.forFeature([{ name: 'Tier', schema: TierSchema }]),
-  MongooseModule.forFeature([
-    { name: 'Subscription', schema: SubscriptionSchema },
-  ]),
-  MongooseModule.forFeature([
-    { name: 'BillingItem', schema: BillingItemSchema },
-  ]),
-  MongooseModule.forFeature([{ name: 'Expense', schema: ExpenseSchema }]),
-  MongooseModule.forFeature([
-    { name: 'ExpenseCategory', schema: ExpenseCategorySchema },
-  ]),
-  MongooseModule.forFeature([{ name: 'Vendor', schema: VendorSchema }]),
-  MongooseModule.forFeature([{ name: 'Media', schema: MediaSchema }]),
-  MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
-  MongooseModule.forFeature([{ name: 'Role', schema: RoleSchema }]),
-  MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }]),
+  MongooseModule.forFeature([{ name: 'Shipment', schema: ShipmentSchema }]),
   MongooseModule.forFeature([
     { name: 'StripeAccount', schema: StripeAccountSchema },
   ]),
-  MongooseModule.forFeature([{ name: 'Address', schema: AddressSchema }]),
   MongooseModule.forFeature([
-    { name: 'Organization', schema: OrganizationSchema },
+    { name: 'Subscription', schema: SubscriptionSchema },
   ]),
-  MongooseModule.forFeature([{ name: 'UserACL', schema: UserACLSchema }]),
-  MongooseModule.forFeature([
-    { name: 'OrganizationACL', schema: OrganizationACLSchema },
-  ]),
-  MongooseModule.forFeature([{ name: 'Department', schema: DepartmentSchema }]),
-  MongooseModule.forFeature([
-    { name: 'OrganizationACL', schema: OrganizationACLSchema },
-    { name: 'UserACL', schema: UserACLSchema },
-  ]),
+  MongooseModule.forFeature([{ name: 'Supplier', schema: SupplierSchema }]),
+  MongooseModule.forFeature([{ name: 'Team', schema: TeamSchema }]),
   MongooseModule.forFeature([
     { name: 'ToolDescription', schema: ToolDescriptionSchema },
   ]),
   MongooseModule.forFeature([{ name: 'ToolInput', schema: ToolInputSchema }]),
+  MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+  MongooseModule.forFeature([{ name: 'UserACL', schema: UserACLSchema }]),
+  MongooseModule.forFeature([{ name: 'Vendor', schema: VendorSchema }]),
   MongooseModule.forFeature([{ name: 'Warehouse', schema: WarehouseSchema }]),
-  MongooseModule.forFeature([{ name: 'Supplier', schema: SupplierSchema }]),
-  MongooseModule.forFeature([{ name: 'Shipment', schema: ShipmentSchema }]),
+  MongooseModule.forFeature([{ name: 'Tier', schema: TierSchema }]),
   MongooseModule.forFeature([
-    { name: 'RawMaterial', schema: RawMaterialSchema },
+    { name: 'VectorStore', schema: VectorStoreSchema },
   ]),
-  MongooseModule.forFeature([{ name: 'Inventory', schema: InventorySchema }]),
+  MongooseModule.forFeature([{ name: 'Assistant', schema: AssistantSchema }]),
+  MongooseModule.forFeature([{ name: 'ToolOutput', schema: ToolOutputSchema }]),
   MongooseModule.forFeature([
-    { name: 'PurchaseOrder', schema: PurchaseOrderSchema },
+    { name: 'KnowledgeBase', schema: KnowledgeBaseSchema },
   ]),
+  MongooseModule.forFeature([{ name: 'Agent', schema: AgentSchema }]),
+  MongooseModule.forFeature([{ name: 'Thread', schema: ThreadSchema }]),
+  MongooseModule.forFeature([{ name: 'Message', schema: MessageSchema }]),
+  MongooseModule.forFeature([{ name: 'Attachment', schema: AttachmentSchema }]),
+  MongooseModule.forFeature([{ name: 'LineItem', schema: LineItemSchema }]),
+  MongooseModule.forFeature([{ name: 'Run', schema: RunSchema }]),
+  MongooseModule.forFeature([{ name: 'StepDelta', schema: StepDeltaSchema }]),
+  MongooseModule.forFeature([{ name: 'ThreadMessage', schema: ThreadMessageSchema }]),
+  // OpenAI
+  ...modules,
+  ...messageDeltaModules,
 ];
 
 @Module({

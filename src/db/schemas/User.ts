@@ -24,7 +24,7 @@ export class User {
   @Prop({ type: SchemaTypes.Mixed })
   data: unknown;
 
-  @Prop({ required: true, type: Types.ObjectId, ref: 'Role' })
+  @Prop({ required: false, type: Types.ObjectId, ref: 'Role' })
   role: Role;
 
   @Prop({ required: false, type: Types.ObjectId, ref: 'StripeAccount' })
@@ -36,7 +36,7 @@ export class User {
   @Prop({ required: true, type: SchemaTypes.Mixed, default: {} })
   config: any;
 
-  @Prop({ required: true, ref: 'Employee', type: Types.ObjectId })
+  @Prop({ required: false, ref: 'Employee', type: Types.ObjectId })
   employee: Employee;
 }
 

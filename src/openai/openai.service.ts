@@ -17,6 +17,30 @@ import { createReadStream } from 'fs';
 import { KnowledgeBaseDocument } from 'src/db/schemas/KnowledgeBase';
 import * as yup from 'yup';
 import { AgentDocument } from 'src/db/schemas/Agent';
+import { Thread } from 'src/db/schemas/Thread';
+import { Run } from 'src/db/schemas/Run';
+import { RunStep } from 'openai/resources/beta/threads/runs/steps';
+import { StepDelta } from 'src/db/schemas/StepDelta';
+import { ThreadMessage } from 'src/db/schemas/ThreadMessage';
+import { MessageDelta } from 'src/db/schemas/ThreadMessageDelta';
+
+type Step = {
+  id: string;
+  object: string;
+  created_at: number;
+  run_id: string;
+  assistant_id: string;
+  thread_id: string;
+  type: string;
+  status: string;
+  cancelled_at: null;
+  completed_at: null;
+  expires_at: number;
+  failed_at: null;
+  last_error: null;
+  step_details: { type: string; tool_calls: [] };
+  usage: null;
+};
 
 @Injectable()
 export class OpenaiService {
@@ -39,45 +63,22 @@ export class OpenaiService {
     @InjectModel('Agent')
     private readonly agentModel: Model<AgentDocument>,
 
+    @InjectModel('Thread')
+    private threadModel: Model<Thread>,
+
+    @InjectModel('Run') private runModel: Model<Run>,
+    @InjectModel('RunStep') private runStepModel: Model<RunStep>,
+    @InjectModel('StepDelta') private stepDeltaModel: Model<StepDelta>,
+    @InjectModel('ThreadMessage')
+    private threadMessageModel: Model<ThreadMessage>,
+    @InjectModel('MessageDelta')
+    private MessageDeltaModel: Model<MessageDelta>,
+
     private readonly assistantService: AssistantService,
     private readonly organizationService: OrganizationService,
   ) {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
-    });
-
-    this.openai.beta.assistants.update(process.env.DEFAULT_ASSISTANT, {
-      instructions: `
-        ===== Assistant Interface =====
-        AI Name: Morrigu
-        Made By: Morrigu AI, Inc.
-        Version: 1.0
-        Current Date: ${new Date().toDateString()}
-        Current Time: ${new Date().toLocaleTimeString()}
-
-        You exist to help me with my tasks. You are deeply integration with an iPaaS system that allows me to use tools to complete tasks effectively.
-
-        Here how you will respond and interact with the user: 
-
-        Step 1. You will receive a message from the user.
-        Step 2. You will briefly respond to the user with how you are going to solve the problem.
-        Step 3. You will ask the user for more information if needed.
-        Step 4. Given the nature of the request you will use the search tool function to find the tool needed.
-        Step 5. Once you receive the tool from the search tool function you will invoke the tool with the payload.
-
-        Keep this concise and to the point so that you can solve the problems fast and effienctly.
-
-        ===== Additional Information =====
-
-        You are kind and professional. You are here to be a business assistant who handles the SaaS integrations effortlessly.
-
-        Before you tell a user you dont have the ability to do something search for a few tools that can help you solve the problem. You must abide by this rule.
-        `,
-      name: 'Morrigu',
-      tools: tools as any,
-      model: 'gpt-4-turbo',
-      // model: 'gpt-4',
-      // file_ids: ['file-abc123', 'file-abc456'],
     });
   }
 
@@ -99,17 +100,17 @@ export class OpenaiService {
 
       console.log('user', user);
 
-      const org = await this.organizationModel.findOne({
-        users: {
-          $in: [user?._id],
-        },
-      });
+      // const org = await this.organizationModel.findOne({
+      //   users: {
+      //     $in: [user?._id],
+      //   },
+      // });
 
-      if (!org) {
-        return {
-          error: 'Organization not found',
-        };
-      }
+      // if (!org) {
+      //   return {
+      //     error: 'Organization not found',
+      //   };
+      // }
 
       //   // Generate JWT token
       const token = jwt.sign(
@@ -120,7 +121,7 @@ export class OpenaiService {
             },
           },
           providerAccountId: userId,
-          sub: org._id,
+          sub: userId,
           exp: Math.floor(Date.now() / 1000) + 60 * 60,
           iat: Math.floor(Date.now() / 1000) - 30,
         },
@@ -620,63 +621,442 @@ export class OpenaiService {
 
   public handleTextDone = async (text: any, observer) => {};
 
+  public updateRun = async (runId, data, observer?) => {
+    if (observer) {
+      observer?.next({
+        type: 'update_status',
+        data: data,
+      });
+    }
+    try {
+      const undatedRun = await this.runModel.updateOne(
+        {
+          id: runId,
+        },
+        {
+          ...data,
+        },
+      );
+    } catch (error) {
+      console.error('Error updating run', error);
+    }
+  };
+
+  public updateRunStep = async (runStepId, data, observer?) => {
+    try {
+      if (observer) {
+        observer?.next({
+          type: 'update_status',
+          data: data,
+        });
+      }
+      const updatedRunStep = await this.runStepModel.updateOne(
+        {
+          id: runStepId,
+        },
+        {
+          ...data,
+        },
+      );
+    } catch (error) {
+      console.error('Error updating run step', error);
+    }
+  };
+
+  public updateMessage = async (messageId, data, observer?) => {
+    try {
+      if (observer) {
+        observer?.next({
+          type: 'update_status',
+          data: data,
+        });
+      }
+      const updatedMessage = await this.threadMessageModel.updateOne(
+        {
+          id: messageId,
+        },
+        {
+          ...data,
+        },
+      );
+    } catch (error) {
+      console.error('Error updating message', error);
+    }
+  };
+
+  public createRun = async (data, observer?) => {
+    try {
+      if (observer) {
+        observer?.next({
+          type: 'update_status',
+          data: data,
+        });
+      }
+      const run = await this.runModel.create({
+        ...data,
+      });
+    } catch (error) {
+      console.error('Error creating run', error);
+    }
+  };
+
+  public createRunStep = async (data, observer?) => {
+    if (observer) {
+      observer?.next({
+        type: 'update_status',
+        data: data,
+      });
+    }
+
+    try {
+      const runStep = await this.runStepModel.create({
+        ...data,
+      });
+    } catch (error) {
+      console.error('Error creating run step', error);
+    }
+  };
+
+  public createRunStepDelta = async (data, observer?) => {
+    try {
+      if (observer) {
+        observer?.next({
+          type: 'runStepDelta',
+          data: data,
+        });
+      }
+      const runStepDelta = await this.stepDeltaModel.create({
+        ...data,
+      });
+    } catch (error) {
+      console.error('Error creating run step delta', error);
+    }
+  };
+
+  public createThreadMessage = async (data) => {
+    try {
+      const message = await this.threadMessageModel.create({
+        ...data,
+      });
+    } catch (error) {
+      console.error('Error creating thread message', error);
+    }
+  };
+
+  public createMessageDelta = async (
+    event: {
+      event: string;
+      data: any;
+    },
+    observer?,
+  ) => {
+    try {
+      if (observer) {
+        observer?.next({
+          type: 'messageDelta',
+          data: event,
+        });
+      }
+
+      const messageDelta = await this.MessageDeltaModel.create({
+        ...event.data,
+      });
+    } catch (error) {
+      console.error('Error creating message delta', error);
+    }
+  };
+
+  public streamLoop = async (stream, observer, token) => {
+    for await (const event of stream as any) {
+      observer?.next({
+        type: event.event,
+        data: event.data,
+      });
+
+      if (event.data == '[DONE]') console.log('done', event);
+      switch (event.event) {
+        case 'thread.run.created':
+          const run = await this.createRun({
+            ...event.data,
+          });
+
+          break;
+        case 'thread.run.queued':
+          await this.updateRun(event.data.id, {
+            ...event.data,
+          });
+
+          break;
+        case 'thread.run.in_progress':
+          await this.updateRun(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.requires_action':
+          if (event.data.required_action.type === 'submit_tool_outputs') {
+            // calls
+            const calls =
+              event.data.required_action.submit_tool_outputs.tool_calls;
+
+            for (const call of calls) {
+              const frontend_tools_names = frontend_tools
+                .filter((tool) => tool.type === 'function')
+                .map((tool) => tool.function.name);
+              let call_results = [];
+              if (frontend_tools_names.includes(call.function.name)) {
+                // this.updateFrontEndStatus('displaying', observer);
+                observer?.next({
+                  type: 'frontend_tool_call',
+                  data: {
+                    calls: calls,
+                    runId: event.data.id,
+                  },
+                });
+
+                await this.toolOutputModel.create({
+                  runId: event.data.id,
+                  data: event.data,
+                });
+
+                call_results = calls.map((call) => {
+                  return {
+                    tool_call_id: call.id,
+                    output: 'Displayed in frontend successfully',
+                  };
+                });
+              } else {
+                call_results = await this.get_call_results(calls, token);
+                console.log('call_results', call_results);
+              }
+
+              const stream2 =
+                await this.openai.beta.threads.runs.submitToolOutputs(
+                  event.data.thread_id,
+                  event.data.id,
+                  {
+                    tool_outputs: call_results,
+                    stream: true,
+                  },
+                );
+
+              await this.streamLoop(stream2, observer, token);
+            }
+          }
+
+          break;
+        case 'thread.run.completed':
+          await this.updateRun(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.incomplete':
+          await this.updateRun(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.failed':
+          await this.updateRun(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.cancelling':
+          await this.updateRun(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.cancelled':
+          await this.updateRun(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.expired':
+          await this.updateRun(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.step.created':
+          await this.createRunStep({
+            ...event.data,
+          });
+          break;
+        case 'thread.run.step.in_progress':
+          await this.updateRunStep(event.data.id, {
+            ...event.data,
+          });
+
+          break;
+        case 'thread.run.step.delta':
+          await this.createRunStepDelta({
+            ...event.data,
+          });
+          break;
+        case 'thread.run.step.completed':
+          await this.updateRunStep(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.step.failed':
+          await this.updateRunStep(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.step.cancelled':
+          await this.updateRunStep(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.run.step.expired':
+          await this.updateRunStep(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.message.created':
+          await this.createThreadMessage({
+            ...event.data,
+          });
+          break;
+        case 'thread.message.in_progress':
+          await this.updateMessage(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.message.delta':
+          await this.createMessageDelta(event);
+          break;
+        case 'thread.message.completed':
+          await this.updateMessage(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'thread.message.incomplete':
+          await this.updateMessage(event.data.id, {
+            ...event.data,
+          });
+          break;
+        case 'error':
+          observer?.next({
+            type: 'error',
+            data: event,
+          });
+          console.log('error', event);
+          break;
+        case 'done':
+          observer?.next({
+            type: 'streamEnd',
+            data: {},
+          });
+          console.log('done', event);
+          break;
+      } // end switch
+    }
+  };
+
+  public runObj = async (threadId, options, token, assistantId, observer) => {
+    const stream = await this.openai.beta.threads.runs.create(threadId, {
+      ...options,
+      assistant_id: assistantId,
+      stream: true,
+    });
+
+    await this.streamLoop(stream, observer, token);
+  };
+
   public async runAssistant(
     threadId,
     token,
     assistantId = process.env.DEFAULT_ASSISTANT,
   ): Promise<[Observable<any>, Subscriber<any>]> {
     try {
+      console.log('running assistant', threadId, token, assistantId);
       let innerObs;
+      const thread = await this.threadModel.findOne({
+        id: threadId,
+      });
       return [
         new Observable((observer) => {
           innerObs = observer;
 
-          this.updateFrontEndStatus('running', observer);
+          const options = thread.alternate_instructions
+            ? {
+                instructions: thread.alternate_instructions,
+                assistant_id: assistantId,
+              }
+            : {
+                assistant_id: assistantId,
+              };
+          try {
+            this.runObj(threadId, options, token, assistantId, observer);
+          } catch (error) {
+            console.log('error', error);
+          }
 
-          this.openai.beta.threads.runs
-            .stream(threadId, {
-              assistant_id: assistantId,
-            })
-            .on('abort', (event) => this.hndleAbort(event, observer))
-            .on('connect', () => this.handleConnect(observer))
-            .on('end', () => this.handleEnd(observer))
-            .on('error', (error) => this.handleError(error, observer))
-            .on('event', (event) => this.handleEventv2(event, token, observer))
-            .on('imageFileDone', this.handleImageFileDone)
-            .on('messageCreated', (message) =>
-              this.handleMessage(message, observer),
-            )
-            .on('messageDelta', (delta) =>
-              this.handleMessageDelta(delta, observer),
-            )
-            .on('messageDone', (message) =>
-              this.handleMessageDone(message, observer),
-            )
-            .on('run', (run) => this.handleRun(run))
-            .on('runStepCreated', (runStep) =>
-              this.handleRunStepCreated(runStep, observer),
-            )
-            .on('runStepDelta', (runStep) =>
-              this.handleRunStepDelta(runStep, observer),
-            )
-            .on('runStepDone', (runStep, snapshot) =>
-              this.handleRunStepDone(runStep, snapshot, token, observer),
-            )
-            .on('textCreated', (text) => this.handleTextCreated(text))
-            .on('textDelta', (delta) => this.handleTextDelta(delta, observer))
-            .on('textDone', (text) => this.handleTextDone(text, observer))
-            .on('toolCallCreated', (toolCall) =>
-              this.handleToolCallCreated(toolCall, observer),
-            )
-            .on('toolCallDone', (toolCall) =>
-              this.handleToolCallDone(toolCall, observer),
-            )
-            .on('toolCallDelta', (toolCallDelta, snapshot) =>
-              this.handleToolCallDelta(toolCallDelta, snapshot, observer),
-            );
+          // this.updateFrontEndStatus('running', observer);
+
+          // this.openai.beta.threads.runs
+          //   .stream(threadId, options)
+          //   .on('abort', (event) => this.hndleAbort(event, observer))
+          //   .on('connect', () => this.handleConnect(observer))
+          //   .on('end', () => this.handleEnd(observer))
+          //   .on('error', (error) => this.handleError(error, observer))
+          //   .on('event', (event) => this.handleEventv2(event, token, observer))
+          //   .on('imageFileDone', this.handleImageFileDone)
+          //   .on('messageCreated', (message) => {
+          //     console.log('message created', message);
+          //     this.handleMessage(message, observer);
+          //   })
+          //   .on('messageDelta', (delta) =>
+          //     this.handleMessageDelta(delta, observer),
+          //   )
+          //   .on('messageDone', (message) => {
+          //     console.log('message done', message);
+          //     this.handleMessageDone(message, observer);
+          //   })
+          //   .on('run', (run) => this.handleRun(run))
+          //   .on('runStepCreated', (runStep) =>
+          //     this.handleRunStepCreated(runStep, observer),
+          //   )
+          //   .on('runStepDelta', (runStep) => {
+          //     console.log('run step delta', runStep);
+          //     this.handleRunStepDelta(runStep, observer);
+          //   })
+          //   .on('runStepDone', (runStep, snapshot) =>
+          //     this.handleRunStepDone(runStep, snapshot, token, observer),
+          //   )
+          //   .on('textCreated', (text) => this.handleTextCreated(text))
+          //   .on('textDelta', (delta) => this.handleTextDelta(delta, observer))
+          //   .on('textDone', (text, content) => {
+          //     console.log('text done', text, content);
+          //     this.handleTextDone(text, observer);
+          //   })
+          //   .on('toolCallCreated', (toolCall) =>
+          //     this.handleToolCallCreated(toolCall, observer),
+          //   )
+          //   .on('toolCallDone', (toolCall) =>
+          //     this.handleToolCallDone(toolCall, observer),
+          //   )
+          //   .on('toolCallDelta', (toolCallDelta, snapshot) =>
+          //     this.handleToolCallDelta(toolCallDelta, snapshot, observer),
+          //   );
         }),
         innerObs,
       ];
+    } catch (error) {
+      console.error('Error running assistant', error);
+    }
+  }
+
+  // run non-streaming
+  public async runAssistantNonStream(
+    threadId,
+    token,
+    assistantId = process.env.DEFAULT_ASSISTANT,
+  ) {
+    try {
+      const response = await this.openai.beta.threads.runs.create(threadId, {
+        assistant_id: assistantId,
+      });
+
+      return response;
     } catch (error) {
       console.error('Error running assistant', error);
     }

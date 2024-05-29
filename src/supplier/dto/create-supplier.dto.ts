@@ -1,5 +1,6 @@
 export class CreateSupplierDto {
   readonly name: string;
+  readonly description: string;
   readonly contactInfo: string;
   readonly address: string;
   readonly latitude: number;

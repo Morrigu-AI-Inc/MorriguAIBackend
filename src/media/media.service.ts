@@ -86,7 +86,8 @@ export class MediaService {
     try {
       // Define the bucket ARN and S3 key
       const bucketArn = 'dev-morrigu-ai-media';
-      const s3_key = new Types.ObjectId().toString();
+      const s3_key =
+        new Types.ObjectId().toString() + encodeURIComponent(file.originalname);
 
       // Create a new media document
       const media = await this.createMedia({

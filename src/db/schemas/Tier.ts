@@ -8,7 +8,7 @@ export class Tier extends Document {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   price: number;
 
   @Prop({ default: [] })

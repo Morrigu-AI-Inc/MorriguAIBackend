@@ -99,6 +99,10 @@ import { PurchasingModule } from './purchasing/purchasing.module';
 import { ShipmentModule } from './shipment/shipment.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { WarehouseModule } from './warehouse/warehouse.module';
+import { VectorStoreModule } from './vector-store/vector-store.module';
+import { GenerativeModule } from './generative/generative.module';
+import { ProductModule } from './product/product.module';
+import { LineitemModule } from './lineitem/lineitem.module';
 
 @Module({
   imports: [
@@ -250,6 +254,14 @@ import { WarehouseModule } from './warehouse/warehouse.module';
     SupplierModule,
 
     WarehouseModule,
+
+    VectorStoreModule,
+
+    GenerativeModule,
+
+    ProductModule,
+
+    LineitemModule,
   ],
   controllers: [
     AppController,

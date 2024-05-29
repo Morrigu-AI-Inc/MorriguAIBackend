@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, SchemaTypes, Types } from 'mongoose';
-import { Role } from './Role';
-import { Department } from './Department';
+import { Assistant } from './Assistant';
 
 export type OrganizationDocument = Organization & Document;
 
@@ -19,10 +18,10 @@ export class Organization {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   users: Types.ObjectId[];
 
-  @Prop({ type: Types.ObjectId, ref: 'OrganizationACL', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'OrganizationACL', required: false })
   default_acl: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: 'Billing', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Billing', required: false })
   billing: Types.ObjectId;
 
   @Prop({ type: SchemaTypes.Mixed, required: true, default: {} })
@@ -36,6 +35,15 @@ export class Organization {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Department' }] })
   departments: Types.ObjectId[];
+
+  @Prop({ type: Types.ObjectId, ref: 'Assistant', required: false })
+  assistant: Assistant;
+
+  @Prop({ type: Types.ObjectId, ref: 'Assistant', required: false })
+  json_assistant: Assistant;
+
+  @Prop({ type: Types.ObjectId, ref: 'Assistant', required: false })
+  work_assistant: Assistant;
 }
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization);

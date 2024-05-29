@@ -30,31 +30,13 @@ export type AssistantDocument = Assistant & Document;
 @Schema({ timestamps: true, versionKey: false, collection: 'assistants' })
 export class Assistant {
   @Prop({ type: SchemaTypes.Mixed, required: true })
-  assistant_id: string;
+  id: string;
 
   @Prop({ type: SchemaTypes.Mixed, required: true })
-  assistant: any;
-
-  @Prop({ type: SchemaTypes.Mixed, required: true })
-  organization: string;
+  meta: any;
 
   @Prop({ type: SchemaTypes.Mixed, required: true })
   owner: string;
-
-  @Prop({ type: SchemaTypes.Mixed, required: true })
-  status: string;
-
-  @Prop({ type: SchemaTypes.Mixed, required: true })
-  config: any;
-
-  @Prop({ type: SchemaTypes.Mixed, required: true })
-  description: string;
-
-  @Prop({ type: SchemaTypes.Mixed, required: true })
-  name: string;
-
-  @Prop({ type: SchemaTypes.Mixed, required: true })
-  tools: any[];
 }
 
 export const AssistantSchema = SchemaFactory.createForClass(Assistant);

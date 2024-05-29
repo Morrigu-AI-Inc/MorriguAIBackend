@@ -56,6 +56,8 @@ import { QuickbooksApiIntegrationModule } from './quickbooks_api_integration/qui
 import { FinancialDataPointCommitModule } from './financial_data_point_commit/financial_data_point_commit.module';
 import { ChangeAssistantToolModule } from './change_assistant_tool/change_assistant_tool.module';
 import { Co2ImpactController } from './co2_impact/co2_impact.controller';
+import { CreatePurchaseOrderModule } from './create_purchase_order/create_purchase_order.module';
+import { ProductEntryModule } from './product_entry/product_entry.module';
 
 @Module({
   providers: [
@@ -121,6 +123,8 @@ import { Co2ImpactController } from './co2_impact/co2_impact.controller';
     QuickbooksApiIntegrationModule,
     FinancialDataPointCommitModule,
     ChangeAssistantToolModule,
+    CreatePurchaseOrderModule,
+    ProductEntryModule,
   ],
   exports: [
     

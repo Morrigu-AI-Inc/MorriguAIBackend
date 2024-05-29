@@ -3,6 +3,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 export type BillingPlanDocument = BillingPlan & Document;
+export type TierDocument = Tier & Document;
+export type BillingDocument = Billing & Document;
 
 @Schema()
 export class BillingPlan {
@@ -17,6 +19,9 @@ export class BillingPlan {
 
   @Prop({ required: true })
   seats: number;
+
+  @Prop({ required: true })
+  terminates_at: Date;
 }
 
 export const BillingPlanSchema = SchemaFactory.createForClass(BillingPlan);

@@ -13,6 +13,7 @@ import { KnowledgeBaseSchema } from 'src/db/schemas/KnowledgeBase';
 import { AgentSchema } from 'src/db/schemas/Agent';
 import { ToolDescriptionSchema } from 'src/db/schemas';
 import { ToolInputSchema } from 'src/db/schemas/ToolInput';
+import { DbModule } from 'src/db/db.module';
 
 @Module({
   providers: [
@@ -41,6 +42,7 @@ import { ToolInputSchema } from 'src/db/schemas/ToolInput';
       { name: 'ToolDescription', schema: ToolDescriptionSchema },
     ]),
     MongooseModule.forFeature([{ name: 'ToolInput', schema: ToolInputSchema }]),
+    DbModule
   ],
 })
 export class SlackModule {}
