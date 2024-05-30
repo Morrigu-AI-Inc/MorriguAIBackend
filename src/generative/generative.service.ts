@@ -53,6 +53,29 @@ export class GenerativeService {
     return `This action removes a #${id} generative`;
   }
 
+  async getThread(id: string) {
+    const thread = await this.threadModel.findOne({
+      id,
+    });
+
+    if (!thread) {
+      throw new Error('Thread not found');
+    }
+
+    // get all messages
+
+    const messages = await this.threadMessageModel.find({
+      thread_id: thread.id,
+    });
+
+    return {
+      ...thread,
+      messages,
+    };
+
+
+  }
+
   async createThread(owner: UserDocument, alternate_instructions?: string) {
     const thread = await this.openai.beta.threads.create();
 

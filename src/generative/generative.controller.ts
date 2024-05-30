@@ -68,6 +68,11 @@ export class GenerativeController {
     }
   }
 
+  @Get('thread/:id')
+  async getThread(@Param('id') id: string) {
+    return await this.generativeService.getThread(id);
+  }
+
   @Post('thread')
   async createThread(
     @Body()
