@@ -103,6 +103,9 @@ import { VectorStoreModule } from './vector-store/vector-store.module';
 import { GenerativeModule } from './generative/generative.module';
 import { ProductModule } from './product/product.module';
 import { LineitemModule } from './lineitem/lineitem.module';
+import { LangchainModule } from './langchain/langchain.module';
+import { V1Module } from './v1/v1.module';
+import { ApiKeyMiddleware } from './apikeys/apikeys.middleware';
 
 @Module({
   imports: [
@@ -262,6 +265,10 @@ import { LineitemModule } from './lineitem/lineitem.module';
     ProductModule,
 
     LineitemModule,
+
+    LangchainModule,
+
+    V1Module,
   ],
   controllers: [
     AppController,
@@ -291,4 +298,8 @@ import { LineitemModule } from './lineitem/lineitem.module';
     SalesVolumnService,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ApiKeyMiddleware).forRoutes('*'); // Apply to all routes
+  }
+}

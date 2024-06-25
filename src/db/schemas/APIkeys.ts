@@ -4,7 +4,7 @@ import { Document, SchemaTypes } from 'mongoose';
 
 export type APIKeysDocument = APIKeys & Document;
 
-@Schema({ timestamps: true, versionKey: false, collection: 'apikeys'})
+@Schema({ timestamps: true, versionKey: false})
 export class APIKeys {
   @Prop({ type: SchemaTypes.Mixed, required: true })
   value: string | number | Array<string | number>;

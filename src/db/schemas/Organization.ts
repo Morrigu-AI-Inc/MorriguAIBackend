@@ -44,6 +44,9 @@ export class Organization {
 
   @Prop({ type: Types.ObjectId, ref: 'Assistant', required: false })
   work_assistant: Assistant;
+
+  @Prop({ type: Types.ObjectId, ref: 'APIKey', required: false })
+  api_keys: Types.ObjectId[];
 }
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization);

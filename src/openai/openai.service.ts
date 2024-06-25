@@ -23,6 +23,8 @@ import { RunStep } from 'openai/resources/beta/threads/runs/steps';
 import { StepDelta } from 'src/db/schemas/StepDelta';
 import { ThreadMessage } from 'src/db/schemas/ThreadMessage';
 import { MessageDelta } from 'src/db/schemas/ThreadMessageDelta';
+import { AssistantCreateParams } from 'openai/resources/beta/assistants';
+import { ThreadCreateParams } from 'openai/resources/beta/threads/threads';
 
 type Step = {
   id: string;
@@ -41,6 +43,10 @@ type Step = {
   step_details: { type: string; tool_calls: [] };
   usage: null;
 };
+
+export type AssistantParams = AssistantCreateParams;
+export type ThreadParams = ThreadCreateParams;
+export type MessageParams = MessageCreateParams;
 
 @Injectable()
 export class OpenaiService {
@@ -81,6 +87,91 @@ export class OpenaiService {
       apiKey: process.env.OPENAI_API_KEY,
     });
   }
+
+  // These need to be moved to the assistant service
+  async createAssistant(assistant: AssistantParams) {
+    return this.openai.beta.assistants.create(assistant);
+  }
+
+  async getAssistant(assistantId: string) {
+    return this.openai.beta.assistants.retrieve(assistantId);
+  }
+
+  async getAssistants() {
+    return this.openai.beta.assistants.list();
+  }
+
+  async deleteAssistant(assistantId: string) {
+    return this.openai.beta.assistants.del(assistantId);
+  }
+
+  async updateAssistant(assistantId: string, assistant: AssistantParams) {
+    return this.openai.beta.assistants.update(assistantId, assistant);
+  }
+
+  // Threads
+  // async createThread(thread: ThreadParams) {
+  //   return this.openai.beta.threads.create(thread);
+  // }
+
+  // async getThread(threadId: string) {
+  //   return this.openai.beta.threads.retrieve(threadId);
+  // }
+
+  // async deleteThread(threadId: string) {
+  //   return this.openai.beta.threads.del(threadId);
+  // }
+
+  // async updateThread(threadId: string, thread: ThreadParams){
+  //   return this.openai.beta.threads.update(threadId, thread);
+  // }
+
+  // Messages
+  // async createMessage(threadId: string, message: MessageParams) {
+  //   return this.openai.beta.threads.messages.create(threadId, message);
+  // }
+
+  // async getMessage(threadId: string, messageId: string) {
+  //   return this.openai.beta.threads.messages.retrieve(threadId, messageId);
+  // }
+
+  // async getMessagess(threadId: string) {
+  //   return this.openai.beta.threads.messages.list(threadId);
+  // }
+
+  // async deleteMessage(threadId: string, messageId: string) {
+  //   return this.openai.beta.threads.messages.del(threadId, messageId);
+  // }
+
+  // async updateMessage(threadId: string, messageId: string, message: MessageParams){
+  //   return this.openai.beta.threads.messages.update(threadId, messageId, message);
+  // }
+
+  // Runs
+  // async createRun(threadId: string, run: any) {
+  //   // this is the one that ruens into a SSE
+  // }
+
+  // async listRuns(threadId: string) {
+  //   return this.openai.beta.threads.runs.list(threadId);
+  // }
+
+  // async getRun(threadId: string, runId: string) {
+  //   return this.openai.beta.threads.runs.retrieve(threadId, runId);
+  // }
+
+  // async modifyRun(threadId: string, runId: string, run: any) {
+  //   return this.openai.beta.threads.runs.update(threadId, runId, run);
+  // }
+
+  // async cancelRun(threadId: string, runId: string) {
+  //   return this.openai.beta.threads.runs.cancel(threadId, runId);
+  // }
+
+  // // tools
+  // async submitToolOutputs(threadId: string, runId: string, toolOutputs: any) {
+  //   return this.openai.beta.threads.runs.submitToolOutputs(threadId, runId, toolOutputs);
+  // }
 
   async generateToken(userId: string) {
     try {
@@ -158,8 +249,8 @@ export class OpenaiService {
     return this.run;
   }
 
-  public async getNewThread() {
-    this.thread = await this.openai.beta.threads.create();
+  public async getNewThread(thread?: ThreadCreateParams) {
+    this.thread = await this.openai.beta.threads.create(thread);
     return this.thread;
   }
 
@@ -976,7 +1067,7 @@ export class OpenaiService {
         new Observable((observer) => {
           innerObs = observer;
 
-          const options = thread.alternate_instructions
+          const options = thread?.alternate_instructions
             ? {
                 instructions: thread.alternate_instructions,
                 assistant_id: assistantId,
@@ -989,54 +1080,6 @@ export class OpenaiService {
           } catch (error) {
             console.log('error', error);
           }
-
-          // this.updateFrontEndStatus('running', observer);
-
-          // this.openai.beta.threads.runs
-          //   .stream(threadId, options)
-          //   .on('abort', (event) => this.hndleAbort(event, observer))
-          //   .on('connect', () => this.handleConnect(observer))
-          //   .on('end', () => this.handleEnd(observer))
-          //   .on('error', (error) => this.handleError(error, observer))
-          //   .on('event', (event) => this.handleEventv2(event, token, observer))
-          //   .on('imageFileDone', this.handleImageFileDone)
-          //   .on('messageCreated', (message) => {
-          //     console.log('message created', message);
-          //     this.handleMessage(message, observer);
-          //   })
-          //   .on('messageDelta', (delta) =>
-          //     this.handleMessageDelta(delta, observer),
-          //   )
-          //   .on('messageDone', (message) => {
-          //     console.log('message done', message);
-          //     this.handleMessageDone(message, observer);
-          //   })
-          //   .on('run', (run) => this.handleRun(run))
-          //   .on('runStepCreated', (runStep) =>
-          //     this.handleRunStepCreated(runStep, observer),
-          //   )
-          //   .on('runStepDelta', (runStep) => {
-          //     console.log('run step delta', runStep);
-          //     this.handleRunStepDelta(runStep, observer);
-          //   })
-          //   .on('runStepDone', (runStep, snapshot) =>
-          //     this.handleRunStepDone(runStep, snapshot, token, observer),
-          //   )
-          //   .on('textCreated', (text) => this.handleTextCreated(text))
-          //   .on('textDelta', (delta) => this.handleTextDelta(delta, observer))
-          //   .on('textDone', (text, content) => {
-          //     console.log('text done', text, content);
-          //     this.handleTextDone(text, observer);
-          //   })
-          //   .on('toolCallCreated', (toolCall) =>
-          //     this.handleToolCallCreated(toolCall, observer),
-          //   )
-          //   .on('toolCallDone', (toolCall) =>
-          //     this.handleToolCallDone(toolCall, observer),
-          //   )
-          //   .on('toolCallDelta', (toolCallDelta, snapshot) =>
-          //     this.handleToolCallDelta(toolCallDelta, snapshot, observer),
-          //   );
         }),
         innerObs,
       ];

@@ -109,6 +109,7 @@ export class GenerativeController {
     @Body('text') text: string,
     @Body('alternateInstruction') alternateInstruction: string,
   ) {
+    // here well want to init a new OpenAI Client
     return await this.generativeService.createMessage(
       assistantId,
       threadId,
