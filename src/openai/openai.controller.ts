@@ -126,7 +126,7 @@ export class OpenaiController {
   ) {
     //add message to thread
     const token = await this.openaiService.generateToken(userId);
-    
+
     try {
       const [observer, sub] = await this.openaiService.runAssistant(
         threadId,
@@ -150,8 +150,11 @@ export class OpenaiController {
     @Param('assistantId') assistantId: string,
     @Req() req,
     @Query('userId') userId,
+    @Query('orgId') orgId,
   ) {
-    const token = await this.openaiService.generateToken(userId);
+    const token = await this.openaiService.generateToken(userId, orgId);
+
+    console.log('token', token);
     //add message to thread
     try {
       const [observer, sub] = await this.openaiService.runAssistant(

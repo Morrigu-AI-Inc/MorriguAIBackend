@@ -12,10 +12,16 @@ import {
 import { QuickbooksService } from './quickbooks.service';
 import { CreateQuickbookDto } from './dto/create-quickbook.dto';
 import { UpdateQuickbookDto } from './dto/update-quickbook.dto';
+import { Xml2JsonServiceService } from 'src/xml2-json-service/xml2-json-service.service';
+import { QuickbookQueryTool } from './entities/quickbook.entity';
 
 @Controller('tools/quickbooks')
 export class QuickbooksController {
-  constructor(private readonly quickbooksService: QuickbooksService) {}
+  private tool = new QuickbookQueryTool();
+  constructor(
+    private readonly quickbooksService: QuickbooksService,
+    private readonly xmltoJsonService: Xml2JsonServiceService,
+  ) {}
 
   @Post()
   create(@Body() createQuickbookDto: CreateQuickbookDto) {
@@ -46,24 +52,36 @@ export class QuickbooksController {
     console.log('headers', headers);
     console.log('queryParameters', queryParameters);
 
-    // const results = await fetch(
-    //   `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/ `,
-    //   {
-    //     method: 'GET',
-    //     headers: {
-    //       Authorization: headers.authorization.includes('Bearer')
-    //         ? headers.authorization
-    //         : `Bearer ${headers.authorization}`,
-    //       'Content-Type': 'application/json',
-    //     },
-    //   },
-    // );
+    const query = this.tool.constructQuery(queryParameters);
+
+    const url = `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?query=${query}`;
+
+    const results = await fetch(`${url}`, {
+      method: 'GET',
+      headers: {
+        Authorization: headers.authorization.includes('Bearer')
+          ? headers.authorization
+          : `Bearer ${headers.authorization}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log(
+      `querying Quickbooks with query: ${queryParameters.select_statement}`,
+    );
+
+    const output = await results.json();
+
+    if (results.status !== 200) {
+      console.log('output', output.output.Fault);
+      return JSON.stringify(output);
+    }
+
+    console.log('output', output.output);
 
     return JSON.stringify({
-      message: 'Querying Quickbooks',
-      req,
-      headers,
-      queryParameters,
+      status: results.status,
+      data: output.output,
     });
 
     // return this.quickbooksService.query();

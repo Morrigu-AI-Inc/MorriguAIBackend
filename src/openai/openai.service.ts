@@ -173,7 +173,7 @@ export class OpenaiService {
   //   return this.openai.beta.threads.runs.submitToolOutputs(threadId, runId, toolOutputs);
   // }
 
-  async generateToken(userId: string) {
+  async generateToken(userId: string, orgId?: string) {
     try {
       // console.log('userId', userId);
 
@@ -189,19 +189,19 @@ export class OpenaiService {
         };
       }
 
-      // console.log('user', user);
+      console.log('user', user);
 
-      // const org = await this.organizationModel.findOne({
-      //   users: {
-      //     $in: [user?._id],
-      //   },
-      // });
+      const org = await this.organizationModel.findOne({
+        users: {
+          $in: [user?._id],
+        },
+      });
 
-      // if (!org) {
-      //   return {
-      //     error: 'Organization not found',
-      //   };
-      // }
+      if (!org) {
+        return {
+          error: 'Organization not found',
+        };
+      }
 
       //   // Generate JWT token
       const token = jwt.sign(
@@ -212,7 +212,7 @@ export class OpenaiService {
             },
           },
           providerAccountId: userId,
-          sub: userId,
+          sub: orgId,
           exp: Math.floor(Date.now() / 1000) + 60 * 60,
           iat: Math.floor(Date.now() / 1000) - 30,
         },
@@ -346,7 +346,6 @@ export class OpenaiService {
             payload: JSON.stringify(call.function.arguments),
           }).toString();
 
-
           const name = call.function.name;
           const args = JSON.parse(call.function.arguments);
 
@@ -406,7 +405,6 @@ export class OpenaiService {
               output: JSON.stringify(callRespJson, null, 1),
             };
           }
-          
 
           const callResp = await fetch(
             `${process.env.BACKEND_API_URL}/api/tools/` +
@@ -424,6 +422,15 @@ export class OpenaiService {
               },
             },
           );
+
+          if (!callResp.ok) {
+            return {
+              tool_call_id: call.id,
+              output: JSON.stringify({
+                error: 'Error getting call results',
+              }),
+            };
+          }
 
           const callRespJson = await callResp.json();
 
@@ -1128,6 +1135,8 @@ export class OpenaiService {
       return [
         new Observable((observer) => {
           innerObs = observer;
+
+          console.log(thread?.alternate_instructions);
 
           const options = thread?.alternate_instructions
             ? {
