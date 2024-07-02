@@ -105,4 +105,3 @@
 
 fs.writeFileSync('extracted_links.txt', links.join('\n'));
 
-console.log('Links extracted and written to extracted_links.txt');

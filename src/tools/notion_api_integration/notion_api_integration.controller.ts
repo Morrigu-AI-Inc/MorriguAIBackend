@@ -8,7 +8,7 @@ export class NotionApiIntegrationController {
     @Req() req: any,
   ) {
     const validPayload = JSON.parse(payload);
-    console.log('validPayload', validPayload);
+
     try {
       return {
         message: 'Welcome to the Notion API Integration Tool',

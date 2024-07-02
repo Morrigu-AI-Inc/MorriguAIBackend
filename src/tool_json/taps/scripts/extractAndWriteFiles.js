@@ -36,7 +36,6 @@ function processInputFile(inputFile) {
 
       // Write the new content to the file
       fs.writeFileSync(filePath, newContent, 'utf8');
-      console.log(`File updated at ${filePath}`);
     });
   });
 }

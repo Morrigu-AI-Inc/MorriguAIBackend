@@ -6,8 +6,6 @@ type CreateProductDto = any;
 export class ProductEntryController {
   @Post()
   async create(@Body() createProductDto: CreateProductDto) {
-    console.log('Product created:', createProductDto);
-
     return {
       message: 'Product created',
       data: createProductDto,

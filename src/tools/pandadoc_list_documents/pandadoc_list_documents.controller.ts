@@ -10,7 +10,7 @@ export class PandadocListDocumentsController {
   ): Promise<any> {
     const validPayload = JSON.parse(parameters);
 
-    console.log('validPayload', validPayload);
+    
 
     let urlParams = new URLSearchParams();
 
@@ -69,8 +69,6 @@ export class PandadocListDocumentsController {
           stripUnknown: true,
         });
 
-        console.log('validatedVals', validatedVals);
-
         urlParams = new URLSearchParams(
           validatedVals as Record<string, string>,
         );
@@ -96,7 +94,6 @@ export class PandadocListDocumentsController {
         },
       };
     } catch (error) {
-      console.log(error);
       if (error instanceof Yup.ValidationError) {
         return {
           result: {

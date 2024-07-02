@@ -90,7 +90,6 @@ export class PrompthistoryController {
 
       return this.prompthistoryService.createHistory(values);
     } catch (e) {
-      console.log(e);
     }
   }
 

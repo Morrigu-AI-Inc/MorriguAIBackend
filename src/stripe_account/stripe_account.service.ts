@@ -57,7 +57,6 @@ export class StripeAccountService {
         return stripeAcct;
       })
       .catch((error) => {
-        console.log(error);
       });
   }
 

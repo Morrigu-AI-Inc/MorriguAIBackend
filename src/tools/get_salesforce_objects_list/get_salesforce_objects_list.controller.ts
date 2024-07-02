@@ -18,8 +18,6 @@ export class GetSalesforceObjectsListController {
 
       const jsonResults = await results.json();
 
-      console.log('jsonResults', jsonResults);
-
       return {
         result: {
           tool_name: 'get_salesforce_objects_list',

@@ -18,7 +18,6 @@ export class ActionsService {
   }
 
   async routeFunctionCalls(functionCalls: unknown, token) {
-    console.log(JSON.stringify(functionCalls));
     return fetch(`${process.env.TOOLCHEST_URL}`, {
       method: 'POST',
       headers: {
@@ -43,10 +42,10 @@ export class ActionsService {
   }
 
   async searchGoogle(query: string): Promise<string[]> {
-    console.log('searchGoogle', query);
+    
     const links = await this.getLinksFromGoogle(query);
 
-    console.log('links', links);
+    
 
     return await this.fetchTopFiveLinksText([
       `https://www.google.com/search?q=${encodeURIComponent(query)}`,

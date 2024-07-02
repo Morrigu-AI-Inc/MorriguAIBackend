@@ -41,7 +41,6 @@ export class FunctionCallsController {
       input: Record<string, any>;
     },
   ): Promise<any> {
-    console.log('Body', body);
     //     {
     //   type: 'tool_use',
     //   id: 'toolu_01LmbkSKYA6eMmhGPG12T8QG',
@@ -96,7 +95,7 @@ export class FunctionCallsController {
   ): Promise<any> {
     try {
       const { token, ...rest } = req.query;
-      console.log('rest', rest);
+
       const result = await fetch(
         `${process.env.BACKEND_API_URL}/api/tools/${id}?${new URLSearchParams(rest).toString()}`,
         {
@@ -108,7 +107,7 @@ export class FunctionCallsController {
         },
       );
 
-      // console.log('result', await result.json());
+      //
       return await result.json();
     } catch (error) {
       this.logger.error('Error getting function call', error);

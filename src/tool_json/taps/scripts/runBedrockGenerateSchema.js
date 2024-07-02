@@ -106,7 +106,7 @@ async function generateSchemaForHtml(html, filename) {
   try {
     const response = await bedrock.send(command);
     const schema = new TextDecoder().decode(response.body);
-    console.log(JSON.parse(schema).content[0].text);
+    
     const outputPath = path.join(
       './generation',
       `${path.basename(filename, '.html')}.json`,
@@ -120,7 +120,7 @@ async function generateSchemaForHtml(html, filename) {
         encoding: 'utf8',
       },
     );
-    console.log(`Schema for ${filename} saved to ${outputPath}`);
+    
   } catch (error) {
     console.error(`Error generating schema for ${filename}:`, error);
   }
@@ -142,7 +142,6 @@ async function processHtmlFiles(directory) {
         const specificBlock = $.text();
 
         generateSchemaForHtml(specificBlock, file).then(() => {
-          console.log(`Generated schema for ${file}`);
         });
 
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay to avoid rate limits

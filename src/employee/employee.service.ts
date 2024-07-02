@@ -11,8 +11,8 @@ export class EmployeeService {
     @InjectModel('Employee') private employeeModel: Model<Employee>,
   ) {}
   create(createEmployeeDto: CreateEmployeeDto) {
-    delete createEmployeeDto._id
-    console.log('createEmployeeDto', createEmployeeDto);
+    delete createEmployeeDto._id;
+
     const employee = this.employeeModel.create(createEmployeeDto);
 
     return employee;

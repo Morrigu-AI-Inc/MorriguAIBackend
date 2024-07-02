@@ -61,8 +61,6 @@ export class DemandGenerationService {
     await Promise.all(
       sampleCustomers.map((data) => new this.customerModel(data).save()),
     );
-
-    console.log('Data initialized successfully.');
   }
 
   // Calculate demand generation for a specific period

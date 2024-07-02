@@ -11,8 +11,6 @@ export class GithubApiIntegrationController {
     @Query('endpoint') endpoint: string,
   ) {
     try {
-      console.log('Github API Integration', body);
-
       return {};
     } catch (error) {
       return {
@@ -28,10 +26,6 @@ export class GithubApiIntegrationController {
     @Query('queryParameters') queryParameters: any,
   ) {
     try {
-      console.log('Github API Integration', req.query);
-      console.log('Github API Integration', queryParameters);
-      console.log('Github API Integration', endpoint);
-
       const fetchOps = {
         method: req.method,
         headers: {

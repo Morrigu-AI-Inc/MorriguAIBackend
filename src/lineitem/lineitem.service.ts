@@ -105,8 +105,6 @@ export class LineitemService {
         (po) => po.po_number === line.po_number,
       );
 
-      console.log('purchaseOrder', purchaseOrder);
-
       return {
         po_number: purchaseOrder ? purchaseOrder._id : null, // If purchaseOrder exists, use its _id, otherwise null
         productName: line.product || ' ',
@@ -128,7 +126,6 @@ export class LineitemService {
         (li) => li._id,
       );
 
-      console.log('items', po.line_items);
       await po.save();
     });
 

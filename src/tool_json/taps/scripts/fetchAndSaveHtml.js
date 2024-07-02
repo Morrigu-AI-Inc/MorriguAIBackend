@@ -192,10 +192,10 @@ async function fetchAndSaveHtml(url, index) {
     .then((response) => {
       // .then((response) => {
       // const response = response.data;
-      console.log('response', response);
+      
       const $ = cheerio.load(response);
       const specificBlock = $('.container').text();
-      console.log('specificBlock', specificBlock);
+      
       if (specificBlock) {
         const modifiedUrl = url.replace(/\//g, '-');
 
@@ -206,7 +206,6 @@ async function fetchAndSaveHtml(url, index) {
           specificBlock,
           (err) => {
             if (err) {
-              console.log(modifiedUrl);
               console.error('Error writing to file:', err);
             } else {
               console.log(
@@ -216,8 +215,6 @@ async function fetchAndSaveHtml(url, index) {
           },
         );
       } else {
-        console.log(url);
-        console.log(`The specified HTML block was not found in ${url}.`);
       }
     })
     .catch((error) => {
@@ -235,5 +232,4 @@ async function fetchAndSaveHtml(url, index) {
 if (urls.length > 0) {
   fetchAndSaveHtml(urls[0], 0);
 } else {
-  console.log('No URLs provided.');
 }

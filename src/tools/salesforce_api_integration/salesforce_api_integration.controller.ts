@@ -9,9 +9,6 @@ export class SalesforceApiIntegrationController {
     @Query('endpoint') endpoint: string,
   ) {
     try {
-      console.log('Salesforce API Integration', body);
-      console.log('Salesforce API Integration', req.query);
-
       const fetchOps = {
         method: req.method,
         headers: {
@@ -42,7 +39,6 @@ export class SalesforceApiIntegrationController {
   async salesforceApiIntegration(@Query('endpoint') endpoint: any, @Req() req) {
     try {
       const { endpoint: _ep, ...queryParameters } = req.query;
-      console.log('Salesforce API Integration', queryParameters);
 
       const fetchOps = {
         method: req.method,

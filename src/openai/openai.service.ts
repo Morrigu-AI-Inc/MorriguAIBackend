@@ -175,7 +175,7 @@ export class OpenaiService {
 
   async generateToken(userId: string, orgId?: string) {
     try {
-      // console.log('userId', userId);
+      //
 
       const privateKey = process.env.PARAGON_KEY?.slice(1, -1).replace(
         /\\n/g,
@@ -188,8 +188,6 @@ export class OpenaiService {
           error: 'User not found',
         };
       }
-
-      console.log('user', user);
 
       const org = await this.organizationModel.findOne({
         users: {
@@ -224,7 +222,6 @@ export class OpenaiService {
 
       return token;
     } catch (error) {
-      console.log(error);
       return {
         error: 'Failed to generate JWT token',
       };
@@ -269,8 +266,6 @@ export class OpenaiService {
           image_meta_file_ids[attachment.file_id] = attachment.s3_url;
         }
       }
-
-      console.log('image_meta_file_ids', image_meta_file_ids);
 
       const result = await this.openai.beta.threads.messages.create(threadId, {
         role: 'user',
@@ -327,7 +322,6 @@ export class OpenaiService {
         purpose: purpose,
       });
 
-      console.log('File uploaded:', response);
       return response;
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -348,9 +342,6 @@ export class OpenaiService {
 
           const name = call.function.name;
           const args = JSON.parse(call.function.arguments);
-
-          console.log('name', name);
-          console.log('args', args);
 
           // name invoke_tool
           // args {
@@ -728,12 +719,10 @@ export class OpenaiService {
   };
 
   public handleError = async (error: any, observer) => {
-    console.log('error', error);
     this.updateFrontEndStatus('error', observer);
   };
 
   public handleImageFileDone = async (imageFile: any) => {
-    console.log('imageFile done', imageFile);
   };
 
   public handleMessageDelta = async (delta: any, observer) => {
@@ -933,181 +922,180 @@ export class OpenaiService {
         data: event.data,
       });
 
-      if (event.data == '[DONE]') console.log('done', event);
-      switch (event.event) {
-        case 'thread.run.created':
-          const run = await this.createRun({
-            ...event.data,
-          });
+      if (event.data == '[DONE]')
+        switch (event.event) {
+          case 'thread.run.created':
+            const run = await this.createRun({
+              ...event.data,
+            });
 
-          break;
-        case 'thread.run.queued':
-          await this.updateRun(event.data.id, {
-            ...event.data,
-          });
+            break;
+          case 'thread.run.queued':
+            await this.updateRun(event.data.id, {
+              ...event.data,
+            });
 
-          break;
-        case 'thread.run.in_progress':
-          await this.updateRun(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.requires_action':
-          if (event.data.required_action.type === 'submit_tool_outputs') {
-            // calls
-            const calls =
-              event.data.required_action.submit_tool_outputs.tool_calls;
-            console.log('calls', calls);
-            for (const call of calls) {
-              const frontend_tools_names = frontend_tools
-                .filter((tool) => tool.type === 'function')
-                .map((tool) => tool.function.name);
-              let call_results = [];
-              if (frontend_tools_names.includes(call.function.name)) {
-                // this.updateFrontEndStatus('displaying', observer);
-                observer?.next({
-                  type: 'frontend_tool_call',
-                  data: {
-                    calls: calls,
+            break;
+          case 'thread.run.in_progress':
+            await this.updateRun(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.requires_action':
+            if (event.data.required_action.type === 'submit_tool_outputs') {
+              // calls
+              const calls =
+                event.data.required_action.submit_tool_outputs.tool_calls;
+
+              for (const call of calls) {
+                const frontend_tools_names = frontend_tools
+                  .filter((tool) => tool.type === 'function')
+                  .map((tool) => tool.function.name);
+                let call_results = [];
+                if (frontend_tools_names.includes(call.function.name)) {
+                  // this.updateFrontEndStatus('displaying', observer);
+                  observer?.next({
+                    type: 'frontend_tool_call',
+                    data: {
+                      calls: calls,
+                      runId: event.data.id,
+                    },
+                  });
+
+                  await this.toolOutputModel.create({
                     runId: event.data.id,
-                  },
-                });
+                    data: event.data,
+                  });
 
-                await this.toolOutputModel.create({
-                  runId: event.data.id,
-                  data: event.data,
-                });
+                  call_results = calls.map((call) => {
+                    return {
+                      tool_call_id: call.id,
+                      output: 'Displayed in frontend successfully',
+                    };
+                  });
+                } else {
+                  call_results = await this.get_call_results(calls, token);
+                }
 
-                call_results = calls.map((call) => {
-                  return {
-                    tool_call_id: call.id,
-                    output: 'Displayed in frontend successfully',
-                  };
-                });
-              } else {
-                call_results = await this.get_call_results(calls, token);
-                console.log('call_results', call_results);
+                const stream2 =
+                  await this.openai.beta.threads.runs.submitToolOutputs(
+                    event.data.thread_id,
+                    event.data.id,
+                    {
+                      tool_outputs: call_results,
+                      stream: true,
+                    },
+                  );
+
+                await this.streamLoop(stream2, observer, token);
               }
-
-              const stream2 =
-                await this.openai.beta.threads.runs.submitToolOutputs(
-                  event.data.thread_id,
-                  event.data.id,
-                  {
-                    tool_outputs: call_results,
-                    stream: true,
-                  },
-                );
-
-              await this.streamLoop(stream2, observer, token);
             }
-          }
 
-          break;
-        case 'thread.run.completed':
-          await this.updateRun(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.incomplete':
-          await this.updateRun(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.failed':
-          await this.updateRun(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.cancelling':
-          await this.updateRun(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.cancelled':
-          await this.updateRun(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.expired':
-          await this.updateRun(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.step.created':
-          await this.createRunStep({
-            ...event.data,
-          });
-          break;
-        case 'thread.run.step.in_progress':
-          await this.updateRunStep(event.data.id, {
-            ...event.data,
-          });
+            break;
+          case 'thread.run.completed':
+            await this.updateRun(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.incomplete':
+            await this.updateRun(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.failed':
+            await this.updateRun(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.cancelling':
+            await this.updateRun(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.cancelled':
+            await this.updateRun(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.expired':
+            await this.updateRun(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.step.created':
+            await this.createRunStep({
+              ...event.data,
+            });
+            break;
+          case 'thread.run.step.in_progress':
+            await this.updateRunStep(event.data.id, {
+              ...event.data,
+            });
 
-          break;
-        case 'thread.run.step.delta':
-          await this.createRunStepDelta({
-            ...event.data,
-          });
-          break;
-        case 'thread.run.step.completed':
-          await this.updateRunStep(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.step.failed':
-          await this.updateRunStep(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.step.cancelled':
-          await this.updateRunStep(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.run.step.expired':
-          await this.updateRunStep(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.message.created':
-          await this.createThreadMessage({
-            ...event.data,
-          });
-          break;
-        case 'thread.message.in_progress':
-          await this.updateMessage(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.message.delta':
-          await this.createMessageDelta(event);
-          break;
-        case 'thread.message.completed':
-          await this.updateMessage(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'thread.message.incomplete':
-          await this.updateMessage(event.data.id, {
-            ...event.data,
-          });
-          break;
-        case 'error':
-          observer?.next({
-            type: 'error',
-            data: event,
-          });
-          console.log('error', event);
-          break;
-        case 'done':
-          observer?.next({
-            type: 'streamEnd',
-            data: {},
-          });
-          console.log('done', event);
-          break;
-      } // end switch
+            break;
+          case 'thread.run.step.delta':
+            await this.createRunStepDelta({
+              ...event.data,
+            });
+            break;
+          case 'thread.run.step.completed':
+            await this.updateRunStep(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.step.failed':
+            await this.updateRunStep(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.step.cancelled':
+            await this.updateRunStep(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.run.step.expired':
+            await this.updateRunStep(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.message.created':
+            await this.createThreadMessage({
+              ...event.data,
+            });
+            break;
+          case 'thread.message.in_progress':
+            await this.updateMessage(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.message.delta':
+            await this.createMessageDelta(event);
+            break;
+          case 'thread.message.completed':
+            await this.updateMessage(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'thread.message.incomplete':
+            await this.updateMessage(event.data.id, {
+              ...event.data,
+            });
+            break;
+          case 'error':
+            observer?.next({
+              type: 'error',
+              data: event,
+            });
+
+            break;
+          case 'done':
+            observer?.next({
+              type: 'streamEnd',
+              data: {},
+            });
+
+            break;
+        } // end switch
     }
   };
 
@@ -1127,7 +1115,7 @@ export class OpenaiService {
     assistantId = process.env.DEFAULT_ASSISTANT,
   ): Promise<[Observable<any>, Subscriber<any>]> {
     try {
-      // console.log('running assistant', threadId, token, assistantId);
+      //
       let innerObs;
       const thread = await this.threadModel.findOne({
         id: threadId,
@@ -1135,8 +1123,6 @@ export class OpenaiService {
       return [
         new Observable((observer) => {
           innerObs = observer;
-
-          console.log(thread?.alternate_instructions);
 
           const options = thread?.alternate_instructions
             ? {
@@ -1148,9 +1134,7 @@ export class OpenaiService {
               };
           try {
             this.runObj(threadId, options, token, assistantId, observer);
-          } catch (error) {
-            console.log('error', error);
-          }
+          } catch (error) {}
         }),
         innerObs,
       ];
@@ -1202,8 +1186,6 @@ export class OpenaiService {
 
       const vs = await this.openai.beta.vectorStores.create(data);
 
-      console.log('vs', vs);
-
       const knowledgeBase = await this.knowledgeBaseModel.create({
         ...isValid,
         store_id: vs.id,
@@ -1230,7 +1212,7 @@ export class OpenaiService {
    */
   public async getKnowledgeBase(id: string, owner): Promise<any> {
     try {
-      // console.log('id', id, 'owner', owner);
+      //
       const knowledgeBase = await this.knowledgeBaseModel.findOne({
         _id: id,
         owner,
@@ -1261,7 +1243,6 @@ export class OpenaiService {
       const all = [];
 
       for (const knowledgeBase of knowledgeBases) {
-        console.log('knowledgeBase', knowledgeBase);
         const vs = await this.openai.beta.vectorStores.retrieve(
           knowledgeBase.store_id,
         );
@@ -1297,7 +1278,7 @@ export class OpenaiService {
         stripUnknown: true,
       });
 
-      // console.log('data', data);
+      //
 
       const { owner, modelId, ...rest } = isValid;
 
@@ -1312,11 +1293,8 @@ export class OpenaiService {
         owner,
       });
 
-      console.log('knowledgeBase', agentCreate);
-
       return agentCreate;
     } catch (error) {
-      console.log('error', error);
       if (error instanceof yup.ValidationError)
         return {
           error: error.message,
@@ -1362,7 +1340,7 @@ export class OpenaiService {
         owner,
       });
 
-      // console.log(kbs);
+      //
 
       const all = [];
 

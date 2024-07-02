@@ -11,10 +11,6 @@ export class QuickbooksApiIntegrationController {
     @Query('method') method: string,
   ) {
     try {
-      console.log('Quickbooks API Integration', req.query);
-      console.log('Quickbooks API Integration', method);
-      console.log('Quickbooks API Integration', endpoint);
-
       const fetchOps = {
         method: req.method,
         headers: {

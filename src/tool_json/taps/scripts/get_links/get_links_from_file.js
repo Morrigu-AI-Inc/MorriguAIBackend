@@ -35,6 +35,6 @@ rl.on('close', () => {
   uniqueLinks.forEach((link) => {
     outStream.write(link + '\n');
   });
-  console.log('Finished extracting unique links.');
+
   outStream.close();
 });

@@ -73,8 +73,6 @@ export class GetHubspotCompanyController {
 
       const jsonResults = await results.json();
 
-      console.log('jsonResults', jsonResults);
-
       return {
         result: {
           tool_name: 'get_hubspot_company',

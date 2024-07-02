@@ -34,8 +34,6 @@ export class GetNotionPagePropertyController {
 
       const jsonResults = await results.json();
 
-      console.log('jsonResults', jsonResults);
-
       return {
         result: {
           tool_name: 'get_notion_page_property',

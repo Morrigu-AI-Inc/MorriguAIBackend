@@ -249,7 +249,7 @@ export class BedrockService {
 
       // how to we verify that messages alternate user/assistant?
       // answer: sometimes the messages get mixed up either because of lage or whatever. what we need to do I think is fill in the blanks with blank messages maybe?
-      console.log('Calling Bedrock as time: ', new Date().getTime());
+
       if (options.stream) {
         const command = new InvokeModelWithResponseStreamCommand(input);
         const response = await bedrock.send(command);
@@ -262,7 +262,6 @@ export class BedrockService {
         return new TextDecoder().decode(response.body as Uint8Array);
       }
     } catch (error) {
-      console.log('error', error);
     }
   }
 
@@ -279,12 +278,10 @@ export class BedrockService {
       observer.next({ data: JSON.stringify(parseChunnk) });
       switch (parseChunnk.stop) {
         case '\n\nHuman:': {
-          console.log('HUMANx');
           observer.complete();
           break;
         }
         case '<function_calls>':
-          console.log('function_calls');
           break;
         case '</function_calls>':
           break;
@@ -308,7 +305,6 @@ export class BedrockService {
     persona,
     token,
   }: ResolverProps): Promise<ResolverProps> {
-    console.log('RESOLVE GENERATION', stream);
     // Lets document this thoroughly
     for await (const chunk of stream) {
       // this is the stream of responses from the model
@@ -325,7 +321,6 @@ export class BedrockService {
 
         // this is the start of a message
         case 'content_block_start': {
-          console.log('content_block_start', parsedChunk.content_block.text);
           completion += parsedChunk.content_block.text || '';
           observer.next({ data: JSON.stringify(parsedChunk) });
           break;
@@ -354,7 +349,6 @@ export class BedrockService {
                 break;
               }
               case '<function_calls>': {
-                console.log('calling function_calls');
                 functionXML += '<function_calls>';
                 let assistantMessage;
 
@@ -385,17 +379,13 @@ export class BedrockService {
                   },
                 );
 
-                console.log('388', response);
-
                 assistantMessage.content[0].text +=
                   JSON.parse(response as string).content[0].text +
                   '</function_calls>';
 
-                // console.log(assistantMessage.content[0].text);
+                //
 
                 const xmlToParse = `<function_calls>${JSON.parse(response as string).content[0].text}</function_calls>`;
-
-                console.log('xmlToParse', xmlToParse);
 
                 const jsonObj =
                   await this.xml2JsonService.convertXmlToJson(xmlToParse);
@@ -423,8 +413,6 @@ export class BedrockService {
 
                 messages.push(assistantMessage);
 
-
-
                 const systemPrompt = this.buildPromptService.buildPrompt({
                   task: tasks,
                   persona: persona,
@@ -442,8 +430,6 @@ export class BedrockService {
                     modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
                   },
                 );
-
-                console.log('RESULTS', results);
 
                 return await this.resolveGeneration({
                   observer,
@@ -467,7 +453,6 @@ export class BedrockService {
                 break;
               }
               case '<frontend_calls>': {
-                console.log('frontend_calls');
                 const frontendCalls = '<frontend_calls>';
                 let assistantMessage;
 
@@ -488,7 +473,6 @@ export class BedrockService {
                 assistantMessage.content[0].text += frontendCalls;
 
                 if (!assistantMessage.content[0].text.includes(frontendCalls)) {
-                  console.log('SHOULDNT HIT THIS');
                   assistantMessage.content.push({
                     type: 'text',
                     text: frontendCalls,
@@ -507,7 +491,6 @@ export class BedrockService {
                     stream: false,
                   },
                 );
-
 
                 // append to last message
                 assistantMessage.content[0].text += JSON.parse(
@@ -538,13 +521,11 @@ export class BedrockService {
                 });
               }
               case '<invoke>': {
-                console.log('invoke');
                 observer.next({ data: JSON.stringify(parsedChunk) });
                 break;
               }
               case '<thinking>': {
                 // this stop feature is to allow it to think. We dont want to show the user the thinking so well by pass it.
-                console.log('thinking...');
 
                 let assistantMessage;
                 const thinkingBlock =
@@ -567,7 +548,6 @@ export class BedrockService {
                   };
                 }
                 if (!assistantMessage.content[0].text.includes(thinkingBlock)) {
-                  console.log('SHOULDNT HIT THIS');
                   assistantMessage.content.push({
                     type: 'text',
                     text: thinkingBlock,
@@ -619,7 +599,6 @@ export class BedrockService {
                 break;
               }
               case '<invoke>': {
-                console.log('invoke', completion);
                 observer.next({ data: JSON.stringify(parsedChunk) });
 
                 messages[messages.length - 1].content[0].text +=

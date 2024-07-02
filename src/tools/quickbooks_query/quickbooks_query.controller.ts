@@ -20,7 +20,6 @@ export class QuickbooksQueryController {
 
       const { select, from, where, maxlimit = 100 } = validPayload;
 
-      console.log('SQL Query Parameters', select, from, where, maxlimit);
       if (!select || !from) {
         throw new BadRequestException(
           'Both select and from parameters are required.',

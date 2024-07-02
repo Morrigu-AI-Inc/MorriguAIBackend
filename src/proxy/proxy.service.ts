@@ -30,10 +30,7 @@ export class ProxyService {
   ): Promise<APIIntegrationDocument> {
     const creds = jwt.sign(credentials, process.env.JWT_KEY);
 
-    console.log('Creds', creds);
-
     const decrypted = jwt.verify(creds, process.env.JWT_KEY);
-    console.log('Decrypted', decrypted);
 
     const algorithm = 'aes-256-cbc';
     const secretKey = Buffer.from(process.env.CREDENTIAL_KEY, 'hex');
@@ -41,9 +38,6 @@ export class ProxyService {
     const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
     let encrypted = cipher.update(creds, 'utf8', 'hex');
     encrypted += cipher.final('hex');
-
-    console.log('Encrypted', encrypted);
-    console.log('IV', iv.toString('hex'));
 
     apiIntegration.settings = {
       encryptedData: encrypted,
@@ -69,8 +63,6 @@ export class ProxyService {
   public async decryptAPIIntegration(apiIntegration: APIIntegrationDocument) {
     const { encryptedData, iv } = apiIntegration.settings;
 
-    console.log('Encrypted Data', encryptedData);
-
     const algorithm = 'aes-256-cbc';
     const secretKey = Buffer.from(process.env.CREDENTIAL_KEY, 'hex');
     const ivBuffer = Buffer.from(iv, 'hex');
@@ -78,7 +70,7 @@ export class ProxyService {
     let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
 
-    console.log('Decrypted', decrypted); // this is the JWT
+    // this is the JWT
 
     const creds = jwt.verify(decrypted, process.env.JWT_KEY);
 

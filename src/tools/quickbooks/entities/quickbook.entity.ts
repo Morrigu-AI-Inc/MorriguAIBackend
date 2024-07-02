@@ -197,8 +197,6 @@ export class QuickbookQueryTool extends BaseTool {
       query += ` MAXRESULTS ${queryParameters.max_results}`;
     }
 
-    console.log('Query:', query);
-
     return query;
   }
 

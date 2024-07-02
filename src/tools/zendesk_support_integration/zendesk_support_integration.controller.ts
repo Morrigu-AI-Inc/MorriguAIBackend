@@ -5,7 +5,6 @@ export class ZendeskSupportIntegrationController {
   @Get()
   async get() {
     try {
-      console.log('Getting zendesk support integration');
       return true;
     } catch (error) {
       console.error('Error getting zendesk support integration', error);

@@ -53,15 +53,11 @@ export class SlackService {
         //   (text) => this.sendMessage(eventBody.channel, text.value),
         // );
       } else {
-        console.log('FOUND', found.threadId, eventBody.text);
         // await this.openaiService.addMessageToThread(
         //   found.threadId,
         //   eventBody.text,
         //   (text) => this.sendMessage(eventBody.channel, text.value),
         // );
-
-        console.log('RUNNING STREAM');
-
         // const run = this.openaiService.runStreamSlack(
         //   found.threadId,
         //   token,
@@ -72,7 +68,6 @@ export class SlackService {
   }
 
   async sendMessage(channelId: string, message: string): Promise<void> {
-    console.log('SENDING MESSAGES', channelId, message);
     await this.slackClient.chat.postMessage({
       channel: channelId,
       text: message,

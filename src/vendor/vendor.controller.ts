@@ -30,7 +30,6 @@ export class VendorController {
   @Post('')
   async createVendor(@Body() vendor: Partial<VendorDocument>) {
     try {
-      console.log(vendor);
       const newVendor = await this.vendorService.createVendor(vendor);
       return { newVendor };
     } catch (error) {

@@ -1,6 +1,6 @@
 import { invoiceSchema } from '../compiled_taps/quickbooks';
 
-console.log(invoiceSchema);
+
 const create_invoice = {
   type: 'function',
   function: {

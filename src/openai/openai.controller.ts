@@ -58,7 +58,7 @@ export class OpenaiController {
     try {
       const attachments = [];
       for (const content of message.content) {
-        // console.log('content', content);
+        //
         if (content.url) {
           const file = await this.openaiService.uploadBase64Image(
             content,
@@ -154,7 +154,6 @@ export class OpenaiController {
   ) {
     const token = await this.openaiService.generateToken(userId, orgId);
 
-    console.log('token', token);
     //add message to thread
     try {
       const [observer, sub] = await this.openaiService.runAssistant(

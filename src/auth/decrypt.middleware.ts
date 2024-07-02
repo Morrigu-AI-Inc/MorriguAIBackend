@@ -10,7 +10,7 @@ import { importJWK, jwtDecrypt } from 'jose';
 export class DecryptMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.split(' ')[1];
-    console.log('DecryptMiddleware.use - Token:', token);
+
     if (!token) {
       throw new UnauthorizedException('Authorization header is missing');
     }

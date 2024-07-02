@@ -72,15 +72,12 @@ export const UserAuth = createParamDecorator(
         client_secret: process.env.AUTH0_CLIENT_SECRET,
         audience: process.env.AUTH0_DOMAIN,
       }),
-    }).catch((err) => {
-      console.log(err);
-    });
+    }).catch((err) => {});
 
     // const userJson = await user.json();
-    // console.log(json, userJson);
+    //
 
     await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      console.log(decoded);
       if (err) {
         throw new UnauthorizedException('Invalid token');
       }

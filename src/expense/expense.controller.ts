@@ -45,7 +45,7 @@ export class ExpenseController {
   @Post()
   async createExpense(@Body() createExpenseDto: CreateExpenseDto) {
     try {
-      console.log(createExpenseDto);
+      
 
       const expense = await this.expenseService.createExpense(
         createExpenseDto.amount,
@@ -57,11 +57,10 @@ export class ExpenseController {
         createExpenseDto.processedFiles,
       );
 
-      console.log(expense);
+      
 
       return expense;
     } catch (error) {
-      console.log(error);
       return { error: error.message };
     }
   }

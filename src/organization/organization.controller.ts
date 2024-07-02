@@ -39,7 +39,6 @@ export class OrganizationController {
     @Body() createOrganizationDto: Partial<any>,
     // @UserAuth() user: any,
   ): Promise<OrganizationDocument> {
-    console.log('createOrganizationDto', createOrganizationDto);
     // Assuming userId is part of the DTO or obtained from the authorization guard
 
     // find user by id
@@ -93,8 +92,6 @@ export class OrganizationController {
       throw new Error('Failed to create organization');
     }
 
-    console.log(createOrganizationDto);
-
     const supplier = await this.supplierModel.create({
       name: createOrganizationDto.supplier.name,
       description: createOrganizationDto.supplier.description,
@@ -110,8 +107,6 @@ export class OrganizationController {
       longitude: 0,
       owner: org._id,
     });
-
-    console.log('Supplier:', supplier);
 
     if (!supplier) {
       throw new Error('Failed to create supplier');

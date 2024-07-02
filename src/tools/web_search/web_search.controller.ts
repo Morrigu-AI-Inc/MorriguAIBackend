@@ -62,7 +62,7 @@ export class WebSearchController {
 
   @Get()
   async searchTools(@Query('query') query: string): Promise<any> {
-    console.log('Searching the web', query);
+    
 
     const urlParams = new URLSearchParams({
       key: process.env.GOOGLE_SEARCH_API,
@@ -75,7 +75,6 @@ export class WebSearchController {
     )
       .then((response) => response.json())
       .then((data: GoogleSearchResult) => {
-        console.log('data', data.items);
         return data;
       });
 

@@ -660,7 +660,6 @@ export class BedrockController {
         },
       );
     } catch (error) {
-      console.log('Error running prompt streaming', error);
       observer?.error(error);
     }
   }
@@ -898,14 +897,10 @@ export class BedrockController {
               )[],
             });
 
-            console.log('TOOTLS RESPONSE', tool_response);
-
             const responses = await this.actionService.routeFunctionCalls(
               tool_response.content[1],
               token,
             );
-
-            console.log(`Tool response: ${JSON.stringify(responses, null, 2)}`);
 
             tool_msgs.push({
               role: 'user',
@@ -962,16 +957,12 @@ export class BedrockController {
             await this.historyService.updateHistory(historyId, {
               chatHistory: uHist as ChatMessageType[],
             });
-
-            console.log('DONE RESPONSE', tool_response);
           }
           return true;
         default:
-          console.log('default stop sequence', event.delta.stop_sequence);
           return false; // Default to not continuing the recursion for unhandled cases
       }
     } catch (error) {
-      console.log('Error in handleStopSequence', error);
     }
   }
 }

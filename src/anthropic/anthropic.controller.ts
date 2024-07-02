@@ -8,7 +8,6 @@ export class AnthropicController {
   async getAnthropic(): Promise<any> {
     const resp = await this.anthropicService.runPromptWithToolsNonStreaming();
 
-    console.log(resp);
     return {
       result: {
         tool_name: 'anthropic',

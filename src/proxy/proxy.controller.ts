@@ -14,9 +14,6 @@ export class ProxyController {
   @Post('/create')
   async createProxy(@Req() req, @Query() query) {
     try {
-      console.log('Proxy', req.query);
-      console.log('Proxy', query);
-
       // {
       //   isActive: boolean;
       //   createdAt: Date;
@@ -48,11 +45,10 @@ export class ProxyController {
       // const decryptedSettings =
       //   await this.proxyService.decryptAPIIntegration(response);
 
-      // console.log('Decrypted Settings', decryptedSettings);
+      //
 
       return response;
     } catch (error) {
-      console.log('Error creating Proxy', error);
       if (error instanceof yup.ValidationError)
         return {
           error: error.errors,
@@ -77,10 +73,6 @@ export class ProxyController {
   @Post('/:integration/')
   async postProxy(@Req() req, @Query() query, @Param() params) {
     try {
-      console.log('Proxy', req.query);
-      console.log('Proxy', query);
-      console.log('Proxy', params);
-
       const fetchOps = {
         method: req.method,
         headers: {

@@ -123,7 +123,7 @@ async function sendDataToLLM(data, write_file_path) {
     const response = await bedrock.send(command);
     const wfp = path.join(write_file_path); // Update this path
     const schema = new TextDecoder().decode(response.body);
-    console.log(JSON.parse(schema).content[0].text);
+    
 
     await writeFile(
       wfp,
@@ -135,7 +135,7 @@ async function sendDataToLLM(data, write_file_path) {
       },
     );
 
-    console.log('LLM Response:', response);
+    
   } catch (error) {
     console.error('Error sending data to LLM:', error);
   }

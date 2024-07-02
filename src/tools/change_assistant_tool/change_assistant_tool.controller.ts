@@ -10,7 +10,6 @@ export class ChangeAssistantToolController {
   ): Promise<any> {
     const json = JSON.parse(JSON.parse(payload));
 
-    console.log(json);
     return { message: 'getChangeAssistantTool', json };
   }
 }

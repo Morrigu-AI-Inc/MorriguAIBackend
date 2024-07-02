@@ -24,7 +24,6 @@ export class ToolSearchController {
 
   @Get('tool_search')
   async search(@Query('payload') payload: string): Promise<any> {
-    console.log('Searching for tools', payload);
     const validPayload = JSON.parse(JSON.parse(payload));
 
     const tools = await this.toolService.searchToolsV2(validPayload.search);
@@ -82,8 +81,6 @@ export class ToolSearchController {
           pathParameters[key],
         );
       }
-
-      console.log('Endpoint: ', validPayload.endpoint);
 
       const endPoint = `${process.env.BACKEND_API_URL}/api/${tool_name}?${new URLSearchParams(
         {

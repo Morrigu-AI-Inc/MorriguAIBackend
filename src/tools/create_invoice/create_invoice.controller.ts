@@ -6,7 +6,6 @@ export class CreateInvoiceController {
 
   @Get()
   async createInvoice(@Req() req: any) {
-    console.log(req.url);
     return true;
   }
 }

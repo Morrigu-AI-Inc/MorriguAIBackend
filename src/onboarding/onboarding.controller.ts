@@ -83,7 +83,7 @@ export class OnboardingController {
       });
 
       newRoles.push(newRole);
-      console.log('new role', newRole);
+
       lastRole = newRole;
     }
 
@@ -180,7 +180,6 @@ export class OnboardingController {
           },
           { new: true },
         );
-        console.log('updated org', org);
       }
     }
 
