@@ -58,6 +58,7 @@ import { ChangeAssistantToolModule } from './change_assistant_tool/change_assist
 import { Co2ImpactController } from './co2_impact/co2_impact.controller';
 import { CreatePurchaseOrderModule } from './create_purchase_order/create_purchase_order.module';
 import { ProductEntryModule } from './product_entry/product_entry.module';
+import { QuickbooksModule } from './quickbooks/quickbooks.module';
 
 @Module({
   providers: [
@@ -125,6 +126,7 @@ import { ProductEntryModule } from './product_entry/product_entry.module';
     ChangeAssistantToolModule,
     CreatePurchaseOrderModule,
     ProductEntryModule,
+    QuickbooksModule,
   ],
   exports: [
     

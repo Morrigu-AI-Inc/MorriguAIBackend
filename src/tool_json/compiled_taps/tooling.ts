@@ -67,7 +67,7 @@ const invoke_tool = {
                 method: {
                   // this is to be filled in with the method schema
                   type: 'string',
-                  enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+                  enum: ['GET', 'DELETE'],
                   description: 'HTTP method used for the request',
                 },
                 contentType: {
@@ -104,7 +104,7 @@ const invoke_tool = {
                 method: {
                   // this is to be filled in with the method schema
                   type: 'string',
-                  enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+                  enum: ['POST', 'PUT'],
                   description: 'HTTP method used for the request',
                 },
                 contentType: {

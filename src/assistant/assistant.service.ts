@@ -96,8 +96,6 @@ export class AssistantService {
       response_format: response_format,
     });
 
-    console.log('assistant', assistant);
-
     return await this.assistantModel.create({
       id: assistant.id,
       owner: owner,
@@ -111,8 +109,6 @@ export class AssistantService {
     const vs = await this.openai.beta.vectorStores.create({
       name: name,
     });
-
-    console.log('vs', vs);
 
     return await this.vectorStoreModel.create({
       name: name,

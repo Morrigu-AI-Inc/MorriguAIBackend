@@ -48,10 +48,10 @@ export class AccountsService {
   }
 
   async findAll(owner): Promise<Account[]> {
-    console.log(owner);
+    // console.log(owner);
     const user = await this.userModel.find({ id: owner }).exec();
 
-    console.log(user);
+    // console.log(user);
 
     if (!user) {
       throw new Error('User not found');

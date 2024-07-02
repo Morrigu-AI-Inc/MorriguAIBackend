@@ -175,7 +175,7 @@ export class OpenaiService {
 
   async generateToken(userId: string) {
     try {
-      console.log('userId', userId);
+      // console.log('userId', userId);
 
       const privateKey = process.env.PARAGON_KEY?.slice(1, -1).replace(
         /\\n/g,
@@ -189,7 +189,7 @@ export class OpenaiService {
         };
       }
 
-      console.log('user', user);
+      // console.log('user', user);
 
       // const org = await this.organizationModel.findOne({
       //   users: {
@@ -345,6 +345,68 @@ export class OpenaiService {
           const q = new URLSearchParams({
             payload: JSON.stringify(call.function.arguments),
           }).toString();
+
+
+          const name = call.function.name;
+          const args = JSON.parse(call.function.arguments);
+
+          console.log('name', name);
+          console.log('args', args);
+
+          // name invoke_tool
+          // args {
+          //   tool_name: 'tools/quickbooks/query',
+          //   payload: {
+          //     endpoint: '/tools/quickbooks/query',
+          //     method: 'GET',
+          //     contentType: 'application/json',
+          //     queryParameters: { entity: 'PurchaseOrder', where_clause: [Array], max_results: 10 }
+          //   }
+          // }
+
+          if (name === 'invoke_tool') {
+            const { tool_name, payload } = args;
+            const { endpoint, method, contentType, queryParameters } = payload;
+
+            const endPoint = `${process.env.BACKEND_API_URL}/api/${tool_name}?${new URLSearchParams(
+              {
+                endpoint: endpoint,
+                // this might have nested arrays as values so we need to stringify them
+                ...Object.entries(queryParameters).reduce(
+                  (acc, [key, value]) => {
+                    acc[key] = JSON.stringify(value);
+                    return acc;
+                  },
+                  {},
+                ),
+              },
+            ).toString()}`;
+
+            const fetchOps = {
+              method: method,
+              headers: {
+                'Content-Type': contentType,
+                Authorization: token.includes('Bearer')
+                  ? token
+                  : `Bearer ${token}`,
+              },
+              body: payload ? JSON.stringify(payload) : null,
+            };
+
+            if (method === 'GET') {
+              delete fetchOps.body;
+            }
+
+            const callResp = await fetch(endPoint, fetchOps);
+
+            const callRespJson = await callResp.json();
+
+            return {
+              tool_call_id: call.id,
+              output: JSON.stringify(callRespJson, null, 1),
+            };
+          }
+          
 
           const callResp = await fetch(
             `${process.env.BACKEND_API_URL}/api/tools/` +
@@ -888,7 +950,7 @@ export class OpenaiService {
             // calls
             const calls =
               event.data.required_action.submit_tool_outputs.tool_calls;
-
+            console.log('calls', calls);
             for (const call of calls) {
               const frontend_tools_names = frontend_tools
                 .filter((tool) => tool.type === 'function')
@@ -1058,7 +1120,7 @@ export class OpenaiService {
     assistantId = process.env.DEFAULT_ASSISTANT,
   ): Promise<[Observable<any>, Subscriber<any>]> {
     try {
-      console.log('running assistant', threadId, token, assistantId);
+      // console.log('running assistant', threadId, token, assistantId);
       let innerObs;
       const thread = await this.threadModel.findOne({
         id: threadId,
@@ -1159,7 +1221,7 @@ export class OpenaiService {
    */
   public async getKnowledgeBase(id: string, owner): Promise<any> {
     try {
-      console.log('id', id, 'owner', owner);
+      // console.log('id', id, 'owner', owner);
       const knowledgeBase = await this.knowledgeBaseModel.findOne({
         _id: id,
         owner,
@@ -1226,7 +1288,7 @@ export class OpenaiService {
         stripUnknown: true,
       });
 
-      console.log('data', data);
+      // console.log('data', data);
 
       const { owner, modelId, ...rest } = isValid;
 
@@ -1291,7 +1353,7 @@ export class OpenaiService {
         owner,
       });
 
-      console.log(kbs);
+      // console.log(kbs);
 
       const all = [];
 

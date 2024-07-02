@@ -97,11 +97,11 @@ export class UserService {
         };
       }
 
-      console.log({
-        user,
-        organizations,
-        suppliers,
-      });
+      // console.log({
+      //   user,
+      //   organizations,
+      //   suppliers,
+      // });
 
       return {
         user,

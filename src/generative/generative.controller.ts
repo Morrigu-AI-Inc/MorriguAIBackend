@@ -84,18 +84,18 @@ export class GenerativeController {
       alternate_instructions: string;
     },
   ) {
-    console.log('Owner:', owner);
-    console.log('Alternate Instructions:', alternate_instructions);
+    // console.log('Owner:', owner);
+    // console.log('Alternate Instructions:', alternate_instructions);
     const user = await this.userModel.findOne({ id: owner });
 
-    console.log('User:', user);
+    // console.log('User:', user);
 
     const thrd = await this.generativeService.createThread(
       user,
       alternate_instructions,
     );
 
-    console.log('Thread:', thrd);
+    // console.log('Thread:', thrd);
 
     return thrd;
   }

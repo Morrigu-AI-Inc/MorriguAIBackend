@@ -6,83 +6,67 @@ import { Model, Types } from 'mongoose';
 import { Product } from 'src/db/schemas/Product';
 import { Supplier } from 'src/db/schemas/Supplier';
 
-// @Prop({ required: true })
-// name: string;
-
-// @Prop({ required: true })
-// description: string;
-
-// @Prop({ required: true })
-// price: number;
-
-// @Prop({ required: true })
-// category: string;
-
-// @Prop([{ type: Types.ObjectId, ref: 'Tag' }])
-// tags: Types.ObjectId[]; // Assumes a Tag schema exists for tagging the product
-
-// @Prop({ required: false, default: 0})
-// stock: number;
-
-// @Prop([{ type: Types.ObjectId, ref: 'Review' }])
-// reviews: Types.ObjectId[]; // Assumes a Review schema exists for product reviews
-
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel('Product') private readonly productModel: Model<Product>,
     @InjectModel('Supplier') private readonly supplierModel: Model<Supplier>,
   ) {}
+
   create(createProductDto: CreateProductDto) {
     return 'This action adds a new product';
   }
 
   async createBulk(createProductDto: CreateProductDto[], supplier: string) {
     try {
-      console.log(createProductDto);
-      const suppliers = await this.supplierModel.findOne({
-        _id: {
-          $in: [supplier],
-        },
-      });
+      if (!Types.ObjectId.isValid(supplier)) {
+        throw new Error('Invalid Supplier ID');
+      }
 
-      if (!suppliers) {
+      const supplierId = new Types.ObjectId(supplier);
+      const supplierDoc = await this.supplierModel.findById(supplierId);
+
+      if (!supplierDoc) {
         throw new Error('Supplier not found');
       }
 
       const products = await this.productModel.insertMany(
-        createProductDto.map((product) => {
-          return {
-            ...product,
-            description: product.description || ' ',
-            price: product.price || 0,
-            category: ' ',
-            supplier: suppliers._id,
-          };
-        }),
+        createProductDto.map((product) => ({
+          ...product,
+          description: product.description || ' ',
+          price: product.price || 0,
+          category: ' ',
+          supplier: supplierDoc._id,
+        })),
       );
 
       if (!products) {
         throw new Error('Error creating products');
       }
 
-      suppliers.products = products;
-
-      await suppliers.save();
+      supplierDoc.products = products.map((product) => product._id);
+      await supplierDoc.save();
 
       return products;
     } catch (error) {
-      console.log('Error creating products:', error);
-      return error;
+      console.error('Error creating products:', error.message);
+      throw error;
     }
   }
 
   async findAll(supplier: string) {
-    console.log('SUPPLIER: ', supplier);
-    return await this.productModel.find({
-      // weird
-      supplier: new Types.ObjectId(supplier),
-    }).limit(10);
+    try {
+      console.log('supplier', supplier);
+      if (!Types.ObjectId.isValid(supplier)) {
+        return []
+      }
+
+      const supplierId = new Types.ObjectId(supplier);
+      return await this.productModel.find({ supplier: supplierId }).limit(10);
+    } catch (error) {
+      console.error('Error finding products:', error.message);
+      throw error;
+    }
   }
 
   findOne(id: number) {

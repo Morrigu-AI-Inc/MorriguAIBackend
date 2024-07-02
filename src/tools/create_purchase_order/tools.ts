@@ -1,4 +1,6 @@
-const search_suppliers: BaseTool = {
+import { BaseTool } from '../types';
+
+const search_suppliers: any = {
   name: 'tools/search_suppliers',
   description: 'Search for a supplier or a vendor by name.',
   input_schema: {
@@ -39,6 +41,6 @@ const search_suppliers: BaseTool = {
   features: [],
   use_cases: [],
   benefits: [],
-  implementation: "",
-  conclusion: ""
+  implementation: '',
+  conclusion: '',
 };

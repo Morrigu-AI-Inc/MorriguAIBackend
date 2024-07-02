@@ -58,7 +58,7 @@ export class OpenaiController {
     try {
       const attachments = [];
       for (const content of message.content) {
-        console.log('content', content);
+        // console.log('content', content);
         if (content.url) {
           const file = await this.openaiService.uploadBase64Image(
             content,

@@ -11,6 +11,22 @@ export class ToolsService {
     private readonly toolModel: Model<ToolDocument>,
   ) {}
 
+  async updateTool(
+    tool: Partial<ToolDocument>,
+  ): Promise<ToolDocument> {
+    const foundTool = await this.toolModel.findOne({ name: tool.name });
+
+    console.log('foundTool', foundTool);
+
+    if (!foundTool) {
+      return this.toolModel.create(tool);
+    }
+
+    return this.toolModel
+      .findOneAndUpdate({ name: tool.name }, tool, { new: true })
+      .exec();
+  }
+
   async searchToolsV2(searchTerm: string): Promise<Partial<ToolDocument>[]> {
     console.log('searchTerm', searchTerm);
     const aggregation = [
