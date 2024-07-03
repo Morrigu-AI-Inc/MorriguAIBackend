@@ -114,6 +114,7 @@ async function generateSchemaForHtml(read_file_path, write_file_path) {
   try {
     const response = await bedrock.send(command);
     const schema = new TextDecoder().decode(response.body);
+    console.log(JSON.parse(schema).content[0].text);
 
     await writeFile(
       write_file_path,

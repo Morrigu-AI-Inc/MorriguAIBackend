@@ -40,7 +40,7 @@ import OnboardingFlow from 'components/OnboardingFlow';
 
 // import MorriguProvider from '@morrigu/core';
 
-// 
+// console.log("MORRIGU", morrigu);
 
 // types
 type LayoutProps = NextPage & {
@@ -63,7 +63,7 @@ export default function App({ Component, pageProps }: AppProps & Props) {
 
   useEffect(() => {
     dispatch(fetchMenu()).then(() => {
-      
+      console.log('Menu fetched');
       setLoading(false);
     });
   }, []);
@@ -534,7 +534,7 @@ const Integrations = () => {
 
       const temp = paragon.getIntegrationMetadata();
 
-      
+      console.log('temp', temp);
       setIntMeta(temp);
     };
 
@@ -546,7 +546,7 @@ const Integrations = () => {
 
   useEffect(() => {
     const integrations = intMeta.map((integ: { type: string; name: string; icon: string }) => {
-      
+      console.log('integ', integ);
       return {
         id: integ.type,
         slug: integ.type,
@@ -557,7 +557,7 @@ const Integrations = () => {
         action: () =>
           paragon.connect(integ.type, {
             onSuccess(event, user) {
-              
+              console.log(`${integ.name} connected`, user);
             },
             onError(error) {
               console.error(`${integ.name} error`, error);
@@ -601,12 +601,12 @@ const Integrations = () => {
               {
                 accessor: 'actions',
                 Cell: ({ cell }) => {
-                  
+                  console.log(cell.row.original);
                   return (
                     <Stack direction={'row'} justifyContent={'flex-end'}>
                       <Button
                         onClick={() =>
-                          paragon.connect(cell.row.original.slug, { onSuccess: () => 
+                          paragon.connect(cell.row.original.slug, { onSuccess: () => console.log(`${cell.row.original.name} connected`) })
                         }
                       >
                         Manage
@@ -628,7 +628,7 @@ const Integrations = () => {
                 advanced lead management, sales automation, and analytics features, driving growth and success in your business.
               </Typography>
               <Button
-                onClick={() => paragon.connect('quickbooks', { onSuccess: () => }
+                onClick={() => paragon.connect('quickbooks', { onSuccess: () => console.log('HubSpot connected') })}
                 variant={'contained'}
               >
                 Manage
@@ -656,19 +656,19 @@ import React, { useEffect } from 'react';
 const AcceptInvitePage: React.FC = () => {
   const user = useSession();
   const router = useRouter();
-  
+  console.log('User:', user);
 
   useEffect(() => {
     // Resolve user invite here
     const inviteToken = new URLSearchParams(location.search).get('token');
-    
+    console.log('Invite token:', user.data);
     const data = user.data as unknown as {
       name: string;
       email: string;
       id_token: string;
     };
     if (data?.id_token) {
-      
+      console.log('User ID Token:', data);
     }
     fetch(`/api/invites/accept?token=${inviteToken}&id_token=${data?.id_token}`).then(async (response) => {
       const data = await response.json();
@@ -715,7 +715,7 @@ const Invites = () => {
     const fetchInvites = async () => {
       setIsLoading(true);
       try {
-        
+        console.log('token', token);
         const response = await fetch(`/api/invites?token=${token}`);
 
         const data = await response.json();
@@ -943,13 +943,13 @@ const Users = () => {
   };
 
   const handleCreateUser = (user) => {
-    
+    console.log('Creating user:', user);
 
     fetch('/api/invites', {
       method: 'POST',
       body: JSON.stringify(user)
     }).then((response) => {
-      
+      console.log('User created:', response);
       setUsers([...users, user]);
       handleCloseDialog();
     });
@@ -1142,7 +1142,7 @@ export const authOptions: NextAuthOptions = {
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        // 
+        // console.log('credentials', credentials);
         const res = await fetch('/api/secure/auth', {
           method: 'POST',
           body: JSON.stringify(credentials),
@@ -1161,14 +1161,14 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     jwt: async ({ token, account, profile, trigger, session }) => {
-      // 
+      // console.log('FROM JWT', token, account, profile, trigger, session)
       if (trigger === 'signIn') {
-        // 
+        // console.log('FROM JWT', token, account, profile, trigger, session);
       }
       return { ...token, ...account, ...profile };
     },
     session: ({ session, token, user }) => {
-      // 
+      // console.log('FROM SESSION', session, token, user)
       const customSession: CustomSession = {
         ...session,
         ...token,
@@ -1775,7 +1775,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 //this is the callback from CometChat bot
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  
+  console.log('callback', req.body);
 
   res.status(200).json({ message: 'Message sent successfully' });
 };
@@ -2602,7 +2602,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     if (req.method === 'POST') {
-      
+      console.log('req.body', req.body);
       return EnvironmentController.post(req, res);
     }
 
@@ -2612,7 +2612,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     return res.status(200).json({ protected: true });
   } catch (error) {
-    
+    console.log('error', error);
 
     return res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -2687,7 +2687,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return await PromptHistoryController.post(req, res);
     }
   } catch (error) {
-    
+    console.log('error', error);
 
     return res.status(500).json({ error: 'Failed to fetch prompt data' });
   }
@@ -2716,7 +2716,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const pair = await PromptHistoryController.createNewQueryResponsePair({
         body: body
       });
-      
+      console.log('pair', pair);
       return res.status(200).json(pair);
     }
 
@@ -2725,7 +2725,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         abortEarly: false
       });
 
-      
+      console.log('req.body query', req.body);
 
       const { pairId, queryBody, responseBody } = req.body;
 
@@ -2811,7 +2811,7 @@ const dbInstall = async (req: VercelRequest, res: VercelResponse) => {
     // find then save if not exists
     const found = await Model.findOne({ name: model.name });
     if (found) {
-      
+      console.log('Model already exists', found);
       found.model_formatting = formattingModel;
       await found.save();
 
@@ -2833,7 +2833,7 @@ const dbInstall = async (req: VercelRequest, res: VercelResponse) => {
       // Send back a 400 response with the validation errors
       return res.status(400).json({ errors: error.errors });
     } else {
-      
+      console.log(error);
       // Handle other types of errors
       return res.status(500).json({ message: error?.toString(), error: error });
     }
@@ -2942,7 +2942,7 @@ export const Invoke = async (body: unknown) => {
     modelId: modelId // required
   };
 
-  
+  console.log('InvokeModel', input);
 
   const command = new InvokeModelCommand(input);
 
@@ -2969,7 +2969,7 @@ const InvokeModel = async (req: NextApiRequest, res: NextApiResponse) => {
       // Send back a 400 response with the validation errors
       return res.status(400).json({ errors: error.errors });
     } else {
-      
+      console.log(error);
       // Handle other types of errors
       return res.status(500).json({ message: error?.toString(), error: error });
     }
@@ -3022,7 +3022,7 @@ const InvokeModelStream = async (req: VercelRequest, res: VercelResponse) => {
   const wStream = new WritableStream({
     write(chunk) {
       const decoder = new TextDecoder();
-      
+      console.log('DECODEED', decoder.decode(chunk?.bytes));
       return chunk;
     }
   });
@@ -3030,7 +3030,7 @@ const InvokeModelStream = async (req: VercelRequest, res: VercelResponse) => {
   if (response.body) {
     for (const chunk of response.body) {
       //   wStream.write(chunk);
-      
+      console.log('CHUNK', chunk);
     }
   }
 
@@ -3151,7 +3151,7 @@ async function handleBotPost(req: VercelRequest, res: VercelResponse): Promise<v
           };
         });
 
-        
+        console.log(messages);
 
         await fetch(`${process.env.REACT_APP_API_URL}/api/integrations/openai/completions`, {
           method: 'POST',
@@ -3165,7 +3165,7 @@ async function handleBotPost(req: VercelRequest, res: VercelResponse): Promise<v
           })
         })
           .then(async (resp1) => {
-            // 
+            // console.log(resp.body);
 
             let text = await resp1.text();
 
@@ -3196,18 +3196,18 @@ async function handleBotPost(req: VercelRequest, res: VercelResponse): Promise<v
             })
               .then(async (resp2) => {
                 let json = await resp2.json();
-                
+                console.log(json);
               })
               .catch((error) => {
-                
+                console.log(error);
               });
           })
           .catch((error) => {
-            
+            console.log(error);
           });
       })
       .catch((error) => {
-        
+        console.log(error);
       });
 
     // await fetch(BOT_MESSAGES_URL, {
@@ -3225,7 +3225,7 @@ async function handleBotPost(req: VercelRequest, res: VercelResponse): Promise<v
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
-  
+  console.log(req.body);
   res.send(req.body);
 
   switch (req.method) {
@@ -3270,7 +3270,7 @@ async function handleGet(req: VercelRequest, res: VercelResponse): Promise<void>
 
   try {
     const { data } = await axios.get(URL, { params, headers }).catch((error) => {
-      
+      console.log('ERROR', error);
       throw error;
     });
 
@@ -3386,7 +3386,7 @@ async function handlePost(req: VercelRequest, res: VercelResponse): Promise<void
   //     'Content-Type': 'application/json',
   //     apikey: process.env.NEXT_PUBLIC_REACT_APP_COMETCHAT_REST_API_KEY || '', // Store your API key in an environment variable
   //   };
-  //   
+  //   console.log(req.headers['onBehalfOf']);
   //   if (req.headers['onBehalfOf']) {
   //     headers['onBehalfOf'] = req.headers['onBehalfOf'] as string;
   //   }
@@ -3900,8 +3900,8 @@ export default async function acceptCallback(req: NextApiRequest, res: NextApiRe
       return res.status(400).json({ error: 'Invalid ID token' });
     }
 
-    
-    
+    console.log('token', decoded);
+    console.log('id_token', decodedIdToken);
 
     const invites = await Invite.findOne({
       status: 'pending',
@@ -3910,7 +3910,7 @@ export default async function acceptCallback(req: NextApiRequest, res: NextApiRe
     });
 
     if (!invites) {
-      
+      console.log('Invites:', invites);
       return res.status(200).json({ error: 'No invites found' });
     }
 
@@ -3966,7 +3966,7 @@ export default async function acceptCallback(req: NextApiRequest, res: NextApiRe
 
     await OrganizationModel.findOneAndUpdate({ _id: org._id }, { $push: { users: user._id } });
 
-    
+    console.log('Organization:', nuOrg);
     // // Validate the callback data
 
   } catch (error) {
@@ -4027,7 +4027,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === 'GET') {
       const token = req.query.token;
-      
+      console.log('token', token);
       if (!token) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
@@ -4101,7 +4101,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).end(`Method ${req.method} Not Allowed`);
     }
   } catch (error) {
-    
+    console.log('error', error);
     res.status(500).json({ error: 'Failed to process request' });
   }
 }
@@ -4372,7 +4372,7 @@ export default async function jwtRoute(req: NextApiRequest, res: NextApiResponse
 
     res.status(200).json({ token });
   } catch (error) {
-    
+    console.log(error);
     res.status(500).json({ error: 'Failed to generate JWT token' });
   }
 }
@@ -5482,11 +5482,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'POST') {
-      
+      console.log('req.body', req.body);
       return await PromptController.post(req, res);
     }
   } catch (error) {
-    
+    console.log('error', error);
 
     return res.status(500).json({ error: 'Failed to fetch prompt data' });
   }
@@ -5708,12 +5708,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.write(`data: ${JSON.stringify(parsedChunk)}\n\n`);
       }
-      // 
+      // console.log(fullResponse);
     }
 
     res.end();
   } catch (error) {
-    
+    console.log(error);
     res.status(500).json({ message: error });
   }
 }
@@ -5800,7 +5800,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const query = h.query as unknown as string;
       const response = h.response as unknown as string;
 
-      
+      console.log(query, response);
     }
 
     const prompt = pModel;
@@ -5844,7 +5844,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.end();
   } catch (error) {
-    
+    console.log(error);
     res.status(500).json({ message: error });
   }
 }
@@ -5862,13 +5862,13 @@ import { PromptDocument } from 'backend/schemas/Prompt';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const isAuthenticated = await verify(req, res);
-    
+    console.log('isAuthenticated', isAuthenticated);
     if (!isAuthenticated) {
       return res.status(401).json({ error: 'User is not authenticated' });
     }
 
     const { id } = req.query;
-    
+    console.log((isAuthenticated.clientEnvId as Pick<IEnvironment, '_id'>)._id);
 
     const flag = await PromptFlag.findOne({
       _id: id as string,
@@ -5886,7 +5886,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const promptToInvoke = `${prompt.system_message}\n\n${modelFormatting?.user_prefix} Hello!\n\n${modelFormatting?.assistant_prefix} `;
 
-    
+    console.log(promptToInvoke);
 
     const completion = await Invoke({
       // prompt: 'Help Humans\n\nHuman: Hello!\n\nAssistant: ',
@@ -5899,7 +5899,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       ...JSON.parse(completion)
     });
   } catch (error) {
-    
+    console.log('Error', error);
     // Handle any errors that occur during the invocation
     res.status(500).json({ error: error });
   }
@@ -7437,7 +7437,7 @@ const RunPage = ({ layout, threadIdOverride }: RunPageProps) => {
 
       const temp = paragon.getIntegrationMetadata();
 
-      
+      console.log('temp', temp);
       setIntMeta(temp);
     };
 
@@ -7452,7 +7452,7 @@ const RunPage = ({ layout, threadIdOverride }: RunPageProps) => {
     if (e.key === '@' || e.key === '#' || e.key === '/') {
       // we need to handle the case where the user is typing a message and they type '@' or '#' or '/'
       // we need to show a popper with a list of users or tags
-      
+      console.log("User is typing a message and they typed '@' or '#' or '/'", e.key);
 
       switch (e.key) {
         case '#':
@@ -7490,7 +7490,7 @@ const RunPage = ({ layout, threadIdOverride }: RunPageProps) => {
       handleSend({
         message: formik.values.message
       });
-      
+      console.log('User is typing a message and they pressed enter');
     }
   };
 
@@ -7759,7 +7759,7 @@ const CreateHistoryItem: React.FC = () => {
 
       const thread_json = await newThread.json();
 
-      
+      console.log('thread_json', thread_json);
 
       router.push(`/chat/thread/${thread_json.id}`);
     };
@@ -9146,17 +9146,17 @@ const ExpensePage = () => {
 
   const handlePrint = () => {
     // Implement print functionality
-    
+    console.log('Print expenses');
   };
 
   const handleExport = () => {
     // Implement export to CSV functionality
-    
+    console.log('Export expenses to CSV');
   };
 
   const handleCreateExpense = () => {
     // Implement create new expense functionality
-    
+    console.log('Create new expense');
   };
 
   return (

@@ -48,9 +48,9 @@ export class QuickbooksController {
 
   @Get('query')
   async query(@Body() req, @Headers() headers, @Query() queryParameters) {
-    
-    
-    
+    console.log('body', req);
+    console.log('headers', headers);
+    console.log('queryParameters', queryParameters);
 
     const query = this.tool.constructQuery(queryParameters);
 
@@ -73,10 +73,11 @@ export class QuickbooksController {
     const output = await results.json();
 
     if (results.status !== 200) {
+      console.log('output', output.output.Fault);
       return JSON.stringify(output);
     }
 
-    
+    console.log('output', output.output);
 
     return JSON.stringify({
       status: results.status,

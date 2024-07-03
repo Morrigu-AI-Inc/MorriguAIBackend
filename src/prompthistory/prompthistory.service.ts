@@ -235,6 +235,8 @@ export class PrompthistoryService {
       });
     }
 
+    console.log('history', history);
+
     // in this one we find the last pair in the history and update the queryresponse
 
     await history.save();

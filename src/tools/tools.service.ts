@@ -16,6 +16,8 @@ export class ToolsService {
   ): Promise<ToolDocument> {
     const foundTool = await this.toolModel.findOne({ name: tool.name });
 
+    console.log('foundTool', foundTool);
+
     if (!foundTool) {
       return this.toolModel.create(tool);
     }
@@ -26,6 +28,7 @@ export class ToolsService {
   }
 
   async searchToolsV2(searchTerm: string): Promise<Partial<ToolDocument>[]> {
+    console.log('searchTerm', searchTerm);
     const aggregation = [
       {
         $search: {
@@ -67,6 +70,7 @@ export class ToolsService {
   }
 
   async searchTools(searchTerm: string): Promise<ToolDocument[]> {
+    console.log('searchTerm', searchTerm);
     const aggregation = [
       {
         $search: {

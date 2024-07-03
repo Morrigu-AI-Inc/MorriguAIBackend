@@ -14,6 +14,7 @@ export class SlackController {
 
   @Post('events')
   async handleEvent(@Req() req, @Res() response) {
+    console.log(req.body);
     const { type, event } = req.body;
 
     if (type === 'url_verification') {

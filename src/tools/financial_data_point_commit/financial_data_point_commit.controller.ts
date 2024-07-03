@@ -14,10 +14,10 @@ export class FinancialDataPointCommitController {
   async getFinancialDataPointCommit(
     @Query('payload') payload: string,
   ): Promise<any> {
-    
+    console.log('getFinancialDataPointCommit payload:', JSON.parse(payload));
     const data = JSON.parse(JSON.parse(payload));
 
-    
+    console.log(data);
 
     this.datumEntryModel.create({
       date: data.datum.Date,

@@ -146,7 +146,7 @@ export class GenerativeService {
 
         files.push(attachment);
 
-        //
+        // console.log('File uploaded:', response, attachment);
 
         await fsPromises.unlink(tempFilePath);
       } catch (error) {
@@ -155,7 +155,7 @@ export class GenerativeService {
       }
     }
 
-    //
+    // console.log('Files:', files);
 
     const msg = await this.openai.beta.threads.messages.create(threadId, {
       role: 'user',
@@ -175,13 +175,13 @@ export class GenerativeService {
       }) as any,
     });
 
-    //
+    // console.log('Message:', msg);
 
     const threadMessage = await this.threadMessageModel.create({
       ...msg,
     });
 
-    //
+    // console.log('Thread Message:', threadMessage);
 
     const savedMsg = await this.messageModel.create({
       ...msg,
@@ -189,7 +189,7 @@ export class GenerativeService {
       meta: msg,
       owner: thread.owner,
     });
-    //
+    // console.log('Message:', alternateInstruction);
 
     return savedMsg;
   }
@@ -232,7 +232,7 @@ export class GenerativeService {
       },
     );
 
-    //
+    // console.log('Add:', add);
 
     // this.openai.beta.threads.create({
     //   model: assistant.model,

@@ -63,10 +63,10 @@ export class ExpenseService {
   }
 
   async getExpenses(userId: string): Promise<ExpenseDocument[]> {
-    
+    console.log(userId);
     const user = await this.userModel.findOne({ id: userId }).exec();
 
-    
+    console.log(user);
 
     if (!user) {
       throw new Error('User not found');
@@ -78,8 +78,10 @@ export class ExpenseService {
         .populate('media owner category vendor')
         .exec();
 
+      console.log(results);
       return results;
     } catch (error) {
+      console.log(error);
       return [];
     }
    
@@ -118,6 +120,7 @@ export class ExpenseService {
       data: MediaDocument;
     }[],
   ): Promise<ExpenseDocument> {
+    console.log('vendor', vendor);
     const user = await this.userModel.findOne({ id: owner }).exec();
 
     const expense = await this.expenseModel.create({

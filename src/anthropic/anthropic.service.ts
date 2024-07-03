@@ -73,6 +73,7 @@ export class AnthropicService {
       'runPromptWithToolsNonStreaming',
       JSON.stringify(messages, null, 2),
     );
+    console.log('runPromptWithToolsNonStreaming');
 
     // ensure they alternate
     const msgList = [];
@@ -135,6 +136,9 @@ export class AnthropicService {
           content: message.content,
         };
       });
+
+    console.log('non-streaming', JSON.stringify(filterMessages, null, 2));
+    console.log('runPromptNonStreaming');
 
     return this.anthropic.messages.create({
       model: 'claude-3-sonnet-20240229',

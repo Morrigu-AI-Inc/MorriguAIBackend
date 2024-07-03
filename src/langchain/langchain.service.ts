@@ -44,7 +44,7 @@ export class LangchainService {
       checkpointer,
     });
 
-    //
+    // console.log('app', app);
 
     const finalState = await app
 
@@ -60,6 +60,7 @@ export class LangchainService {
       )
       .catch((e) => console.error(e));
 
+    console.log('finalState', finalState);
     return finalState;
   };
 

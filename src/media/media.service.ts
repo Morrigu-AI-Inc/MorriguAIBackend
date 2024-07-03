@@ -126,6 +126,7 @@ export class MediaService {
       // Return the response
       return media;
     } catch (error) {
+      console.log('Error uploading file to S3:', error);
       // Return the error
       return error;
     }

@@ -16,6 +16,7 @@ export class ListingController {
   constructor(private readonly listingService: ListingService) {}
   @Get()
   getAllListings(@Request() req): Promise<ListingDocument[]> {
+    console.log('req.user', req.headers);
     try {
       return this.listingService.getAllListings();
     } catch (error) {

@@ -38,7 +38,7 @@ export class QuickbooksQueryCustomersController {
 
       const sqlSelect = `SELECT * FROM Customer`; // we'll refine this later
 
-      
+      console.log('sqlStatement', sqlSelect);
 
       const results = await fetch(
         `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?query=${sqlSelect}&minorversion=70`,
@@ -53,7 +53,7 @@ export class QuickbooksQueryCustomersController {
       );
 
       const jsonResults = await results.json();
-      
+      console.log('results', jsonResults);
 
       const result = await parseStringPromise(jsonResults.output, {
         explicitArray: false,

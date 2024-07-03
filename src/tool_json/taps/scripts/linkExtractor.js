@@ -69,13 +69,13 @@ async function generateSchemaForHtml(html, filename) {
     const response = await bedrock.send(command);
     const schema = JSON.parse(new TextDecoder().decode(response.body))
       .content[0].text;
-    
+    console.log(schema);
     const outputPath = path.join(
       './links',
       `${path.basename(filename, '.html')}.json`,
     );
     await writeFile(outputPath, schema, { encoding: 'utf8' });
-    
+    console.log(`Schema for ${filename} saved to ${outputPath}`);
   } catch (error) {
     console.error(`Error generating schema for ${filename}:`, error);
   }

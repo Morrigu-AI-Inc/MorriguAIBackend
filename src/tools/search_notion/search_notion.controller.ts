@@ -53,6 +53,8 @@ export class SearchNotionController {
 
       const jsonResults = await results.json();
 
+      console.log('jsonResults', jsonResults.output);
+
       return {
         result: {
           tool_name: 'search_notion',

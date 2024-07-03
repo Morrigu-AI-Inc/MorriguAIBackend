@@ -8,7 +8,7 @@ export class Xml2JsonServiceService {
       // Attempt to isolate XML content from potential preceding text
       const xml = this.extractXmlContent(input);
 
-      
+      console.log('xml-converted', xml);
 
       const result = await parseStringPromise(xml, {
         explicitArray: false,
@@ -16,10 +16,11 @@ export class Xml2JsonServiceService {
         stripPrefix: true,
       });
 
-      
+      console.log('result', result);
 
       return result;
     } catch (error) {
+      console.log('error', error);
       throw new Error('Failed to process input');
     }
   }

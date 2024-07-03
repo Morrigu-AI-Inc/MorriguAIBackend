@@ -56,8 +56,9 @@ export class ProductService {
 
   async findAll(supplier: string) {
     try {
+      console.log('supplier', supplier);
       if (!Types.ObjectId.isValid(supplier)) {
-        return [];
+        return []
       }
 
       const supplierId = new Types.ObjectId(supplier);

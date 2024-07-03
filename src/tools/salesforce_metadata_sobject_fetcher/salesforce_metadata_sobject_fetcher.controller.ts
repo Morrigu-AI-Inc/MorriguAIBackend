@@ -32,7 +32,7 @@ export class SalesforceMetadataSobjectFetcherController {
         },
       );
 
-      
+      console.log('validatedVals', validatedVals);
 
       const results = await fetch(
         `${process.env.PARAGON_URL}/sdk/proxy/salesforce/sobject/${sobj}`,
@@ -46,7 +46,7 @@ export class SalesforceMetadataSobjectFetcherController {
         },
       );
 
-      
+      console.log('results', results);
 
       const jsonResults = await results.json();
 

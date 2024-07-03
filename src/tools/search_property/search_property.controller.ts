@@ -32,12 +32,12 @@ export class SearchPropertyController {
         return result.includes('realtor' || 'redfin' || 'zillow' || 'trulia');
       });
 
-      
+      console.log(results);
 
       const data =
         await this.actionsService.fetchTopFiveLinksText(filteredToRedfin);
 
-      
+      console.log('data', data);
 
       return {
         result: {

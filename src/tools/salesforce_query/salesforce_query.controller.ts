@@ -20,6 +20,7 @@ export class SalesforceQueryController {
     @Req() req,
   ) {
     try {
+      console.log('SQL Query Parameters', select, from, where, maxlimit);
       if (!select || !from) {
         throw new BadRequestException(
           'Both select and from parameters are required.',
@@ -34,6 +35,8 @@ export class SalesforceQueryController {
       if (maxlimit) {
         query += ` LIMIT ${maxlimit}`;
       }
+
+      console.log('Constructed query', query);
 
       const results = await fetch(
         `${process.env.PARAGON_URL}/sdk/proxy/salesforce/query?q=${query.trim()}`,
@@ -51,6 +54,8 @@ export class SalesforceQueryController {
       }
 
       const output = await results.json();
+
+      console.log('output', output);
     } catch (error) {
       console.error('Error fetching data from Salesforce', error);
     }

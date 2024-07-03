@@ -10,6 +10,9 @@ export class SlackApiIntegrationController {
     @Query('method') method: string,
   ) {
     try {
+      console.log('Slack API Integration', body);
+      console.log('Slack API Integration', req.query);
+
       const fetchOps = {
         method: method,
         headers: {
@@ -44,6 +47,10 @@ export class SlackApiIntegrationController {
     @Query('queryParameters') queryParameters: any,
   ) {
     try {
+      console.log('Slack API Integration', endpoint);
+
+      console.log('Slack API Integration', req.query);
+
       const fetchOps = {
         method: method,
         headers: {
@@ -54,6 +61,8 @@ export class SlackApiIntegrationController {
         },
       };
 
+      console.log('fetchOps', fetchOps);
+
       const results = await fetch(
         `${process.env.PARAGON_URL}/sdk/proxy/slack/${endpoint}?${new URLSearchParams(req.query)}`,
         fetchOps,
@@ -61,8 +70,11 @@ export class SlackApiIntegrationController {
 
       const response = await results.json();
 
+      console.log('response', response);
+
       return response;
     } catch (error) {
+      console.log('error', error);
       return {
         error: error,
       };

@@ -32,6 +32,7 @@ export class SalesVolumeService {
 
     // Insert sample data
     await this.salesVolumeModel.insertMany(sampleData);
+    console.log('Sales forecast data initialized.');
   }
 
   // Method to create a new forecast

@@ -12,7 +12,7 @@ export class AuthController {
   @Get('callback')
   @UseGuards(AuthGuard('auth0'))
   callback(@Req() req) {
-    //
+    // console.log(req.user);
     // This route will handle the Auth0 callback after successful authentication
     // You can access the authenticated user's information from the req.user object
   }

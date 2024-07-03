@@ -22,7 +22,7 @@ export class GetNotionPageController {
         };
       }
 
-      
+      console.log('page_id', page_id);
 
       const results = await fetch(
         `${process.env.PARAGON_URL}/sdk/proxy/notion/v1/pages/${page_id}`,
@@ -35,6 +35,7 @@ export class GetNotionPageController {
           },
         },
       ).then((response) => {
+        console.log('response', response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

@@ -15,6 +15,9 @@ export class GetToolDescriptionController {
         jsonObj.tool_name,
       );
 
+      console.log('toolDescription', toolDescription);
+
+      console.log('toolDescription', toolDescription);
       return {
         result: {
           tool_name: 'get_tool_description',

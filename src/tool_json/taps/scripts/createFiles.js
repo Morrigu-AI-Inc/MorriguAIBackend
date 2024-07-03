@@ -28,6 +28,8 @@ function createSnakeCasedFiles(items, baseDir = '.') {
 
     // Write JSON content to the file (creates file if it doesn't exist)
     fs.writeFileSync(fullPath, content, { flag: 'w' });
+
+    console.log(`JSON file created: ${fullPath}`);
   });
 }
 

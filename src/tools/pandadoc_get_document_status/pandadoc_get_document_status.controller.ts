@@ -34,6 +34,8 @@ export class PandadocGetDocumentStatusController {
 
       const jsonResults = await results.json();
 
+      console.log('jsonResults', jsonResults);
+
       return {
         result: {
           tool_name: 'pandadoc_get_document_status',

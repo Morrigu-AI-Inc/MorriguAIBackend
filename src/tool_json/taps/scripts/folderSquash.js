@@ -13,6 +13,7 @@ async function concatenateFiles(sourceDir, outputFile) {
     );
     ig = ignore().add(gitignore.split(/\r?\n/)); // Handle potential Windows line endings
   } catch (error) {
+    console.log('No .gitignore file found or error reading it:', error);
   }
 
   async function traverseDirectory(currentDir) {
@@ -62,6 +63,7 @@ async function concatenateFiles(sourceDir, outputFile) {
     // Ensure the output file is created or cleared if it exists
     await fs.writeFile(outputFile, '');
     await traverseDirectory(sourceDir);
+    console.log('All files have been concatenated into:', outputFile);
   } catch (error) {
     console.error('An error occurred:', error);
   }

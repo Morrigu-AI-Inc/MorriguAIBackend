@@ -23,6 +23,7 @@ export class DepartmentController {
     @Body() createDepartmentDto: CreateDepartmentDto,
     @UserAuth() user: any,
   ) {
+    console.log('createDepartmentDto', user);
     return this.departmentService.create(createDepartmentDto);
   }
 

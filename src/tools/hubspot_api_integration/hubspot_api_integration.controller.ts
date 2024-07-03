@@ -9,6 +9,7 @@ export class HubspotApiIntegrationController {
   ) {
     try {
       const validPayload = JSON.parse(JSON.parse(payload));
+      console.log('validPayload', validPayload);
 
       delete validPayload?.body?.body?.token || null;
 
@@ -27,6 +28,8 @@ export class HubspotApiIntegrationController {
         body: validPayload.body ? JSON.stringify(validPayload.body) : null,
       };
 
+      console.log('fetchOps', fetchOps);
+
       if (validPayload.method !== 'POST') {
         delete fetchOps.body;
       }
@@ -38,8 +41,11 @@ export class HubspotApiIntegrationController {
 
       const response = await results.json();
 
+      console.log('response', response);
+
       return response;
     } catch (error) {
+      console.log('error', error);
       return {
         message: 'Failed to get Hubspot API integration',
         error: error.message,

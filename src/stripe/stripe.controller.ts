@@ -56,6 +56,7 @@ export class StripeController {
     @Param('customerId') customerId: string,
     @Body() cardDto: object,
   ) {
+    console.log('Saving card:', cardDto);
     return this.stripeService.saveCard(customerId, {
       card: cardDto,
     });

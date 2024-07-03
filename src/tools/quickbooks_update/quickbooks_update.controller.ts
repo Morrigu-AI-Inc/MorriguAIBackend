@@ -47,6 +47,7 @@ export class QuickbooksUpdateController {
 
         const json = await results.json();
 
+        console.log('create results', json);
         return json;
       }
 
@@ -79,6 +80,7 @@ export class QuickbooksUpdateController {
 
         const json = await results.json();
 
+        console.log('update results', json);
         return json;
       }
 
@@ -102,6 +104,8 @@ export class QuickbooksUpdateController {
         );
 
         const json = await results.json();
+
+        console.log('results', json);
 
         return json;
       }

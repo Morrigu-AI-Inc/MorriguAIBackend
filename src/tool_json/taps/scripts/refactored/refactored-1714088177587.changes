@@ -336,7 +336,7 @@ const Integrations = () => {
 
       const temp = paragon.getIntegrationMetadata();
 
-      
+      console.log('temp', temp);
       setIntMeta(temp);
     };
 
@@ -348,7 +348,7 @@ const Integrations = () => {
 
   useEffect(() => {
     const integrations = intMeta.map((integ: { type: string; name: string; icon: string }) => {
-      
+      console.log('integ', integ);
       return {
         id: integ.type,
         slug: integ.type,
@@ -359,7 +359,7 @@ const Integrations = () => {
         action: () =>
           paragon.connect(integ.type, {
             onSuccess(event, user) {
-              
+              console.log(`${integ.name} connected`, user);
             },
             onError(error) {
               console.error(`${integ.name} error`, error);
@@ -403,12 +403,12 @@ const Integrations = () => {
               {
                 accessor: 'actions',
                 Cell: ({ cell }) => {
-                  
+                  console.log(cell.row.original);
                   return (
                     <Stack direction={'row'} justifyContent={'flex-end'}>
                       <Button
                         onClick={() =>
-                          paragon.connect(cell.row.original.slug, { onSuccess: () => 
+                          paragon.connect(cell.row.original.slug, { onSuccess: () => console.log(`${cell.row.original.name} connected`) })
                         }
                       >
                         Manage
@@ -430,7 +430,7 @@ const Integrations = () => {
                 advanced lead management, sales automation, and analytics features, driving growth and success in your business.
               </Typography>
               <Button
-                onClick={() => paragon.connect('quickbooks', { onSuccess: () => }
+                onClick={() => paragon.connect('quickbooks', { onSuccess: () => console.log('HubSpot connected') })}
                 variant={'contained'}
               >
                 Manage
