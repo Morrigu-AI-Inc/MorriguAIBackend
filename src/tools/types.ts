@@ -145,13 +145,20 @@ export type InputSchema = {
 };
 
 export abstract class BaseTool {
-  name?: string;
-  description?: string;
-  input_schema?: ToolProperties | ToolEndpoint;
+  name: string;
+  description: string;
+  input_schema: ToolProperties | ToolEndpoint;
   features?: string[];
   use_cases?: string[];
   benefits?: string[];
   implementation?: string;
   conclusion?: string;
+  public toJsonTool() {
+    return {
+      name: this.name,
+      description: this.description,
+      input_schema: this.input_schema,
+    };
+  }
   [key: string]: any;
 };

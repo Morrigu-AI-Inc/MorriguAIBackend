@@ -5,22 +5,14 @@ import { parseStringPromise, Builder } from 'xml2js';
 export class Xml2JsonServiceService {
   async convertXmlToJson(input: string): Promise<any> {
     try {
-      // Attempt to isolate XML content from potential preceding text
-      const xml = this.extractXmlContent(input);
-
-      console.log('xml-converted', xml);
-
-      const result = await parseStringPromise(xml, {
+      const result = await parseStringPromise(input, {
         explicitArray: false,
         ignoreAttrs: true,
         stripPrefix: true,
       });
 
-      console.log('result', result);
-
       return result;
     } catch (error) {
-      console.log('error', error);
       throw new Error('Failed to process input');
     }
   }

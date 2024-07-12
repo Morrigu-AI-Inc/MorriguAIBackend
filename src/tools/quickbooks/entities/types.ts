@@ -1,3 +1,8 @@
+import {
+  purchaseOrderSchema,
+  vendorSchema,
+} from 'src/tool_json/compiled_taps/quickbooks';
+
 export namespace QuickBooks {
   export interface Email {
     Address: string;
@@ -78,6 +83,9 @@ export namespace QuickBooks {
     VendorAddr: Address;
     MetaData: MetaData;
   }
+
+  export const PURCHASE_ORDER_SCHEMA = purchaseOrderSchema;
+  export const VENDOR_SCHEMA = vendorSchema;
 
   export interface RootObject {
     PurchaseOrder: PurchaseOrder;

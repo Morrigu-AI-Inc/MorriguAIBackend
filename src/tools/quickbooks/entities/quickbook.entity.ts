@@ -1,5 +1,5 @@
 import { BaseTool } from 'src/tools/types';
-
+import { QuickBooks } from './types';
 
 export const QuickbooksSelectQuery = {
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -94,7 +94,8 @@ export const QuickbooksQuery = {
 
 export class QuickbookQueryTool extends BaseTool {
   public name = 'tools/quickbooks/query';
-  public description = 'Quickbooks Query Tool';
+  public description =
+    'Quickbooks Query Tool - Search for Vendors, Purchase Orders, etc.';
   public input_schema = {
     type: 'object',
     properties: {
@@ -105,7 +106,7 @@ export class QuickbookQueryTool extends BaseTool {
       },
       method: {
         type: 'string',
-        enum: ['GET'],
+        enum: ['GET', 'POST'],
         description: 'HTTP method used for the request',
         default: 'GET',
       },
@@ -127,6 +128,7 @@ export class QuickbookQueryTool extends BaseTool {
         type: 'object',
         description: 'Payload to send to the tool',
         default: {},
+        oneOf: [QuickBooks.PURCHASE_ORDER_SCHEMA, QuickBooks.VENDOR_SCHEMA],
       },
     },
     required: [
@@ -168,7 +170,7 @@ export class QuickbookQueryTool extends BaseTool {
 
       queryParameters.where_clause = JSON.parse(queryParameters.where_clause);
       queryParameters.where_clause.forEach((where, index) => {
-        query += `${where.property_name} ${where.operator} ${where.value}`;
+        query += `${where.property_name} ${where.operator} "${where.value}"`;
         if (index < queryParameters.where_clause.length - 1) {
           query += ' AND ';
         }

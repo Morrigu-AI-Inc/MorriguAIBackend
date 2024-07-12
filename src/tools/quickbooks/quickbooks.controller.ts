@@ -48,12 +48,7 @@ export class QuickbooksController {
 
   @Get('query')
   async query(@Body() req, @Headers() headers, @Query() queryParameters) {
-    console.log('body', req);
-    console.log('headers', headers);
-    console.log('queryParameters', queryParameters);
-
     const query = this.tool.constructQuery(queryParameters);
-
     const url = `${process.env.PARAGON_URL}/sdk/proxy/quickbooks/query?query=${query}`;
 
     const results = await fetch(`${url}`, {
@@ -66,22 +61,18 @@ export class QuickbooksController {
       },
     });
 
-    console.log(
-      `querying Quickbooks with query: ${queryParameters.select_statement}`,
-    );
-
     const output = await results.json();
 
     if (results.status !== 200) {
       console.log('output', output.output.Fault);
-      return JSON.stringify(output);
+      return output;
     }
 
-    console.log('output', output.output);
+    const json = await this.xmltoJsonService.convertXmlToJson(output.output);
 
     return JSON.stringify({
       status: results.status,
-      data: output.output,
+      data: json,
     });
 
     // return this.quickbooksService.query();

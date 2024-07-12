@@ -371,7 +371,7 @@ export class OpenaiService {
               {
                 endpoint: endpoint,
                 // this might have nested arrays as values so we need to stringify them
-                ...Object.entries(queryParameters).reduce(
+                ...Object.entries(queryParameters || {}).reduce(
                   (acc, [key, value]) => {
                     acc[key] = JSON.stringify(value);
                     return acc;
@@ -402,7 +402,7 @@ export class OpenaiService {
 
             return {
               tool_call_id: call.id,
-              output: JSON.stringify(callRespJson, null, 1),
+              output: JSON.stringify(callRespJson),
             };
           }
 
@@ -436,7 +436,7 @@ export class OpenaiService {
 
           return {
             tool_call_id: call.id,
-            output: JSON.stringify(callRespJson, null, 1),
+            output: JSON.stringify(callRespJson),
           };
         }),
       );
@@ -453,7 +453,7 @@ export class OpenaiService {
     const stout = outputs.map((output) => {
       return {
         tool_call_id: output.id,
-        output: JSON.stringify(output.out, null, 1),
+        output: JSON.stringify(output.out),
       };
     });
 
@@ -911,13 +911,6 @@ export class OpenaiService {
     observer?,
   ) => {
     try {
-      if (observer) {
-        observer?.next({
-          type: 'messageDelta',
-          data: event,
-        });
-      }
-
       const messageDelta = await this.MessageDeltaModel.create({
         ...event.data,
       });
@@ -929,6 +922,7 @@ export class OpenaiService {
   public streamLoop = async (stream, observer, token) => {
     for await (const event of stream as any) {
       observer?.next({
+        // TODO: ONE OF THESE IS NOT LIKE THE OTHER
         type: event.event,
         data: event.data,
       });
@@ -988,18 +982,21 @@ export class OpenaiService {
                 call_results = await this.get_call_results(calls, token);
                 console.log('call_results', call_results);
               }
+              try {
+                const stream2 =
+                  await this.openai.beta.threads.runs.submitToolOutputs(
+                    event.data.thread_id,
+                    event.data.id,
+                    {
+                      tool_outputs: call_results,
+                      stream: true,
+                    },
+                  );
 
-              const stream2 =
-                await this.openai.beta.threads.runs.submitToolOutputs(
-                  event.data.thread_id,
-                  event.data.id,
-                  {
-                    tool_outputs: call_results,
-                    stream: true,
-                  },
-                );
-
-              await this.streamLoop(stream2, observer, token);
+                await this.streamLoop(stream2, observer, token);
+              } catch (error) {
+                console.error('Error submitting tool outputs', error);
+              }
             }
           }
 
@@ -1116,6 +1113,9 @@ export class OpenaiService {
       ...options,
       assistant_id: assistantId,
       stream: true,
+      // tool_choice: 'required',
+      parallel_tool_calls: true,
+      temperature: 0.2,
     });
 
     await this.streamLoop(stream, observer, token);

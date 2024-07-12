@@ -5,6 +5,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './http-exception.filter';
 import * as bodyParser from 'body-parser';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 function checkEnvironment(configService: ConfigService) {
   const requiredEnvVars = [
@@ -53,6 +54,15 @@ async function bootstrap() {
       },
     }),
   );
+
+  const config = new DocumentBuilder()
+    .setTitle('Rigu AI API')
+    .setDescription('The Rigu AI API description')
+    .setVersion('1.0')
+    .addTag('rigu-ai')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(configService.get<string>('PORT'));
 }

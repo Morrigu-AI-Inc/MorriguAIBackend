@@ -91,6 +91,7 @@ export const deref_vendor = deref(vendor_schema, {
 
 export const vendorSchema = {
   type: 'object',
+  title: 'Vendor',
   description:
     'Suffix, Title, MiddleName, and FamilyName, GivenName are conditionally required.',
   required: [],

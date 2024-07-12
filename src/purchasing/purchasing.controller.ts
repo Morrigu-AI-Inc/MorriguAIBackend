@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { PurchasingService } from './purchasing.service';
 import { CreatePurchasingDto } from './dto/create-purchasing.dto';
 import { UpdatePurchasingDto } from './dto/update-purchasing.dto';
@@ -13,8 +22,8 @@ export class PurchasingController {
   }
 
   @Get()
-  findAll() {
-    return this.purchasingService.findAll();
+  findAll(@Query('owner') owner: string) {
+    return this.purchasingService.findAll(owner);
   }
 
   @Get(':id')
@@ -23,7 +32,10 @@ export class PurchasingController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePurchasingDto: UpdatePurchasingDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePurchasingDto: UpdatePurchasingDto,
+  ) {
     return this.purchasingService.update(id, updatePurchasingDto);
   }
 

@@ -106,6 +106,8 @@ import { LineitemModule } from './lineitem/lineitem.module';
 import { LangchainModule } from './langchain/langchain.module';
 import { V1Module } from './v1/v1.module';
 import { ApiKeyMiddleware } from './apikeys/apikeys.middleware';
+import { AddressModule } from './address/address.module';
+import { FsisModule } from './fsis/fsis.module';
 
 @Module({
   imports: [
@@ -269,6 +271,10 @@ import { ApiKeyMiddleware } from './apikeys/apikeys.middleware';
     LangchainModule,
 
     V1Module,
+
+    AddressModule,
+
+    FsisModule,
   ],
   controllers: [
     AppController,

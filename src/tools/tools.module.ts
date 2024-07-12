@@ -59,6 +59,8 @@ import { Co2ImpactController } from './co2_impact/co2_impact.controller';
 import { CreatePurchaseOrderModule } from './create_purchase_order/create_purchase_order.module';
 import { ProductEntryModule } from './product_entry/product_entry.module';
 import { QuickbooksModule } from './quickbooks/quickbooks.module';
+import { NotepadModule } from './notepad/notepad.module';
+import { FsisMpiSearchModule } from './fsis_mpi_search/fsis_mpi_search.module';
 
 @Module({
   providers: [
@@ -127,6 +129,8 @@ import { QuickbooksModule } from './quickbooks/quickbooks.module';
     CreatePurchaseOrderModule,
     ProductEntryModule,
     QuickbooksModule,
+    NotepadModule,
+    FsisMpiSearchModule,
   ],
   exports: [
     

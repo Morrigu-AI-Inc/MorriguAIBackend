@@ -13,30 +13,30 @@ export class CreatePurchaseOrderController {
     @InjectModel('PurchaseOrder')
     private purchaseOrderModel: Model<PurchaseOrderDocument>,
   ) {
-    const tool = this.toolDescriptionModel
-      .findOne({
-        name: 'tools/create_purchase_order',
-      })
-      .then(async (tool) => {
-        if (!tool) {
-          return this.toolDescriptionModel.create(tool_json);
-        } else {
-          try {
-            await this.toolDescriptionModel.findOneAndUpdate(
-              { name: 'tools/create_purchase_order' },
-              tool_json,
-              { new: true },
-            );
-          } catch (error) {
-            console.log(error.message);
-            if (error instanceof Error) {
-              console.log(error.message);
-            }
-          }
+    // const tool = this.toolDescriptionModel
+    //   .findOne({
+    //     name: 'tools/create_purchase_order',
+    //   })
+    //   .then(async (tool) => {
+    //     if (!tool) {
+    //       return this.toolDescriptionModel.create(tool_json);
+    //     } else {
+    //       try {
+    //         await this.toolDescriptionModel.findOneAndUpdate(
+    //           { name: 'tools/create_purchase_order' },
+    //           tool_json,
+    //           { new: true },
+    //         );
+    //       } catch (error) {
+    //         console.log(error.message);
+    //         if (error instanceof Error) {
+    //           console.log(error.message);
+    //         }
+    //       }
 
-          return tool;
-        }
-      });
+    //       return tool;
+    //     }
+    //   });
   }
   @Get()
   async getPurchaseOrder(@Query('po_number') po_number: string) {

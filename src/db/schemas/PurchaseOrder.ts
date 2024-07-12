@@ -7,7 +7,8 @@ import { OrganizationDocument, Organization } from './Organization';
 
 export type PurchaseOrderDocument = PurchaseOrder & Document;
 
-enum POStatus {
+export enum POStatus {
+  CREATED = 'CREATED',
   SENT = 'SENT',
   ACCEPTED = 'ACCEPTED',
   PENDING = 'PENDING',
@@ -32,8 +33,13 @@ export class PurchaseOrder extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Supplier', required: true })
   supplier: Supplier;
 
-  @Prop({ type: Types.ObjectId, ref: 'LineItem', required: false, default: [] })
-  line_items: object[];
+  @Prop({
+    type: [Types.ObjectId],
+    ref: 'LineItem',
+    required: false,
+    default: [],
+  })
+  line_items: LineItem[];
 
   @Prop({ required: true })
   orderDate: Date;

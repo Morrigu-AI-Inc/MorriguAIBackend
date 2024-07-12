@@ -91,7 +91,7 @@ export class ToolSearchController {
           ...validPayload.queryParameters,
         },
       ).toString()}`;
-
+      console.log('Endpoint: ', validPayload.method);
       const fetchOps = {
         method: validPayload.method,
         headers: {

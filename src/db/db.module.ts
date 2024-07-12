@@ -67,6 +67,8 @@ import StepSchema, { modules } from './schemas/Step';
 import { messageDeltaModules } from './schemas/ThreadMessageDelta';
 import StepDeltaSchema from './schemas/StepDelta';
 import ThreadMessageSchema from './schemas/ThreadMessage';
+import { FSISMPIEstablishmentSchema } from './schemas/FSISMPIEstablishment';
+import { FSISEstDemographicSchema } from './schemas/FSISEstDemographic';
 
 const schemas = [
   MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }]),
@@ -183,10 +185,19 @@ const schemas = [
   MongooseModule.forFeature([{ name: 'LineItem', schema: LineItemSchema }]),
   MongooseModule.forFeature([{ name: 'Run', schema: RunSchema }]),
   MongooseModule.forFeature([{ name: 'StepDelta', schema: StepDeltaSchema }]),
-  MongooseModule.forFeature([{ name: 'ThreadMessage', schema: ThreadMessageSchema }]),
+  MongooseModule.forFeature([
+    { name: 'ThreadMessage', schema: ThreadMessageSchema },
+  ]),
   // OpenAI
   ...modules,
   ...messageDeltaModules,
+
+  MongooseModule.forFeature([
+    { name: 'FSISMPIEstablishment', schema: FSISMPIEstablishmentSchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'FSISEstDemographic', schema: FSISEstDemographicSchema },
+  ]),
 ];
 
 @Module({
