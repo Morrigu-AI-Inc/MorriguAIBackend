@@ -108,6 +108,7 @@ import { V1Module } from './v1/v1.module';
 import { ApiKeyMiddleware } from './apikeys/apikeys.middleware';
 import { AddressModule } from './address/address.module';
 import { FsisModule } from './fsis/fsis.module';
+import { UsdaDataModule } from './usda_data/usda_data.module';
 
 @Module({
   imports: [
@@ -275,6 +276,8 @@ import { FsisModule } from './fsis/fsis.module';
     AddressModule,
 
     FsisModule,
+
+    UsdaDataModule,
   ],
   controllers: [
     AppController,

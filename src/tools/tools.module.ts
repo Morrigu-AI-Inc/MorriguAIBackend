@@ -61,6 +61,7 @@ import { ProductEntryModule } from './product_entry/product_entry.module';
 import { QuickbooksModule } from './quickbooks/quickbooks.module';
 import { NotepadModule } from './notepad/notepad.module';
 import { FsisMpiSearchModule } from './fsis_mpi_search/fsis_mpi_search.module';
+import { BrandedFoodModule } from './branded_food/branded_food.module';
 
 @Module({
   providers: [
@@ -131,6 +132,7 @@ import { FsisMpiSearchModule } from './fsis_mpi_search/fsis_mpi_search.module';
     QuickbooksModule,
     NotepadModule,
     FsisMpiSearchModule,
+    BrandedFoodModule,
   ],
   exports: [
     

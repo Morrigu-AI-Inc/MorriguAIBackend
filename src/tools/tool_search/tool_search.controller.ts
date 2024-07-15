@@ -31,17 +31,7 @@ export class ToolSearchController {
 
     return {
       message: 'Search successful',
-      data: {
-        tools: [
-          ...tools.map((tool) => {
-            return {
-              name: tool.name,
-              description: tool.description,
-              properties: tool.input_schema,
-            };
-          }),
-        ],
-      },
+      data: tools,
     };
   }
 

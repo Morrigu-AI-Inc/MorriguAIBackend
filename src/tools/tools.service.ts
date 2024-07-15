@@ -11,9 +11,7 @@ export class ToolsService {
     private readonly toolModel: Model<ToolDocument>,
   ) {}
 
-  async updateTool(
-    tool: Partial<ToolDocument>,
-  ): Promise<ToolDocument> {
+  async updateTool(tool: Partial<ToolDocument>): Promise<ToolDocument> {
     const foundTool = await this.toolModel.findOne({ name: tool.name });
 
     console.log('foundTool', foundTool);
@@ -27,46 +25,50 @@ export class ToolsService {
       .exec();
   }
 
-  async searchToolsV2(searchTerm: string): Promise<Partial<ToolDocument>[]> {
+  async searchToolsV2(
+    searchTerm: string,
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<{
+    totalCount: number;
+    totalPages: number;
+    currentPage: number;
+    results: ToolDocument[];
+  }> {
     console.log('searchTerm', searchTerm);
     const aggregation = [
       {
         $search: {
           index: 'tools', // Use the actual name of your Atlas search index
-          compound: {
-            should: [
-              {
-                text: {
-                  query: searchTerm,
-                  path: 'tool_name', // Searches in tool_name
-                  score: { boost: { value: 3 } }, // Optional, boosts relevance score for matches in tool_name
-                },
-              },
-              {
-                text: {
-                  query: searchTerm,
-                  path: 'description', // Searches in description
-                  score: { boost: { value: 4 } }, // Optional, boosts relevance score for matches in tool_name
-                },
-              },
-            ],
+          text: {
+            query: searchTerm,
+            path: {
+              wildcard: '*',
+            },
           },
         },
       },
       {
-        $limit: 3, // Adjust based on your needs
+        $skip: (page - 1) * limit,
+      },
+      {
+        $limit: limit,
       },
     ];
 
-    const tools = await this.toolModel.aggregate(aggregation).exec();
+    const results = await this.toolModel.aggregate(aggregation).exec();
+    const totalCount = results.length;
+    const totalPages = Math.ceil(totalCount / limit);
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const paginatedResults = results.slice(startIndex, endIndex);
 
-    return tools.map((tool) => {
-      return {
-        name: tool.name,
-        description: tool.description,
-        input_schema: tool.input_schema,
-      };
-    });
+    return {
+      totalCount,
+      totalPages,
+      currentPage: page,
+      results: paginatedResults,
+    };
   }
 
   async searchTools(searchTerm: string): Promise<ToolDocument[]> {

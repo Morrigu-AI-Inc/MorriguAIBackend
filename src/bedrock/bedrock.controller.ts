@@ -874,7 +874,7 @@ export class BedrockController {
               system,
               2000,
               saved.chatHistory as unknown as ToolsBetaMessageParam[],
-              tools as Tool[],
+              tools.results as Tool[],
               [],
             );
 
@@ -944,7 +944,7 @@ export class BedrockController {
                 system,
                 2000,
                 uHist as unknown[] as ToolsBetaMessageParam[],
-                tools as Tool[],
+                tools.results as Tool[],
                 [],
               );
 

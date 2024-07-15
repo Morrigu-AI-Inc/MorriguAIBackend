@@ -45,7 +45,7 @@ export class FSISMPIEstablishment {
   district: number;
 
   @Prop({ required: true })
-  circuit: number;
+  circuit: string;
 
   @Prop({ required: true })
   size: string;

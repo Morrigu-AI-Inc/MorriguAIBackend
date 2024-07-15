@@ -69,6 +69,8 @@ import StepDeltaSchema from './schemas/StepDelta';
 import ThreadMessageSchema from './schemas/ThreadMessage';
 import { FSISMPIEstablishmentSchema } from './schemas/FSISMPIEstablishment';
 import { FSISEstDemographicSchema } from './schemas/FSISEstDemographic';
+import { BrandedFoodSchema } from './schemas/BrandedFood';
+import { FoodDataSchema } from './schemas/FoodData';
 
 const schemas = [
   MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }]),
@@ -197,6 +199,12 @@ const schemas = [
   ]),
   MongooseModule.forFeature([
     { name: 'FSISEstDemographic', schema: FSISEstDemographicSchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'BrandedFood', schema: BrandedFoodSchema },
+  ]),
+  MongooseModule.forFeature([
+    { name: 'FoodData', schema: FoodDataSchema },
   ]),
 ];
 

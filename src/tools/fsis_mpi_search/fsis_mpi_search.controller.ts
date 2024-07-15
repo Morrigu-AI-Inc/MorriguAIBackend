@@ -20,32 +20,12 @@ export class FsisMpiSearchController {
     private readonly fisService: FsisService,
   ) {}
 
-  @Post()
-  create(@Body() createFsisMpiSearchDto: CreateFsisMpiSearchDto) {
-    return this.fsisMpiSearchService.create(createFsisMpiSearchDto);
-  }
-
   @Get()
-  findAll(@Query() query) {
+  searchByAddress(@Query() query) {
     console.log('query', query);
     return this.fisService.searchByAddress(query);
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.fsisMpiSearchService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateFsisMpiSearchDto: UpdateFsisMpiSearchDto,
-  ) {
-    return this.fsisMpiSearchService.update(+id, updateFsisMpiSearchDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.fsisMpiSearchService.remove(+id);
-  }
 }
+
+
+

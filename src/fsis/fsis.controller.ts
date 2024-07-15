@@ -22,15 +22,41 @@ export class FsisController {
   }
 
   @Get()
-  findAll() {
-    return this.fsisService.findAll();
+  async findAll(@Query() query) {
+    const { limit = 10, page = 1 } = query;
+
+    const resp = await this.fsisService.listPageinated({
+      limit: parseInt(limit, 10),
+      page: parseInt(page, 10),
+    });
+
+    // console.log('resp', resp);
+
+    // console.log('data', data);
+
+    return {
+      data: resp,
+      limit: parseInt(limit, 10),
+      page: parseInt(page, 10),
+      count: resp.length,
+    };
   }
 
   @Get('address')
   searchByAddress(
     @Query() searchAddressDto: { street: string; city: string; state: string },
   ) {
-    return this.fsisService.searchByAddress(searchAddressDto);
+    const { street, city, state } = searchAddressDto;
+    return this.fsisService.searchByAddress({
+      street,
+      city,
+      state,
+    });
+  }
+
+  @Get('injest')
+  injest() {
+    return this.fsisService.ingest();
   }
 
   @Get(':id')

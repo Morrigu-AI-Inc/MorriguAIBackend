@@ -6,8 +6,8 @@ export class FSISEstDemographic extends Document {
   @Prop({ type: String })
   establishment_number: string;
 
-  @Prop({ type: String })
-  establishment_id: string;
+  @Prop({ type: Number })
+  establishment_id: number;
 
   @Prop({ type: String })
   establishment_name: string;
