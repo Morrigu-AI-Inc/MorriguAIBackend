@@ -206,6 +206,7 @@ export class UsdaDataService {
   async scrapeUsdaData() {
     for (const pageType of Object.keys(USDA_REPORTS_TYPES)) {
       setTimeout(() => {}, 1000);
+      console.log('Scraping:', pageType);
       await this.scrapeUsdaPage(pageType as USDA_REPORTS_TYPES);
     }
   }
@@ -223,11 +224,19 @@ export class UsdaDataService {
     const allReports = [];
     let hasMorePages = true;
 
+    console.log('Scraping:', pageType);
+
     while (hasMorePages) {
       try {
+        if (!URL_DOWNLOADS_PAGE_MAPPINGS[pageType]) {
+          hasMorePages = false;
+          break;
+        }
+
         const response = await fetch(
           `${URL_DOWNLOADS_PAGE_MAPPINGS[pageType]}?locale=en&page=${page}`,
         );
+
         if (!response.ok) {
           hasMorePages = false;
           break;
@@ -256,6 +265,9 @@ export class UsdaDataService {
           });
 
           if (foundReport) {
+            foundReport.fullText = data;
+            foundReport.reportType = pageType;
+            await foundReport.save();
             continue;
           }
 
@@ -263,6 +275,7 @@ export class UsdaDataService {
             textLink: txtLinks[i],
             pdfLink: pdfLinks[i],
             fullText: data,
+            reportType: pageType,
           });
 
           await report.save();
