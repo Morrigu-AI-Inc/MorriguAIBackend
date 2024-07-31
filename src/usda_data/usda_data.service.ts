@@ -16,7 +16,7 @@ import {
 // This is a service file. This will pull data from USDA reports and store it in the database.
 
 export enum USDA_REPORT_TYPES_ENUM {
-  LIVESTOCK_SLAUGHTER = 'lstk',
+  LIVESTOCK = 'LIVESTOCK',
 }
 
 export enum USDA_REPORTS_TYPES {
@@ -147,7 +147,7 @@ export class UsdaDataService {
   // CRONS Below
   async runAILogicOnUsdaReport(
     owner: string,
-    type: USDA_REPORT_TYPES_ENUM = USDA_REPORT_TYPES_ENUM.LIVESTOCK_SLAUGHTER,
+    type: USDA_REPORT_TYPES_ENUM = USDA_REPORT_TYPES_ENUM.LIVESTOCK,
   ) {
     const messages2 = [
       {
@@ -156,9 +156,9 @@ export class UsdaDataService {
       },
     ];
 
-    if (type === USDA_REPORT_TYPES_ENUM.LIVESTOCK_SLAUGHTER) {
+    if (type === USDA_REPORT_TYPES_ENUM.LIVESTOCK) {
       const allLstk = await this.usdaModel.find({
-        reportType: USDA_REPORT_TYPES_ENUM.LIVESTOCK_SLAUGHTER,
+        reportType: USDA_REPORT_TYPES_ENUM.LIVESTOCK,
       });
 
       console.log(allLstk.length);
