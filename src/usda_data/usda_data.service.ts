@@ -171,6 +171,12 @@ export class UsdaDataService {
       for (let i = 0; i < allLstk.length; i++) {
         const report = allLstk[i];
 
+        // if we already have a generated livestock report, skip
+
+        if(report.generated && report['generated']['lstk']) {
+          continue;
+        }
+
         let d: any = await this.openAiService.runSingleCall(
           analyze_livestock_slaughter_report(report.fullText),
           messages2,
@@ -179,6 +185,8 @@ export class UsdaDataService {
             mode: 'json',
           },
         );
+
+        console.log(d);
 
         const textVal = d.data[0].content[0].text.value;
         d = JSON.parse(textVal);
