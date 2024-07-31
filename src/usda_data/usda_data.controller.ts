@@ -34,7 +34,11 @@ export class UsdaDataController {
   }
 
   @Get('analyze')
-  async analyze(@Query('owner') owner: string, @Query('type') type: USDA_REPORT_TYPES_ENUM) {
+  async analyze(
+    @Query('owner') owner: string,
+    @Query('type')
+    type: USDA_REPORT_TYPES_ENUM = USDA_REPORT_TYPES_ENUM.LIVESTOCK,
+  ) {
     // await this.usdaDataService.scrapeUsdaData();
 
     const list = await this.usdaDataService.runAILogicOnUsdaReport(owner, type);
