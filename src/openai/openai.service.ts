@@ -162,11 +162,12 @@ export class OpenaiService {
           outerRun.thread_id,
           outerRun.id,
         );
-
+        console.log('run', run);
         if (run.status === 'completed') {
           const threadMessages = await this.openai.beta.threads.messages.list(
             outerRun.thread_id,
           );
+          console.log('threadMessages', threadMessages);
           return threadMessages;
         }
 

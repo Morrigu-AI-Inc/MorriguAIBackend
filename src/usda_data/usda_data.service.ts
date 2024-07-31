@@ -171,11 +171,9 @@ export class UsdaDataService {
       for (let i = 0; i < allLstk.length; i++) {
         const report = allLstk[i];
 
-        // if we already have a generated livestock report, skip
+        console.log('Analyzing:', report);
 
-        if(report.generated && report['generated']['lstk']) {
-          continue;
-        }
+        // if we already have a generated livestock report, ski
 
         let d: any = await this.openAiService.runSingleCall(
           analyze_livestock_slaughter_report(report.fullText),
@@ -186,7 +184,7 @@ export class UsdaDataService {
           },
         );
 
-        console.log(d);
+        console.log(d.data[0].content[0].text.value);
 
         const textVal = d.data[0].content[0].text.value;
         d = JSON.parse(textVal);
@@ -264,8 +262,6 @@ export class UsdaDataService {
 
         for (let i = 0; i < txtLinks.length; i++) {
           setTimeout(() => {}, 1000);
-          const response = await fetch(txtLinks[i]);
-          const data = await response.text();
 
           const foundReport = await this.usdaModel.findOne({
             textLink: txtLinks[i],
@@ -275,6 +271,9 @@ export class UsdaDataService {
           if (foundReport) {
             continue;
           }
+
+          const response = await fetch(txtLinks[i]);
+          const data = await response.text();
 
           const report = new this.usdaModel({
             textLink: txtLinks[i],
