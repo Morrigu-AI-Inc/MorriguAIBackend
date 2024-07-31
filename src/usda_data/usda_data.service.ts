@@ -56,7 +56,7 @@ const USDA_PAGE_SCRAPER_BASE_URL =
 
 // these are the pages that needs to be scraped for the data
 const URL_DOWNLOADS_PAGE_MAPPINGS = {
-  // lstk: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.lstk}`,
+  LIVESTOCK: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.lstk}`,
   // acrg: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.acrg}`,
   // agpr: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.agpr}`,
   // brls: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.brls}`,
@@ -265,9 +265,6 @@ export class UsdaDataService {
           });
 
           if (foundReport) {
-            foundReport.fullText = data;
-            foundReport.reportType = pageType;
-            await foundReport.save();
             continue;
           }
 

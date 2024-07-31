@@ -52,10 +52,6 @@ type GeneratedContent = {
   statistics: Statistics;
 };
 
-enum USDA_REPORT_TYPES_ENUM {
-  CATTLE_ON_FEED = 'CATTLE_ON_FEED',
-}
-
 
 @Schema({
   timestamps: true,
