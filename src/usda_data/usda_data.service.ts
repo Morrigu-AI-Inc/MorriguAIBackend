@@ -20,7 +20,7 @@ export enum USDA_REPORT_TYPES_ENUM {
 }
 
 export enum USDA_REPORTS_TYPES {
-  lstk = 'rx913p88g',
+  LIVESTOCK = 'rx913p88g',
   acrg = 'j098zb09z',
   agpr = 'c821gj76b',
   brls = 'gm80hv35d',
@@ -56,7 +56,7 @@ const USDA_PAGE_SCRAPER_BASE_URL =
 
 // these are the pages that needs to be scraped for the data
 const URL_DOWNLOADS_PAGE_MAPPINGS = {
-  LIVESTOCK: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.lstk}`,
+  LIVESTOCK: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.LIVESTOCK}`,
   // acrg: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.acrg}`,
   // agpr: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.agpr}`,
   // brls: `${USDA_PAGE_SCRAPER_BASE_URL}${USDA_REPORTS_TYPES.brls}`,
