@@ -29,6 +29,10 @@ export class FsisMpiSearchTool extends BaseTool {
 
   This tool facilitates searching for establishments using any combination of these optional fields. 
   The search will return establishments matching the provided criteria.
+
+  ==================OUTPUT_INSTRUCTIONS========================
+  Important: DO NOT OUTPUT the all the details only a list of names of the establishments that you suggest from the search results. Do not output the entire response.
+  ==================END_OUTPUT_INSTRUCTIONS========================
   `;
   public input_schema = {
     type: 'object',
