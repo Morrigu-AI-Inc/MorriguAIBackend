@@ -109,6 +109,82 @@ export class OpenaiService {
     return this.openai.beta.assistants.update(assistantId, assistant);
   }
 
+  // These below are for running one off calls to the API meaning that it is non-conversational and non-streaming
+
+  async runSingleCall(
+    instructions: string,
+    messages: {
+      role: string;
+      content: string;
+    }[],
+    owner: string,
+    opts?: {
+      mode: 'auto' | 'message' | 'json';
+    },
+  ) {
+    try {
+      const org = await this.organizationModel
+        .findOne({ _id: owner })
+        .populate('json_assistant assistant work_assistant');
+
+      if (!org) {
+        return {
+          error: 'Organization not found',
+        };
+      }
+
+      const assistant = org.work_assistant;
+
+      const messageArray = messages.map((message) => ({
+        role: message.role as 'assistant' | 'user',
+        content: message.content,
+      }));
+
+      const outerRun = await this.openai.beta.threads.createAndRun({
+        instructions: instructions,
+        assistant_id: assistant.id,
+        model: 'gpt-4o-mini',
+        tools: [],
+        thread: {
+          messages: messageArray,
+        },
+        response_format:
+          opts?.mode === 'json'
+            ? {
+                type: 'json_object',
+              }
+            : 'auto',
+      });
+
+      // loop until the run is completed
+      const waitRun = async () => {
+        const run = await this.openai.beta.threads.runs.retrieve(
+          outerRun.thread_id,
+          outerRun.id,
+        );
+
+        if (run.status === 'completed') {
+          const threadMessages = await this.openai.beta.threads.messages.list(
+            outerRun.thread_id,
+          );
+          return threadMessages;
+        }
+
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(waitRun());
+          }, 1000);
+        });
+      };
+
+      const run = await waitRun();
+
+      return run;
+    } catch (error) {
+      console.error('Error running single call', error);
+    }
+  }
+
   // Threads
   // async createThread(thread: ThreadParams) {
   //   return this.openai.beta.threads.create(thread);
@@ -493,6 +569,12 @@ export class OpenaiService {
   };
 
   public getMessages = async (threadId: string) => {
+    const dbMessages = await this.threadMessageModel.find({
+      thread_id: threadId,
+    });
+
+    console.log('dbMessages', dbMessages);
+
     const messages = (await this.openai.beta.threads.messages.list(threadId))
       .data;
 
@@ -947,6 +1029,7 @@ export class OpenaiService {
           });
           break;
         case 'thread.run.requires_action':
+          console.log('EVENT', event);
           if (event.data.required_action.type === 'submit_tool_outputs') {
             // calls
             const calls =
@@ -973,9 +1056,10 @@ export class OpenaiService {
                 });
 
                 call_results = calls.map((call) => {
+                  // we want to store this somewhere for our records to render back to the UI
                   return {
                     tool_call_id: call.id,
-                    output: 'Displayed in frontend successfully',
+                    output: JSON.stringify(call),
                   };
                 });
               } else {

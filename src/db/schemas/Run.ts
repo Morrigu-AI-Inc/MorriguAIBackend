@@ -9,6 +9,9 @@ export type RunDocument = Run & Document;
 })
 export class Run extends Document {
   @Prop({ required: true })
+  id: string;
+
+  @Prop({ required: true })
   assistant_id: string;
 
   @Prop({ required: true })
@@ -33,7 +36,7 @@ export class Run extends Document {
   completed_at: Date | null;
 
   @Prop({ type: Object, default: null })
-  required_action: Record<string, any> | null;
+  required_action: any;
 
   @Prop({ type: Object, default: null })
   last_error: Record<string, any> | null;

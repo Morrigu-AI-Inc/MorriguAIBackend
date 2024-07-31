@@ -71,6 +71,7 @@ import { FSISMPIEstablishmentSchema } from './schemas/FSISMPIEstablishment';
 import { FSISEstDemographicSchema } from './schemas/FSISEstDemographic';
 import { BrandedFoodSchema } from './schemas/BrandedFood';
 import { FoodDataSchema } from './schemas/FoodData';
+import USDAReportSchema from './schemas/USDAReport';
 
 const schemas = [
   MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }]),
@@ -203,9 +204,8 @@ const schemas = [
   MongooseModule.forFeature([
     { name: 'BrandedFood', schema: BrandedFoodSchema },
   ]),
-  MongooseModule.forFeature([
-    { name: 'FoodData', schema: FoodDataSchema },
-  ]),
+  MongooseModule.forFeature([{ name: 'FoodData', schema: FoodDataSchema }]),
+  MongooseModule.forFeature([{ name: 'USDAReport', schema: USDAReportSchema }]),
 ];
 
 @Module({

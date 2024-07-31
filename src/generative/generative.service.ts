@@ -5,7 +5,13 @@ import { AssistantService } from 'src/assistant/assistant.service';
 import OpenAI from 'openai';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AssistantDocument, Media, User, UserDocument } from 'src/db/schemas';
+import {
+  AssistantDocument,
+  Media,
+  ToolOutputDocument,
+  User,
+  UserDocument,
+} from 'src/db/schemas';
 import { ThreadDocument } from 'src/db/schemas/Thread';
 import { MessageDocument } from 'src/db/schemas/Message';
 import { promises as fsPromises, unlink } from 'fs';
@@ -13,6 +19,8 @@ import { createReadStream } from 'fs';
 import { AttachmentDocument } from 'src/db/schemas/Attachment';
 import { MediaService } from 'src/media/media.service';
 import { ThreadMessageDocument } from 'src/db/schemas/ThreadMessage';
+import { RunDocument } from 'src/db/schemas/Run';
+import { RunStepDocument } from 'src/db/schemas/Step';
 @Injectable()
 export class GenerativeService {
   private openai: OpenAI;
@@ -24,6 +32,12 @@ export class GenerativeService {
     @InjectModel('Thread') private threadModel: Model<ThreadDocument>,
     @InjectModel('Message') private messageModel: Model<MessageDocument>,
     @InjectModel('User') private userModel: Model<UserDocument>,
+    @InjectModel('Run')
+    private runModel: Model<RunDocument>,
+    @InjectModel('RunStep')
+    private runStepModel: Model<RunStepDocument>,
+    @InjectModel('ToolOutput')
+    private toolOutputModel: Model<ToolOutputDocument>,
     @InjectModel('ThreadMessage')
     private threadMessageModel: Model<ThreadMessageDocument>,
     @InjectModel('Attachment')
@@ -62,18 +76,55 @@ export class GenerativeService {
       throw new Error('Thread not found');
     }
 
-    // get all messages
-
     const messages = await this.threadMessageModel.find({
       thread_id: thread.id,
     });
 
+    // get the run steps to recreate the thread
+    const runSteps = await this.runStepModel.find({
+      thread_id: thread.id,
+    });
+
+    // error check
+    if (!runSteps) {
+      throw new Error('Run steps not found');
+    }
+
+    const runStepsGrouped = runSteps.reduce((acc, step) => {
+      if (!acc[step.run_id]) {
+        acc[step.run_id] = [];
+      }
+
+      acc[step.run_id].push(step);
+
+      return acc;
+    }, {});
+
+
+    /// below basically adds the steps to the messages and return the thread. 
+    /// In a long worded way we are now able to iterate through the messages on the front end when we render the thread. 
+    /// When we find something that was a tool-call we can now render the tool output.
     return {
       ...thread,
-      messages,
+      messages: messages.map((msg) => {
+        return {
+          ...msg.toObject(),
+          // we want to find the message_creation step and add the message to the object to return
+          steps: runStepsGrouped[msg.run_id]?.map((step) => {
+            if (step.step_details.type === 'message_creation') {
+              return {
+                ...step.toObject(),
+                message: messages.find(
+                  (m) =>
+                    m.id === step.step_details?.message_creation?.message_id,
+                ),
+              };
+            }
+            return step.toObject();
+          }),
+        };
+      }),
     };
-
-
   }
 
   async createThread(owner: UserDocument, alternate_instructions?: string) {
