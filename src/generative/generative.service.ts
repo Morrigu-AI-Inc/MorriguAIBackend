@@ -101,6 +101,9 @@ export class GenerativeService {
     }, {});
 
 
+    console.log('Run Steps:', JSON.stringify(runStepsGrouped, null, 2));
+
+
     /// below basically adds the steps to the messages and return the thread. 
     /// In a long worded way we are now able to iterate through the messages on the front end when we render the thread. 
     /// When we find something that was a tool-call we can now render the tool output.

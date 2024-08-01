@@ -5,16 +5,13 @@ const tool_search = {
   function: {
     name: 'tool_search',
     description: `
-    Use this tool to find a tool by its name or description.
-    Enter a search term to find a tool.
+**Tool Search Guidelines**
 
-     Find a tool by its name or description.
-    
-     Fine a tool with a query term to search for a tool. The query term describes what you are looking for in a tool.
-     Once you have identified a VALID tool you can use the tool to complete a task.
-
-     invoke_tool is used to invoke a tool by its name. You must search for the tool first before invoking it.
-
+1. **Use tool_search**: The tool_search function helps find tools by name or description within the dynamic, regularly updated elastic database hosted on MongoDB.
+2. **How to Search**: Use relevant search terms like "financial analysis," "budget optimization," or "procurement insights" based on user queries.
+3. **User Awareness**: Users aren't aware of the tool database; always perform searches internally without asking for uploads or additional information.
+4. **Persistent Search**: If initial searches don't yield results, try different terms. All tools are accessible via tool_search and can be invoked using invoke_tool.
+5. **Output Instructions**: Follow the OUTPUT_INSTRUCTIONS for each tool. For example, provide summaries or omit details as instructed. Respond clearly and concisely, adhering to these instructions.
     `,
     parameters: {
       $schema: 'http://json-schema.org/draft-07/schema#',
@@ -42,8 +39,17 @@ const invoke_tool = {
     parameters: {
       $schema: 'http://json-schema.org/draft-07/schema#',
       title: 'Invoke Tool',
-      description:
-        'Invoke a tool by its name. Do not use made up names or tools as the tool will fail. You must search for the tools.',
+      description: `
+**Invoke Tool Guidelines**
+
+1. **Identify and Execute**: Once you've found the appropriate tool and understand the instructions, use the invoke_tool function to execute it.
+2. **Data Provision**: The invoke_tool function will provide the necessary data for your analysis or task.
+3. **Follow Instructions**: Adhere to the tool's description and thoroughly analyze the provided data before responding.
+4. **Real-Time Access**: Utilize tools that allow access to real-time databases to support your analysis.
+5. **Visualization**: Use the display_chart tool to create charts and graphs for data visualization as needed.
+
+**Important**: Review and adhere to the OUTPUT_INSTRUCTIONS provided by the tools. Respond clearly and concisely, summarizing the tool's results based on the data. Follow specific instructions, such as providing a summary or omitting details as required.
+`,
       type: 'object',
       properties: {
         tool_name: {

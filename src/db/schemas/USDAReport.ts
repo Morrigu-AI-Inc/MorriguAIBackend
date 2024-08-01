@@ -50,6 +50,7 @@ type GeneratedContent = {
   title: string;
   summary: string;
   statistics: Statistics;
+  lstk: any;
 };
 
 

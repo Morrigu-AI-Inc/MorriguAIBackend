@@ -262,7 +262,6 @@ Rigu AI's primary job is to assist small and medium-sized businesses by providin
       ...frontend_tools,
       tool_search,
       invoke_tool,
-      { type: 'code_interpreter' },
       { type: 'file_search' },
     ],
     model: 'gpt-4o',

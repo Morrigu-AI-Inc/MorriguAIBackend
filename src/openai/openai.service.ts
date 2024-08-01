@@ -6,7 +6,7 @@ import { Observable, Subscriber } from 'rxjs';
 import { AssistantService } from 'src/assistant/assistant.service';
 import { ToolOutputDocument } from 'src/db/schemas/ToolOutput';
 import { OrganizationService } from 'src/organization/organization.service';
-import tools, { frontend_tools } from 'src/tool_json';
+import tools, { backend_tools, frontend_tools } from 'src/tool_json';
 import * as jwt from 'jsonwebtoken';
 import { UserDocument } from 'src/db/schemas/User';
 import { OrganizationDocument } from 'src/db/schemas/Organization';
@@ -25,6 +25,8 @@ import { ThreadMessage } from 'src/db/schemas/ThreadMessage';
 import { MessageDelta } from 'src/db/schemas/ThreadMessageDelta';
 import { AssistantCreateParams } from 'openai/resources/beta/assistants';
 import { ThreadCreateParams } from 'openai/resources/beta/threads/threads';
+import tool_search, { invoke_tool } from 'src/tool_json/compiled_taps/tooling';
+import display_chart from 'src/tool_json/frontend/display_chart';
 
 type Step = {
   id: string;
@@ -143,7 +145,7 @@ export class OpenaiService {
       const outerRun = await this.openai.beta.threads.createAndRun({
         instructions: instructions,
         assistant_id: assistant.id,
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         tools: [],
         thread: {
           messages: messageArray,
@@ -162,12 +164,12 @@ export class OpenaiService {
           outerRun.thread_id,
           outerRun.id,
         );
-        console.log('run', run);
+
         if (run.status === 'completed') {
           const threadMessages = await this.openai.beta.threads.messages.list(
             outerRun.thread_id,
           );
-          console.log('threadMessages', threadMessages);
+
           return threadMessages;
         }
 
@@ -1004,11 +1006,13 @@ export class OpenaiService {
 
   public streamLoop = async (stream, observer, token) => {
     for await (const event of stream as any) {
+      if(event.event !== 'error' && event.event !== 'done') {
       observer?.next({
         // TODO: ONE OF THESE IS NOT LIKE THE OTHER
         type: event.event,
         data: event.data,
       });
+    }
 
       if (event.data == '[DONE]') console.log('done', event);
       switch (event.event) {
@@ -1068,6 +1072,9 @@ export class OpenaiService {
                 console.log('call_results', call_results);
               }
               try {
+                // TODO: this is doing a premature close error on the stream
+
+                 
                 const stream2 =
                   await this.openai.beta.threads.runs.submitToolOutputs(
                     event.data.thread_id,
@@ -1176,17 +1183,17 @@ export class OpenaiService {
           });
           break;
         case 'error':
-          observer?.next({
-            type: 'error',
-            data: event,
-          });
+          // observer?.next({
+          //   type: 'error',
+          //   data: event,
+          // });
           console.log('error', event);
           break;
         case 'done':
-          observer?.next({
-            type: 'streamEnd',
-            data: {},
-          });
+          // observer?.next({
+          //   type: 'streamEnd',
+          //   data: {},
+          // });
           console.log('done', event);
           break;
       } // end switch
@@ -1194,16 +1201,23 @@ export class OpenaiService {
   };
 
   public runObj = async (threadId, options, token, assistantId, observer) => {
-    const stream = await this.openai.beta.threads.runs.create(threadId, {
-      ...options,
-      assistant_id: assistantId,
-      stream: true,
-      // tool_choice: 'required',
-      parallel_tool_calls: true,
-      temperature: 0.2,
-    });
-
-    await this.streamLoop(stream, observer, token);
+    try {
+      const stream = await this.openai.beta.threads.runs.create(threadId, {
+        ...options,
+        assistant_id: assistantId,
+        stream: true,
+        tools: [tool_search, invoke_tool, display_chart],
+        model: 'gpt-4o',
+        tool_resources: null,
+        // tool_choice: 'required',
+        parallel_tool_calls: true,
+        // temperature: 0.2,
+      });
+  
+      await this.streamLoop(stream, observer, token);
+    } catch (error) {
+      console.error('Error running object', error);
+    }
   };
 
   public async runAssistant(

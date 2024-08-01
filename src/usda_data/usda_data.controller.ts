@@ -45,6 +45,15 @@ export class UsdaDataController {
     return list;
   }
 
+  @Get('/historicalGetSlaughterDataByState')
+  async historicalGetSlaughterDataByState() {
+    try {
+      return await this.usdaDataService.historicalGetSlaughterDataByState();
+    } catch (error) {
+      return error;
+    }
+  }
+
   @Get('/:slug')
   async getOne(@Param('slug') slug: string) {
     return this.usdaDataService.findBySlug(slug);

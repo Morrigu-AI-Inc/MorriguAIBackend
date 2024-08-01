@@ -2,74 +2,62 @@ const display_chart = {
   type: 'function',
   function: {
     name: 'display_chart',
-    description:
-      'Use this tool when rendering data as much as possible so that the user can see it in a better format. Configures data parameters for various types of charts using react-apexcharts, supporting a wide range of chart types like line, area, bar, pie, and more, according to the specified properties in the Props interface. Renders the chart with the specified data parameters. When responding to the tool_outputs just summarize the data and do not include the chart itself. The chart will be displayed in the frontend.',
+    description: `
+**Displaying Data Guidelines**
+
+The **display_chart tool** renders visual data representations like charts and graphs, making complex data understandable. Here's how to use it:
+
+1. **Title**: Provide a concise title summarizing the chart's main topic.
+2. **Caption**: Include a detailed caption explaining the data, axes, and notable trends.
+3. **Message**: Add a user-friendly message with context or conclusions drawn from the data.
+4. **Chart Type**: Specify the appropriate chart type (e.g., bar, line) for the data.
+5. **Series Data**: Define series objects with names and data points.
+6. **Dimensions**: Optionally set chart dimensions (width and height).
+7. **Options**: Configure additional properties like colors, legends, and tooltips.
+
+Use this tool to clearly and accurately present data insights, aiding data-driven decision-making. Ensure clarity and relevance in all elements to effectively convey key information.
+`,
     parameters: {
       type: 'object',
       properties: {
         title: {
           type: 'string',
-          description: 'Title of the chart.',
+          description:
+            '- **title**: (string) The title of the chart, providing a quick understanding of the data displayed.',
         },
         caption: {
           type: 'string',
           description:
-            'Caption of the chart. Be very detailed and explain the chart.',
+            '- **caption**: (string) A detailed description of the chart, explaining the data, axes, and any significant insights.',
         },
         message: {
           type: 'string',
-          description: 'Message to the user about the chart.',
+          description:
+            '**message**: (string) A brief message to the user, highlighting the importance or conclusions from the chart.',
         },
-
         chart_type: {
           type: 'string',
           enum: ['area', 'bar', 'column', 'line'],
-          description: 'Defines the type of the chart to be rendered.',
+          description: `**chart_type**: (string) The type of chart (e.g., 'area', 'bar', 'column', 'line'). Select the most appropriate type based on the data and analysis goals.`,
         },
         series: {
           type: 'array',
-          description: 'Array of series objects representing the chart data.',
+          description: `**series**: (array) An array of series objects, each representing a data series in the chart. Series objects include:
+  - **name**: (string) The name of the series.
+  - **data**: (array) The data points for the series. For bar, scatter, or similar types, data points can be objects with 'x' and 'y' values.`,
           oneOf: [
-            // {
-            //   chart_type: ['mixed'],
-            //   type: 'object',
-            //   items: {
-            //     type: 'object',
-            //     description:
-            //       'Series object representing a series in the chart.',
-            //     properties: {
-            //       name: {
-            //         type: 'string',
-            //         description: 'Name of the series.',
-            //       },
-            //       series_type: {
-            //         type: 'string',
-            //         enum: ['column', 'line'],
-            //         description: 'Type of the series.',
-            //       },
-            //       data: {
-            //         type: 'array',
-            //         items: {
-            //           type: 'number',
-            //         },
-            //       },
-            //     },
-            //     required: ['name', 'type', 'data'],
-            //   },
-            // },
             {
               chart_type: ['line'],
               type: 'object',
               items: {
                 type: 'object',
                 description:
-                  'Series object representing a series in the chart.',
+                  'A series object representing a line series in the chart.',
                 properties: {
                   name: {
                     type: 'string',
-                    description: 'Name of the series.',
+                    description: 'The name of the series.',
                   },
-
                   data: {
                     type: 'array',
                     items: {
@@ -86,19 +74,17 @@ const display_chart = {
               items: {
                 type: 'object',
                 description:
-                  'Series object representing a series in the chart.',
+                  'A series object representing an area, bar, or column series in the chart.',
                 properties: {
                   name: {
                     type: 'string',
-                    description: 'Name of the series.',
+                    description: 'The name of the series.',
                   },
-
                   data: {
                     type: 'array',
                     oneOf: [
                       {
                         items: {
-                          // For types like bar, scatter where data points are objects
                           type: 'object',
                           properties: {
                             x: { type: 'string' },
@@ -120,31 +106,39 @@ const display_chart = {
             {
               type: 'string',
               description:
-                'Width of the chart, which can be expressed in pixels or percentage.',
+                'The width of the chart, specified as a string (e.g., "100%" or "400px").',
             },
-            { type: 'number', description: 'Width of the chart in pixels.' },
+            {
+              type: 'number',
+              description: 'The width of the chart in pixels.',
+            },
           ],
-          description: 'Specifies the width of the chart.',
+          description:
+            '**width**: (string or number) The width of the chart, either as a specific number of pixels or a percentage.',
         },
         height: {
           oneOf: [
             {
               type: 'string',
               description:
-                'Height of the chart, which can be expressed in pixels or percentage.',
+                'The height of the chart, specified as a string (e.g., "100%" or "300px").',
             },
-            { type: 'number', description: 'Height of the chart in pixels.' },
+            {
+              type: 'number',
+              description: 'The height of the chart in pixels.',
+            },
           ],
-          description: 'Specifies the height of the chart.',
+          description:
+            '**height**: (string or number) The height of the chart, similarly defined.',
         },
         options: {
           type: 'object',
           additionalProperties: true,
           description:
-            'A complex object holding various configuration options specific to the type of chart being rendered.',
+            '**options**: (object) An optional object containing additional configuration options, specific to the chart type and requirements.',
         },
       },
-      required: ['type', 'series', 'title', 'caption', 'message'],
+      required: ['title', 'caption', 'message', 'chart_type', 'series'],
     },
   },
 };

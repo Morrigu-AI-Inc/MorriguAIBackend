@@ -161,8 +161,6 @@ export class UsdaDataService {
         reportType: USDA_REPORT_TYPES_ENUM.LIVESTOCK,
       });
 
-      console.log(allLstk.length);
-
       // loop through all the livestock slaughter reports and analyze them
 
       // run the AI logic on the report
@@ -170,8 +168,6 @@ export class UsdaDataService {
       const all = [];
       for (let i = 0; i < allLstk.length; i++) {
         const report = allLstk[i];
-
-        console.log('Analyzing:', report);
 
         // if we already have a generated livestock report, ski
 
@@ -184,10 +180,10 @@ export class UsdaDataService {
           },
         );
 
-        console.log(d.data[0].content[0].text.value);
-
         const textVal = d.data[0].content[0].text.value;
         d = JSON.parse(textVal);
+
+        console.log(d);
 
         const updated = await this.usdaModel.findOneAndUpdate(
           { _id: report._id },
@@ -199,7 +195,11 @@ export class UsdaDataService {
           { new: true },
         );
 
-        console.log(updated);
+        // not saving above?
+
+        await updated.save();
+
+        console.log(updated.generated);
 
         all.push(updated);
       }
@@ -293,6 +293,132 @@ export class UsdaDataService {
         hasMorePages = false;
       }
     }
+
+    return allReports;
+  }
+
+  // [
+  //   {
+  //     "$unwind": "$generated.lstk.cattleSlaughterDataByState.states"
+  //   },
+  //   {
+  //     "$project": {
+  //       "_id": 0,
+  //       "state": "$generated.lstk.cattleSlaughterDataByState.states.state",
+  //       "total_head_slaughtered": "$generated.lstk.cattleSlaughterDataByState.states.total_head_slaughtered",
+  //       "average_live_weight": "$generated.lstk.cattleSlaughterDataByState.states.average_live_weight",
+  //       "date": "$generated.lstk.totalHeadSlaughtered.date"
+  //     }
+  //   },
+  //   {
+  //     "$group": {
+  //       "_id": "$date",
+
+  //       "states_data": {
+  //         "$push": {
+  //           "state": "$state",
+  //           "total_head_slaughtered": "$total_head_slaughtered",
+  //           "average_live_weight": "$average_live_weight"
+  //         }
+  //       }
+  //     }
+  //   },
+  //   {
+  //     "$project": {
+  //       "_id": 0,
+  //       "date": "$_id",
+  //       "total_head_slaughtered": 1,
+  //       "average_live_weight": 1,
+  //       "states_data": 1
+  //     }
+  //   },
+  //   {
+  //     "$sort":{
+  //       "date": 1
+  //     }
+  //   }
+  // ]
+  async historicalGetSlaughterDataByState() {
+    // implement this as aggregation
+    const allReports = await this.usdaModel.aggregate([
+      {
+        "$unwind": "$generated.lstk.cattleSlaughterDataByState.states"
+      },
+      {
+        "$project": {
+          "_id": 0,
+          "state": "$generated.lstk.cattleSlaughterDataByState.states.state",
+          "total_head_slaughtered": {
+            "$multiply": ["$generated.lstk.cattleSlaughterDataByState.states.total_head_slaughtered", 1000]
+          },
+          "average_live_weight": "$generated.lstk.cattleSlaughterDataByState.states.average_live_weight",
+          "total_live_weight": {
+            "$replaceOne": {
+              "input": { "$toString": "$generated.lstk.cattleSlaughterDataByState.states.total_live_weight" },
+              "find": ".",
+              "replacement": ""
+            }
+          },
+          "date": "$generated.lstk.totalHeadSlaughtered.date"
+        }
+      },
+      {
+        "$project": {
+          "_id": 0,
+          "date": "$date",
+          "state": "$state",
+          "total_head_slaughtered": "$total_head_slaughtered",
+          "average_live_weight": "$average_live_weight",
+          "total_live_weight": {
+            "$toInt": "$total_live_weight"
+          }
+        }
+      },
+      {
+        "$project": {
+          "_id": 0,
+          "date": "$date",
+          "state": "$state",
+          "total_head_slaughtered": "$total_head_slaughtered",
+          "average_live_weight": "$average_live_weight",
+          "total_live_weight": {
+            "$multiply": ["$total_live_weight", 1000]
+          }
+        }
+      },
+      {
+        "$group": {
+          "_id": "$date",
+          
+          
+          "states_data": {
+            "$push": {
+              "state": "$state",
+              "total_head_slaughtered": "$total_head_slaughtered",
+              "average_live_weight": "$average_live_weight",
+              "total_live_weight": "$total_live_weight"
+            }
+          }
+        }
+      },
+      {
+        "$project": {
+          "_id": 0,
+          "date": "$_id",
+          "total_head_slaughtered": 1,
+          "average_live_weight": 1,
+        
+          "states_data": 1
+        }
+      },
+      {
+        "$sort":{
+          "date": -1
+        }
+      }
+    ]).exec();
+
+    console.log(allReports);
 
     return allReports;
   }
