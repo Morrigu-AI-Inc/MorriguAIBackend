@@ -31,7 +31,8 @@ export class FsisMpiSearchTool extends BaseTool {
   The search will return establishments matching the provided criteria.
 
   ==================OUTPUT_INSTRUCTIONS========================
-  Important: DO NOT OUTPUT the all the details only a list of names of the establishments that you suggest from the search results. Do not output the entire response.
+  When talking to the user about the results, you should output the following information:
+  - name (string): The name of the establishment.
   ==================END_OUTPUT_INSTRUCTIONS========================
   `;
   public input_schema = {
