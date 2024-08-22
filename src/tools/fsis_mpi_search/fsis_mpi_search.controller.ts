@@ -22,7 +22,7 @@ export class FsisMpiSearchController {
 
   @Get()
   searchByAddress(@Query() query) {
-    console.log('query', query);
+    
     return this.fisService.searchByAddress(query);
   }
 }

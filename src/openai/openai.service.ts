@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import OpenAI from 'openai';
 import { Observable, Subscriber } from 'rxjs';
 import { AssistantService } from 'src/assistant/assistant.service';
 import { ToolOutputDocument } from 'src/db/schemas/ToolOutput';
 import { OrganizationService } from 'src/organization/organization.service';
-import tools, { backend_tools, frontend_tools } from 'src/tool_json';
+import { frontend_tools } from 'src/tool_json';
 import * as jwt from 'jsonwebtoken';
 import { UserDocument } from 'src/db/schemas/User';
 import { OrganizationDocument } from 'src/db/schemas/Organization';
@@ -27,6 +27,9 @@ import { AssistantCreateParams } from 'openai/resources/beta/assistants';
 import { ThreadCreateParams } from 'openai/resources/beta/threads/threads';
 import tool_search, { invoke_tool } from 'src/tool_json/compiled_taps/tooling';
 import display_chart from 'src/tool_json/frontend/display_chart';
+import { Batch } from 'src/db/schemas/Batch';
+import path from 'path';
+import * as fs from 'fs';
 
 type Step = {
   id: string;
@@ -81,6 +84,8 @@ export class OpenaiService {
     private threadMessageModel: Model<ThreadMessage>,
     @InjectModel('MessageDelta')
     private MessageDeltaModel: Model<MessageDelta>,
+    @InjectModel('Batch')
+    private batchModel: Model<Batch>,
 
     private readonly assistantService: AssistantService,
     private readonly organizationService: OrganizationService,
@@ -111,7 +116,186 @@ export class OpenaiService {
     return this.openai.beta.assistants.update(assistantId, assistant);
   }
 
-  // These below are for running one off calls to the API meaning that it is non-conversational and non-streaming
+  // Function to find an organization by ID
+  async findOrganizationById(owner, organizationModel) {
+    const org = await organizationModel.findOne({ _id: owner });
+    if (!org) {
+      throw new Error('Organization not found');
+    }
+    return org;
+  }
+
+  // Function to validate commands
+  validateCommands(commands) {
+    if (!commands || (commands as { error: string }).error) {
+      throw new Error('Commands not found');
+    }
+  }
+
+  // Function to generate command templates
+  generateCommandTemplates(commands, commandTemplate) {
+    return (commands as any[]).map((command) => commandTemplate(command));
+  }
+
+  // Function to create instruction string
+  createInstructionString(instructions, jsonSchemaToFollow) {
+    return `
+    ${instructions}
+    
+    Respond in JSON following the below schema:
+    ${jsonSchemaToFollow}
+  `;
+  }
+
+  // Function to execute a single command
+  async executeCommand(
+    command,
+    assistantId,
+    instructions,
+    openai,
+    thread_id = null,
+  ) {
+    const options = {
+      instructions,
+      assistant_id: assistantId,
+      max_completion_tokens: 128000,
+      model: 'gpt-4o',
+      tools: [],
+    };
+    let outerRun;
+    if (thread_id) {
+      outerRun = await this.openai.beta.threads.runs.create(thread_id, {
+        ...options,
+        response_format: {
+          type: 'json_object',
+        },
+      });
+    } else {
+      outerRun = await openai.beta.threads.createAndRun({
+        ...options,
+        thread: {
+          messages: [
+            { role: 'assistant', content: 'Analyzing USDA report now' },
+          ],
+        },
+        response_format: {
+          type: 'json_object',
+        },
+      });
+    }
+
+    return outerRun;
+  }
+
+  // Function to wait for run completion and retrieve the result
+  async waitForRunCompletion(openai, threadId, runId) {
+    const run = await openai.beta.threads.runs.retrieve(threadId, runId);
+    if (run.status === 'completed') {
+      const threadMessages = await openai.beta.threads.messages.list(threadId);
+      let threadMessagesStr = '';
+      for (const message of threadMessages.data.slice(0, -1)) {
+        threadMessagesStr += (message.content[0] as any).text.value;
+      }
+      try {
+        return JSON.parse(threadMessagesStr);
+      } catch (error) {
+        console.error('Error parsing JSON response', error);
+        return { error: 'Error parsing JSON response' };
+      }
+    } else {
+      console.log('Run not completed yet', run.status);
+    }
+
+    return new Promise((resolve) => {
+      setTimeout(
+        () => resolve(this.waitForRunCompletion(openai, threadId, runId)),
+        3000,
+      );
+    });
+  }
+
+  // Main function to run the loop of analysis commands
+  async runLoopOfCAnalysisCommands(
+    instructions,
+    commands,
+    owner,
+    callback,
+    commandTemplate,
+    opts,
+  ) {
+    try {
+      const org = await this.findOrganizationById(
+        owner,
+        this.organizationModel,
+      );
+      const assistant = org.work_assistant;
+
+      this.validateCommands(commands);
+
+      const commandTemplates = this.generateCommandTemplates(
+        commands,
+        commandTemplate,
+      );
+      let results = {};
+
+      for (const commandTemplate of commandTemplates) {
+        const inst = this.createInstructionString(
+          instructions,
+          commandTemplate,
+        );
+
+        console.log('inst', inst);
+        const outerRun = await this.executeCommand(
+          commandTemplate,
+          assistant.id,
+          inst,
+          this.openai,
+        );
+        const runResult = await this.waitForRunCompletion(
+          this.openai,
+          outerRun.thread_id,
+          outerRun.id,
+        );
+
+        console.log(runResult);
+        callback(runResult);
+        results = { ...results, ...runResult };
+      }
+
+      return results;
+    } catch (error) {
+      console.error('Error running loop of calls', error);
+      return { error: 'An error occurred during the analysis process' };
+    }
+  }
+
+  async runSchemaExtractionOnDocument(schema: any, doc: string){
+    const template = (schema, doc) => 
+      `Extract the following schema from the document provided:
+      ${JSON.stringify(schema, null, 2)}
+      Document:
+      ${doc}
+      `;
+    
+    const completion = this.openai.chat.completions.create({
+      messages: [
+        {
+          role: 'system',
+          content: template(schema, doc),
+        },
+        { role: 'assistant', content: 'Extracting' },
+      ],
+      model: 'gpt-4o',
+      response_format: {
+        type: 'json_object',
+      },
+      max_tokens: Infinity,
+    }).then((completion) => {
+      return JSON.parse(completion.choices[0].message.content);
+    })
+
+    return completion;
+  }
 
   async runSingleCall(
     instructions: string,
@@ -188,69 +372,6 @@ export class OpenaiService {
     }
   }
 
-  // Threads
-  // async createThread(thread: ThreadParams) {
-  //   return this.openai.beta.threads.create(thread);
-  // }
-
-  // async getThread(threadId: string) {
-  //   return this.openai.beta.threads.retrieve(threadId);
-  // }
-
-  // async deleteThread(threadId: string) {
-  //   return this.openai.beta.threads.del(threadId);
-  // }
-
-  // async updateThread(threadId: string, thread: ThreadParams){
-  //   return this.openai.beta.threads.update(threadId, thread);
-  // }
-
-  // Messages
-  // async createMessage(threadId: string, message: MessageParams) {
-  //   return this.openai.beta.threads.messages.create(threadId, message);
-  // }
-
-  // async getMessage(threadId: string, messageId: string) {
-  //   return this.openai.beta.threads.messages.retrieve(threadId, messageId);
-  // }
-
-  // async getMessagess(threadId: string) {
-  //   return this.openai.beta.threads.messages.list(threadId);
-  // }
-
-  // async deleteMessage(threadId: string, messageId: string) {
-  //   return this.openai.beta.threads.messages.del(threadId, messageId);
-  // }
-
-  // async updateMessage(threadId: string, messageId: string, message: MessageParams){
-  //   return this.openai.beta.threads.messages.update(threadId, messageId, message);
-  // }
-
-  // Runs
-  // async createRun(threadId: string, run: any) {
-  //   // this is the one that ruens into a SSE
-  // }
-
-  // async listRuns(threadId: string) {
-  //   return this.openai.beta.threads.runs.list(threadId);
-  // }
-
-  // async getRun(threadId: string, runId: string) {
-  //   return this.openai.beta.threads.runs.retrieve(threadId, runId);
-  // }
-
-  // async modifyRun(threadId: string, runId: string, run: any) {
-  //   return this.openai.beta.threads.runs.update(threadId, runId, run);
-  // }
-
-  // async cancelRun(threadId: string, runId: string) {
-  //   return this.openai.beta.threads.runs.cancel(threadId, runId);
-  // }
-
-  // // tools
-  // async submitToolOutputs(threadId: string, runId: string, toolOutputs: any) {
-  //   return this.openai.beta.threads.runs.submitToolOutputs(threadId, runId, toolOutputs);
-  // }
 
   async generateToken(userId: string, orgId?: string) {
     try {
@@ -1006,13 +1127,13 @@ export class OpenaiService {
 
   public streamLoop = async (stream, observer, token) => {
     for await (const event of stream as any) {
-      if(event.event !== 'error' && event.event !== 'done') {
-      observer?.next({
-        // TODO: ONE OF THESE IS NOT LIKE THE OTHER
-        type: event.event,
-        data: event.data,
-      });
-    }
+      if (event.event !== 'error' && event.event !== 'done') {
+        observer?.next({
+          // TODO: ONE OF THESE IS NOT LIKE THE OTHER
+          type: event.event,
+          data: event.data,
+        });
+      }
 
       if (event.data == '[DONE]') console.log('done', event);
       switch (event.event) {
@@ -1074,7 +1195,6 @@ export class OpenaiService {
               try {
                 // TODO: this is doing a premature close error on the stream
 
-                 
                 const stream2 =
                   await this.openai.beta.threads.runs.submitToolOutputs(
                     event.data.thread_id,
@@ -1213,7 +1333,7 @@ export class OpenaiService {
         parallel_tool_calls: true,
         // temperature: 0.2,
       });
-  
+
       await this.streamLoop(stream, observer, token);
     } catch (error) {
       console.error('Error running object', error);
@@ -1590,6 +1710,79 @@ export class OpenaiService {
       return {
         error: 'Error deleting file',
       };
+    }
+  }
+
+
+
+  async createBatch(inputData: string): Promise<Batch> {
+    const batch = new this.batchModel({ inputData, status: 'Pending' });
+    const savedBatch = await batch.save();
+
+    // Convert JSONL to file and save it
+    const filePath = this.convertJsonlToFile(savedBatch._id.toString(), inputData);
+
+    try {
+      const fileContent = fs.createReadStream(filePath);
+
+      const file = await this.openai.files.create({
+        file: fileContent,
+        purpose: "batch",
+      });
+
+      const batchResponse = await this.openai.batches.create({
+        input_file_id: file.id,
+        endpoint: "/v1/chat/completions",
+        completion_window: "24h"
+      });
+
+      // Update the batch status in the database, including the batchResponse ID
+      await this.updateBatchStatus(savedBatch._id, 'In Progress', batchResponse.id);
+
+      // Clean up local file if not needed anymore
+      fs.unlinkSync(filePath);
+    } catch (error) {
+      await this.updateBatchStatus(savedBatch._id, 'Failed', '', error.message);
+    }
+
+    return savedBatch;
+  }
+
+  private convertJsonlToFile(batchId: string, data: string): string {
+    const filePath = path.join(__dirname, `../files/${batchId}.jsonl`);
+    fs.writeFileSync(filePath, data);
+    return filePath;
+  }
+
+  async getBatch(id: string): Promise<Batch> {
+    return this.batchModel.findById(id).exec();
+  }
+
+  async updateBatchStatus(id: Types.ObjectId, status: string, batchResponseId?: string, errorMessage?: string): Promise<Batch> {
+    const updatedBatch = await this.batchModel.findByIdAndUpdate(
+      id,
+      { status, batchResponseId, errorMessage, updatedAt: new Date() },
+      { new: true },
+    ).exec();
+    return updatedBatch;
+  }
+
+  async checkBatchCompletion(): Promise<void> {
+    const inProgressBatches = await this.batchModel.find({ status: 'In Progress' }).exec();
+
+    for (const batch of inProgressBatches) {
+      try {
+        const response = await this.openai.batches.retrieve(batch.batchResponseId);
+
+        if (response.status === 'completed') {
+          const fileId = response.output_file_id;
+          const fileResponse = await this.openai.files.content(fileId);
+
+          await this.updateBatchStatus(batch._id, 'Completed', await fileResponse.text())
+        }
+      } catch (error) {
+        console.error(`Failed to check status for batch ${batch._id}:`, error.message);
+      }
     }
   }
 }

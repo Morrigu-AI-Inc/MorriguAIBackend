@@ -42,6 +42,7 @@
     "@nestjs/swagger": "^7.4.0",
     "@slack/web-api": "^7.0.2",
     "@types/sanitize-html": "^2.11.0",
+    "@types/ws": "^8.5.12",
     "@useparagon/connect": "^1.0.5",
     "arima": "^0.2.5",
     "cheerio": "^1.0.0-rc.12",
@@ -68,6 +69,7 @@
     "sanitize-html": "^2.12.1",
     "service": "^0.1.4",
     "stripe": "^15.3.0",
+    "ws": "^8.18.0",
     "xml2js": "^0.6.2",
     "yup": "^1.4.0"
   },

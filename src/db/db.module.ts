@@ -72,6 +72,27 @@ import { FSISEstDemographicSchema } from './schemas/FSISEstDemographic';
 import { BrandedFoodSchema } from './schemas/BrandedFood';
 import { FoodDataSchema } from './schemas/FoodData';
 import USDAReportSchema from './schemas/USDAReport';
+import { BatchSchema } from './schemas/Batch';
+import { schemas as USDASchemas } from './schemas/GATSSchemas';
+import {
+  RegionSchema,
+  CountrySchema,
+  CommoditySchema,
+  UnitOfMeasureSchema,
+  DataReleaseDatesSchema,
+  ExportSalesSchema,
+} from './schemas/ExportSales';
+import { IngestionJobSchema } from './schemas/IngestionJob';
+import {
+  IndividualNotificationSchema,
+  NotificationSchema,
+  OrganizationNotificationSchema,
+  SystemNotificationSchema,
+} from './schemas/Notification';
+import { CronJobSchema } from './schemas/CronJob';
+import { ObjectWatcherSchema } from './schemas/ObjectWatcher';
+import { ImportYetiShipmentSchema } from './schemas/ImportYeti';
+import { VesselSchema } from './schemas/AIS';
 
 const schemas = [
   MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }]),
@@ -206,6 +227,67 @@ const schemas = [
   ]),
   MongooseModule.forFeature([{ name: 'FoodData', schema: FoodDataSchema }]),
   MongooseModule.forFeature([{ name: 'USDAReport', schema: USDAReportSchema }]),
+  MongooseModule.forFeature([{ name: 'Batch', schema: BatchSchema }]),
+  MongooseModule.forFeature([
+    { name: 'Region', schema: RegionSchema },
+    { name: 'Country', schema: CountrySchema },
+    { name: 'Commodity', schema: CommoditySchema },
+    { name: 'UnitOfMeasure', schema: UnitOfMeasureSchema },
+    { name: 'DataReleaseDates', schema: DataReleaseDatesSchema },
+    { name: 'ExportSales', schema: ExportSalesSchema },
+    {
+      name: 'CensusDataReleaseExports',
+      schema: USDASchemas.CensusDataReleaseExports,
+    },
+    {
+      name: 'CensusDataReleaseImports',
+      schema: USDASchemas.CensusDataReleaseImports,
+    },
+    { name: 'GATSRegion', schema: USDASchemas.GATSRegion },
+    { name: 'GATSCountry', schema: USDASchemas.GATSCountry },
+    { name: 'GATSCommodity', schema: USDASchemas.GATSCommodity },
+    { name: 'HS6Commodity', schema: USDASchemas.HS6Commodity },
+    { name: 'GATSUnitOfMeasure', schema: USDASchemas.GATSUnitOfMeasure },
+    { name: 'GATSCustomsDistrict', schema: USDASchemas.GATSCustomsDistrict },
+    { name: 'GATSCensusImports', schema: USDASchemas.GATSCensusImports },
+    { name: 'GATSCensusReExports', schema: USDASchemas.GATSCensusReExports },
+    {
+      name: 'GATSCustomDistrictExport',
+      schema: USDASchemas.GATSCustomDistrictExport,
+    },
+    {
+      name: 'GATSCustomDistrictImport',
+      schema: USDASchemas.GATSCustomDistrictImport,
+    },
+    {
+      name: 'GATSCustomDistrictReExport',
+      schema: USDASchemas.GATSCustomDistrictReExport,
+    },
+    { name: 'GATSUNTradeImport', schema: USDASchemas.GATSUNTradeImport },
+    { name: 'GATSUNTradeExport', schema: USDASchemas.GATSUNTradeExport },
+    { name: 'GATSUNTradeReExport', schema: USDASchemas.GATSUNTradeReExport },
+    { name: 'PSDCommodity', schema: USDASchemas.PSDCommodity },
+    { name: 'PSDDataRelease', schema: USDASchemas.PSDDataRelease },
+    { name: 'PSDRecord', schema: USDASchemas.PSDRecord },
+    { name: 'PSDRegion', schema: USDASchemas.PSDRegion },
+    { name: 'PSDCountry', schema: USDASchemas.PSDCountry },
+    { name: 'PSDUnitOfMeasure', schema: USDASchemas.PSDUnitOfMeasure },
+    { name: 'PSDAttribute', schema: USDASchemas.PSDAttribute },
+    { name: 'IngestionJob', schema: IngestionJobSchema },
+
+    { name: 'Notification', schema: NotificationSchema },
+    { name: 'SystemNotification', schema: SystemNotificationSchema },
+    { name: 'IndividualNotification', schema: IndividualNotificationSchema },
+    {
+      name: 'OrganizationNotification',
+      schema: OrganizationNotificationSchema,
+    },
+    { name: 'CronJob', schema: CronJobSchema },
+    { name: 'ObjectWatcher', schema: ObjectWatcherSchema },
+    { name: 'ImportYetiShipment', schema: ImportYetiShipmentSchema },
+
+    { name: 'Vessel', schema: VesselSchema },
+  ]),
 ];
 
 @Module({

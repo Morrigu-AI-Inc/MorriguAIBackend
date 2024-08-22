@@ -109,6 +109,12 @@ import { ApiKeyMiddleware } from './apikeys/apikeys.middleware';
 import { AddressModule } from './address/address.module';
 import { FsisModule } from './fsis/fsis.module';
 import { UsdaDataModule } from './usda_data/usda_data.module';
+import { NassModule } from './nass/nass.module';
+import { FasModule } from './fas/fas.module';
+import { NotificationModule } from './notification/notification.module';
+import { ObjectmatcherModule } from './objectmatcher/objectmatcher.module';
+import { ImportyetiModule } from './importyeti/importyeti.module';
+import { AisModule } from './ais/ais.module';
 
 @Module({
   imports: [
@@ -278,6 +284,18 @@ import { UsdaDataModule } from './usda_data/usda_data.module';
     FsisModule,
 
     UsdaDataModule,
+
+    NassModule,
+
+    FasModule,
+
+    NotificationModule,
+
+    ObjectmatcherModule,
+
+    ImportyetiModule,
+
+    AisModule,
   ],
   controllers: [
     AppController,
