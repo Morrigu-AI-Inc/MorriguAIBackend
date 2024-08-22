@@ -99,7 +99,7 @@ export class AisService implements OnModuleInit {
       });
 
       this.socket.addEventListener('message', (event) => {
-        this.handleMessage(event.data as string);
+        // this.handleMessage(event.data as string);
       });
     });
   }
