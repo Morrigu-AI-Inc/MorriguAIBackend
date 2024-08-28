@@ -5,15 +5,22 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ImportYetiShipment } from 'src/db/schemas/ImportYeti';
 import { Model } from 'mongoose';
 import { sleep } from 'openai/core';
+import { GATSCommodity, HS6Commodity } from 'src/db/schemas/GATSSchemas';
 
 @Injectable()
 export class ImportyetiService {
   constructor(
     @InjectModel('ImportYetiShipment')
     private importyetiModel: Model<ImportYetiShipment>,
+
+    @InjectModel('HS6Commodity')
+    private gatsCommoditiesModel: Model<HS6Commodity>,
+
+    // @InjectModel('GATSCommodity')
+    // // private gatsCommoditiesModel: Model<
   ) {}
 
-  create(createImportyetiDto: CreateImportyetiDto) {
+  create() {
     return 'This action adds a new importyeti';
   }
 
@@ -25,7 +32,7 @@ export class ImportyetiService {
     return `This action returns a #${id} importyeti`;
   }
 
-  update(id: number, updateImportyetiDto: UpdateImportyetiDto) {
+  update(id: number) {
     return `This action updates a #${id} importyeti`;
   }
 
@@ -33,6 +40,7 @@ export class ImportyetiService {
     return `This action removes a #${id} importyeti`;
   }
 
+  // we are iterating the date down from today to 1980 and then paginating the data
   async init() {
     const endpoints = {
       power: {
@@ -49,113 +57,101 @@ export class ImportyetiService {
       },
     };
 
-    const searchAll = {
-      fieldItems: [
-        {
-          fieldName: '*',
-          value: '*',
-        },
-      ],
-      optionalFilterStates: {
-        has_contact_info: false,
-        has_website: false,
-        only_lcl: false,
-        use_raw: false,
-      },
-      pagination: {
-        from: 0,
-        size: 10,
-      },
-    };
-
     // include cookies in the request
     const response = {
       headers: {
         'Set-Cookie':
-          'importyeti_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiSmFzb25AbW9ycmlndS5haSIsImlhdCI6MTcyMzc0ODY4OCwiZXhwIjoxNzI2MzQwNjg4fQ.uI79UmIJTn1st7aXpQOrxScPouer93TmbWxnJ3Gat-w; Path=/; Domain=importyeti.com; Secure; HttpOnly;',
-      },
-    };
-
-    const body = {
-      fieldItems: [
-        {
-          fieldName: '*',
-          value: '*',
-        },
-      ],
-      optionalFilterStates: {
-        has_contact_info: false,
-        has_website: false,
-        only_lcl: false,
-        use_raw: false,
-      },
-      pagination: {
-        from: 0,
-        size: 10,
+          'importyeti_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiSmFzb25AbW9ycmlndS5haSIsImlhdCI6MTcyMzc0ODY4OCwiZXhwIjoxNzI2MzQwNjg4fQ.uI79UmIJTn1st7aXpQOrxScPouer93TmbWxnJ3Gat-w; cf_clearance=vxuqQrHIdCM0oABtXNx9J2S0npo0n._QaL9XFq_fILc-1724456808-1.2.1.1-agwczBkLohohpCJ5PTL3lirJ08Q2IqufJowiTk_hk.rJ8T6438uR9PBzZkkQGuClofK4sqTKERUJAWy3nwBsGJBBTWWkID5RDblq663l9wU5MSjBOsaiS7wwlzHdsdVzSxGCOWuF6X4wg_UqPe3NbsuBR2jFuO7QC7lF1ZMiGme5JAPt4XIMo9pbM__QUwxiedo.18RAg35XWdTIcx5szUZIdXseADCUH8mNIi5XRobOpMRObATcnUPzlweS31zCa3uFkS45fYahT5Vw8Mw0sOq.UCAruMR5gvgxyMqZM2ur72mxS8AMX7QRdE6DWwRnBjuRgqK7fNCwlO57Oe7rMotx4OjcD8OExtvE7J7XZ1lQ_JgxCwe2QgmbEvedkUf0aAx50__ExNmGv3zwAEjeOA; AWSALB=7mzGYF7yaA9BZ+MTksndBNgK4us7bMiSSevWbq0oWFT0qWpCYZB+9PI2c9Bh75z4NAOX/Ohbq4QW7hRMRc8fb9l8UeoA4ZR/Ol8miq1UGY/zmDZm2xW9T40KWp86; AWSALBCORS=7mzGYF7yaA9BZ+MTksndBNgK4us7bMiSSevWbq0oWFT0qWpCYZB+9PI2c9Bh75z4NAOX/Ohbq4QW7hRMRc8fb9l8UeoA4ZR/Ol8miq1UGY/zmDZm2xW9T40KWp86; _ga_L3P3RK1QKT=GS1.1.1724456808.11.1.1724456826.0.0.0',
       },
     };
 
     // we need to iterate the paginate
 
-    let totalBols = 0;
-    let page = 6;
+    let page = 1;
+    const size = 10000;
+    const today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    let yyyy = today.getFullYear();
+    let stop = false;
+    let totalBOLS = 0;
 
-    do {
-      const size = 25000;
-      const resp = await fetch(endpoints.power.url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Cookie: response.headers['Set-Cookie'],
-        },
-        body: JSON.stringify({
-          fieldItems: [
-            {
-              fieldName: '*',
-              value: '*',
+    while (!stop) {
+      let date = `${dd}/${mm}/${yyyy}`;
+      console.log('date', date);
+
+      do {
+        try {
+          const resp = await fetch(endpoints.power.url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Cookie: response.headers['Set-Cookie'],
             },
-          ],
-          optionalFilterStates: {
-            has_contact_info: false,
-            has_website: false,
-            only_lcl: false,
-            use_raw: false,
-          },
-          pagination: {
-            from: page * size,
-            size: size,
-          },
-        }),
-      });
+            body: JSON.stringify({
+              fieldItems: [
+                {
+                  fieldName: 'arrival_date',
+                  value: date,
+                  queryType: 'EXACT_PHRASE',
+                },
+              ],
+              optionalFilterStates: {
+                has_contact_info: false,
+                has_website: false,
+                only_lcl: false,
+                use_raw: false,
+              },
+              pagination: {
+                from: (page - 1) * size,
+                size: size,
+              },
+            }),
+          });
 
-      const { totalBols: totals, data, isGenericSearch } = await resp.json();
+          const respp = await resp.json();
 
-      const shipments = data.map((shipment) => {
-        return {
-          shipment,
-        };
-      });
+          const { totalBols: totals, data, isGenericSearch } = respp;
 
-      const results = this.importyetiModel.insertMany(shipments);
+          if (page === 1) {
+            totalBOLS = totals;
+          }
 
-      if (totalBols === 0) {
-        totalBols = totals;
+          console.log('There are ', totalBOLS, ' total records');
+
+          const shipments = data.map((shipment) => {
+            return {
+              shipment,
+            };
+          });
+
+          const results = await this.importyetiModel.insertMany(shipments);
+
+          if (data.length < size) {
+            // a page with same size
+            break; // Exit pagination loop if we have fewer results than page size
+          }
+          page++; // Increment page to fetch the next set of results
+
+          await sleep(2000);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          break; // Exit if there's an error
+        }
+      } while (true);
+
+      // Move to the previous day
+      today.setDate(today.getDate() - 1);
+      dd = String(today.getDate()).padStart(2, '0');
+      mm = String(today.getMonth() + 1).padStart(2, '0');
+      yyyy = today.getFullYear();
+      page = 1;
+      totalBOLS = 0;
+
+      if (date === '01/01/1980') {
+        stop = true;
       }
-      console.log(
-        'totalBols',
-        totalBols,
-        'page',
-        page,
-        'isGenericSearch',
-        isGenericSearch,
-        'data.length',
-        data.length,
-      );
-
-      page++;
-
-      await sleep(2000);
-    } while (totalBols > page * 10);
+    }
   }
 
   async getShipmentDetails() {
@@ -220,5 +216,47 @@ export class ImportyetiService {
     const data = await resp.json();
 
     return data;
+  }
+
+  // month is formatted as "MM/YYYY" with a leading zero
+  async getTopTenTradedInMonth(month: string, year: string) { // by number of hscode occurrences
+    const aggr = [
+      {
+        $match: {
+          'shipment.arrival_date': {
+            $regex: `.*\\/${month}\\/${year}$`,
+            $options: 'i',
+          },
+          'shipment.hs_code': { $ne: "000000" },
+        },
+      },
+      {
+        $group: {
+          _id: '$shipment.hs_code',
+          hs_code_description: { $first: '$shipment.hs_code_description' },
+          count: { $sum: 1 },
+          
+        },
+      },
+      {
+        $sort: { count: -1 },
+      },
+      {
+        $limit: 10,
+      },
+    ];
+
+    const results = await this.importyetiModel.aggregate(aggr as any);
+
+    const _ids = results.map((result) => result._id);
+
+    // hs_code starts with 6 digits
+    const commodities = await this.gatsCommoditiesModel.find({
+      hS6Code: { $in: _ids },
+    });
+
+    console.log(commodities);
+
+    return results;
   }
 }

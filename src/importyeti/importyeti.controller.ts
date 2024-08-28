@@ -20,7 +20,6 @@ export class ImportyetiController {
     return this.importyetiService.init();
   }
 
-
   @Get('marinetraffic')
   async getMarineTraffic() {
     return this.importyetiService.getShipmentDetails();
@@ -29,5 +28,13 @@ export class ImportyetiController {
   @Get('station')
   async station() {
     return this.importyetiService.station();
+  }
+
+  @Get('/top-ten-hscode/:month/:year')
+  async getTopTenHscode(
+    @Param('month') month: string,
+    @Param('year') year: string,
+  ) {
+    return this.importyetiService.getTopTenTradedInMonth(month, year);
   }
 }

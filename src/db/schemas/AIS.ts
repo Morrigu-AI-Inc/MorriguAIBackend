@@ -3,6 +3,25 @@ import { Document } from 'mongoose';
 
 export type VesselDocument = Vessel & Document;
 
+enum NavigationStatusEnum {
+  UNDERWAY_USING_ENGINE = 0,
+  AT_ANCHOR = 1,
+  NOT_UNDER_COMMAND = 2,
+  RESTRICTED_MANEUVERABILITY = 3,
+  CONSTRAINED_BY_DRAUGHT = 4,
+  MOORED = 5,
+  AGROUND = 6,
+  ENGAGED_IN_FISHING = 7,
+  UNDERWAY_SAILING = 8,
+  RESERVED_FOR_FUTURE_USE = 9,
+  RESERVED_FOR_FUTURE_USE2 = 10,
+  POWER_DRIVEN_VESSEL_TOWING_ASTERN = 11,
+  POWER_DRIVEN_VESSEL_PUSHING_AHEAD = 12,
+  RESERVED_FOR_FUTURE_USE3 = 13,
+  AIS_SART = 14,
+  UNDEFINED = 15,
+}
+
 export type ShipStaticData = {
   MessageID: number; // Identifier for this type of message
   RepeatIndicator: number; // Indicates how many times the message has been repeated
@@ -41,7 +60,7 @@ export type PositionReportMessage = {
     Latitude: number;
     Longitude: number;
     MessageID: number;
-    NavigationalStatus: number;
+    NavigationalStatus: NavigationStatusEnum;
     PositionAccuracy: boolean;
     Raim: boolean;
     RateOfTurn: number;
@@ -97,7 +116,7 @@ export class Vessel {
           Latitude: number;
           Longitude: number;
           MessageID: number;
-          NavigationalStatus: number;
+          NavigationalStatus: NavigationStatusEnum;
           PositionAccuracy: boolean;
           Raim: boolean;
           RateOfTurn: number;

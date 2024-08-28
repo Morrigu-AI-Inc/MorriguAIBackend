@@ -37,7 +37,8 @@ export class AisController {
   @Get('/vessels/:mmsi')
   getVesselByMmsi(@Param('mmsi') mmsi: string) {
     try {
-      return this.aisService.getVesselByMMSI(parseInt(mmsi));
+      return this.aisService.scrapeVesselFinderByMMSI(parseInt(mmsi));
+      // return this.aisService.getVesselByMMSI(parseInt(mmsi));
     } catch (error) {
       return error;
     }

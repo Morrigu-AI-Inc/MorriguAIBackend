@@ -61,8 +61,11 @@ export class PurchasingService {
       const newPo: Partial<PurchaseOrder> = {
         status: POStatus.CREATED,
         po_number: createPurchasingDto.poNumber,
-        supplier: createPurchasingDto.supplier._id,
-        orderDate: new Date(createPurchasingDto.poDate),
+        supplier:
+          createPurchasingDto.supplier._id.length > 0
+            ? createPurchasingDto.supplier._id
+            : null,
+        orderDate: new Date(createPurchasingDto.poDate) || new Date(),
         line_items: [],
         totalAmount: createPurchasingDto.items.reduce(
           (acc, item) => acc + item.total,
@@ -120,7 +123,9 @@ export class PurchasingService {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    const total = await this.purchaseOrderModel.countDocuments().exec();
+    const total = await this.purchaseOrderModel
+      .find({ owner })
+      .countDocuments();
     const totalPages = Math.ceil(total / limit);
 
     const purchaseOrders = await this.purchaseOrderModel

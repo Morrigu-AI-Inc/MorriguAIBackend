@@ -416,7 +416,29 @@ export class FasService {
             console.log('Data already ingested');
             continue;
           }
-
+fetch('https://api.importyeti.com/api/bols/power', {
+  headers: {
+    accept: 'application/json, text/plain, */*',
+    'accept-language': 'en-US,en;q=0.9',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json',
+    pragma: 'no-cache',
+    priority: 'u=1, i',
+    'sec-ch-ua':
+      '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"macOS"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-site',
+    cookie:
+      '_ga=GA1.1.1653794473.1723743668; importyeti_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiSmFzb25AbW9ycmlndS5haSIsImlhdCI6MTcyMzc0ODY4OCwiZXhwIjoxNzI2MzQwNjg4fQ.uI79UmIJTn1st7aXpQOrxScPouer93TmbWxnJ3Gat-w; cf_clearance=vxuqQrHIdCM0oABtXNx9J2S0npo0n._QaL9XFq_fILc-1724456808-1.2.1.1-agwczBkLohohpCJ5PTL3lirJ08Q2IqufJowiTk_hk.rJ8T6438uR9PBzZkkQGuClofK4sqTKERUJAWy3nwBsGJBBTWWkID5RDblq663l9wU5MSjBOsaiS7wwlzHdsdVzSxGCOWuF6X4wg_UqPe3NbsuBR2jFuO7QC7lF1ZMiGme5JAPt4XIMo9pbM__QUwxiedo.18RAg35XWdTIcx5szUZIdXseADCUH8mNIi5XRobOpMRObATcnUPzlweS31zCa3uFkS45fYahT5Vw8Mw0sOq.UCAruMR5gvgxyMqZM2ur72mxS8AMX7QRdE6DWwRnBjuRgqK7fNCwlO57Oe7rMotx4OjcD8OExtvE7J7XZ1lQ_JgxCwe2QgmbEvedkUf0aAx50__ExNmGv3zwAEjeOA; AWSALB=7mzGYF7yaA9BZ+MTksndBNgK4us7bMiSSevWbq0oWFT0qWpCYZB+9PI2c9Bh75z4NAOX/Ohbq4QW7hRMRc8fb9l8UeoA4ZR/Ol8miq1UGY/zmDZm2xW9T40KWp86; AWSALBCORS=7mzGYF7yaA9BZ+MTksndBNgK4us7bMiSSevWbq0oWFT0qWpCYZB+9PI2c9Bh75z4NAOX/Ohbq4QW7hRMRc8fb9l8UeoA4ZR/Ol8miq1UGY/zmDZm2xW9T40KWp86; _ga_L3P3RK1QKT=GS1.1.1724456808.11.1.1724456826.0.0.0',
+    Referer: 'https://www.importyeti.com/',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+  },
+  body: '{"fieldItems":[{"fieldId":"jijR7-MI9AfatNKEvZVc3","fieldName":"company_or_supplier","value":"Apple","queryType":"EXACT_PHRASE","or":[]}],"startDate":"2024-07-16T15:31:18.951Z","endDate":"2024-08-16T15:32:56.303Z","optionalFilterStates":{"has_contact_info":false,"has_website":false,"only_lcl":false,"use_raw":false},"sortBy":"arrival_date","isMexicoImport":false,"isUsExport":false,"pagination":{"from":0,"size":10}}',
+  method: 'POST',
+});
           console.log('Fetching data from: ', url);
 
           await this.ingestionJobModel.create({

@@ -6,6 +6,7 @@ import { PositionReportMessage, Vessel } from 'src/db/schemas/AIS';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ImportYetiShipment } from 'src/db/schemas/ImportYeti';
+import cheerio, { load } from 'cheerio';
 
 // export type PositionReportMessage = {
 //   PositionReport: {
@@ -76,32 +77,33 @@ export class AisService implements OnModuleInit {
     @InjectModel('ImportYetiShipment')
     private importYetiShipmentModel: Model<ImportYetiShipment>,
   ) {
-    this.socket = new WebSocket('wss://stream.aisstream.io/v0/stream');
+    // this.socket = new WebSocket('wss://stream.aisstream.io/v0/stream');
 
-    this.socket.addEventListener('open', () => {
-      console.log('WebSocket connection established.');
-      const subscriptionMessage = {
-        APIkey: this.API_KEY,
-        BoundingBoxes: [
-          [
-            [-180, -90],
-            [180, 90],
-          ],
-        ],
-      };
-      this.socket.send(JSON.stringify(subscriptionMessage));
-      this.logger.log(
-        'WebSocket connection established and subscription sent.',
-      );
+    // this.socket.addEventListener('open', () => {
+    //   console.log('WebSocket connection established.');
+    //   const subscriptionMessage = {
+    //     APIkey: this.API_KEY,
+    //     FilterMessageType: ['PositionReport'],
+    //     BoundingBoxes: [
+    //       [
+    //         [-180, -90],
+    //         [180, 90],
+    //       ],
+    //     ],
+    //   };
+    //   this.socket.send(JSON.stringify(subscriptionMessage));
+    //   this.logger.log(
+    //     'WebSocket connection established and subscription sent.',
+    //   );
 
-      this.socket.addEventListener('error', (event) => {
-        this.logger.error(`WebSocket error: ${event}`);
-      });
+    //   this.socket.addEventListener('error', (event) => {
+    //     this.logger.error(`WebSocket error: ${event}`);
+    //   });
 
-      this.socket.addEventListener('message', (event) => {
-        // this.handleMessage(event.data as string);
-      });
-    });
+    //   this.socket.addEventListener('message', (event) => {
+    //     // this.handleMessage(event.data as string);
+    //   });
+    // });
   }
 
   onModuleInit() {}
@@ -126,7 +128,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'BaseStationReport') {
+    } else if (aisMessage['!MessageType'] === 'BaseStationReport') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -141,7 +143,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'MultiSlotBinaryMessage') {
+    } else if (aisMessage['!MessageType'] === 'MultiSlotBinaryMessage') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -156,7 +158,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'ExtendedClassBPositionReport') {
+    } else if (aisMessage['!MessageType'] === 'ExtendedClassBPositionReport') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -171,7 +173,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'SafetyBroadcastMessage') {
+    } else if (aisMessage['!MessageType'] === 'SafetyBroadcastMessage') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -186,7 +188,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'StaticDataReport') {
+    } else if (aisMessage['!MessageType'] === 'StaticDataReport') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -201,7 +203,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'StandardClassBPositionReport') {
+    } else if (aisMessage['!MessageType'] === 'StandardClassBPositionReport') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -217,7 +219,7 @@ export class AisService implements OnModuleInit {
         { upsert: true, new: true },
       );
     } else if (
-      aisMessage['MessageType'] === 'StandardSearchAndRescueAircraftReport'
+      aisMessage['!MessageType'] === 'StandardSearchAndRescueAircraftReport'
     ) {
       await this.vesselModel.findOneAndUpdate(
         {
@@ -233,7 +235,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'SingleSlotBinaryMessage') {
+    } else if (aisMessage['!MessageType'] === 'SingleSlotBinaryMessage') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -248,7 +250,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'Interrogation') {
+    } else if (aisMessage['!MessageType'] === 'Interrogation') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -262,7 +264,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'LongRangeAisBroadcastMessage') {
+    } else if (aisMessage['!MessageType'] === 'LongRangeAisBroadcastMessage') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -277,7 +279,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'GnssBroadcastBinaryMessage') {
+    } else if (aisMessage['!MessageType'] === 'GnssBroadcastBinaryMessage') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -292,7 +294,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'DataLinkManagementMessage') {
+    } else if (aisMessage['!MessageType'] === 'DataLinkManagementMessage') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -307,7 +309,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'AddressedSafetyMessage') {
+    } else if (aisMessage['!MessageType'] === 'AddressedSafetyMessage') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -322,7 +324,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'AddressedBinaryMessage') {
+    } else if (aisMessage['!MessageType'] === 'AddressedBinaryMessage') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -337,7 +339,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'CoordinatedUTCInquiry') {
+    } else if (aisMessage['!MessageType'] === 'CoordinatedUTCInquiry') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -352,7 +354,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'BinaryAcknowledge') {
+    } else if (aisMessage['!MessageType'] === 'BinaryAcknowledge') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -367,7 +369,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'ChannelManagement') {
+    } else if (aisMessage['!MessageType'] === 'ChannelManagement') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -382,7 +384,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'AssignedModeCommand') {
+    } else if (aisMessage['!MessageType'] === 'AssignedModeCommand') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -397,7 +399,7 @@ export class AisService implements OnModuleInit {
         },
         { upsert: true, new: true },
       );
-    } else if (aisMessage['MessageType'] === 'AidsToNavigationReport') {
+    } else if (aisMessage['!MessageType'] === 'AidsToNavigationReport') {
       await this.vesselModel.findOneAndUpdate(
         {
           'MetaData.MMSI': aisMessage['MetaData']['MMSI'],
@@ -429,5 +431,99 @@ export class AisService implements OnModuleInit {
   getTopVessels(hscode: string) {
     console.log('getTopVessels');
     return this.importYetiShipmentModel.aggregate(pipeLine as any);
+  }
+
+  fetchVesselDetails = async (url) => {
+    try {
+      const res = await fetch(url);
+      const html = await res.text();
+      const $ = cheerio.load(html);
+
+      // Extract vessel name
+      const vesselName = $('h1.title').text().trim();
+
+      // Extract vessel type and IMO
+      const vesselTypeAndIMO = $('h2.vst').text().trim();
+
+      // Extract current position
+      const currentPosition = $('.text2 strong:first-of-type').text().trim();
+
+      // Extract destination
+      const destination = $('.text2 strong:nth-of-type(2)').text().trim();
+
+      // Extract ETA
+      const eta = $('.text2 strong:nth-of-type(3)').text().trim();
+
+      // Extract MMSI
+      const mmsi = $('.v3np').text().trim();
+      const imo = mmsi.split('/')[0].trim();
+
+      // Extract Callsign
+      const callsign = $('.v3:eq(6)').text().trim();
+
+      // Extract Flag
+      const flag = $('.v3:eq(7)').text().trim();
+
+      // Extract Length/Beam
+      const lengthBeam = $('.v3:eq(8)').text().trim();
+
+      // Extract Navigation Status
+      const navigationStatus = $('.ttt0').text().trim();
+
+      // Extract Position Received
+      const positionReceived = $('#lastrep').text().trim();
+
+      // Extract Recent Port Calls
+      const recentPortCalls = $('#port-calls .vhc2')
+        .map((i, el) => $(el).text().trim())
+        .get();
+
+      // Extract Ship Photo URL
+      const photoUrl = $('.img-holder img.main-photo').attr('src');
+
+      // Extract Vessel Particulars
+      const vesselParticulars = {};
+      $('.tpt1 tbody tr').each((i, el) => {
+        const key = $(el).find('.tpc1').text().trim();
+        const value = $(el).find('.tpc2').text().trim();
+        vesselParticulars[key] = value;
+      });
+
+      // Extract Management Details
+      const managementDetails = {};
+      $('.tptfix tbody tr').each((i, el) => {
+        const key = $(el).find('.tpc1').text().trim();
+        const value = $(el).find('.tpc2').text().trim();
+        managementDetails[key] = value;
+      });
+
+      // Return the extracted data
+      return {
+        vesselName,
+        vesselTypeAndIMO,
+        currentPosition,
+        destination,
+        eta,
+        mmsi,
+        imo,
+        callsign,
+        flag,
+        lengthBeam,
+        navigationStatus,
+        positionReceived,
+        recentPortCalls,
+        photoUrl,
+        vesselParticulars,
+        managementDetails,
+      };
+    } catch (error) {
+      console.error('Error fetching vessel details:', error);
+    }
+  };
+  scrapeVesselFinderByMMSI(mmsi: number) {
+    const url = `https://www.vesselfinder.com/vessels/details/${mmsi}`;
+
+    // use fetch and cheerio to scrape the vessel finder page
+    return this.fetchVesselDetails(url);
   }
 }

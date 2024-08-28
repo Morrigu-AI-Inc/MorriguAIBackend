@@ -30,7 +30,7 @@ export class PurchaseOrder extends Document {
   @Prop({ required: true })
   po_number: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Supplier', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Supplier', required: false })
   supplier: Supplier;
 
   @Prop({
@@ -55,6 +55,9 @@ export class PurchaseOrder extends Document {
 
   @Prop({ required: false, type: SchemaTypes.Mixed })
   raw: any;
+
+  @Prop({ required: false })
+  terms: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Organization', required: true })
   owner: Organization;
