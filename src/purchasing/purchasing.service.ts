@@ -65,7 +65,7 @@ export class PurchasingService {
           createPurchasingDto.supplier._id.length > 0
             ? createPurchasingDto.supplier._id
             : null,
-        orderDate: new Date(createPurchasingDto.poDate) || new Date(),
+        orderDate: new Date(),
         line_items: [],
         totalAmount: createPurchasingDto.items.reduce(
           (acc, item) => acc + item.total,

@@ -7,6 +7,77 @@ import { Model } from 'mongoose';
 import { sleep } from 'openai/core';
 import { GATSCommodity, HS6Commodity } from 'src/db/schemas/GATSSchemas';
 
+
+const aggr = [
+  {
+    $unwind: '$shipment',
+  },
+  {
+    $group: {
+      _id: '$shipment.supplier_name', // Use supplier_name as the _id
+      supplier_info: {
+        $first: {
+          supplier_name: '$shipment.supplier_name',
+          supplier_link: '$shipment.supplier_link',
+          supplier_country: '$shipment.supplier_country',
+          supplier_country_code: '$shipment.supplier_country_code',
+          supplier_main_phone_number: '$shipment.supplier_main_phone_number',
+          supplier_address: '$shipment.supplier_address',
+          supplier_total_shipments: '$shipment.supplier_total_shipments',
+          supplier_contact_info_exists:
+            '$shipment.supplier_contact_info_exists',
+        },
+      },
+      supplier_address_geocode: {
+        $first: '$shipment.supplier_address_geocode',
+      },
+      other_shipments_info: {
+        $addToSet: {
+          bol_number: '$shipment.bol_number',
+          bol_bill_type: '$shipment.bol_bill_type',
+          master_bol_number: '$shipment.master_bol_number',
+          arrival_date: '$shipment.arrival_date',
+          port_of_entry: '$shipment.port_of_entry',
+          port_of_entry_code: '$shipment.port_of_entry_code',
+          shipping_port: '$shipment.shipping_port',
+          shipping_port_code: '$shipment.shipping_port_code',
+          product_description: '$shipment.product_description',
+          product_description_raw: '$shipment.product_description_raw',
+          carrier_scac_code: '$shipment.carrier_scac_code',
+          weight: '$shipment.weight',
+          notify_party_name: '$shipment.notify_party_name',
+          notify_party_address: '$shipment.notify_party_address',
+          notify_party_country_code: '$shipment.notify_party_country_code',
+          hs_code: '$shipment.hs_code',
+        },
+      },
+    },
+  },
+  {
+    $project: {
+      supplier_name: '$supplier_info.supplier_name',
+      supplier_link: '$supplier_info.supplier_link',
+      supplier_country: '$supplier_info.supplier_country',
+      supplier_country_code: '$supplier_info.supplier_country_code',
+      supplier_main_phone_number: '$supplier_info.supplier_main_phone_number',
+      supplier_address: '$supplier_info.supplier_address',
+      supplier_total_shipments: '$supplier_info.supplier_total_shipments',
+      supplier_contact_info_exists:
+        '$supplier_info.supplier_contact_info_exists',
+      supplier_address_geocode: 1,
+      other_shipments_info: 1,
+    },
+  },
+  {
+    $merge: {
+      into: 'importyeti_suppliers',
+      on: ['supplier_name'],
+      whenMatched: 'replace',
+      whenNotMatched: 'insert',
+    },
+  },
+];
+
 @Injectable()
 export class ImportyetiService {
   constructor(
@@ -69,10 +140,15 @@ export class ImportyetiService {
 
     let page = 1;
     const size = 10000;
-    const today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    let yyyy = today.getFullYear();
+    // we need to start at 11/06/2024 as "DD/MM/YYYY"
+    const startDate = new Date();
+    startDate.setDate(11);
+    startDate.setMonth(5);
+    startDate.setFullYear(2024);
+
+    let dd = String(startDate.getDate()).padStart(2, '0');
+    let mm = String(startDate.getMonth() + 1).padStart(2, '0'); // January is 0!
+    let yyyy = startDate.getFullYear();
     let stop = false;
     let totalBOLS = 0;
 
@@ -141,10 +217,10 @@ export class ImportyetiService {
       } while (true);
 
       // Move to the previous day
-      today.setDate(today.getDate() - 1);
-      dd = String(today.getDate()).padStart(2, '0');
-      mm = String(today.getMonth() + 1).padStart(2, '0');
-      yyyy = today.getFullYear();
+      startDate.setDate(startDate.getDate() - 1);
+      dd = String(startDate.getDate()).padStart(2, '0');
+      mm = String(startDate.getMonth() + 1).padStart(2, '0');
+      yyyy = startDate.getFullYear();
       page = 1;
       totalBOLS = 0;
 
@@ -219,7 +295,8 @@ export class ImportyetiService {
   }
 
   // month is formatted as "MM/YYYY" with a leading zero
-  async getTopTenTradedInMonth(month: string, year: string) { // by number of hscode occurrences
+  async getTopTenTradedInMonth(month: string, year: string) {
+    // by number of hscode occurrences
     const aggr = [
       {
         $match: {
@@ -227,7 +304,7 @@ export class ImportyetiService {
             $regex: `.*\\/${month}\\/${year}$`,
             $options: 'i',
           },
-          'shipment.hs_code': { $ne: "000000" },
+          'shipment.hs_code': { $ne: '000000' },
         },
       },
       {
@@ -235,7 +312,6 @@ export class ImportyetiService {
           _id: '$shipment.hs_code',
           hs_code_description: { $first: '$shipment.hs_code_description' },
           count: { $sum: 1 },
-          
         },
       },
       {
@@ -256,6 +332,12 @@ export class ImportyetiService {
     });
 
     console.log(commodities);
+
+    return results;
+  }
+
+  async mergeSuppliers() {
+    const results = await this.importyetiModel.aggregate(aggr as any);
 
     return results;
   }

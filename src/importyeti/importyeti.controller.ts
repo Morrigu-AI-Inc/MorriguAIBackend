@@ -20,6 +20,11 @@ export class ImportyetiController {
     return this.importyetiService.init();
   }
 
+  @Get('merge-suppliers')
+  async mergeShipment() {
+    return this.importyetiService.mergeSuppliers();
+  }
+
   @Get('marinetraffic')
   async getMarineTraffic() {
     return this.importyetiService.getShipmentDetails();
