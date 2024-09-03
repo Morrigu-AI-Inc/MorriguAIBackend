@@ -11,6 +11,7 @@ export enum POStatus {
   Draft = 'Draft',
   RequisitionApproval = 'RequisitionApproval',
   ManagerialApproval = 'ManagerialApproval',
+  SeniorManagerialApproval = 'SeniorManagerialApproval',
   FinanceApproval = 'FinanceApproval',
   ComplianceReview = 'ComplianceReview',
   ApprovalOrRejection = 'ApprovalOrRejection',

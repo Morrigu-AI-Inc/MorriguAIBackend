@@ -107,6 +107,11 @@ export class TeamController {
     return this.teamService.acceptInvitation(invitationId, body);
   }
 
+  @Get('approver/:poId/:userId')
+  async getApprover(@Param('poId') poId: string, @Param('userId') userId: string) {
+    return this.teamService.findNextApprover(poId, userId);
+  }
+
   @Get('users/:orgId')
   async getUsersByTeamId(@Param('orgId') orgId: string) {
     return this.teamService.getUsersOfOrg(orgId);

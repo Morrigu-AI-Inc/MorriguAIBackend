@@ -80,18 +80,17 @@ export const GroupSchema = SchemaFactory.createForClass(Group);
 
 @Schema()
 export class Team extends Document {
-
   @Prop({ required: true })
   name: string;
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  managerId: Types.ObjectId
+  managerId: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  seniorManagerId: Types.ObjectId
+  seniorManagerId: Types.ObjectId;
 
   @Prop({ type: [Types.ObjectId], ref: 'User', default: [] })
-  users: Types.ObjectId[]
+  users: Types.ObjectId[];
 
   @Prop({ type: [Types.ObjectId], ref: 'Team', default: [] })
   teams: Team[];
@@ -100,7 +99,15 @@ export class Team extends Document {
   parentTeam: Team;
 
   @Prop({ type: [Types.ObjectId], ref: 'Group', default: [] })
-  groups: Group[]
+  groups: Group[];
+
+  @Prop({
+    required: false,
+    type: Types.ObjectId,
+    ref: 'RootOrgGroup',
+    default: null,
+  }) // only assign when the team belongs to the "root" do not assign when the team is a sub team of another team
+  rootOrgGroup: RootOrgGroup;
 
   @Prop({ required: false, type: Types.ObjectId, ref: 'Group' })
   financeGroup: Group;

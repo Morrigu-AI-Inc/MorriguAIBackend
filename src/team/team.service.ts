@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,6 +15,11 @@ import {
 } from 'src/db/schemas';
 import { MailerService } from 'src/mailer/mailer.service';
 import { Invitation } from 'src/db/schemas/Invitation';
+import { POStatus, PurchaseOrder } from 'src/db/schemas/PurchaseOrder';
+import {
+  poWorkflow,
+  WorkFlowRoles,
+} from 'src/workflow/entities/workflow.entity';
 
 @Injectable()
 export class TeamService {
@@ -34,8 +39,10 @@ export class TeamService {
     private readonly invitationModel: Model<Invitation>,
     @InjectModel('UserACL')
     private readonly aclModel: Model<UserACL>,
+    @InjectModel('PurchaseOrder')
+    private readonly purchaseOrderModel: Model<PurchaseOrder>,
   ) {
-    // this.initModule();
+    this.initModule();
   }
 
   async initModule() {
@@ -319,61 +326,6 @@ export class TeamService {
   }
 
   // given the requesters team and the current persons ID, can they approve the PO?
-  public findNextFinanceApprover(team: Team, user: UserDocument) {
-    const financeGroup = team.financeGroup as Group;
-
-    if (financeGroup.users.includes(user._id)) {
-      return user;
-    }
-
-    if (team.parentTeam) {
-      return this.findNextFinanceApprover(team.parentTeam, user);
-    }
-
-    return null;
-  }
-
-  public findNextComplianceApprover(team: Team, user: UserDocument) {
-    const complianceGroup = team.complianceGroup as Group;
-
-    if (complianceGroup.users.includes(user._id)) {
-      return user;
-    }
-
-    if (team.parentTeam) {
-      return this.findNextComplianceApprover(team.parentTeam, user);
-    }
-
-    return null;
-  }
-
-  public findNextProcurementApprover(team: Team, user: UserDocument) {
-    const procurementGroup = team.procurementGroup as Group;
-
-    if (procurementGroup.users.includes(user._id)) {
-      return user;
-    }
-
-    if (team.parentTeam) {
-      return this.findNextProcurementApprover(team.parentTeam, user);
-    }
-
-    return null;
-  }
-
-  public findNextAccountsPayableApprover(team: Team, user: UserDocument) {
-    const accountsPayableGroup = team.accountsPayableGroup as Group;
-
-    if (accountsPayableGroup.users.includes(user._id)) {
-      return user;
-    }
-
-    if (team.parentTeam) {
-      return this.findNextAccountsPayableApprover(team.parentTeam, user);
-    }
-
-    return null;
-  }
 
   async addTeam(team: Team, parentId: string) {
     // create the new team and add it to the parent team
@@ -822,8 +774,6 @@ export class TeamService {
 
     await invitation.save();
 
-    
-
     const user = await this.userModel.create({
       id: body.session.user.user_id,
       provider: body.session.provider,
@@ -1043,7 +993,7 @@ export class TeamService {
       .populate('financeGroup')
       .populate('complianceGroup')
       .populate('procurementGroup')
-      .populate('accountsPayableGroup')
+      .populate('accountsPayableGroup');
 
     if (!team) {
       throw new Error('Team not found');
@@ -1051,10 +1001,9 @@ export class TeamService {
 
     // populate the users in the groups
     await team.financeGroup?.populate('users');
-    await team.complianceGroup?.populate('users')
-    await team.procurementGroup?.populate('users')
-    await team.accountsPayableGroup?.populate('users')
-
+    await team.complianceGroup?.populate('users');
+    await team.procurementGroup?.populate('users');
+    await team.accountsPayableGroup?.populate('users');
 
     return {
       financeGroup: team.financeGroup,
@@ -1090,5 +1039,553 @@ export class TeamService {
     await group.save();
 
     return group;
+  }
+
+  // Graph Traversal of the team hierarchy
+
+  // We will be building the mechanism of the following scenrio:
+
+  // For eacb role, we need to know the group that is responsible for approving the PO
+  // requester is simply the user who created the PO
+  // departmentManager is the manager of the team that the requester belongs to
+  // seniorManager is the seniorManager of the team that the requester belongs to
+  // financeController is anyone in the financeGroup of the team that the requester belongs to
+  //     if there is no financeGroup, then it is the financeGroup of the parent team
+  //          this continues until we reach a team with a financeGroup or the root team
+  // complianceOfficer is anyone in the complianceGroup of the team that the requester belongs to
+  //      if there is no complianceGroup, then it is the complianceGroup of the parent team
+  //          this continues until we reach a team with a complianceGroup or the root team
+  // procurementOfficer is anyone in the procurementGroup of the team that the requester belongs to
+  //      if there is no procurementGroup, then it is the procurementGroup of the parent team
+  //          this continues until we reach a team with a procurementGroup or the root team
+  // accountsPayable is anyone in the accountsPayableGroup of the team that the requester belongs to
+  //      if there is no accountsPayableGroup, then it is the accountsPayableGroup of the parent team
+  //          this continues until we reach a team with a accountsPayableGroup or the root team
+
+  /// Workflow Entities
+
+  // enum POStatus {
+  //   Draft = 'Draft',
+  //   RequisitionApproval = 'RequisitionApproval',
+  //   ManagerialApproval = 'ManagerialApproval',
+  //   SeniorManagerialApproval = 'SeniorManagerialApproval',
+  //   FinanceApproval = 'FinanceApproval',
+  //   ComplianceReview = 'ComplianceReview',
+  //   ApprovalOrRejection = 'ApprovalOrRejection',
+  //   SupplierEngagement = 'SupplierEngagement',
+  //   OrderFulfillment = 'OrderFulfillment',
+  //   InvoiceMatching = 'InvoiceMatching',
+  //   PaymentProcessing = 'PaymentProcessing',
+  //   OrderCloseout = 'OrderCloseout',
+  //   ReportingAndAnalysis = 'ReportingAndAnalysis',
+  //   Archive = 'Archive',
+  //   Rejected = 'Rejected',
+  //   POAmendment = 'POAmendment',
+  //   IssueResolution = 'IssueResolution',
+  // }
+
+  // export interface WorkflowStep {
+  //   name: POStatus;
+  //   description: string;
+  //   nextSteps: POStatus[];
+  //   approverRole: WorkFlowRoles;
+  //   label: string;
+  //   color: string;
+  // }
+
+  // export enum WorkFlowRoles {
+  //   requester = 'requester',
+  //   departmentManager = 'departmentManager',
+  //   seniorManager = 'seniorManager',
+  //   financeController = 'financeController',
+  //   complianceOfficer = 'complianceOfficer',
+  //   procurementOfficer = 'procurementOfficer',
+  //   accountsPayable = 'accountsPayable',
+  // }
+
+  // First Function will be to find the next approver for a given user for the po's current state
+  // -- Function to calc a po's current state.
+
+  async calcPOState(poId: string) {
+    // find the po
+    const po = await this.purchaseOrderModel.findOne({
+      _id: poId,
+    });
+
+    if (!po) {
+      throw new Error('PO not found');
+    }
+
+    const nextSteps = poWorkflow[po.status].nextSteps;
+
+    switch (po.status) {
+      case POStatus.Draft:
+        return POStatus.RequisitionApproval;
+      case POStatus.RequisitionApproval:
+        return POStatus.ManagerialApproval;
+      case POStatus.ManagerialApproval:
+        return POStatus.SeniorManagerialApproval;
+      case POStatus.SeniorManagerialApproval:
+        return POStatus.FinanceApproval;
+      case POStatus.FinanceApproval:
+        return POStatus.ComplianceReview;
+      case POStatus.ComplianceReview:
+        return POStatus.ApprovalOrRejection;
+      case POStatus.ApprovalOrRejection:
+        return POStatus.SupplierEngagement;
+      case POStatus.SupplierEngagement:
+        return POStatus.OrderFulfillment;
+      case POStatus.OrderFulfillment:
+        return POStatus.InvoiceMatching;
+      case POStatus.InvoiceMatching:
+        return POStatus.PaymentProcessing;
+      case POStatus.PaymentProcessing:
+        return POStatus.OrderCloseout;
+      case POStatus.OrderCloseout:
+        return POStatus.ReportingAndAnalysis;
+      case POStatus.ReportingAndAnalysis:
+        return POStatus.Archive;
+      case POStatus.Archive:
+        return POStatus.Archive;
+      case POStatus.Rejected:
+        return POStatus.Rejected;
+      case POStatus.POAmendment:
+        return POStatus.POAmendment;
+      case POStatus.IssueResolution:
+        return POStatus.IssueResolution;
+    }
+
+    // find the team
+    // find the users in the team
+    // find the next approver based on the users in the team
+  }
+
+  calcUserRoleFromStatus(poStatus: POStatus) {
+    switch (poStatus) {
+      case POStatus.Draft:
+        return WorkFlowRoles.requester;
+      case POStatus.RequisitionApproval:
+        return WorkFlowRoles.departmentManager;
+      case POStatus.ManagerialApproval:
+        return WorkFlowRoles.seniorManager;
+      case POStatus.SeniorManagerialApproval:
+        return WorkFlowRoles.financeController;
+      case POStatus.FinanceApproval:
+        return WorkFlowRoles.complianceOfficer;
+      case POStatus.ComplianceReview:
+        return WorkFlowRoles.procurementOfficer;
+      case POStatus.ApprovalOrRejection:
+        return WorkFlowRoles.accountsPayable;
+      case POStatus.SupplierEngagement:
+        return WorkFlowRoles.procurementOfficer;
+      case POStatus.OrderFulfillment:
+        return WorkFlowRoles.procurementOfficer;
+      case POStatus.InvoiceMatching:
+        return WorkFlowRoles.accountsPayable;
+      case POStatus.PaymentProcessing:
+        return WorkFlowRoles.accountsPayable;
+      case POStatus.OrderCloseout:
+        return WorkFlowRoles.accountsPayable;
+      case POStatus.ReportingAndAnalysis:
+        // meaning any of the users in the chain can see it at this point and report on it.
+        return [
+          WorkFlowRoles.requester,
+          WorkFlowRoles.departmentManager,
+          WorkFlowRoles.seniorManager,
+        ];
+      case POStatus.Archive:
+        return WorkFlowRoles.departmentManager;
+      case POStatus.Rejected:
+        return WorkFlowRoles.requester;
+      case POStatus.POAmendment:
+        return WorkFlowRoles.requester;
+      case POStatus.IssueResolution:
+        return WorkFlowRoles.requester;
+    }
+  }
+
+  // find the next approver for a given user for the po's current state
+  async findNextApprover(poId: string, userId: string) {
+    const po = await this.purchaseOrderModel
+      .findOne({
+        _id: poId,
+      })
+      .populate('createdBy');
+
+    if (!po) {
+      throw new Error('PO not found');
+    }
+
+    const poStatus = po.status;
+
+    const user = await this.userModel.findOne({
+      _id: userId,
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // find the team they are in
+    const team = await this.teamModel.findOne({
+      users: user._id,
+    });
+
+    if (!team) {
+      throw new Error('User not in a team');
+    }
+
+    // the role we will be looking for next
+    const role = this.calcUserRoleFromStatus(poStatus);
+
+    // if requester then it is simply the user who created the PO
+    // if departmentManager then it is the manager of the team that the requester belongs to
+    // if seniorManager then it is the seniorManager of the team that the requester belongs to
+    // if financeController then it is anyone in the financeGroup of the team that the requester belongs to
+    //  -- if there is no financeGroup, then it is the financeGroup of the parent team, this continues until we reach a team with a financeGroup or the root team
+    // if complianceOfficer then it is anyone in the complianceGroup of the team that the requester belongs to
+    //  -- if there is no complianceGroup, then it is the complianceGroup of the parent team, this continues until we reach a team with a complianceGroup or the root team
+    // if procurementOfficer then it is anyone in the procurementGroup of the team that the requester belongs to
+    //  -- if there is no procurementGroup, then it is the procurementGroup of the parent team, this continues until we reach a team with a procurementGroup or the root team
+    // if accountsPayable then it is anyone in the accountsPayableGroup of the team that the requester belongs to
+    //  -- if there is no accountsPayableGroup, then it is the accountsPayableGroup of the parent team, this continues until we reach a team with a accountsPayableGroup or the root team
+
+    // find the next approver based on the users in the team
+    const nextApprover = await this.findNextApproverForRole(team, role, user);
+
+    return nextApprover;
+  }
+
+  async findNextApproverForRole(
+    team: Team,
+    role: WorkFlowRoles | WorkFlowRoles[],
+    user: UserDocument,
+  ) {
+    if (Array.isArray(role)) {
+      return role.map(async (r) => {
+        return await this.findNextApproverForRole(team, r, user);
+      });
+    }
+
+    switch (role) {
+      case WorkFlowRoles.requester:
+        return user;
+      case WorkFlowRoles.departmentManager:
+        return await this.findNextDepartmentManager(team, user);
+      case WorkFlowRoles.seniorManager:
+        return await this.findNextSeniorManager(team, user);
+      case WorkFlowRoles.financeController:
+        return await this.findNextFinanceApprover(team, user);
+      case WorkFlowRoles.complianceOfficer:
+        return await this.findNextComplianceApprover(team, user);
+      case WorkFlowRoles.procurementOfficer:
+        return await this.findNextProcurementApprover(team, user);
+      case WorkFlowRoles.accountsPayable:
+        return await this.findNextAccountsPayableApprover(team, user);
+    }
+  }
+
+  public async getRootOrgGroupOfUser(
+    user: UserDocument,
+  ): Promise<RootOrgGroup> {
+    const org = await this.organizationModel.findOne({
+      users: user._id,
+    });
+
+    if (!org) {
+      throw new Error('User not in an org');
+    }
+
+    if (!org.rootOrgGroup) {
+      throw new Error('Root Org Group not found'); // this would be a legit erorr
+    }
+
+    await org.populate('rootOrgGroup');
+
+    await org.rootOrgGroup.populate('financeGroup');
+    await org.rootOrgGroup.populate('complianceGroup');
+    await org.rootOrgGroup.populate('procurementGroup');
+    await org.rootOrgGroup.populate('accountsPayableGroup');
+
+    return org.rootOrgGroup as any;
+  }
+
+  // find the next department manager
+  public async findNextDepartmentManager(team: Team, user: UserDocument) {
+    const manager = await this.userModel.findOne({
+      _id: team.managerId,
+    });
+
+    if (manager) {
+      return manager;
+    }
+
+    if (team.parentTeam) {
+      return await this.findNextDepartmentManager(team.parentTeam, user);
+    }
+
+    // we need to do something here but we havent implement whatever the logic is needed
+    return null;
+  }
+
+  // find the next senior manager
+  public async findNextSeniorManager(team: Team, user: UserDocument) {
+    const seniorManager = await this.userModel.findOne({
+      _id: team.seniorManagerId,
+    });
+
+    if (seniorManager) {
+      return seniorManager;
+    }
+    // shouldn't happen but just in case we will check the parent team for whatever reason.
+    if (team.parentTeam) {
+      return await this.findNextSeniorManager(team.parentTeam, user);
+    }
+
+    return null;
+  }
+
+  // find the next finance approver
+  public async findNextFinanceApprover(team: Team, user: UserDocument) {
+    if (team.financeGroup) {
+      const group = await this.groupModel
+        .findOne({
+          _id: team.financeGroup,
+        })
+        .populate('users');
+
+      if (group.users.length !== 0) {
+        return group.users;
+      }
+    }
+
+    if (team.parentTeam) {
+      const parentTeam = await this.teamModel.findOne({
+        _id: team.parentTeam,
+      });
+
+      if (!parentTeam) {
+        return null;
+      }
+
+      return await this.findNextFinanceApprover(parentTeam, user);
+    }
+
+    // We grab the orgs root org group and grad the finance group from there
+
+    const rootOrgGroup: RootOrgGroup = (await this.getRootOrgGroupOfUser(
+      user,
+    )) as RootOrgGroup;
+
+    // grab the finance group from the root org group
+
+    if (rootOrgGroup.financeGroup) {
+      const group = await this.groupModel
+        .findOne({
+          _id: rootOrgGroup.financeGroup,
+        })
+        .populate('users');
+
+      if (group.users.length === 0) {
+        return null;
+      }
+
+      return group.users;
+    }
+
+    // if none of the above then just the owner of the org I guess
+    const org = await this.organizationModel
+      .findOne({
+        users: user._id,
+      })
+      .populate('owner');
+
+    // return [org.owner as any];
+
+    return [org.owner as any];
+  }
+
+  // find the next compliance approver
+  public async findNextComplianceApprover(team: Team, user: UserDocument) {
+    if (team.complianceGroup) {
+      const group = await this.groupModel
+        .findOne({
+          _id: team.complianceGroup,
+        })
+        .populate('users');
+
+      if (group.users.length !== 0) {
+        return group.users;
+      }
+    }
+
+    if (team.parentTeam) {
+      const parentTeam = await this.teamModel.findOne({
+        _id: team.parentTeam,
+      });
+
+      if (!parentTeam) {
+        return null;
+      }
+
+      return this.findNextComplianceApprover(parentTeam, user);
+    }
+
+    // we need to do something here but we havent implement whatever the logic is needed
+    const rootOrgGroup: RootOrgGroup = (await this.getRootOrgGroupOfUser(
+      user,
+    )) as RootOrgGroup;
+
+    // grab the finance group from the root org group
+
+    if (rootOrgGroup.complianceGroup) {
+      const group = await this.groupModel
+        .findOne({
+          _id: rootOrgGroup.complianceGroup,
+        })
+        .populate('users');
+
+      if (group.users.length === 0) {
+        return null;
+      }
+
+      return group.users;
+    }
+
+    // if none of the above then just the owner of the org I guess
+    const org = await this.organizationModel
+      .findOne({
+        users: user._id,
+      })
+      .populate('owner');
+
+    // return [org.owner as any];
+
+    return [org.owner as any];
+  }
+
+  // find the next procurement approver
+  public async findNextProcurementApprover(team: Team, user: UserDocument) {
+    if (team.procurementGroup) {
+      const group = await this.groupModel
+        .findOne({
+          _id: team.procurementGroup,
+        })
+        .populate('users');
+
+      if (group.users.length !== 0) {
+        return group.users;
+      }
+    }
+
+    if (team.parentTeam) {
+      const parentTeam = await this.teamModel.findOne({
+        _id: team.parentTeam,
+      });
+
+      if (!parentTeam) {
+        return null;
+      }
+
+      return this.findNextProcurementApprover(parentTeam, user);
+    }
+
+    // we need to do something here but we havent implement whatever the logic is needed
+    const rootOrgGroup: RootOrgGroup = (await this.getRootOrgGroupOfUser(
+      user,
+    )) as RootOrgGroup;
+
+    // grab the finance group from the root org group
+
+    if (rootOrgGroup.procurementGroup) {
+      const group = await this.groupModel
+        .findOne({
+          _id: rootOrgGroup.procurementGroup,
+        })
+        .populate('users');
+
+      if (group.users.length === 0) {
+        return null;
+      }
+    }
+
+    // if none of the above then just the owner of the org I guess
+    const org = await this.organizationModel
+      .findOne({
+        users: user._id,
+      })
+      .populate('owner');
+
+    // return [org.owner as any];
+
+    return [org.owner as any];
+  }
+
+  // find the next accounts payable approver
+  public async findNextAccountsPayableApprover(team: Team, user: UserDocument) {
+    if (team.accountsPayableGroup) {
+      const group = await this.groupModel
+        .findOne({
+          _id: team.accountsPayableGroup,
+        })
+        .populate('users');
+
+      if (group.users.length !== 0) {
+        return group.users;
+      }
+    }
+
+    if (team.parentTeam) {
+      const parentTeam = await this.teamModel.findOne({
+        _id: team.parentTeam,
+      });
+
+      if (!parentTeam) {
+        return null;
+      }
+
+      return this.findNextAccountsPayableApprover(parentTeam, user);
+    }
+
+    // we need to do something here but we havent implement whatever the logic is needed
+    const rootOrgGroup: RootOrgGroup = (await this.getRootOrgGroupOfUser(
+      user,
+    )) as RootOrgGroup;
+
+    // grab the finance group from the root org group
+
+    if (rootOrgGroup.accountsPayableGroup) {
+      const group = await this.groupModel
+        .findOne({
+          _id: rootOrgGroup.accountsPayableGroup,
+        })
+        .populate('users');
+
+      if (group.users.length === 0) {
+        return null;
+      }
+
+      return group.users;
+    }
+
+    // if none of the above then just the owner of the org I guess
+    const org = await this.organizationModel
+      .findOne({
+        users: user._id,
+      })
+      .populate('owner');
+
+    // return [org.owner as any];
+
+    return [org.owner as any];
+  }
+
+  // find the users in the group
+  public findUsersInGroup(group: Group, user: UserDocument) {
+    return this.userModel.find({
+      _id: {
+        $in: group.users,
+      },
+    });
   }
 }
