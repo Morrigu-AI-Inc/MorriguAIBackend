@@ -820,6 +820,10 @@ export class TeamService {
 
     invitation.status = 'accepted';
 
+    await invitation.save();
+
+    
+
     const user = await this.userModel.create({
       id: body.session.user.user_id,
       provider: body.session.provider,

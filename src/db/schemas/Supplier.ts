@@ -82,6 +82,9 @@ export class Supplier extends Document implements Location {
 
   @Prop([{ type: SchemaTypes.Mixed, default: {} }])
   raw: object;
+
+  @Prop({ required: false, default: '' })
+  tag: string;
 }
 
 const SupplierSchema = SchemaFactory.createForClass(Supplier);
