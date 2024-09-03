@@ -108,8 +108,8 @@ export class TeamController {
   }
 
   @Get('approver/:poId/:userId')
-  async getApprover(@Param('poId') poId: string, @Param('userId') userId: string) {
-    return this.teamService.findNextApprover(poId, userId);
+  async getApprover(@Param('poId') poId: string, @Param('userId') userId: string, @Query('readOnlyIds') readOnlyIds: boolean) {
+    return this.teamService.findNextApprover(poId, userId, readOnlyIds);
   }
 
   @Get('users/:orgId')

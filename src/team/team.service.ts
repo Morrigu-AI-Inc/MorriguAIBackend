@@ -1210,7 +1210,7 @@ export class TeamService {
   }
 
   // find the next approver for a given user for the po's current state
-  async findNextApprover(poId: string, userId: string) {
+  async findNextApprover(poId: string, userId: string, returnOnlyIds = false) {
     const po = await this.purchaseOrderModel
       .findOne({
         _id: poId,
@@ -1223,11 +1223,12 @@ export class TeamService {
 
     const poStatus = po.status;
 
-    const user = await this.userModel.findOne({
+    // id or _id
+    let user = await this.userModel.findOne({
       _id: userId,
     });
 
-    if (!user) {
+    if(!user) {
       throw new Error('User not found');
     }
 
@@ -1258,6 +1259,10 @@ export class TeamService {
     // find the next approver based on the users in the team
     const nextApprover = await this.findNextApproverForRole(team, role, user);
 
+    if(returnOnlyIds){
+      return nextApprover.map((u) => u._id);
+    }
+
     return nextApprover;
   }
 
@@ -1287,6 +1292,8 @@ export class TeamService {
         return await this.findNextProcurementApprover(team, user);
       case WorkFlowRoles.accountsPayable:
         return await this.findNextAccountsPayableApprover(team, user);
+      default:
+        return [];
     }
   }
 
@@ -1322,15 +1329,15 @@ export class TeamService {
     });
 
     if (manager) {
-      return manager;
+      return [manager];
     }
 
     if (team.parentTeam) {
-      return await this.findNextDepartmentManager(team.parentTeam, user);
+      return [await this.findNextDepartmentManager(team.parentTeam, user)];
     }
 
     // we need to do something here but we havent implement whatever the logic is needed
-    return null;
+    return [];
   }
 
   // find the next senior manager
@@ -1340,14 +1347,14 @@ export class TeamService {
     });
 
     if (seniorManager) {
-      return seniorManager;
+      return [seniorManager];
     }
     // shouldn't happen but just in case we will check the parent team for whatever reason.
     if (team.parentTeam) {
-      return await this.findNextSeniorManager(team.parentTeam, user);
+      return [await this.findNextSeniorManager(team.parentTeam, user)];
     }
 
-    return null;
+    return [];
   }
 
   // find the next finance approver

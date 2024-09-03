@@ -140,7 +140,7 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
     color: 'primary',
     description: 'Review and approval by the finance department.',
     nextSteps: [
-      POStatus.ComplianceReview,
+      POStatus.ComplianceReview, // try to AI approve
       POStatus.ManagerialApproval,
       POStatus.Rejected,
     ],

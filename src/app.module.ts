@@ -119,10 +119,15 @@ import { AmazonModule } from './punchouts/amazon/amazon.module';
 import { EncryptionService } from './encryption/encryption.service';
 import { WorkflowModule } from './workflow/workflow.module';
 import { MailerModule } from './mailer/mailer.module';
+import { BullModule } from '@nestjs/bull';
+import { QueueModule } from './queue/queue.module';
 
 @Module({
   imports: [
     AuthModule,
+    BullModule.forRoot({
+      url: process.env.REDIS_URL,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -306,6 +311,8 @@ import { MailerModule } from './mailer/mailer.module';
     WorkflowModule,
 
     MailerModule,
+
+    QueueModule,
   ],
   controllers: [
     AppController,

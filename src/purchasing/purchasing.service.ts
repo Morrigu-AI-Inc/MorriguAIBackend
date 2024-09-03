@@ -11,6 +11,9 @@ import {
 import { LineItem, LineItemDocument } from 'src/db/schemas/LineItem';
 import { User } from 'src/db/schemas';
 import { poWorkflow } from '../workflow/entities/workflow.entity';
+import { TeamService } from 'src/team/team.service';
+import { QueueService } from 'src/queue/queue.service';
+import { BullJobNames, BullQueues } from 'src/queue/entities/queue.entity';
 
 @Injectable()
 export class PurchasingService {
@@ -21,6 +24,8 @@ export class PurchasingService {
     private readonly lineItemmodel: Model<LineItemDocument>,
     @InjectModel('User')
     private readonly userModel: Model<User>,
+    private readonly teamService: TeamService,
+    private readonly queueService: QueueService,
   ) {}
 
   async create(
@@ -228,10 +233,10 @@ export class PurchasingService {
   }
 
   // todo: We need to check if the person trying to change the status has the right permissions to do so
-  public setStatus = async (poId: string, status: POStatus, user: string) => {
+  public setStatus = async (poId: string, status: POStatus, user: string) => { // user is ther person sending the request may or may not be the same as the person who created the PO
     console.log('poId', poId, 'status', status, 'user', user);
     const userObj = await this.userModel.findOne({
-      id: user,
+      _id: user,
     });
 
     if (!userObj) {
@@ -254,21 +259,13 @@ export class PurchasingService {
 
     // we have everything we need to calculate the authorization for approval or rejection
 
-    const lastHistoryItem = po.history[po.history.length - 1];
-    console.log('lastHistoryItem', lastHistoryItem);
-    const currentWorkflow = poWorkflow[lastHistoryItem.status];
-    console.log('currentWorkflow', currentWorkflow);
-    console.log('createdBy', createdBy);
 
-    const isRequester =
-      currentWorkflow.approverRole === 'requester' &&
-      createdBy._id.toString() === userObj._id.toString(); // the current approver is the requester
+    const approvers = (await this.teamService.findNextApprover(poId, user)).map((approver) => approver._id.toString());
 
-    console.log('isRequester', isRequester);
+    // if user._id is in approvers then user is authorized to change the status of this purchase order
+    const isApprover = approvers.includes(userObj._id.toString());
 
-    const isApprover =
-      createdBy.acl[currentWorkflow.approverRole] === userObj._id ||
-      isRequester;
+    console.log(isApprover);
 
     if (!isApprover) {
       throw new Error(
@@ -292,50 +289,91 @@ export class PurchasingService {
     await po.save();
 
     switch (status) {
-      case POStatus.RequisitionApproval:
+      case POStatus.Draft:
+        // This is Approved by the requester
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessDraftJob);
+        break;
+      case POStatus.RequisitionApproval:
+        // This is approved by the department manager
+        // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessRequisitionApprovalJob);
         break;
       case POStatus.ManagerialApproval:
+        // This is approval by the Senior Manager
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessManagerialApprovalJob);
         break;
-      case POStatus.FinanceApproval:
-        // send notification to the next approver
+      case POStatus.FinanceApproval: // we will try to ai approve the PO
+        // this is aprove by the finance controller
+        // try to AI approve the PO
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessFinanceApprovalJob);
         break;
-      case POStatus.ComplianceReview:
-        // send notification to the next approver
+      case POStatus.ComplianceReview: // we will try to ai approve the PO
+        // this is a review by the compliance officer
+        // try to AI approve the PO
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessComplianceReviewJob);
         break;
-      case POStatus.ApprovalOrRejection:
+      case POStatus.ApprovalOrRejection: // we will try to ai approve the PO
+        // this happens after the compliance review and finance and it gets sent back to the senior manager to send to the procurement officer
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessApprovalOrRejectionJob);
         break;
       case POStatus.SupplierEngagement:
+        // this is submittial to the supplier by the procurement officer
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessSupplierEngagementJob);
         break;
       case POStatus.OrderFulfillment:
+        // the procurement officer is waiting for the supplier to fulfill the order if they do not then it get sent back for supplier engagement (also the procurement officer) to handle
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessOrderFulfillmentJob);
         break;
-      case POStatus.InvoiceMatching:
+      case POStatus.InvoiceMatching: // we will try to ai approve the PO
+        // the procurement officer is waiting for the supplier to send the invoice 
+        // if they do not get the invoice, first they check if the order was fulfilled and received if not then it goes back to order fulfillment
+        // if they do not get the invoice and the order was fulfilled then it goes back to issue resolution
+        // if they do get the invoice and they did not receive the order then it goes back to issue resolution
+        // if they do get the invoice and it does not match the order then it goes back to issue resolution
+        // if they do get the invoice and it matches the order then they send it to payment processing
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessInvoiceMatchingJob);
         break;
-      case POStatus.PaymentProcessing:
+      case POStatus.PaymentProcessing: // we will try to ai approve the PO
+        // the accounts payable office is about to pay the supplier
+        // shouldnt ever have to fo back to the other steps but just in case we will allow it here. 
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessPaymentProcessingJob);
         break;
-      case POStatus.OrderCloseout:
+      case POStatus.OrderCloseout: // we will try to ai approve the PO
+        // by this point the order has been paid for and the procurement officer is closing out the order and sending it to reporting and analysis
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessOrderCloseoutJob);
         break;
-      case POStatus.ReportingAndAnalysis:
+      case POStatus.ReportingAndAnalysis: // we will try to ai approve the PO
+        // the procurement officer is analyzing the order for trends, performance, and opportunities and then archiving the order
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessReportingAndAnalysisJob);
         break;
-      case POStatus.Archive:
+      case POStatus.Archive: // we will try to ai approve the PO
+        // the compliance officer is archiving the order and related documents for future reference and the process is complete 
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessArchiveJob);
         break;
-      case POStatus.Rejected:
+      case POStatus.Rejected: // we will try to ai approve the PO
+        // this is when the order is rejected and needs review or cancellation by the requester
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessRejectedJob);
         break;
-      case POStatus.POAmendment:
+      case POStatus.POAmendment: // we will try to ai approve the PO
+        // this is when the order needs to be amended based on feedback from the supplier by the procurement officer
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessPOAmendmentJob);
         break;
-      case POStatus.IssueResolution:
+      case POStatus.IssueResolution: // we will try to ai approve the PO
+        // this is when the procurement officer is addressing any discrepancies or issues with the order or payment and then sending it back to order fulfillment, invoice matching, or payment processing
         // send notification to the next approver
+        await this.queueService.addJob(po, BullQueues.RIGU_QUEUE, BullJobNames.ProcessIssueResolutionJob);
         break;
       default:
         break;

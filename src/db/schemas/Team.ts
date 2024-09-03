@@ -95,7 +95,7 @@ export class Team extends Document {
   @Prop({ type: [Types.ObjectId], ref: 'Team', default: [] })
   teams: Team[];
 
-  @Prop({ required: false, type: Types.ObjectId, ref: 'Team' })
+  @Prop({ required: false, type: Types.ObjectId, ref: 'Team', default: null })
   parentTeam: Team;
 
   @Prop({ type: [Types.ObjectId], ref: 'Group', default: [] })
