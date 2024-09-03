@@ -889,6 +889,8 @@ export class TeamService {
       throw new Error('Failed to create invitation');
     }
 
+    const inviteLink = `${process.env.FRONTEND_URL}/login?invitation=${invitation._id}`;
+
     // send email to user
     const sent = this.mailService.sendMail({
       from: {
@@ -897,7 +899,14 @@ export class TeamService {
       },
       to: [email],
       subject: 'You have been invited to join an organization',
-      text: `You have been invited to join an organization at Rigu AI Procurement. Please use the following link to accept the invitation: https://localhost:3000/login?invitation=${invitation._id}`,
+      text: `
+      <html>
+      <body>
+        <p>You have been invited to join the ${org.name} organization</p>
+        <p>Click the link below to accept the invitation</p>
+        <a href="${inviteLink}">Accept Invitation</a>
+      </body>
+      </html>`,
       category: 'invite',
     });
 
