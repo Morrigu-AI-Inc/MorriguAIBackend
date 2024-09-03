@@ -42,7 +42,7 @@ export class TeamService {
     @InjectModel('PurchaseOrder')
     private readonly purchaseOrderModel: Model<PurchaseOrder>,
   ) {
-    this.initModule();
+    // this.initModule();
   }
 
   async initModule() {
@@ -270,6 +270,11 @@ export class TeamService {
 
     if (!organizationDoc) {
       throw new Error('Organization not found');
+    }
+
+    if (organizationDoc.rootOrgGroup) {
+      // stop here
+      return;
     }
 
     // create root org group
