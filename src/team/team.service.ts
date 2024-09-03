@@ -42,7 +42,7 @@ export class TeamService {
     @InjectModel('PurchaseOrder')
     private readonly purchaseOrderModel: Model<PurchaseOrder>,
   ) {
-    // this.initModule();
+    this.initModule();
   }
 
   async initModule() {
