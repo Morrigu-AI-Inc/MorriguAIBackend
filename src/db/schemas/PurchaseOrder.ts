@@ -1,26 +1,37 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types, SchemaTypes } from 'mongoose';
 import { Supplier } from './Supplier';
-import { Product } from './Product';
-import { LineItem, LineItemDocument } from './LineItem';
-import { OrganizationDocument, Organization } from './Organization';
+import { LineItem } from './LineItem';
+import { Organization } from './Organization';
+import { User } from './User';
 
 export type PurchaseOrderDocument = PurchaseOrder & Document;
 
 export enum POStatus {
-  CREATED = 'CREATED',
-  SENT = 'SENT',
-  ACCEPTED = 'ACCEPTED',
-  PENDING = 'PENDING',
-  CONTRACT_SENT = 'CONTRACT_SENT',
-  CONTRACT_SIGNED = 'CONTRACT_SIGNED',
-  WAITING_FOR_PAYMENT = 'WAITING_FOR_PAYMENT',
-  PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  SHIPPED = 'SHIPPED',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED',
+  Draft = 'Draft',
+  RequisitionApproval = 'RequisitionApproval',
+  ManagerialApproval = 'ManagerialApproval',
+  FinanceApproval = 'FinanceApproval',
+  ComplianceReview = 'ComplianceReview',
+  ApprovalOrRejection = 'ApprovalOrRejection',
+  SupplierEngagement = 'SupplierEngagement',
+  OrderFulfillment = 'OrderFulfillment',
+  InvoiceMatching = 'InvoiceMatching',
+  PaymentProcessing = 'PaymentProcessing',
+  OrderCloseout = 'OrderCloseout',
+  ReportingAndAnalysis = 'ReportingAndAnalysis',
+  Archive = 'Archive',
+  Rejected = 'Rejected',
+  POAmendment = 'POAmendment',
+  IssueResolution = 'IssueResolution',
 }
+
+type POHistory = {
+  status: POStatus;
+  timestamp: Date;
+  actionBy: Types.ObjectId;
+  metadata: any;
+};
 
 @Schema({
   timestamps: true,
@@ -50,7 +61,7 @@ export class PurchaseOrder extends Document {
   @Prop({ required: true })
   totalAmount: number;
 
-  @Prop({ required: true, enum: POStatus, default: POStatus.SENT })
+  @Prop({ required: true, enum: POStatus, default: POStatus.Draft })
   status: POStatus;
 
   @Prop({ required: false, type: SchemaTypes.Mixed })
@@ -61,6 +72,32 @@ export class PurchaseOrder extends Document {
 
   @Prop({ type: Types.ObjectId, ref: 'Organization', required: true })
   owner: Organization;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: false })
+  createdBy: User;
+
+  @Prop({
+    required: false,
+    default: 'default',
+    enum: ['default', 'amzn_punchout'],
+  })
+  type?: 'default' | 'amzn_punchout';
+
+  @Prop({ required: false, type: SchemaTypes.Mixed })
+  punchoutDetails?: any;
+
+  @Prop({
+    type: [
+      {
+        status: { type: String, enum: POStatus, default: POStatus.Draft },
+        timestamp: Date,
+        actionBy: { type: Types.ObjectId, ref: 'User' },
+        metadata: SchemaTypes.Mixed,
+      },
+    ],
+    default: [],
+  })
+  history: POHistory[];
 }
 
 const PurchaseOrderSchema = SchemaFactory.createForClass(PurchaseOrder);

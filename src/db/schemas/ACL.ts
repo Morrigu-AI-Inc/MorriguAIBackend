@@ -1,6 +1,7 @@
 // acl.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+import { User } from './User';
 
 export type OrganizationACLDocument = OrganizationACL & Document;
 export type UserACLDocument = UserACL & Document;
@@ -9,6 +10,8 @@ export type UserACLDocument = UserACL & Document;
   collection: 'acls',
 })
 export class ACL {
+
+
   @Prop({ type: [String], required: true, default: [] })
   permissions: string[];
 }
@@ -26,7 +29,23 @@ export class OrganizationACL extends ACL {}
   collection: 'useracls',
 })
 export class UserACL extends ACL {
-  
+  @Prop({ type: Types.ObjectId, ref: 'User', required: false })
+  departmentManager: User;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: false })
+  seniorManager: User;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: false })
+  financeController: User;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: false })
+  complianceOfficer: User;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: false })
+  procurementOfficer: User;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: false })
+  accountsPayable: User;
 }
 
 export const OrganizationACLSchema =

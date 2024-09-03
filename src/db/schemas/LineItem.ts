@@ -12,6 +12,9 @@ export class LineItem extends Document {
   @Prop({ required: true })
   productName: string;
 
+  @Prop({ required: false, default: '' })
+  description: string;
+
   @Prop({ required: true })
   quantity: number;
 
@@ -23,6 +26,16 @@ export class LineItem extends Document {
 
   @Prop({ required: false, type: SchemaTypes.Mixed })
   raw: object;
+
+  @Prop({
+    required: false,
+    default: 'default',
+    enum: ['default', 'amzn_punchout'],
+  })
+  type?: 'default' | 'amzn_punchout';
+
+  @Prop({ required: false, type: SchemaTypes.Mixed })
+  punchoutDefails: any;
 }
 
 export const LineItemSchema = SchemaFactory.createForClass(LineItem);

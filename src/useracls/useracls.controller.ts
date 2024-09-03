@@ -22,9 +22,11 @@ export class UseraclsController {
     return this.useraclsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Post(':id')
   update(@Param('id') id: string, @Body() updateUseraclDto: UpdateUseraclDto) {
-    return this.useraclsService.update(+id, updateUseraclDto);
+    console.log('id', id);
+    console.log('updateUseraclDto', updateUseraclDto);
+    return this.useraclsService.update(id, updateUseraclDto);
   }
 
   @Delete(':id')

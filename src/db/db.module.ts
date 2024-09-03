@@ -11,7 +11,7 @@ import {
   ChatMessageSchema,
   HistorySchema,
 } from './schemas/ConversationHistory';
-import { TeamSchema } from './schemas/Team';
+import { GroupSchema, RootOrgGroupSchema, TeamSchema } from './schemas/Team';
 import { EmployeeSchema } from './schemas/Employee';
 import { HiringPlanSchema } from './schemas/HiringPlan';
 import { MonthlyFinancialDetailSchema } from './schemas/MonthlyFinancialDetail';
@@ -93,6 +93,7 @@ import { CronJobSchema } from './schemas/CronJob';
 import { ObjectWatcherSchema } from './schemas/ObjectWatcher';
 import { ImportYetiShipmentSchema } from './schemas/ImportYeti';
 import { VesselSchema } from './schemas/AIS';
+import { InvitationSchema } from './schemas/Invitation';
 
 const schemas = [
   MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }]),
@@ -287,6 +288,9 @@ const schemas = [
     { name: 'ImportYetiShipment', schema: ImportYetiShipmentSchema },
 
     { name: 'Vessel', schema: VesselSchema },
+    { name: 'Group', schema: GroupSchema },
+    { name: 'RootOrgGroup', schema: RootOrgGroupSchema },
+    { name: 'Invitation', schema: InvitationSchema },
   ]),
 ];
 

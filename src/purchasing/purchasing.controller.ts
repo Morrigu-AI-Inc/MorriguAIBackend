@@ -92,6 +92,7 @@ export class PurchasingController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('id', id);
     return this.purchasingService.findOne(id);
   }
 

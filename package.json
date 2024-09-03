@@ -55,9 +55,11 @@
     "json-schema-deref-sync": "^0.14.0",
     "jszip": "^3.10.1",
     "jwks-rsa": "^3.1.0",
+    "mailtrap": "^3.4.0",
     "mongoose": "^8.2.1",
     "nocache": "^4.0.0",
     "node-jose": "^2.2.0",
+    "nodemailer": "^6.9.14",
     "openai": "^4.52.7",
     "passport": "^0.7.0",
     "passport-auth0": "^1.4.4",
@@ -71,6 +73,8 @@
     "stripe": "^15.3.0",
     "ws": "^8.18.0",
     "xml2js": "^0.6.2",
+    "xml2json": "^0.12.0",
+    "xmlbuilder": "^15.1.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {

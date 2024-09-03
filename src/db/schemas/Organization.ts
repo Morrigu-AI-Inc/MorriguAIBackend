@@ -1,6 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, SchemaTypes, Types } from 'mongoose';
 import { Assistant } from './Assistant';
+import { RootOrgGroup } from './Team';
+
+export type PunchoutConfig = {
+  punchoutUrl: string;
+  punchoutTestUrl: string;
+  poRequestUrl: string;
+  sharedSecret: string;
+  fromIdentity: string;
+};
+
+export type OrgSettings = {
+  amzn_punchout: string; // this is the encrypted punchout config json string
+};
 
 export type OrganizationDocument = Organization & Document;
 
@@ -47,6 +60,12 @@ export class Organization {
 
   @Prop({ type: Types.ObjectId, ref: 'APIKey', required: false })
   api_keys: Types.ObjectId[];
+
+  @Prop({ type: SchemaTypes.Mixed, required: true, default: {} })
+  settings: OrgSettings;
+
+  @Prop({ type: Types.ObjectId, ref: 'RootOrgGroup', required: false })
+  rootOrgGroup: RootOrgGroup;
 }
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization);

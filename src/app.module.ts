@@ -115,6 +115,10 @@ import { NotificationModule } from './notification/notification.module';
 import { ObjectmatcherModule } from './objectmatcher/objectmatcher.module';
 import { ImportyetiModule } from './importyeti/importyeti.module';
 import { AisModule } from './ais/ais.module';
+import { AmazonModule } from './punchouts/amazon/amazon.module';
+import { EncryptionService } from './encryption/encryption.service';
+import { WorkflowModule } from './workflow/workflow.module';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -296,6 +300,12 @@ import { AisModule } from './ais/ais.module';
     ImportyetiModule,
 
     AisModule,
+
+    AmazonModule,
+
+    WorkflowModule,
+
+    MailerModule,
   ],
   controllers: [
     AppController,
@@ -323,6 +333,7 @@ import { AisModule } from './ais/ais.module';
     AnthropicService,
     OrganizationService,
     SalesVolumnService,
+    EncryptionService,
   ],
 })
 export class AppModule {

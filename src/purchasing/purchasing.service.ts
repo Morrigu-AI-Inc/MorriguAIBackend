@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreatePurchasingDto } from './dto/create-purchasing.dto';
 import { UpdatePurchasingDto } from './dto/update-purchasing.dto';
 import {
@@ -9,6 +9,8 @@ import {
   POStatus,
 } from 'src/db/schemas/PurchaseOrder';
 import { LineItem, LineItemDocument } from 'src/db/schemas/LineItem';
+import { User } from 'src/db/schemas';
+import { poWorkflow } from '../workflow/entities/workflow.entity';
 
 @Injectable()
 export class PurchasingService {
@@ -17,6 +19,8 @@ export class PurchasingService {
     private readonly purchaseOrderModel: Model<PurchaseOrderDocument>,
     @InjectModel(LineItem.name)
     private readonly lineItemmodel: Model<LineItemDocument>,
+    @InjectModel('User')
+    private readonly userModel: Model<User>,
   ) {}
 
   async create(
@@ -59,7 +63,7 @@ export class PurchasingService {
 
       // create 1 purchase order first then create line items
       const newPo: Partial<PurchaseOrder> = {
-        status: POStatus.CREATED,
+        status: POStatus.Draft,
         po_number: createPurchasingDto.poNumber,
         supplier:
           createPurchasingDto.supplier._id.length > 0
@@ -74,6 +78,7 @@ export class PurchasingService {
         deliveryDate: new Date(),
         raw: createPurchasingDto,
         owner: createPurchasingDto.owner,
+        history: [],
       };
 
       const createdPurchaseOrder = new this.purchaseOrderModel(newPo);
@@ -128,17 +133,25 @@ export class PurchasingService {
       .countDocuments();
     const totalPages = Math.ceil(total / limit);
 
+    const ownerAsObjectId = Types.ObjectId.isValid(owner)
+      ? new Types.ObjectId(owner)
+      : null;
+
     const purchaseOrders = await this.purchaseOrderModel
       .find({
-        owner,
+        $or: [
+          { owner: owner }, // Match if owner is a string
+          { owner: ownerAsObjectId }, // Match if owner is an ObjectId
+        ],
       })
       .skip(startIndex)
       .limit(limit)
-      // order by created date
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: -1 }) // Order by created date
       .populate('supplier')
       .populate('line_items')
       .exec();
+
+    console.log('purchaseOrders', purchaseOrders);
 
     return {
       data: purchaseOrders,
@@ -147,12 +160,47 @@ export class PurchasingService {
       totalItems: total,
     };
   }
-
+  // purchaseOrder {
+  //   _id: new ObjectId('66d13267f17991c625a0301b'),
+  //   po_number: '1724985785611.570.8640@amazon.com',
+  //   line_items: [
+  //     {
+  //       productName: '69551512',
+  //       quantity: 1,
+  //       price: 4.98,
+  //       totalPrice: '4.98',
+  //       raw: [Object],
+  //       type: 'amzn_punchout',
+  //       punchoutDefails: [Array],
+  //       _id: new ObjectId('66d13267f17991c625a0301a')
+  //     }
+  //   ],
+  //   orderDate: 2024-08-30T02:43:05.619Z,
+  //   deliveryDate: 2024-09-06T02:43:05.619Z,
+  //   totalAmount: 4.98,
+  //   status: 'SENT',
+  //   raw: { cXML: { '$': [Object], Header: [Array], Message: [Array] } },
+  //   terms: 'Net 30',
+  //   owner: new ObjectId('6657613c32a41b8769a79eba'),
+  //   type: 'amzn_punchout',
+  //   createdAt: 2024-08-30T02:45:59.615Z,
+  //   updatedAt: 2024-08-30T02:45:59.615Z,
+  //   version: 0
+  // }
   async findOne(id: string): Promise<PurchaseOrder> {
-    const purchaseOrder = await this.purchaseOrderModel.findById(id).exec();
+    const purchaseOrder = await this.purchaseOrderModel
+      .findOne({ po_number: id })
+      .populate('supplier')
+      .populate('line_items')
+      .populate('history.actionBy')
+      .exec();
+
+    console.log('purchaseOrder', purchaseOrder);
+
     if (!purchaseOrder) {
       throw new NotFoundException(`PurchaseOrder with ID ${id} not found`);
     }
+
     return purchaseOrder;
   }
 
@@ -178,4 +226,121 @@ export class PurchasingService {
     }
     return deletedPurchaseOrder;
   }
+
+  // todo: We need to check if the person trying to change the status has the right permissions to do so
+  public setStatus = async (poId: string, status: POStatus, user: string) => {
+    console.log('poId', poId, 'status', status, 'user', user);
+    const userObj = await this.userModel.findOne({
+      id: user,
+    });
+
+    if (!userObj) {
+      throw new Error('User not found');
+    }
+
+    const po = await this.purchaseOrderModel.findOne({
+      _id: poId,
+    });
+
+    const createdBy = await this.userModel
+      .findOne({
+        _id: po.createdBy,
+      })
+      .populate('acl');
+
+    if (!po) {
+      throw new Error('Purchase order not found');
+    }
+
+    // we have everything we need to calculate the authorization for approval or rejection
+
+    const lastHistoryItem = po.history[po.history.length - 1];
+    console.log('lastHistoryItem', lastHistoryItem);
+    const currentWorkflow = poWorkflow[lastHistoryItem.status];
+    console.log('currentWorkflow', currentWorkflow);
+    console.log('createdBy', createdBy);
+
+    const isRequester =
+      currentWorkflow.approverRole === 'requester' &&
+      createdBy._id.toString() === userObj._id.toString(); // the current approver is the requester
+
+    console.log('isRequester', isRequester);
+
+    const isApprover =
+      createdBy.acl[currentWorkflow.approverRole] === userObj._id ||
+      isRequester;
+
+    if (!isApprover) {
+      throw new Error(
+        'User is not authorized to change the status of this purchase order',
+      );
+    } else {
+      console.log(
+        'User is authorized to change the status of this purchase order',
+      );
+    }
+
+    po.history.push({
+      status,
+      actionBy: userObj._id,
+      timestamp: new Date(),
+      metadata: {},
+    });
+
+    po.status = status;
+
+    await po.save();
+
+    switch (status) {
+      case POStatus.RequisitionApproval:
+        // send notification to the next approver
+        break;
+      case POStatus.ManagerialApproval:
+        // send notification to the next approver
+        break;
+      case POStatus.FinanceApproval:
+        // send notification to the next approver
+        break;
+      case POStatus.ComplianceReview:
+        // send notification to the next approver
+        break;
+      case POStatus.ApprovalOrRejection:
+        // send notification to the next approver
+        break;
+      case POStatus.SupplierEngagement:
+        // send notification to the next approver
+        break;
+      case POStatus.OrderFulfillment:
+        // send notification to the next approver
+        break;
+      case POStatus.InvoiceMatching:
+        // send notification to the next approver
+        break;
+      case POStatus.PaymentProcessing:
+        // send notification to the next approver
+        break;
+      case POStatus.OrderCloseout:
+        // send notification to the next approver
+        break;
+      case POStatus.ReportingAndAnalysis:
+        // send notification to the next approver
+        break;
+      case POStatus.Archive:
+        // send notification to the next approver
+        break;
+      case POStatus.Rejected:
+        // send notification to the next approver
+        break;
+      case POStatus.POAmendment:
+        // send notification to the next approver
+        break;
+      case POStatus.IssueResolution:
+        // send notification to the next approver
+        break;
+      default:
+        break;
+    }
+
+    return po;
+  };
 }

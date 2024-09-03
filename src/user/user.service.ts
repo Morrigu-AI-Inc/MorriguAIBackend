@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { OrganizationDocument, UserDocument } from 'src/db/schemas';
+import { OrganizationDocument, UserACL, UserDocument } from 'src/db/schemas';
 import { Supplier } from 'src/db/schemas/Supplier';
 import * as jwt from 'jsonwebtoken';
 
@@ -14,6 +14,7 @@ export class UserService {
     @InjectModel('Organization')
     private readonly organizationModel: Model<OrganizationDocument>,
     @InjectModel('Supplier') private readonly supplierModel: Model<Supplier>,
+    @InjectModel('UserACL') private readonly useraclModel: Model<UserACL>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -27,6 +28,9 @@ export class UserService {
       return user;
     }
 
+    const acl = new this.useraclModel();
+    await acl.save();
+
     const newUser = await this.userModel.create({
       id: decoded.sub,
       provider: decoded.iss,
@@ -35,7 +39,7 @@ export class UserService {
       data: decoded,
       role: null,
       stripeAccount: null,
-      acl: null,
+      acl: acl,
       config: {},
       employee: null,
     });
@@ -64,7 +68,7 @@ export class UserService {
 
   async me(id: string) {
     try {
-      const user = await this.userModel.findOne({ id });
+      const user = await this.userModel.findOne({ id }).populate('acl').exec();
 
       if (!user) {
         return {
