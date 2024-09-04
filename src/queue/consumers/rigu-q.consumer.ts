@@ -3,6 +3,7 @@ import Bull from 'bull';
 import { Job } from 'bullmq';
 import { BullJobNames, BullQueues } from '../entities/queue.entity';
 import { PurchasingService } from 'src/purchasing/purchasing.service';
+import { POStatus, PurchaseOrder } from 'src/db/schemas/PurchaseOrder';
 
 // Below is the logic for the PO status flow, we are going to create queue jobs for each step in the process
 
@@ -90,121 +91,165 @@ export class RiguQConsumer {
   ) {}
 
   @Process(BullJobNames.RIGU_JOB)
-  async handleJob(job: Job) {
-    console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
+  async handleJob({
+    data: {
+      poId,
+      status,
+      actionBy,
+    },
+    id,
+  }: Job) {
+    console.log('Processing job:', id, poId, status, actionBy);
+    // await this.purchasingService.setStatus(poId, status, actionBy);
     // Your job processing logic goes here
   }
 
   @Process(BullJobNames.ProcessDraftJob)
-  async handleDraftJob(job: Job) {
-    console.log('Processing job:', job.id, job.data);
+  async handleDraftJob({
+    data,
+    id
+  }: Job<PurchaseOrder>) {
+    console.log('Processing job:', id, data);
+
+
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
 
   @Process(BullJobNames.ProcessRequisitionApprovalJob)
-  async handleRequisitionApprovalJob(job: Job) {
+  async handleRequisitionApprovalJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.ManagerialApproval, (job.data.createdBy as any)._id, true);
+
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
 
   @Process(BullJobNames.ProcessManagerialApprovalJob)
-  async handleManagerialApprovalJob(job: Job) {
+  async handleManagerialApprovalJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.FinanceApproval, (job.data.createdBy as any)._id, true);
+
+
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
 
   @Process(BullJobNames.ProcessFinanceApprovalJob)
-  async handleFinanceApprovalJob(job: Job) {
+  async handleFinanceApprovalJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.ComplianceReview, (job.data.createdBy as any)._id, true);
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
 
   @Process(BullJobNames.ProcessComplianceReviewJob)
-  async handleComplianceReviewJob(job: Job) {
+  async handleComplianceReviewJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.ApprovalOrRejection, (job.data.createdBy as any)._id, true);
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
 
   @Process(BullJobNames.ProcessApprovalOrRejectionJob)
-  async handleApprovalOrRejectionJob(job: Job) {
+  async handleApprovalOrRejectionJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.SupplierEngagement, (job.data.createdBy as any)._id, true);
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
 
   @Process(BullJobNames.ProcessSupplierEngagementJob)
-  async handleSupplierEngagementJob(job: Job) {
+  async handleSupplierEngagementJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
+
+
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
 
   @Process(BullJobNames.ProcessOrderFulfillmentJob)
-  async handleOrderFulfillmentJob(job: Job) {
+  async handleOrderFulfillmentJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+    // In this step we are waiting on the order so this sits with the procurement officer until then
   }
 
   @Process(BullJobNames.ProcessInvoiceMatchingJob)
-  async handleInvoiceMatchingJob(job: Job) {
+  async handleInvoiceMatchingJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+
+    // Before this get's trigger we should have an invoice attached to the po so that this can be auto approved
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.PaymentProcessing, (job.data.createdBy as any)._id, true);
   }
 
   @Process(BullJobNames.ProcessPaymentProcessingJob)
-  async handlePaymentProcessingJob(job: Job) {
+  async handlePaymentProcessingJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+
+    // This is a step that could be skipped for order of specific type and categories. 
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.OrderCloseout, (job.data.createdBy as any)._id, true);
   }
 
   @Process(BullJobNames.ProcessOrderCloseoutJob)
-  async handleOrderCloseoutJob(job: Job) {
+  async handleOrderCloseoutJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+
+    // There is no reason this can't be auto approved
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.ReportingAndAnalysis, (job.data.createdBy as any)._id, true);
   }
 
   @Process(BullJobNames.ProcessReportingAndAnalysisJob)
-  async handleReportingAndAnalysisJob(job: Job) {
+  async handleReportingAndAnalysisJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+
+    // simple re run out analytics reporting stuff here and then archive the order
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.Archive, (job.data.createdBy as any)._id, true);
   }
 
   @Process(BullJobNames.ProcessArchiveJob)
-  async handleArchiveJob(job: Job) {
+  async handleArchiveJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+
+
+    // We run out auto archiving process here 
+
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.Archive, (job.data.createdBy as any)._id, true);
   }
 
   @Process(BullJobNames.ProcessRejectedJob)
-  async handleRejectedJob(job: Job) {
+  async handleRejectedJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+
+    // We run out auto archiving process here
+
+    // We should also send a notification to the requester that the order was rejected
+
+    await this.purchasingService.setStatus(job.data._id, POStatus.Rejected, (job.data.createdBy as any)._id, true);
   }
 
   @Process(BullJobNames.ProcessPOAmendmentJob)
-  async handlePOAmendmentJob(job: Job) {
+  async handlePOAmendmentJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+
+    // This is a manual or an ai assisted but probably not auto approved step
   }
 
   @Process(BullJobNames.ProcessIssueResolutionJob)
-  async handleIssueResolutionJob(job: Job) {
+  async handleIssueResolutionJob(job: Job<PurchaseOrder>) {
     console.log('Processing job:', job.id, job.data);
-    // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
-    // Your job processing logic goes here
+    // something happend and we need to resolve it manually through contacting the supplier or the requester
+
+    
+
   }
 }

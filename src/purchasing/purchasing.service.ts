@@ -233,8 +233,10 @@ export class PurchasingService {
   }
 
   // todo: We need to check if the person trying to change the status has the right permissions to do so
-  public setStatus = async (poId: string, status: POStatus, user: string) => { // user is ther person sending the request may or may not be the same as the person who created the PO
+  public setStatus = async (poId: string, status: POStatus, user: string, isAI?: boolean) => { // user is ther person sending the request may or may not be the same as the person who created the PO
     console.log('poId', poId, 'status', status, 'user', user);
+
+    if(user !== "ai_job") {
     const userObj = await this.userModel.findOne({
       _id: user,
     });
@@ -279,7 +281,8 @@ export class PurchasingService {
 
     po.history.push({
       status,
-      actionBy: userObj._id,
+      actionBy: createdBy._id,
+      isAI: isAI || false,
       timestamp: new Date(),
       metadata: {},
     });
@@ -381,4 +384,5 @@ export class PurchasingService {
 
     return po;
   };
+  }
 }

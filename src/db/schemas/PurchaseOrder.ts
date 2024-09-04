@@ -30,7 +30,8 @@ export enum POStatus {
 type POHistory = {
   status: POStatus;
   timestamp: Date;
-  actionBy: Types.ObjectId;
+  actionBy?: Types.ObjectId
+  isAI?: boolean;
   metadata: any;
 };
 
