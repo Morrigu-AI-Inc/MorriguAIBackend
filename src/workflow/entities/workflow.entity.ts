@@ -84,6 +84,8 @@ export interface WorkflowStep {
   approverRole: WorkFlowRoles;
   label: string;
   color: string;
+  autoMode?: boolean;
+  autoAction?: POStatus | null;
 }
 
 export enum WorkFlowRoles {
@@ -97,8 +99,7 @@ export enum WorkFlowRoles {
 }
 
 export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
-  // Step 1: Draft Creation
-  // Step 1: Draft Creation
+  // Step 1: Draft Creation (Initial state, no auto mode)
   [POStatus.Draft]: {
     name: POStatus.Draft,
     label: 'Draft',
@@ -106,17 +107,21 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
     description:
       'The PO is created and saved as a draft. It can be edited before moving forward.',
     nextSteps: [POStatus.RequisitionApproval],
-    approverRole: WorkFlowRoles.requester,
+    approverRole: WorkFlowRoles.requester, // No approval yet, just in draft
+    autoMode: false, // User manually submits the PO for approval
+    autoAction: null,
   },
 
-  // Step 2: Requisition Approval
+  // Step 2: Requisition Approval (Requestor submits the PO)
   [POStatus.RequisitionApproval]: {
     name: POStatus.RequisitionApproval,
     label: 'Requisition Approval',
     color: 'primary',
-    description: 'Approval of the draft PO by relevant authorities.',
-    nextSteps: [POStatus.ManagerialApproval, POStatus.Rejected, POStatus.Draft],
-    approverRole: WorkFlowRoles.departmentManager,
+    description: 'The requester submits the PO for approval.',
+    nextSteps: [POStatus.ManagerialApproval, POStatus.Rejected],
+    approverRole: WorkFlowRoles.requester, // Department manager needs to approve
+    autoMode: false, // Manual approval required
+    autoAction: null,
   },
 
   // Step 3: Managerial Approval
@@ -130,7 +135,9 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
       POStatus.RequisitionApproval,
       POStatus.Rejected,
     ],
-    approverRole: WorkFlowRoles.seniorManager,
+    approverRole: WorkFlowRoles.departmentManager, // Senior manager of requester's team
+    autoMode: true, // Auto mode can move to the next step
+    autoAction: POStatus.FinanceApproval,
   },
 
   // Step 4: Finance Approval
@@ -140,11 +147,13 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
     color: 'primary',
     description: 'Review and approval by the finance department.',
     nextSteps: [
-      POStatus.ComplianceReview, // try to AI approve
+      POStatus.ComplianceReview, 
       POStatus.ManagerialApproval,
       POStatus.Rejected,
     ],
     approverRole: WorkFlowRoles.financeController,
+    autoMode: true, // AI will attempt to approve
+    autoAction: POStatus.ComplianceReview
   },
 
   // Step 5: Compliance Review
@@ -154,11 +163,13 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
     color: 'info',
     description: 'Review by the compliance or legal teams.',
     nextSteps: [
-      POStatus.ApprovalOrRejection,
+      POStatus.ApprovalOrRejection, 
       POStatus.FinanceApproval,
       POStatus.Rejected,
     ],
     approverRole: WorkFlowRoles.complianceOfficer,
+    autoMode: true, // AI will attempt to approve
+    autoAction: POStatus.ApprovalOrRejection
   },
 
   // Step 6: Approval or Rejection
@@ -173,9 +184,11 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
       POStatus.Rejected,
     ],
     approverRole: WorkFlowRoles.seniorManager,
+    autoMode: true, // AI will attempt to approve or it goes to the senior manager for approval
+    autoAction: POStatus.SupplierEngagement
   },
 
-  // Step 7: Supplier Engagement
+  // Step 7: Supplier Engagement (No auto mode, manual process)
   [POStatus.SupplierEngagement]: {
     name: POStatus.SupplierEngagement,
     label: 'Supplier Engagement',
@@ -187,9 +200,10 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
       POStatus.POAmendment,
     ],
     approverRole: WorkFlowRoles.procurementOfficer,
+    autoMode: false, // Manual engagement required maybe can be automated
   },
 
-  // Step 8: Order Fulfillment
+  // Step 8: Order Fulfillment (No auto mode)
   [POStatus.OrderFulfillment]: {
     name: POStatus.OrderFulfillment,
     label: 'Order Fulfillment',
@@ -201,6 +215,7 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
       POStatus.IssueResolution,
     ],
     approverRole: WorkFlowRoles.procurementOfficer,
+    autoMode: false, // Manual process // waiting will move to complete when Invoice is matched, payment is processed, and goods are received
   },
 
   // Step 9: Invoice Matching and Payment
@@ -216,6 +231,7 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
       POStatus.IssueResolution,
     ],
     approverRole: WorkFlowRoles.accountsPayable,
+    autoMode: false, // Manual check required // waiting 
   },
 
   // Step 10: Payment Processing
@@ -231,6 +247,7 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
       POStatus.IssueResolution,
     ],
     approverRole: WorkFlowRoles.accountsPayable,
+    autoMode: false, // Manual process
   },
 
   // Step 11: Order Closeout
@@ -239,8 +256,10 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
     label: 'Order Closeout',
     color: 'success',
     description: 'Finalizing and closing the PO after payment is made.',
-    nextSteps: [POStatus.ReportingAndAnalysis, POStatus.Archive],
+    nextSteps: [POStatus.ReportingAndAnalysis],
     approverRole: WorkFlowRoles.procurementOfficer,
+    autoMode: true, // Can be automated
+    autoAction: POStatus.ReportingAndAnalysis
   },
 
   // Step 12: Reporting and Analysis
@@ -252,6 +271,8 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
       'Analysis of the PO for trends, performance, and opportunities.',
     nextSteps: [POStatus.Archive],
     approverRole: WorkFlowRoles.procurementOfficer,
+    autoMode: true, // Can be automated
+    autoAction: POStatus.Archive
   },
 
   // Step 13: Archive
@@ -261,7 +282,8 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
     color: 'info',
     description: 'Archiving the PO and related documents for future reference.',
     nextSteps: [],
-    approverRole: WorkFlowRoles.complianceOfficer,
+    approverRole: WorkFlowRoles.procurementOfficer, // Final archive approval by compliance officer
+    autoMode: false, // this is the end
   },
 
   // Rejected Step
@@ -271,8 +293,9 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
     color: 'error',
     description:
       'The PO or requisition has been rejected and needs review or cancellation.',
-    nextSteps: [POStatus.Draft],
+    nextSteps: [POStatus.Draft], // Go back to draft if needed
     approverRole: WorkFlowRoles.requester,
+    autoMode: false, // Manual process to resubmit
   },
 
   // PO Amendment Step
@@ -283,6 +306,7 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
     description: 'Amendment of the PO based on feedback from the supplier.',
     nextSteps: [POStatus.ApprovalOrRejection, POStatus.RequisitionApproval],
     approverRole: WorkFlowRoles.procurementOfficer,
+    autoMode: false, // Manual amendment required
   },
 
   // Issue Resolution Step
@@ -298,5 +322,6 @@ export const poWorkflow: { [key in POStatus]: WorkflowStep } = {
       POStatus.PaymentProcessing,
     ],
     approverRole: WorkFlowRoles.procurementOfficer,
+    autoMode: false, // Manual resolution required
   },
 };

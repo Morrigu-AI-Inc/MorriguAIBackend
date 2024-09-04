@@ -1211,59 +1211,64 @@ export class TeamService {
 
   // find the next approver for a given user for the po's current state
   async findNextApprover(poId: string, userId: string, returnOnlyIds = false) {
-    const po = await this.purchaseOrderModel
-      .findOne({
-        _id: poId,
-      })
-      .populate('createdBy');
+    try {
+      const po = await this.purchaseOrderModel
+        .findOne({
+          _id: poId,
+        })
+        .populate('createdBy');
 
-    if (!po) {
-      throw new Error('PO not found');
+      if (!po) {
+        throw new Error('PO not found');
+      }
+
+      const poStatus = po.status;
+
+      console.log(userId);
+      // id or _id
+      let user = await this.userModel.findOne({
+        _id: userId,
+      });
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      // find the team they are in
+      const team = await this.teamModel.findOne({
+        users: user._id,
+      });
+
+      if (!team) {
+        throw new Error('User not in a team');
+      }
+
+      // the role we will be looking for next
+      const role = this.calcUserRoleFromStatus(poStatus);
+
+      // if requester then it is simply the user who created the PO
+      // if departmentManager then it is the manager of the team that the requester belongs to
+      // if seniorManager then it is the seniorManager of the team that the requester belongs to
+      // if financeController then it is anyone in the financeGroup of the team that the requester belongs to
+      //  -- if there is no financeGroup, then it is the financeGroup of the parent team, this continues until we reach a team with a financeGroup or the root team
+      // if complianceOfficer then it is anyone in the complianceGroup of the team that the requester belongs to
+      //  -- if there is no complianceGroup, then it is the complianceGroup of the parent team, this continues until we reach a team with a complianceGroup or the root team
+      // if procurementOfficer then it is anyone in the procurementGroup of the team that the requester belongs to
+      //  -- if there is no procurementGroup, then it is the procurementGroup of the parent team, this continues until we reach a team with a procurementGroup or the root team
+      // if accountsPayable then it is anyone in the accountsPayableGroup of the team that the requester belongs to
+      //  -- if there is no accountsPayableGroup, then it is the accountsPayableGroup of the parent team, this continues until we reach a team with a accountsPayableGroup or the root team
+
+      // find the next approver based on the users in the team
+      const nextApprover = await this.findNextApproverForRole(team, role, user);
+
+      if (returnOnlyIds) {
+        return nextApprover.map((u) => u._id);
+      }
+
+      return Array.isArray(nextApprover) ? nextApprover : [nextApprover];
+    } catch (error) {
+      return [];
     }
-
-    const poStatus = po.status;
-
-    // id or _id
-    let user = await this.userModel.findOne({
-      _id: userId,
-    });
-
-    if(!user) {
-      throw new Error('User not found');
-    }
-
-    // find the team they are in
-    const team = await this.teamModel.findOne({
-      users: user._id,
-    });
-
-    if (!team) {
-      throw new Error('User not in a team');
-    }
-
-    // the role we will be looking for next
-    const role = this.calcUserRoleFromStatus(poStatus);
-
-    // if requester then it is simply the user who created the PO
-    // if departmentManager then it is the manager of the team that the requester belongs to
-    // if seniorManager then it is the seniorManager of the team that the requester belongs to
-    // if financeController then it is anyone in the financeGroup of the team that the requester belongs to
-    //  -- if there is no financeGroup, then it is the financeGroup of the parent team, this continues until we reach a team with a financeGroup or the root team
-    // if complianceOfficer then it is anyone in the complianceGroup of the team that the requester belongs to
-    //  -- if there is no complianceGroup, then it is the complianceGroup of the parent team, this continues until we reach a team with a complianceGroup or the root team
-    // if procurementOfficer then it is anyone in the procurementGroup of the team that the requester belongs to
-    //  -- if there is no procurementGroup, then it is the procurementGroup of the parent team, this continues until we reach a team with a procurementGroup or the root team
-    // if accountsPayable then it is anyone in the accountsPayableGroup of the team that the requester belongs to
-    //  -- if there is no accountsPayableGroup, then it is the accountsPayableGroup of the parent team, this continues until we reach a team with a accountsPayableGroup or the root team
-
-    // find the next approver based on the users in the team
-    const nextApprover = await this.findNextApproverForRole(team, role, user);
-
-    if(returnOnlyIds){
-      return nextApprover.map((u) => u._id);
-    }
-
-    return nextApprover;
   }
 
   async findNextApproverForRole(
@@ -1279,7 +1284,7 @@ export class TeamService {
 
     switch (role) {
       case WorkFlowRoles.requester:
-        return user;
+        return [user];
       case WorkFlowRoles.departmentManager:
         return await this.findNextDepartmentManager(team, user);
       case WorkFlowRoles.seniorManager:

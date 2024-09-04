@@ -8,18 +8,27 @@ import { PurchasingService } from 'src/purchasing/purchasing.service';
 import { DbModule } from 'src/db/db.module';
 import { TeamService } from 'src/team/team.service';
 import { MailerService } from 'src/mailer/mailer.service';
+import { OpenaiModule } from 'src/openai/openai.module';
+import { AssistantModule } from 'src/assistant/assistant.module';
+import { OpenaiService } from 'src/openai/openai.service';
+import { AssistantService } from 'src/assistant/assistant.service';
+import { OrganizationService } from 'src/organization/organization.service';
 
 @Module({
   imports: [
     BullModule.registerQueue({
       name: BullQueues.RIGU_QUEUE,
     }),
-    DbModule
+    DbModule,
+    OpenaiModule,
+    AssistantModule,
   ],
   controllers: [QueueController],
-  providers: [QueueService, RiguQConsumer, PurchasingService, TeamService, MailerService, ],
-  exports: [QueueService, BullModule.registerQueue({
-    name: BullQueues.RIGU_QUEUE,
-  })]
+  providers: [RiguQConsumer, PurchasingService, TeamService, MailerService, QueueService, OpenaiService, AssistantService, OrganizationService],
+  exports: [
+    BullModule.registerQueue({
+      name: BullQueues.RIGU_QUEUE,
+    }),
+  ],
 })
 export class QueueModule {}

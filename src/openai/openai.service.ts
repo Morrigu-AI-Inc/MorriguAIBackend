@@ -53,6 +53,54 @@ export type AssistantParams = AssistantCreateParams;
 export type ThreadParams = ThreadCreateParams;
 export type MessageParams = MessageCreateParams;
 
+type MessageContent = {
+  type: string;
+  text: {
+    value: string;
+    annotations: any[];
+  };
+};
+
+type Message = {
+  id: string;
+  object: string;
+  created_at: number;
+  assistant_id: string | null;
+  thread_id: string;
+  run_id: string | null;
+  role: string;
+  content: MessageContent[];
+  attachments: any[];
+  metadata: Record<string, any>;
+};
+
+type Body = {
+  object: string;
+  data: Message[];
+  first_id: string;
+  last_id: string;
+  has_more: boolean;
+};
+
+type Options = {
+  method: string;
+  path: string;
+  query: Record<string, any>;
+  headers: Record<string, string>;
+};
+
+type Response = {
+  size: number;
+  timeout: number;
+};
+
+export type OpenAIApiResponse = {
+  options: Options;
+  response: Response;
+  body: Body;
+  data: Message[];
+};
+
 @Injectable()
 export class OpenaiService {
   private openai: OpenAI;
@@ -307,7 +355,7 @@ export class OpenaiService {
     opts?: {
       mode: 'auto' | 'message' | 'json';
     },
-  ) {
+  ): Promise<OpenAIApiResponse> {
     try {
       const org = await this.organizationModel
         .findOne({ _id: owner })
@@ -316,7 +364,7 @@ export class OpenaiService {
       if (!org) {
         return {
           error: 'Organization not found',
-        };
+        } as any;
       }
 
       const assistant = org.work_assistant;
@@ -366,7 +414,7 @@ export class OpenaiService {
 
       const run = await waitRun();
 
-      return run;
+      return run as OpenAIApiResponse;
     } catch (error) {
       console.error('Error running single call', error);
     }

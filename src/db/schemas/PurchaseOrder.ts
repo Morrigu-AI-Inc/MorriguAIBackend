@@ -94,6 +94,7 @@ export class PurchaseOrder extends Document {
         status: { type: String, enum: POStatus, default: POStatus.Draft },
         timestamp: Date,
         actionBy: { type: Types.ObjectId, ref: 'User' },
+        isAI: { type: Boolean, default: false },
         metadata: SchemaTypes.Mixed,
       },
     ],
