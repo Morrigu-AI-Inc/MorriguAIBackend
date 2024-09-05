@@ -255,12 +255,53 @@ export class RiguQConsumer {
   async handleComplianceReviewJob(job: Job<PurchaseOrder>) {
     console.log('Processing job: - Compliance Review', job.id, job.data);
 
-    await this.purchasingService.setStatus(
-      job.data._id,
-      POStatus.ComplianceReview,
-      job.data.createdBy as any,
-      true,
-    );
+    const po = await this.purchaseOrderModel.findOne({
+      _id: job.data._id,
+    });
+
+    if (!po) {
+      throw new Error('PO not found');
+    }
+
+    await po.populate('owner');
+
+    const org = po.owner;
+
+    await po.populate('line_items');
+    await po.populate('createdBy');
+
+    if (!org) {
+      throw new Error('Organization not found');
+    }
+
+    /// ---- AI STUFF HERE ----
+    const aiResp = await this.processTemplate<{
+      approved: boolean;
+      reasoning: string;
+      approvalStatus: string;
+      nextSteps: string;
+    }>(() => template(org, po), job);
+
+    console.log('AI Response:', aiResp);
+
+    if (aiResp.approved) {
+      await this.purchasingService.setStatus(
+        job.data._id,
+        POStatus.ComplianceReview,
+        job.data.createdBy as any,
+        true,
+        aiResp,
+      );
+    } else {
+      // we want to just add a note to the po and then reject it
+      await this.purchasingService.setStatus(
+        job.data._id,
+        POStatus.Rejected,
+        job.data.createdBy as any,
+        true,
+        aiResp,
+      );
+    }
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
@@ -269,12 +310,53 @@ export class RiguQConsumer {
   async handleApprovalOrRejectionJob(job: Job<PurchaseOrder>) {
     console.log('Processing job: - Approval Or Rejection', job.id, job.data);
 
-    await this.purchasingService.setStatus(
-      job.data._id,
-      POStatus.ApprovalOrRejection,
-      job.data.createdBy as any,
-      true,
-    );
+    const po = await this.purchaseOrderModel.findOne({
+      _id: job.data._id,
+    });
+
+    if (!po) {
+      throw new Error('PO not found');
+    }
+
+    await po.populate('owner');
+
+    const org = po.owner;
+
+    await po.populate('line_items');
+    await po.populate('createdBy');
+
+    if (!org) {
+      throw new Error('Organization not found');
+    }
+
+    /// ---- AI STUFF HERE ----
+    const aiResp = await this.processTemplate<{
+      approved: boolean;
+      reasoning: string;
+      approvalStatus: string;
+      nextSteps: string;
+    }>(() => template(org, po), job);
+
+    console.log('AI Response:', aiResp);
+
+    if (aiResp.approved) {
+      await this.purchasingService.setStatus(
+        job.data._id,
+        POStatus.ApprovalOrRejection,
+        job.data.createdBy as any,
+        true,
+        aiResp,
+      );
+    } else {
+      // we want to just add a note to the po and then reject it
+      await this.purchasingService.setStatus(
+        job.data._id,
+        POStatus.Rejected,
+        job.data.createdBy as any,
+        true,
+        aiResp,
+      );
+    }
     // await this.purchasingService.setStatus(job.data.poId, job.data.status, job.data.actionBy);
     // Your job processing logic goes here
   }
@@ -297,30 +379,16 @@ export class RiguQConsumer {
 
   @Process(BullJobNames.ProcessInvoiceMatchingJob)
   async handleInvoiceMatchingJob(job: Job<PurchaseOrder>) {
-    console.log('Processing job: - Invoice Matching', job.id, job.data);
+    console.log('ProcessInvoiceMatchingJob: Will not auto approve this step.');
 
     // Before this get's trigger we should have an invoice attached to the po so that this can be auto approved
-
-    await this.purchasingService.setStatus(
-      job.data._id,
-      POStatus.InvoiceMatching,
-      job.data.createdBy as any,
-      true,
-    );
   }
 
   @Process(BullJobNames.ProcessPaymentProcessingJob)
   async handlePaymentProcessingJob(job: Job<PurchaseOrder>) {
-    console.log('Processing job: - Payment Processing', job.id, job.data);
+    console.log('ProcessPaymentProcessingJob: Will not auto approve this step.');
 
     // This is a step that could be skipped for order of specific type and categories.
-
-    await this.purchasingService.setStatus(
-      job.data._id,
-      POStatus.PaymentProcessing,
-      job.data.createdBy as any,
-      true,
-    );
   }
 
   @Process(BullJobNames.ProcessOrderCloseoutJob)
