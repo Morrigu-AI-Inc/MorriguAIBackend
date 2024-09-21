@@ -9,7 +9,7 @@ export class LineItem extends Document {
   @Prop({ required: true, type: SchemaTypes.ObjectId, ref: 'PurchaseOrder' })
   po_number: PurchaseOrder;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   productName: string;
 
   @Prop({ required: false, default: '' })

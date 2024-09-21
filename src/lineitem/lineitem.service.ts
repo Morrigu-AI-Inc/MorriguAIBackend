@@ -109,7 +109,7 @@ export class LineitemService {
 
       return {
         po_number: purchaseOrder ? purchaseOrder._id : null, // If purchaseOrder exists, use its _id, otherwise null
-        productName: line.product || ' ',
+        productName: line.product || 'n/a',
         quantity: parseFloat(line.quantity as any) || 0, // Convert quantity to float
         price:
           parseFloat((line.unit_price as any)?.replace(/[^\d.]/g, '')) || 0, // Convert unit_price to float, removing non-numeric characters

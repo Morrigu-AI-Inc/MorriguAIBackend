@@ -257,7 +257,7 @@ export class AmazonService {
     const items = ItemIn.map((item) => {
       return new this.lineItemModel({
         po_number: po._id,
-        productName: `${item?.ItemDetail[0]?.ManufacturerPartID[0]}`,
+        productName: `${item?.ItemDetail[0]?.ManufacturerPartID[0]}` || '',
         description: item?.ItemDetail[0]?.Description[0]?._,
         quantity: item?.$?.quantity,
         price: item?.ItemDetail[0]?.UnitPrice[0]?.Money[0]?._,
